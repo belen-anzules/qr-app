@@ -1,0 +1,8 @@
+{
+  "name": "QR App",
+  "short_name": "QR App",
+  "start_url": "/qr-app/",
+  "display": "standalone",
+  "background_color": "#1e90ff",
+  "theme_color": "#1e90ff"
+}
