@@ -204,9 +204,6 @@ body {
   z-index: 100;
 }
 
-.hidden {
-  display: none;
-}
 
 .modal-card {
   background: white;
