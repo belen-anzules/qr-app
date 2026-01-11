@@ -32,64 +32,38 @@ function updateUI() {
 
   for (let key in ingredients) {
     const ing = ingredients[key];
-
-    const qtyEl = document.getElementById(`${key}-qty`);
-    if (qtyEl) qtyEl.innerText = ing.qty;
+    document.getElementById(`${key}-qty`).innerText = ing.qty;
 
     totalKcal += ing.kcal * ing.qty;
     extraPrice += ing.price * ing.qty;
   }
 
-  const kcalEl = document.getElementById("total-kcal");
-  const priceEl = document.getElementById("total-price");
+  document.getElementById("total-kcal").innerText = totalKcal;
+  document.getElementById("total-price").innerText =
+    (basePrice + extraPrice).toFixed(2);
 
-  if (kcalEl) kcalEl.innerText = totalKcal;
-  if (priceEl) priceEl.innerText = (basePrice + extraPrice).toFixed(2);
+  // 🔥 ACTUALIZAR ICONO PEDIDO
+  updateCartCount();
 }
+
 
 /* ===================== */
 /* CARRITO (APK SAFE) */
 /* ===================== */
 function addToCart() {
-  let hasItems = false;
-
-  for (let key in ingredients) {
-    if (ingredients[key].qty > 0) {
-      hasItems = true;
-      break;
-    }
-  }
-
-  if (!hasItems) {
-    alert("Agrega al menos un ingrediente 🥗");
-    return;
-  }
-
-  // CLONAR OBJETO (CRÍTICO PARA APK)
-  const clonedIngredients = JSON.parse(JSON.stringify(ingredients));
-
   const order = {
-    ingredients: clonedIngredients,
-    totalKcal: document.getElementById("total-kcal")?.innerText || "0",
-    totalPrice: document.getElementById("total-price")?.innerText || "0"
+    ingredients: ingredients,
+    totalKcal: document.getElementById("total-kcal").innerText,
+    totalPrice: document.getElementById("total-price").innerText
   };
 
   try {
     localStorage.setItem("order", JSON.stringify(order));
-  } catch (e) {
-    console.log("LocalStorage no disponible");
-  }
+  } catch (e) {}
 
-  // MOSTRAR BOTÓN DE PEDIDO (FORMA CORRECTA)
-  const btn = document.getElementById("view-order");
-  if (btn) {
-    btn.classList.remove("hidden");
-  }
+  alert("Pedido actualizado 🥗");
 }
 
-/* ===================== */
-/* NAVEGACIÓN */
-/* ===================== */
 function goToOrder() {
   window.location.href = "pedido.html";
 }
@@ -120,4 +94,13 @@ function openWelcome(type) {
 function closeWelcome() {
   const modal = document.getElementById("welcome-modal");
   if (modal) modal.classList.add("hidden");
+}
+function updateCartCount() {
+  let count = 0;
+  for (let key in ingredients) {
+    count += ingredients[key].qty;
+  }
+
+  const badge = document.getElementById("cart-count");
+  if (badge) badge.innerText = count;
 }
