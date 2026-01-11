@@ -25,7 +25,6 @@
     Confirmar pedido ✅
   </button>
 </div>
-
 <script>
   const container = document.getElementById("order-container");
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -34,33 +33,31 @@
     container.innerHTML = "";
 
     if (cart.length === 0) {
-      container.innerHTML = "<p class='empty'>No has añadido ningún plato todavía 🍽️</p>";
+      container.innerHTML = "<p class='empty'>No has añadido ningún plato 🍽️</p>";
       return;
     }
 
-    let totalFinal = 0;
+    let total = 0;
 
     cart.forEach((item, index) => {
-      totalFinal += item.totalPrice;
+      total += item.totalPrice;
 
-      let extrasHTML = item.extras.length
+      const extras = item.extras.length
         ? "<ul>" + item.extras.map(e => `<li>${e.qty}× ${e.name}</li>`).join("") + "</ul>"
-        : "<small>Plato base sin extras</small>";
+        : "<small>Plato base</small>";
 
       container.innerHTML += `
         <div class="order-item">
           <div class="emoji">🥗</div>
           <div class="order-info">
             <strong>${item.name}</strong>
-            ${extrasHTML}
+            ${extras}
             <p>${item.totalKcal} kcal</p>
           </div>
-
           <div class="order-buttons">
-            <button type="button" onclick="removeItem(${index})">🗑️</button>
             <button type="button" onclick="editItem(${index})">✏️</button>
+            <button type="button" onclick="removeItem(${index})">🗑️</button>
           </div>
-
           <strong>$${item.totalPrice.toFixed(2)}</strong>
         </div>
       `;
@@ -68,9 +65,15 @@
 
     container.innerHTML += `
       <div class="order-summary">
-        Total a pagar: $${totalFinal.toFixed(2)}
+        Total: $${total.toFixed(2)}
       </div>
     `;
+  }
+
+  function editItem(index) {
+    sessionStorage.setItem("editIndex", index);
+    sessionStorage.setItem("currentDish", JSON.stringify(cart[index].extras));
+    window.location.href = "detalle.html";
   }
 
   function removeItem(index) {
@@ -79,22 +82,12 @@
     renderOrder();
   }
 
-  function editItem(index) {
-    localStorage.setItem("editIndex", index);
-    window.location.href = "detalle.html";
-  }
-
   function goToDish() {
-    localStorage.removeItem("editIndex");
+    sessionStorage.clear();
     window.location.href = "detalle.html";
   }
 
   function confirmOrder() {
-    if (cart.length === 0) {
-      alert("Tu pedido está vacío 🥗");
-      return;
-    }
-
     alert("¡Pedido confirmado! 🎉");
     localStorage.removeItem("cart");
     window.location.href = "menu.html";

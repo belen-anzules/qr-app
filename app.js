@@ -1,5 +1,4 @@
 const DISH = {
-  id: Date.now(),
   name: "Bowl Chipsotle",
   basePrice: 7.99,
   baseKcal: 450
@@ -22,17 +21,33 @@ function saveCart(cart) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+function saveCurrentDish() {
+  sessionStorage.setItem("currentDish", JSON.stringify(ingredients));
+}
+
+function loadCurrentDish() {
+  const saved = sessionStorage.getItem("currentDish");
+  if (!saved) return;
+
+  const data = JSON.parse(saved);
+  for (let key in ingredients) {
+    ingredients[key].qty = data[key]?.qty || 0;
+  }
+}
+
 /* ===================== */
 /* INGREDIENTES */
 /* ===================== */
 function add(name) {
   ingredients[name].qty++;
+  saveCurrentDish();
   updateUI();
 }
 
 function remove(name) {
   if (ingredients[name].qty > 0) {
     ingredients[name].qty--;
+    saveCurrentDish();
     updateUI();
   }
 }
@@ -56,50 +71,33 @@ function updateUI() {
 }
 
 /* ===================== */
-/* BOTÓN 1: PLATO BASE */
+/* GUARDAR PLATO */
 /* ===================== */
-function addBaseDish() {
+function saveDish(isBase = false) {
   const cart = getCart();
+  const editIndex = sessionStorage.getItem("editIndex");
 
-  cart.push({
-    id: Date.now(),
-    name: DISH.name,
-    extras: [],
-    totalPrice: DISH.basePrice,
-    totalKcal: DISH.baseKcal
-  });
-
-  saveCart(cart);
-  showSuccess();
-}
-
-/* ===================== */
-/* BOTÓN 2: PLATO PERSONALIZADO */
-/* ===================== */
-function addCustomDish() {
-  const extras = [];
+  let extras = [];
   let totalPrice = DISH.basePrice;
   let totalKcal = DISH.baseKcal;
 
-  for (let key in ingredients) {
-    const ing = ingredients[key];
-    if (ing.qty > 0) {
-      extras.push({
-        name: ing.name,
-        qty: ing.qty,
-        price: ing.price,
-        kcal: ing.kcal
-      });
-      totalPrice += ing.price * ing.qty;
-      totalKcal += ing.kcal * ing.qty;
+  if (!isBase) {
+    for (let key in ingredients) {
+      const ing = ingredients[key];
+      if (ing.qty > 0) {
+        extras.push({
+          name: ing.name,
+          qty: ing.qty,
+          price: ing.price,
+          kcal: ing.kcal
+        });
+        totalPrice += ing.price * ing.qty;
+        totalKcal += ing.kcal * ing.qty;
+      }
     }
   }
 
-  const cart = getCart();
-  const editIndex = localStorage.getItem("editIndex");
-
-  const dishData = {
-    id: Date.now(),
+  const dish = {
     name: DISH.name,
     extras,
     totalPrice,
@@ -107,47 +105,31 @@ function addCustomDish() {
   };
 
   if (editIndex !== null) {
-    cart[editIndex] = dishData;
-    localStorage.removeItem("editIndex");
+    cart[editIndex] = dish;
+    sessionStorage.removeItem("editIndex");
   } else {
-    cart.push(dishData);
+    cart.push(dish);
   }
 
   saveCart(cart);
-  showSuccess();
-}
+  sessionStorage.removeItem("currentDish");
 
-/* ===================== */
-/* EDITAR PLATO */
-/* ===================== */
-function loadEditDish() {
-  const editIndex = localStorage.getItem("editIndex");
-  if (editIndex === null) return;
-
-  const cart = getCart();
-  const dish = cart[editIndex];
-  if (!dish || !dish.extras) return;
-
-  for (let key in ingredients) {
-    ingredients[key].qty = 0;
-  }
-
-  dish.extras.forEach(extra => {
-    for (let key in ingredients) {
-      if (ingredients[key].name === extra.name) {
-        ingredients[key].qty = extra.qty;
-      }
-    }
+  showSuccess(() => {
+    window.location.href = "pedido.html";
   });
-
-  updateUI();
 }
 
 /* ===================== */
 /* UI */
 /* ===================== */
-function showSuccess() {
-  document.getElementById("success-modal").classList.remove("hidden");
+function showSuccess(callback) {
+  const modal = document.getElementById("success-modal");
+  modal.classList.remove("hidden");
+
+  setTimeout(() => {
+    modal.classList.add("hidden");
+    if (callback) callback();
+  }, 1200);
 }
 
 function goToOrder() {
@@ -155,14 +137,15 @@ function goToOrder() {
 }
 
 /* ===================== */
-/* EVENTOS */
+/* INIT */
 /* ===================== */
 document.addEventListener("DOMContentLoaded", () => {
+  loadCurrentDish();
+  updateUI();
+
   const baseBtn = document.getElementById("add-base");
   const customBtn = document.getElementById("add-custom");
 
-  if (baseBtn) baseBtn.onclick = addBaseDish;
-  if (customBtn) customBtn.onclick = addCustomDish;
-
-  loadEditDish();
+  if (baseBtn) baseBtn.onclick = () => saveDish(true);
+  if (customBtn) customBtn.onclick = () => saveDish(false);
 });
