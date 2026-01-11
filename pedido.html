@@ -1,24 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Pedido</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedido</title>
 </head>
 
 <body>
 
-<header class="header-clean">
-  <a href="menu.html" class="back">←</a>
-  <h2>Mi pedido 🧾</h2>
-</header>
+<h2>Mi Pedido</h2>
+<div id="pedido"></div>
 
-<main class="order-container" id="order-container"></main>
-
-<div class="order-actions">
-  <button type="button" class="btn secondary" onclick="goToDish()">➕ Añadir plato</button>
-</div>
+<button onclick="location.href='detalle.html'">Añadir plato</button>
 
 <script src="js/pedido.js"></script>
 </body>

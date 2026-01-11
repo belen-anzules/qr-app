@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalle</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detalle</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -13,52 +13,34 @@
   <a href="menu.html" class="back">←</a>
   <h2>Bowl Chipsotle</h2>
 
-  <!-- ✅ ICONO DE PEDIDOS RESTAURADO -->
-  <div class="cart-icon" id="go-order">🧾</div>
+  <!-- ICONO PEDIDOS (HTML PURO) -->
+  <span class="cart-icon" onclick="goPedido()">🧾</span>
 </header>
 
 <section class="detail-content">
 
-  <p class="price-base">Precio base: $7.99</p>
+<p>Precio base: $7.99</p>
 
-  <div class="ingredient">
-    <span>Arroz integral</span>
-    <div class="controls">
-      <button type="button" class="minus" data-ing="arroz">−</button>
-      <span id="arroz-qty">0</span>
-      <button type="button" class="plus" data-ing="arroz">+</button>
-    </div>
-  </div>
+<div class="ingredient">
+  Arroz
+  <button onclick="addIng('arroz')">+</button>
+  <span id="arroz">0</span>
+  <button onclick="removeIng('arroz')">-</button>
+</div>
 
-  <div class="ingredient">
-    <span>Pollo</span>
-    <div class="controls">
-      <button type="button" class="minus" data-ing="pollo">−</button>
-      <span id="pollo-qty">0</span>
-      <button type="button" class="plus" data-ing="pollo">+</button>
-    </div>
-  </div>
+<div class="ingredient">
+  Pollo
+  <button onclick="addIng('pollo')">+</button>
+  <span id="pollo">0</span>
+  <button onclick="removeIng('pollo')">-</button>
+</div>
 
-  <div class="ingredient">
-    <span>Frejol</span>
-    <div class="controls">
-      <button type="button" class="minus" data-ing="frejol">−</button>
-      <span id="frejol-qty">0</span>
-      <button type="button" class="plus" data-ing="frejol">+</button>
-    </div>
-  </div>
+<hr>
 
-  <hr>
+<p>Total: $<span id="total">7.99</span></p>
 
-  <p>Total precio: $<strong><span id="total-price">7.99</span></strong></p>
-
-  <button type="button" class="btn-cart" id="add-base">
-    Añadir plato base 🥗
-  </button>
-
-  <button type="button" class="btn secondary" id="add-custom">
-    Añadir plato personalizado 💪
-  </button>
+<button onclick="addBase()">Añadir plato base</button>
+<button onclick="addCustom()">Añadir personalizado</button>
 
 </section>
 

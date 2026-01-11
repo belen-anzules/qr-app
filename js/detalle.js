@@ -1,96 +1,71 @@
-const DISH = {
-  name: "Bowl Chipsotle",
-  basePrice: 7.99
-};
+const basePrice = 7.99;
 
 const ingredients = {
-  arroz: { name: "Arroz integral", price: 1.5, qty: 0 },
-  pollo: { name: "Pollo", price: 2.0, qty: 0 },
-  frejol: { name: "Frejol", price: 1.0, qty: 0 }
+  arroz: { price: 1.5, qty: 0 },
+  pollo: { price: 2.0, qty: 0 }
 };
+
+function updateTotal() {
+  let total = basePrice;
+  for (let k in ingredients) {
+    total += ingredients[k].qty * ingredients[k].price;
+    document.getElementById(k).innerText = ingredients[k].qty;
+  }
+  document.getElementById("total").innerText = total.toFixed(2);
+}
+
+function addIng(name) {
+  ingredients[name].qty++;
+  updateTotal();
+}
+
+function removeIng(name) {
+  if (ingredients[name].qty > 0) ingredients[name].qty--;
+  updateTotal();
+}
 
 function getCart() {
   return JSON.parse(localStorage.getItem("cart")) || [];
 }
 
-function updateUI() {
-  let total = DISH.basePrice;
-
-  for (let key in ingredients) {
-    document.getElementById(`${key}-qty`).textContent = ingredients[key].qty;
-    total += ingredients[key].qty * ingredients[key].price;
-  }
-
-  document.getElementById("total-price").textContent = total.toFixed(2);
+function goPedido() {
+  location.href = "pedido.html";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-
-  // ➕ ➖ INGREDIENTES
-  document.querySelectorAll(".plus").forEach(btn => {
-    btn.addEventListener("click", () => {
-      ingredients[btn.dataset.ing].qty++;
-      updateUI();
-    });
+function addBase() {
+  const cart = getCart();
+  cart.push({
+    name: "Bowl Chipsotle",
+    extras: [],
+    total: basePrice
   });
+  localStorage.setItem("cart", JSON.stringify(cart));
+  location.href = "pedido.html";
+}
 
-  document.querySelectorAll(".minus").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const ing = ingredients[btn.dataset.ing];
-      if (ing.qty > 0) ing.qty--;
-      updateUI();
-    });
-  });
+function addCustom() {
+  const cart = getCart();
+  let total = basePrice;
+  let extras = [];
 
-  // 🧾 ICONO PEDIDO
-  document.getElementById("go-order").addEventListener("click", () => {
-    location.assign("pedido.html");
-  });
-
-  // 🥗 PLATO BASE
-  document.getElementById("add-base").addEventListener("click", () => {
-    const cart = getCart();
-
-    cart.push({
-      name: DISH.name,
-      extras: [],
-      totalPrice: DISH.basePrice
-    });
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    // ✅ APK SAFE
-    setTimeout(() => {
-      location.assign("pedido.html");
-    }, 200);
-  });
-
-  // 💪 PLATO PERSONALIZADO
-  document.getElementById("add-custom").addEventListener("click", () => {
-    const cart = getCart();
-    const extras = [];
-    let total = DISH.basePrice;
-
-    for (let key in ingredients) {
-      if (ingredients[key].qty > 0) {
-        extras.push({ ...ingredients[key] });
-        total += ingredients[key].qty * ingredients[key].price;
-      }
+  for (let k in ingredients) {
+    if (ingredients[k].qty > 0) {
+      extras.push({
+        name: k,
+        qty: ingredients[k].qty
+      });
+      total += ingredients[k].qty * ingredients[k].price;
     }
+  }
 
-    cart.push({
-      name: DISH.name,
-      extras,
-      totalPrice: total
-    });
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    // ✅ APK SAFE
-    setTimeout(() => {
-      location.assign("pedido.html");
-    }, 200);
+  cart.push({
+    name: "Bowl Chipsotle",
+    extras,
+    total
   });
 
-  updateUI();
-});
+  localStorage.setItem("cart", JSON.stringify(cart));
+  location.href = "pedido.html";
+}
+
+updateTotal();

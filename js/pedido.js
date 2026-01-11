@@ -1,36 +1,16 @@
-function getCart() {
-  return JSON.parse(localStorage.getItem("cart")) || [];
-}
+const pedido = document.getElementById("pedido");
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-const container = document.getElementById("order-container");
-const cart = getCart();
-
-function renderOrder() {
-  container.innerHTML = "";
-
-  if (!cart.length) {
-    container.innerHTML = "<p class='empty'>Pedido vacío 🍽️</p>";
-    return;
-  }
-
-  cart.forEach(item => {
-    container.innerHTML += `
-      <div class="order-item">
-        <div class="emoji">🥗</div>
-        <div class="order-info">
-          <strong>${item.name}</strong>
-          ${item.extras.length
-            ? "<ul>" + item.extras.map(e => `<li>${e.qty}× ${e.name}</li>`).join("") + "</ul>"
-            : "<small>Plato base</small>"}
-        </div>
-        <strong>$${item.totalPrice.toFixed(2)}</strong>
-      </div>
+if (!cart.length) {
+  pedido.innerHTML = "Pedido vacío";
+} else {
+  cart.forEach(p => {
+    pedido.innerHTML += `
+      <p>
+        <strong>${p.name}</strong><br>
+        ${p.extras.map(e => e.qty + "x " + e.name).join("<br>")}
+        <br>Total: $${p.total}
+      </p><hr>
     `;
   });
 }
-
-function goToDish() {
-  window.location.href = "detalle.html";
-}
-
-renderOrder();
