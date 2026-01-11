@@ -6,6 +6,9 @@ const ingredients = {
   frejol: { kcal: 110, price: 1.0, qty: 0 }
 };
 
+/* ===================== */
+/* INGREDIENTES */
+/* ===================== */
 function addIngredient(name) {
   ingredients[name].qty++;
   updateUI();
@@ -24,16 +27,24 @@ function updateUI() {
 
   for (let key in ingredients) {
     const ing = ingredients[key];
-    document.getElementById(`${key}-qty`).innerText = ing.qty;
+
+    const qtyEl = document.getElementById(`${key}-qty`);
+    if (qtyEl) qtyEl.innerText = ing.qty;
 
     totalKcal += ing.kcal * ing.qty;
     extraPrice += ing.price * ing.qty;
   }
 
-  document.getElementById("total-kcal").innerText = totalKcal;
-  document.getElementById("total-price").innerText = (basePrice + extraPrice).toFixed(2);
+  const kcalEl = document.getElementById("total-kcal");
+  const priceEl = document.getElementById("total-price");
+
+  if (kcalEl) kcalEl.innerText = totalKcal;
+  if (priceEl) priceEl.innerText = (basePrice + extraPrice).toFixed(2);
 }
 
+/* ===================== */
+/* CARRITO */
+/* ===================== */
 function addToCart() {
   let hasItems = false;
 
@@ -49,29 +60,44 @@ function addToCart() {
     return;
   }
 
+  // CLONAR OBJETO (MUY IMPORTANTE EN APK)
+  const clonedIngredients = JSON.parse(JSON.stringify(ingredients));
+
   const order = {
-    ingredients: ingredients,
-    totalKcal: document.getElementById("total-kcal").innerText,
-    totalPrice: document.getElementById("total-price").innerText
+    ingredients: clonedIngredients,
+    totalKcal: document.getElementById("total-kcal")?.innerText || "0",
+    totalPrice: document.getElementById("total-price")?.innerText || "0"
   };
 
-  // GUARDAR PEDIDO (fallback seguro)
   try {
     localStorage.setItem("order", JSON.stringify(order));
   } catch (e) {
-    console.log("LocalStorage no disponible");
+    console.log("LocalStorage no disponible en este entorno");
   }
 
-  // MOSTRAR BOTÓN DIRECTAMENTE
+  // MOSTRAR BOTÓN (FORMA CORRECTA)
   const btn = document.getElementById("view-order");
-  btn.style.display = "block";
+  if (btn) {
+    btn.classList.remove("hidden");
+  }
 }
 
+/* ===================== */
+/* NAVEGACIÓN */
+/* ===================== */
+function goToOrder() {
+  window.location.href = "pedido.html";
+}
 
+/* ===================== */
+/* MODAL BIENVENIDA */
+/* ===================== */
 function openWelcome(type) {
   const modal = document.getElementById("welcome-modal");
   const title = document.getElementById("modal-title");
   const text = document.getElementById("modal-text");
+
+  if (!modal || !title || !text) return;
 
   if (type === "guest") {
     title.innerText = "¡Buen comienzo! 🥗";
@@ -87,8 +113,6 @@ function openWelcome(type) {
 }
 
 function closeWelcome() {
-  document.getElementById("welcome-modal").classList.add("hidden");
-}
-function goToOrder() {
-  window.location.href = "pedido.html";
+  const modal = document.getElementById("welcome-modal");
+  if (modal) modal.classList.add("hidden");
 }
