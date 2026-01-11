@@ -35,16 +35,38 @@ function updateUI() {
 }
 
 function addToCart() {
-  let order = {
-    ingredients,
+  let hasItems = false;
+
+  for (let key in ingredients) {
+    if (ingredients[key].qty > 0) {
+      hasItems = true;
+      break;
+    }
+  }
+
+  if (!hasItems) {
+    alert("Agrega al menos un ingrediente 🥗");
+    return;
+  }
+
+  const order = {
+    ingredients: ingredients,
     totalKcal: document.getElementById("total-kcal").innerText,
     totalPrice: document.getElementById("total-price").innerText
   };
 
-  localStorage.setItem("order", JSON.stringify(order));
+  // GUARDAR PEDIDO (fallback seguro)
+  try {
+    localStorage.setItem("order", JSON.stringify(order));
+  } catch (e) {
+    console.log("LocalStorage no disponible");
+  }
 
-  document.getElementById("view-order").classList.remove("hidden");
+  // MOSTRAR BOTÓN DIRECTAMENTE
+  const btn = document.getElementById("view-order");
+  btn.style.display = "block";
 }
+
 
 function openWelcome(type) {
   const modal = document.getElementById("welcome-modal");
@@ -66,4 +88,7 @@ function openWelcome(type) {
 
 function closeWelcome() {
   document.getElementById("welcome-modal").classList.add("hidden");
+}
+function goToOrder() {
+  window.location.href = "pedido.html";
 }
