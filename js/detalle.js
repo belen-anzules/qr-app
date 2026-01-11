@@ -26,6 +26,7 @@ function updateUI() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  // ➕ ➖ INGREDIENTES
   document.querySelectorAll(".plus").forEach(btn => {
     btn.addEventListener("click", () => {
       ingredients[btn.dataset.ing].qty++;
@@ -41,7 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ✅ AÑADIR PLATO BASE
+  // 🧾 ICONO PEDIDO
+  document.getElementById("go-order").addEventListener("click", () => {
+    location.assign("pedido.html");
+  });
+
+  // 🥗 PLATO BASE
   document.getElementById("add-base").addEventListener("click", () => {
     const cart = getCart();
 
@@ -53,13 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    // 🔑 CLAVE APK
+    // ✅ APK SAFE
     setTimeout(() => {
-      window.location.href = "pedido.html";
-    }, 100);
+      location.assign("pedido.html");
+    }, 200);
   });
 
-  // ✅ AÑADIR PERSONALIZADO
+  // 💪 PLATO PERSONALIZADO
   document.getElementById("add-custom").addEventListener("click", () => {
     const cart = getCart();
     const extras = [];
@@ -80,10 +86,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    // 🔑 CLAVE APK
+    // ✅ APK SAFE
     setTimeout(() => {
-      window.location.href = "pedido.html";
-    }, 100);
+      location.assign("pedido.html");
+    }, 200);
   });
 
   updateUI();
