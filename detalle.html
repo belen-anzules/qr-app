@@ -12,7 +12,6 @@
 <header class="header-clean">
   <a href="menu.html" class="back">←</a>
   <h2>Bowl Chipsotle</h2>
-  <div class="cart-icon" id="go-order">🧾</div>
 </header>
 
 <section class="detail-content">
@@ -22,34 +21,41 @@
   <div class="ingredient">
     <span>Arroz integral</span>
     <div class="controls">
-      <button data-ing="arroz" class="minus">−</button>
+      <button type="button" class="minus" data-ing="arroz">−</button>
       <span id="arroz-qty">0</span>
-      <button data-ing="arroz" class="plus">+</button>
+      <button type="button" class="plus" data-ing="arroz">+</button>
     </div>
   </div>
 
   <div class="ingredient">
     <span>Pollo</span>
     <div class="controls">
-      <button data-ing="pollo" class="minus">−</button>
+      <button type="button" class="minus" data-ing="pollo">−</button>
       <span id="pollo-qty">0</span>
-      <button data-ing="pollo" class="plus">+</button>
+      <button type="button" class="plus" data-ing="pollo">+</button>
     </div>
   </div>
 
   <div class="ingredient">
     <span>Frejol</span>
     <div class="controls">
-      <button data-ing="frejol" class="minus">−</button>
+      <button type="button" class="minus" data-ing="frejol">−</button>
       <span id="frejol-qty">0</span>
-      <button data-ing="frejol" class="plus">+</button>
+      <button type="button" class="plus" data-ing="frejol">+</button>
     </div>
   </div>
 
-  <p>Total: $<span id="total-price">7.99</span></p>
+  <hr>
 
-  <button class="btn-cart" id="add-base">Añadir plato base</button>
-  <button class="btn secondary" id="add-custom">Añadir personalizado</button>
+  <p>Total precio: $<strong><span id="total-price">7.99</span></strong></p>
+
+  <button type="button" class="btn-cart" id="add-base">
+    Añadir plato base 🥗
+  </button>
+
+  <button type="button" class="btn secondary" id="add-custom">
+    Añadir plato personalizado 💪
+  </button>
 
 </section>
 

@@ -3,7 +3,7 @@ function getCart() {
 }
 
 const container = document.getElementById("order-container");
-let cart = getCart();
+const cart = getCart();
 
 function renderOrder() {
   container.innerHTML = "";
@@ -13,11 +13,7 @@ function renderOrder() {
     return;
   }
 
-  let total = 0;
-
-  cart.forEach((item, i) => {
-    total += item.totalPrice;
-
+  cart.forEach(item => {
     container.innerHTML += `
       <div class="order-item">
         <div class="emoji">🥗</div>
@@ -26,33 +22,15 @@ function renderOrder() {
           ${item.extras.length
             ? "<ul>" + item.extras.map(e => `<li>${e.qty}× ${e.name}</li>`).join("") + "</ul>"
             : "<small>Plato base</small>"}
-          <p>${item.totalKcal} kcal</p>
-        </div>
-        <div class="order-buttons">
-          <button onclick="removeItem(${i})">🗑️</button>
         </div>
         <strong>$${item.totalPrice.toFixed(2)}</strong>
       </div>
     `;
   });
-
-  container.innerHTML += `<div class="order-summary">Total: $${total.toFixed(2)}</div>`;
-}
-
-function removeItem(i) {
-  cart.splice(i, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  renderOrder();
 }
 
 function goToDish() {
   window.location.href = "detalle.html";
-}
-
-function confirmOrder() {
-  alert("¡Pedido confirmado! 🎉");
-  localStorage.removeItem("cart");
-  window.location.href = "menu.html";
 }
 
 renderOrder();
