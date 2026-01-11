@@ -9,16 +9,13 @@
 
 <body class="welcome">
 
-  <!-- PANTALLA DE CARGA -->
   <div class="loader" id="loader">
     <div class="spinner">🥑</div>
     <p>Cargando alimentación saludable...</p>
   </div>
 
-  <!-- CONTENIDO PRINCIPAL -->
   <div class="container">
     <div class="logo">🥗</div>
-
     <h1>MACRO FIT</h1>
 
     <p>
@@ -26,16 +23,15 @@
       Tu camino hacia una vida más saludable empieza aquí.
     </p>
 
-    <a href="menu.html" class="btn" onclick="openWelcome('register')">
+    <a href="#" class="btn" onclick="openWelcome('register')">
       Registrarse
     </a>
 
-    <a href="menu.html" class="btn secondary" onclick="openWelcome('guest')">
+    <a href="#" class="btn secondary" onclick="openWelcome('guest')">
       Invitado
     </a>
   </div>
 
-  <!-- MODAL BIENVENIDA -->
   <div id="welcome-modal" class="modal hidden">
     <div class="modal-card">
       <span class="close" onclick="closeWelcome()">✕</span>
@@ -45,10 +41,8 @@
     </div>
   </div>
 
-  <!-- JS -->
-  <script src="app.js"></script>
+  <script src="js/index.js"></script>
 
-  <!-- LOADER SCRIPT -->
   <script>
     window.onload = () => {
       document.getElementById("loader").style.display = "none";

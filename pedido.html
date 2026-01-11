@@ -17,73 +17,11 @@
 <main class="order-container" id="order-container"></main>
 
 <div class="order-actions">
-  <button type="button" class="btn secondary" onclick="goToDish()">
-    ➕ Añadir / Editar plato
-  </button>
-
-  <button type="button" class="btn" onclick="confirmOrder()">
-    Confirmar pedido ✅
-  </button>
+  <button class="btn secondary" onclick="goToDish()">➕ Añadir plato</button>
+  <button class="btn" onclick="confirmOrder()">Confirmar pedido ✅</button>
 </div>
 
-<script>
-  const container = document.getElementById("order-container");
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  function renderOrder() {
-    container.innerHTML = "";
-
-    if (cart.length === 0) {
-      container.innerHTML = "<p class='empty'>No has añadido ningún plato 🍽️</p>";
-      return;
-    }
-
-    let total = 0;
-
-    cart.forEach((item, index) => {
-      total += item.totalPrice;
-
-      const extras = item.extras.length
-        ? "<ul>" + item.extras.map(e => `<li>${e.qty}× ${e.name}</li>`).join("") + "</ul>"
-        : "<small>Plato base sin extras</small>";
-
-      container.innerHTML += `
-        <div class="order-item">
-          <div class="emoji">🥗</div>
-          <div class="order-info">
-            <strong>${item.name}</strong>
-            ${extras}
-            <p>${item.totalKcal} kcal</p>
-          </div>
-          <div class="order-buttons">
-            <button type="button" onclick="editItem(${index})">✏️</button>
-            <button type="button" onclick="removeItem(${index})">🗑️</button>
-          </div>
-          <strong>$${item.totalPrice.toFixed(2)}</strong>
-        </div>
-      `;
-    });
-
-    container.innerHTML += `
-      <div class="order-summary">
-        Total: $${total.toFixed(2)}
-      </div>
-    `;
-  }
-
-  function editItem(index) {
-    localStorage.setItem("editIndex", index);
-    window.location.href = "detalle.html";
-  }
-
-  function removeItem(index) {
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    renderOrder();
-  }
-
-  renderOrder();
-</script>
+<script src="js/pedido.js"></script>
 
 </body>
 </html>
