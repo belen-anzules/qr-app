@@ -9,61 +9,99 @@
 
 <body>
 
-  <!-- HEADER -->
-  <header class="header-clean">
-    <a href="menu.html" class="back">←</a>
-    <h2>Mi Pedido</h2>
-  </header>
+<header class="header-clean">
+  <a href="menu.html" class="back">←</a>
+  <h2>Mi pedido 🧾</h2>
+</header>
 
-  <!-- CONTENIDO -->
-  <main class="order-container">
+<main class="order-container" id="order-container"></main>
 
-    <div id="order-list"></div>
+<!-- BOTONES INFERIORES -->
+<div class="order-actions">
+  <button class="btn secondary" onclick="goToDish()">
+    ➕ Añadir / Editar plato
+  </button>
 
-    <div class="order-summary">
-      <p>Total calorías: <strong><span id="order-kcal"></span> kcal</strong></p>
-      <p>Total a pagar: <strong>$<span id="order-price"></span></strong></p>
-    </div>
+  <button class="btn" onclick="confirmOrder()">
+    Confirmar pedido ✅
+  </button>
+</div>
 
-    <button class="btn-cart">
-      Confirmar pedido ✅
-    </button>
+<script>
+  const container = document.getElementById("order-container");
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  </main>
+  function renderOrder() {
+    container.innerHTML = "";
 
-  <script>
-    const order = JSON.parse(localStorage.getItem("order"));
-    const list = document.getElementById("order-list");
-
-    const emojis = {
-      arroz: "🌾",
-      pollo: "🍗",
-      frejol: "🥙"
-    };
-
-    for (let key in order.ingredients) {
-      const ing = order.ingredients[key];
-
-      if (ing.qty > 0) {
-        const item = document.createElement("div");
-        item.className = "order-item";
-
-        item.innerHTML = `
-          <span class="emoji">${emojis[key]}</span>
-          <div class="order-info">
-            <strong>${key.toUpperCase()}</strong>
-            <small>Cantidad: ${ing.qty}</small>
-          </div>
-          <span>$${(ing.price * ing.qty).toFixed(2)}</span>
-        `;
-
-        list.appendChild(item);
-      }
+    if (cart.length === 0) {
+      container.innerHTML = "<p>No has añadido ningún plato todavía 🍽️</p>";
+      return;
     }
 
-    document.getElementById("order-kcal").innerText = order.totalKcal;
-    document.getElementById("order-price").innerText = order.totalPrice;
-  </script>
+    let totalFinal = 0;
+
+    cart.forEach((item, index) => {
+      totalFinal += item.totalPrice;
+
+      let extrasHTML = item.extras.length
+        ? "<ul>" + item.extras.map(e => `<li>${e.qty}× ${e.name}</li>`).join("") + "</ul>"
+        : "<small>Plato base sin extras</small>";
+
+      container.innerHTML += `
+        <div class="order-item">
+          <div class="emoji">🥗</div>
+          <div class="order-info">
+            <strong>${item.name}</strong>
+            ${extrasHTML}
+            <p>${item.totalKcal} kcal</p>
+          </div>
+
+          <div class="order-buttons">
+            <button onclick="removeItem(${index})">🗑️</button>
+            <button onclick="editItem()">✏️</button>
+          </div>
+
+          <strong>$${item.totalPrice.toFixed(2)}</strong>
+        </div>
+      `;
+    });
+
+    container.innerHTML += `
+      <div class="order-summary">
+        Total a pagar: $${totalFinal.toFixed(2)}
+      </div>
+    `;
+  }
+
+  function removeItem(index) {
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderOrder();
+  }
+
+  function editItem() {
+    window.location.href = "detalle.html";
+  }
+
+  function goToDish() {
+    window.location.href = "detalle.html";
+  }
+
+  function confirmOrder() {
+    if (cart.length === 0) {
+      alert("Tu pedido está vacío 🥗");
+      return;
+    }
+
+    alert("¡Pedido confirmado! 🎉\nGracias por elegir Macro Fit 💚");
+
+    localStorage.removeItem("cart");
+    window.location.href = "menu.html";
+  }
+
+  renderOrder();
+</script>
 
 </body>
 </html>

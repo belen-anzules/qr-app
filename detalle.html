@@ -9,105 +9,98 @@
 
 <body>
 
-  <!-- LOADER -->
-  <div class="loader" id="loader">
-    <div class="spinner">🥑</div>
-    <p>Cargando comida saludable...</p>
-  </div>
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="spinner">🥑</div>
+  <p>Cargando comida saludable...</p>
+</div>
 
-  <!-- HEADER -->
- <header class="header-clean">
+<!-- MODAL ÉXITO -->
+<div id="success-modal" class="modal hidden">
+  <div class="modal-card">
+    <span class="close" onclick="document.getElementById('success-modal').classList.add('hidden')">✖</span>
+    <h2>¡Añadido! 🥗</h2>
+    <p>Tu plato fue agregado correctamente al pedido.</p>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header-clean">
   <a href="menu.html" class="back">←</a>
   <h2>Bowl Chipsotle</h2>
 
   <div class="cart-icon" onclick="goToOrder()">
     🧾
-    <span id="cart-count">0</span>
   </div>
 </header>
 
-  <!-- IMAGEN -->
-  <img
-    class="detail-img"
-    src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
-    alt="Bowl saludable"
-  >
+<!-- IMAGEN -->
+<img
+  class="detail-img"
+  src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+  alt="Bowl saludable"
+/>
 
-  <!-- CONTENIDO -->
-  <section class="detail-content">
+<!-- CONTENIDO -->
+<section class="detail-content">
 
-    <h2>Bowl Chips Potle</h2>
-    <p class="price-base">Precio base: $7.99</p>
+  <p class="price-base">Precio base: $7.99</p>
 
-    <h3>Ingredientes</h3>
+  <h3>Ingredientes</h3>
 
-    <div class="ingredient">
-      <span>Arroz integral</span>
-      <span>215 kcal | $1.50</span>
-      <div class="controls">
-        <button onclick="removeIngredient('arroz')">−</button>
-        <span id="arroz-qty">0</span>
-        <button onclick="addIngredient('arroz')">+</button>
-      </div>
+  <div class="ingredient">
+    <span>Arroz integral</span>
+    <span>215 kcal | $1.50</span>
+    <div class="controls">
+      <button onclick="remove('arroz')">−</button>
+      <span id="arroz-qty">0</span>
+      <button onclick="add('arroz')">+</button>
     </div>
+  </div>
 
-    <div class="ingredient">
-      <span>Pollo</span>
-      <span>200 kcal | $2.00</span>
-      <div class="controls">
-        <button onclick="removeIngredient('pollo')">−</button>
-        <span id="pollo-qty">0</span>
-        <button onclick="addIngredient('pollo')">+</button>
-      </div>
+  <div class="ingredient">
+    <span>Pollo</span>
+    <span>200 kcal | $2.00</span>
+    <div class="controls">
+      <button onclick="remove('pollo')">−</button>
+      <span id="pollo-qty">0</span>
+      <button onclick="add('pollo')">+</button>
     </div>
+  </div>
 
-    <div class="ingredient">
-      <span>Frejol</span>
-      <span>110 kcal | $1.00</span>
-      <div class="controls">
-        <button onclick="removeIngredient('frejol')">−</button>
-        <span id="frejol-qty">0</span>
-        <button onclick="addIngredient('frejol')">+</button>
-      </div>
+  <div class="ingredient">
+    <span>Frejol</span>
+    <span>110 kcal | $1.00</span>
+    <div class="controls">
+      <button onclick="remove('frejol')">−</button>
+      <span id="frejol-qty">0</span>
+      <button onclick="add('frejol')">+</button>
     </div>
+  </div>
 
-    <hr>
+  <hr>
 
-    <p>
-      Total calorías:
-      <strong><span id="total-kcal">0</span> kcal</strong>
-    </p>
+  <p>Total calorías: <strong><span id="total-kcal">450</span> kcal</strong></p>
+  <p>Total precio: <strong>$<span id="total-price">7.99</span></strong></p>
 
-    <p>
-      Total precio:
-      <strong>$<span id="total-price">7.99</span></strong>
-    </p>
+  <!-- BOTONES -->
+  <button class="btn-cart" id="add-base">
+    Añadir plato base 🥗
+  </button>
 
-    <!-- BOTONES -->
-    <button class="btn-cart" onclick="addToCart()">
-      Añadir al carrito
-    </button>
+  <button class="btn secondary" id="add-custom">
+    Añadir plato personalizado 💪
+  </button>
 
-    <button
-      id="view-order"
-      class="btn hidden"
-      onclick="goToOrder()"
-    >
-      Ver mi pedido 🧾
-    </button>
+</section>
 
-  </section>
+<script src="app.js"></script>
 
-  <!-- JS -->
-  <script src="app.js"></script>
-
-  <!-- LOADER SCRIPT -->
-  <script>
-    window.onload = function () {
-      const loader = document.getElementById("loader");
-      if (loader) loader.style.display = "none";
-    };
-  </script>
+<script>
+  window.onload = () => {
+    document.getElementById("loader").style.display = "none";
+  };
+</script>
 
 </body>
 </html>

@@ -283,3 +283,30 @@ body {
   padding: 2px 6px;
   border-radius: 50%;
 }
+.empty {
+  color: #777;
+  font-style: italic;
+  margin: 10px 0;
+}
+.order-actions {
+  position: sticky;
+  bottom: 0;
+  background: white;
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #eee;
+}
+
+.order-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.order-buttons button {
+  background: #f0f0f0;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}
