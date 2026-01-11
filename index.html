@@ -9,45 +9,40 @@
 
 <body class="welcome">
 
-  <div class="loader" id="loader">
-    <div class="spinner">🥑</div>
-    <p>Cargando alimentación saludable...</p>
+<div class="loader" id="loader">
+  <div class="spinner">🥑</div>
+  <p>Cargando alimentación saludable...</p>
+</div>
+
+<div class="container">
+  <div class="logo">🥗</div>
+  <h1>MACRO FIT</h1>
+
+  <p>
+    ¡Bienvenido/a!<br>
+    Tu camino hacia una vida más saludable empieza aquí.
+  </p>
+
+  <button class="btn" id="btn-register">Registrarse</button>
+  <button class="btn secondary" id="btn-guest">Invitado</button>
+</div>
+
+<div id="welcome-modal" class="modal hidden">
+  <div class="modal-card">
+    <span class="close" id="close-modal">✕</span>
+    <h2 id="modal-title"></h2>
+    <p id="modal-text"></p>
+    <a href="menu.html" class="btn">Continuar</a>
   </div>
+</div>
 
-  <div class="container">
-    <div class="logo">🥗</div>
-    <h1>MACRO FIT</h1>
+<script src="js/index.js"></script>
 
-    <p>
-      ¡Bienvenido/a!<br>
-      Tu camino hacia una vida más saludable empieza aquí.
-    </p>
-
-    <a href="#" class="btn" onclick="openWelcome('register')">
-      Registrarse
-    </a>
-
-    <a href="#" class="btn secondary" onclick="openWelcome('guest')">
-      Invitado
-    </a>
-  </div>
-
-  <div id="welcome-modal" class="modal hidden">
-    <div class="modal-card">
-      <span class="close" onclick="closeWelcome()">✕</span>
-      <h2 id="modal-title"></h2>
-      <p id="modal-text"></p>
-      <a href="menu.html" class="btn">Continuar</a>
-    </div>
-  </div>
-
-  <script src="js/index.js"></script>
-
-  <script>
-    window.onload = () => {
-      document.getElementById("loader").style.display = "none";
-    };
-  </script>
+<script>
+  window.onload = () => {
+    document.getElementById("loader").style.display = "none";
+  };
+</script>
 
 </body>
 </html>
