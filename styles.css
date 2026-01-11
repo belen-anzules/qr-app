@@ -13,6 +13,13 @@ body {
 }
 
 /* ===================== */
+/* UTILIDADES */
+/* ===================== */
+.hidden {
+  display: none !important;
+}
+
+/* ===================== */
 /* PANTALLA BIENVENIDA */
 /* ===================== */
 .welcome {
@@ -43,6 +50,7 @@ body {
   border-radius: 10px;
   text-align: center;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .btn.secondary {
@@ -203,7 +211,6 @@ body {
   align-items: center;
   z-index: 100;
 }
-
 
 .modal-card {
   background: white;

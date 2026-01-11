@@ -1,3 +1,6 @@
+/* ===================== */
+/* CONFIGURACIÓN BASE */
+/* ===================== */
 const basePrice = 7.99;
 
 const ingredients = {
@@ -10,11 +13,13 @@ const ingredients = {
 /* INGREDIENTES */
 /* ===================== */
 function addIngredient(name) {
+  if (!ingredients[name]) return;
   ingredients[name].qty++;
   updateUI();
 }
 
 function removeIngredient(name) {
+  if (!ingredients[name]) return;
   if (ingredients[name].qty > 0) {
     ingredients[name].qty--;
     updateUI();
@@ -43,7 +48,7 @@ function updateUI() {
 }
 
 /* ===================== */
-/* CARRITO */
+/* CARRITO (APK SAFE) */
 /* ===================== */
 function addToCart() {
   let hasItems = false;
@@ -60,7 +65,7 @@ function addToCart() {
     return;
   }
 
-  // CLONAR OBJETO (MUY IMPORTANTE EN APK)
+  // CLONAR OBJETO (CRÍTICO PARA APK)
   const clonedIngredients = JSON.parse(JSON.stringify(ingredients));
 
   const order = {
@@ -72,10 +77,10 @@ function addToCart() {
   try {
     localStorage.setItem("order", JSON.stringify(order));
   } catch (e) {
-    console.log("LocalStorage no disponible en este entorno");
+    console.log("LocalStorage no disponible");
   }
 
-  // MOSTRAR BOTÓN (FORMA CORRECTA)
+  // MOSTRAR BOTÓN DE PEDIDO (FORMA CORRECTA)
   const btn = document.getElementById("view-order");
   if (btn) {
     btn.classList.remove("hidden");
