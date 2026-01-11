@@ -16,13 +16,12 @@
 
 <main class="order-container" id="order-container"></main>
 
-<!-- BOTONES INFERIORES -->
 <div class="order-actions">
-  <button class="btn secondary" onclick="goToDish()">
+  <button type="button" class="btn secondary" onclick="goToDish()">
     ➕ Añadir / Editar plato
   </button>
 
-  <button class="btn" onclick="confirmOrder()">
+  <button type="button" class="btn" onclick="confirmOrder()">
     Confirmar pedido ✅
   </button>
 </div>
@@ -35,7 +34,7 @@
     container.innerHTML = "";
 
     if (cart.length === 0) {
-      container.innerHTML = "<p>No has añadido ningún plato todavía 🍽️</p>";
+      container.innerHTML = "<p class='empty'>No has añadido ningún plato todavía 🍽️</p>";
       return;
     }
 
@@ -58,8 +57,8 @@
           </div>
 
           <div class="order-buttons">
-            <button onclick="removeItem(${index})">🗑️</button>
-            <button onclick="editItem()">✏️</button>
+            <button type="button" onclick="removeItem(${index})">🗑️</button>
+            <button type="button" onclick="editItem(${index})">✏️</button>
           </div>
 
           <strong>$${item.totalPrice.toFixed(2)}</strong>
@@ -80,11 +79,13 @@
     renderOrder();
   }
 
-  function editItem() {
+  function editItem(index) {
+    localStorage.setItem("editIndex", index);
     window.location.href = "detalle.html";
   }
 
   function goToDish() {
+    localStorage.removeItem("editIndex");
     window.location.href = "detalle.html";
   }
 
@@ -94,8 +95,7 @@
       return;
     }
 
-    alert("¡Pedido confirmado! 🎉\nGracias por elegir Macro Fit 💚");
-
+    alert("¡Pedido confirmado! 🎉");
     localStorage.removeItem("cart");
     window.location.href = "menu.html";
   }

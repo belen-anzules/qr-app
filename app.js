@@ -96,17 +96,51 @@ function addCustomDish() {
   }
 
   const cart = getCart();
+  const editIndex = localStorage.getItem("editIndex");
 
-  cart.push({
+  const dishData = {
     id: Date.now(),
     name: DISH.name,
     extras,
     totalPrice,
     totalKcal
-  });
+  };
+
+  if (editIndex !== null) {
+    cart[editIndex] = dishData;
+    localStorage.removeItem("editIndex");
+  } else {
+    cart.push(dishData);
+  }
 
   saveCart(cart);
   showSuccess();
+}
+
+/* ===================== */
+/* EDITAR PLATO */
+/* ===================== */
+function loadEditDish() {
+  const editIndex = localStorage.getItem("editIndex");
+  if (editIndex === null) return;
+
+  const cart = getCart();
+  const dish = cart[editIndex];
+  if (!dish || !dish.extras) return;
+
+  for (let key in ingredients) {
+    ingredients[key].qty = 0;
+  }
+
+  dish.extras.forEach(extra => {
+    for (let key in ingredients) {
+      if (ingredients[key].name === extra.name) {
+        ingredients[key].qty = extra.qty;
+      }
+    }
+  });
+
+  updateUI();
 }
 
 /* ===================== */
@@ -124,6 +158,11 @@ function goToOrder() {
 /* EVENTOS */
 /* ===================== */
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("add-base").onclick = addBaseDish;
-  document.getElementById("add-custom").onclick = addCustomDish;
+  const baseBtn = document.getElementById("add-base");
+  const customBtn = document.getElementById("add-custom");
+
+  if (baseBtn) baseBtn.onclick = addBaseDish;
+  if (customBtn) customBtn.onclick = addCustomDish;
+
+  loadEditDish();
 });

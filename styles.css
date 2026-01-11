@@ -289,14 +289,21 @@ body {
   margin: 10px 0;
 }
 .order-actions {
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  left: 0;
+  width: 100%;
   background: white;
   padding: 15px;
   display: flex;
   gap: 10px;
   border-top: 1px solid #eee;
 }
+
+body {
+  padding-bottom: 110px;
+}
+
 
 .order-buttons {
   display: flex;
