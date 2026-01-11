@@ -25,6 +25,7 @@
     Confirmar pedido ✅
   </button>
 </div>
+
 <script>
   const container = document.getElementById("order-container");
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -44,7 +45,7 @@
 
       const extras = item.extras.length
         ? "<ul>" + item.extras.map(e => `<li>${e.qty}× ${e.name}</li>`).join("") + "</ul>"
-        : "<small>Plato base</small>";
+        : "<small>Plato base sin extras</small>";
 
       container.innerHTML += `
         <div class="order-item">
@@ -71,8 +72,7 @@
   }
 
   function editItem(index) {
-    sessionStorage.setItem("editIndex", index);
-    sessionStorage.setItem("currentDish", JSON.stringify(cart[index].extras));
+    localStorage.setItem("editIndex", index);
     window.location.href = "detalle.html";
   }
 
@@ -80,17 +80,6 @@
     cart.splice(index, 1);
     localStorage.setItem("cart", JSON.stringify(cart));
     renderOrder();
-  }
-
-  function goToDish() {
-    sessionStorage.clear();
-    window.location.href = "detalle.html";
-  }
-
-  function confirmOrder() {
-    alert("¡Pedido confirmado! 🎉");
-    localStorage.removeItem("cart");
-    window.location.href = "menu.html";
   }
 
   renderOrder();
