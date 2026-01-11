@@ -35,5 +35,35 @@ function updateUI() {
 }
 
 function addToCart() {
-  alert("Producto añadido al carrito 🛒");
+  let order = {
+    ingredients,
+    totalKcal: document.getElementById("total-kcal").innerText,
+    totalPrice: document.getElementById("total-price").innerText
+  };
+
+  localStorage.setItem("order", JSON.stringify(order));
+
+  document.getElementById("view-order").classList.remove("hidden");
+}
+
+function openWelcome(type) {
+  const modal = document.getElementById("welcome-modal");
+  const title = document.getElementById("modal-title");
+  const text = document.getElementById("modal-text");
+
+  if (type === "guest") {
+    title.innerText = "¡Buen comienzo! 🥗";
+    text.innerText =
+      "Elegir cuidar tu alimentación ya es un gran paso. Explora nuestro menú y arma tu plato saludable.";
+  } else {
+    title.innerText = "¡Bienvenido a Macro Fit 💪";
+    text.innerText =
+      "Registrar tu cuenta te ayudará a llevar un mejor control de tu nutrición y hábitos saludables.";
+  }
+
+  modal.classList.remove("hidden");
+}
+
+function closeWelcome() {
+  document.getElementById("welcome-modal").classList.add("hidden");
 }

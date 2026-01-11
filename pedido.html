@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Pedido</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header-clean">
+    <a href="menu.html" class="back">←</a>
+    <h2>Mi Pedido</h2>
+  </header>
+
+  <!-- CONTENIDO -->
+  <main class="order-container">
+
+    <div id="order-list"></div>
+
+    <div class="order-summary">
+      <p>Total calorías: <strong><span id="order-kcal"></span> kcal</strong></p>
+      <p>Total a pagar: <strong>$<span id="order-price"></span></strong></p>
+    </div>
+
+    <button class="btn-cart">
+      Confirmar pedido ✅
+    </button>
+
+  </main>
+
+  <script>
+    const order = JSON.parse(localStorage.getItem("order"));
+    const list = document.getElementById("order-list");
+
+    const emojis = {
+      arroz: "🌾",
+      pollo: "🍗",
+      frejol: "🥙"
+    };
+
+    for (let key in order.ingredients) {
+      const ing = order.ingredients[key];
+
+      if (ing.qty > 0) {
+        const item = document.createElement("div");
+        item.className = "order-item";
+
+        item.innerHTML = `
+          <span class="emoji">${emojis[key]}</span>
+          <div class="order-info">
+            <strong>${key.toUpperCase()}</strong>
+            <small>Cantidad: ${ing.qty}</small>
+          </div>
+          <span>$${(ing.price * ing.qty).toFixed(2)}</span>
+        `;
+
+        list.appendChild(item);
+      }
+    }
+
+    document.getElementById("order-kcal").innerText = order.totalKcal;
+    document.getElementById("order-price").innerText = order.totalPrice;
+  </script>
+
+</body>
+</html>

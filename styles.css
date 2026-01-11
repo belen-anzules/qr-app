@@ -1,3 +1,4 @@
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -7,8 +8,13 @@
 
 body {
   min-height: 100vh;
+  background: #fff;
+  color: #111;
 }
 
+/* ===================== */
+/* PANTALLA BIENVENIDA */
+/* ===================== */
 .welcome {
   background: linear-gradient(#dfe9d7, #8bb174);
 }
@@ -23,6 +29,9 @@ body {
   margin-bottom: 20px;
 }
 
+/* ===================== */
+/* BOTONES */
+/* ===================== */
 .btn {
   display: block;
   width: 80%;
@@ -32,19 +41,53 @@ body {
   background: #4CAF50;
   color: white;
   border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .btn.secondary {
   background: white;
   color: #4CAF50;
+  border: 2px solid #4CAF50;
 }
 
-/* MENÚ */
-header {
+.btn-cart {
+  width: 100%;
   padding: 15px;
-  font-weight: bold;
+  margin-top: 20px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
+/* ===================== */
+/* HEADER LIMPIO */
+/* ===================== */
+.header-clean {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+
+.header-clean h2 {
+  font-size: 18px;
+}
+
+.back {
+  text-decoration: none;
+  font-size: 20px;
+  color: #4CAF50;
+}
+
+/* ===================== */
+/* MENÚ */
+/* ===================== */
 .menu {
   padding: 15px;
 }
@@ -54,6 +97,7 @@ header {
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
 }
 
 .card img {
@@ -66,14 +110,12 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 15px;
+  font-weight: bold;
 }
 
-/* DETALLE */
-.dark {
-  background: #111;
-  color: white;
-}
-
+/* ===================== */
+/* DETALLE PRODUCTO */
+/* ===================== */
 .detail-img {
   width: 100%;
 }
@@ -82,41 +124,17 @@ header {
   padding: 20px;
 }
 
-.price {
+.price-base {
   color: #4CAF50;
+  margin-bottom: 10px;
 }
 
-ul {
-  list-style: none;
-}
-
-li {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-}
-
-li button {
-  width: 35px;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-
-.back {
-  color: white;
-  font-size: 20px;
-  text-decoration: none;
-  padding: 15px;
-  display: inline-block;
-}
 .ingredient {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #eee;
 }
 
 .controls {
@@ -132,15 +150,112 @@ li button {
   color: white;
   border: none;
   border-radius: 5px;
+  cursor: pointer;
 }
 
-.btn-cart {
-  width: 100%;
+/* ===================== */
+/* PEDIDO */
+/* ===================== */
+.order-container {
+  padding: 20px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9f9f9;
   padding: 15px;
-  margin-top: 20px;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.order-info {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.order-info small {
+  color: #666;
+}
+
+.emoji {
+  font-size: 24px;
+}
+
+.order-summary {
+  margin: 20px 0;
+  padding: 15px;
+  background: #eaf5ea;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+/* ===================== */
+/* MODAL BIENVENIDA */
+/* ===================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-card {
+  background: white;
+  color: #111;
+  padding: 25px;
+  width: 90%;
+  max-width: 350px;
+  border-radius: 15px;
+  text-align: center;
+  position: relative;
+}
+
+.modal-card h2 {
+  margin-bottom: 10px;
+  color: #4CAF50;
+}
+
+.modal-card p {
+  margin-bottom: 20px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* ===================== */
+/* LOADER */
+/* ===================== */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: #dfe9d7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.spinner {
+  font-size: 50px;
+  animation: spin 1.5s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
 }
