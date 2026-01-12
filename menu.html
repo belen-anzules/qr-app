@@ -3,55 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Menú</title>
+  <title>Menú - Macro Fit</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<div class="loader" id="loader">
-  <div class="spinner">🥑</div>
-  <p>Cargando comida saludable...</p>
-</div>
-
-<script>
-  window.onload = () => {
-    document.getElementById("loader").style.display = "none";
-  };
-</script>
 
 <body>
 
+  <div class="loader" id="loader">
+    <div class="spinner">🥑</div>
+    <p>Cargando comida saludable...</p>
+  </div>
+
   <header>
     <h2>MENÚ</h2>
+    <div class="cart-icon" onclick="irAPedido()">🧾</div>
   </header>
 
   <main class="menu">
-  <div class="card">
-    <a href="detalle.html?plato=Bowl Chipsotle">
-      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
-      <div class="info">
-        <h3>Bowl Chipsotle</h3>
-        <span>$7.99</span>
+    <div class="card">
+      <div onclick="irADetalle('detalle.html')" style="cursor: pointer;">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Bowl">
+        <div class="info">
+          <h3>Bowl Chipsotle</h3>
+          <span>$7.99</span>
+        </div>
       </div>
-      <main class="menu">
-  <div class="card">
-    <a href="desayuno1.html">
-      <img src="img/desayuno1.png">
-      <div class="info">
-        <h3>Overnight Oats</h3>
-        <span>$5.99</span>
-      </div>
-      <div class="card">
-    <a href="desayuno2.html">
-      <img src="img/clasico_power.png">
-      <div class="info">
-        <h3>Tostada con Aguacate y Huevo Poché</h3>
-        <span>$3.99</span>
-      </div>
-    </a>
-  </div>
+    </div>
 
-  <!-- Agregar más platos aquí -->
-</main>
+    <div class="card">
+      <div onclick="irADetalle('desayuno1.html')" style="cursor: pointer;">
+        <img src="img/desayuno1.png" alt="Oats">
+        <div class="info">
+          <h3>Overnight Oats</h3>
+          <span>$5.99</span>
+        </div>
+      </div>
+    </div>
 
+    <div class="card">
+      <div onclick="irADetalle('desayuno2.html')" style="cursor: pointer;">
+        <img src="img/clasico_power.png" alt="Tostada">
+        <div class="info">
+          <h3>Tostada con Aguacate</h3>
+          <span>$3.99</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // 1. Quitar el loader al cargar
+    window.onload = () => {
+      document.getElementById("loader").style.display = "none";
+    };
+
+    // 2. Función para obtener el carrito actual de la URL
+    function getCartRaw() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('cart') || encodeURIComponent(JSON.stringify([]));
+    }
+
+    // 3. Función para ir a un plato sin perder el carrito
+    function irADetalle(urlDestino) {
+      const cart = getCartRaw();
+      window.location.href = `${urlDestino}?cart=${cart}`;
+    }
+
+    // 4. Función para ir a la página de pedido
+    function irAPedido() {
+      const cart = getCartRaw();
+      window.location.href = `pedido.html?cart=${cart}`;
+    }
+  </script>
 
 </body>
 </html>

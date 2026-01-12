@@ -1,6 +1,5 @@
 const pedidoDiv = document.getElementById("pedido");
 
-// Función para obtener el carrito de la URL
 function getCartFromURL() {
     const params = new URLSearchParams(window.location.search);
     const cartData = params.get('cart');
@@ -9,23 +8,25 @@ function getCartFromURL() {
 
 function mostrarPedido() {
     const cart = getCartFromURL();
-    const params = new URLSearchParams(window.location.search);
-
     if (cart.length === 0) {
-        pedidoDiv.innerHTML = `<p style="text-align:center; padding:40px; color:#666;">Tu carrito está vacío 🥑</p>`;
+        pedidoDiv.innerHTML = `<div style="text-align:center; padding:50px;">Carrito vacío 🥣</div>`;
         return;
     }
 
     pedidoDiv.innerHTML = "";
-    let totalCompra = 0;
+    let totalGlobal = 0;
 
     cart.forEach((item, index) => {
-        totalCompra += parseFloat(item.total);
+        totalGlobal += parseFloat(item.total);
+        
+        // Generar parámetros de ingredientes para el link de editar
+        let configParams = "";
+        for (let key in item.config) {
+            configParams += `&${key}=${item.config[key]}`;
+        }
 
-        // CREAMOS EL LINK DE EDICIÓN
-        // Pasamos el carrito completo Y el índice que estamos editando
         const cartString = encodeURIComponent(JSON.stringify(cart));
-        const urlEditar = `detalle.html?cart=${cartString}&editIndex=${index}&arroz=${item.config.arroz}&pollo=${item.config.pollo}&frejol=${item.config.frejol}`;
+        const urlEditar = `${item.page}?cart=${cartString}&editIndex=${index}${configParams}`;
 
         pedidoDiv.innerHTML += `
             <div class="cart-item">
@@ -42,24 +43,18 @@ function mostrarPedido() {
         `;
     });
 
-    pedidoDiv.innerHTML += `
-        <div style="text-align:right; padding:20px; font-weight:bold; font-size:1.3rem; color:#2d3436;">
-            Total: $${totalCompra.toFixed(2)}
-        </div>
-    `;
+    pedidoDiv.innerHTML += `<div style="text-align:right; font-size:1.4rem; font-weight:bold; padding:20px;">Total: $${totalGlobal.toFixed(2)}</div>`;
 }
 
 function eliminarPlato(index) {
     let cart = getCartFromURL();
     cart.splice(index, 1);
-    const cartString = encodeURIComponent(JSON.stringify(cart));
-    window.location.href = `pedido.html?cart=${cartString}`;
+    window.location.href = `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
 }
 
 function irAMenu() {
-    const params = new URLSearchParams(window.location.search);
-    const cart = params.get('cart') || encodeURIComponent(JSON.stringify([]));
-    window.location.href = `menu.html?cart=${cart}`;
+    const cart = getCartFromURL();
+    window.location.href = `menu.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
 }
 
 window.onload = mostrarPedido;
