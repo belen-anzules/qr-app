@@ -5,11 +5,22 @@ const ingredients = {
     frejol: { name: "Frejol", price: 1.0, qty: 0 }
 };
 
-// 1. Obtener el carrito actual de la URL
-function getCartFromURL() {
+let editIndex = null; // Para saber si estamos editando
+
+function cargarConfiguracion() {
     const params = new URLSearchParams(window.location.search);
-    const cartData = params.get('cart');
-    return cartData ? JSON.parse(decodeURIComponent(cartData)) : [];
+    
+    // 1. ¿Estamos editando?
+    if (params.has('editIndex')) {
+        editIndex = params.get('editIndex');
+        // Cargamos las cantidades que vienen en la URL
+        for (let k in ingredients) {
+            if (params.has(k)) {
+                ingredients[k].qty = parseInt(params.get(k));
+            }
+        }
+    }
+    updateUI();
 }
 
 function updateUI() {
@@ -21,19 +32,19 @@ function updateUI() {
             total += ingredients[k].qty * ingredients[k].price;
         }
     }
-    let totalEl = document.getElementById("total-price");
-    if (totalEl) totalEl.innerText = total.toFixed(2);
+    document.getElementById("total-price").innerText = total.toFixed(2);
 }
 
 function addIng(name) { ingredients[name].qty++; updateUI(); }
 function removeIng(name) { if (ingredients[name].qty > 0) ingredients[name].qty--; updateUI(); }
 
 function confirmarPedido() {
-    const cart = getCartFromURL(); // Traemos los platos que ya estaban
-    
+    const params = new URLSearchParams(window.location.search);
+    let cart = params.get('cart') ? JSON.parse(decodeURIComponent(params.get('cart'))) : [];
+
     let totalItem = basePrice;
     let extrasArray = [];
-    let configActual = {}; // Guardamos las cantidades para poder editar luego
+    let configActual = {};
 
     for (let k in ingredients) {
         configActual[k] = ingredients[k].qty;
@@ -43,23 +54,23 @@ function confirmarPedido() {
         }
     }
 
-    // Creamos el nuevo objeto de plato
-    const nuevoPlato = {
+    const platoActualizado = {
         nombre: "Bowl Chipsotle",
         extras: extrasArray.join(", ") || "Sin extras",
         total: totalItem.toFixed(2),
         config: configActual
     };
 
-    // LO AÑADIMOS AL CARRITO EXISTENTE
-    cart.push(nuevoPlato);
+    // SI ESTÁBAMOS EDITANDO, REEMPLAZAMOS EN LA MISMA POSICIÓN
+    if (editIndex !== null) {
+        cart[editIndex] = platoActualizado;
+    } else {
+        // SI ES NUEVO, LO AGREGAMOS AL FINAL
+        cart.push(platoActualizado);
+    }
 
-    // Convertimos todo el carrito a texto para la URL
     const cartString = encodeURIComponent(JSON.stringify(cart));
     window.location.href = `pedido.html?cart=${cartString}`;
 }
 
-window.onload = () => {
-    // Si estuviéramos editando, aquí se cargarían los datos (opcional por ahora)
-    updateUI();
-};
+window.onload = cargarConfiguracion;
