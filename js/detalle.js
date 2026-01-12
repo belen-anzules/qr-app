@@ -1,84 +1,70 @@
 const basePrice = 7.99;
-let ingredients = {
-    arroz: { name: "Arroz integral", price: 1.5, qty: 0 },
+
+// Agregamos frejol que faltaba en tu objeto anterior
+const ingredients = {
+    arroz: { name: "Arroz", price: 1.5, qty: 0 },
     pollo: { name: "Pollo", price: 2.0, qty: 0 },
     frejol: { name: "Frejol", price: 1.0, qty: 0 }
 };
 
-// Verificar si estamos EDITANDO un item del carrito
-const urlParams = new URLSearchParams(window.location.search);
-const editIndex = urlParams.get('edit');
-
-window.onload = () => {
-    if (editIndex !== null) {
-        const cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const itemToEdit = cart[editIndex];
-        if (itemToEdit) {
-            // Cargar cantidades previas
-            itemToEdit.extras.forEach(extra => {
-                if (ingredients[extra.id]) {
-                    ingredients[extra.id].qty = extra.qty;
-                }
-            });
-        }
-    }
-    updateUI();
-};
-
-function addIng(id) {
-    ingredients[id].qty++;
-    updateUI();
-}
-
-function removeIng(id) {
-    if (ingredients[id].qty > 0) ingredients[id].qty--;
-    updateUI();
-}
-
-function updateUI() {
-    let extraTotal = 0;
-    for (let id in ingredients) {
-        document.getElementById(`${id}-qty`).innerText = ingredients[id].qty;
-        extraTotal += ingredients[id].qty * ingredients[id].price;
-    }
-    const finalTotal = basePrice + extraTotal;
-    document.getElementById("total-price").innerText = finalTotal.toFixed(2);
-}
-
-function saveToCart() {
-    console.log("Guardando pedido..."); // Esto ayuda a debugear
-    
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let extras = [];
+function updateTotal() {
     let total = basePrice;
-
-    // Recopilar ingredientes
-    for (let id in ingredients) {
-        if (ingredients[id].qty > 0) {
-            extras.push({ 
-                id: id, 
-                name: ingredients[id].name, 
-                qty: ingredients[id].qty 
-            });
-            total += ingredients[id].qty * ingredients[id].price;
-        }
+    for (let k in ingredients) {
+        total += ingredients[k].qty * ingredients[k].price;
+        // Actualiza el número en el HTML
+        const qtyElement = document.getElementById(k + "-qty");
+        if (qtyElement) qtyElement.innerText = ingredients[k].qty;
     }
-
-    const itemPedido = {
-        name: "Bowl Chipsotle",
-        extras: extras,
-        total: total.toFixed(2)
-    };
-
-    // Si editIndex existe (viene de la URL), reemplazamos. Si no, agregamos.
-    if (typeof editIndex !== 'undefined' && editIndex !== null) {
-        cart[editIndex] = itemPedido;
-    } else {
-        cart.push(itemPedido);
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-    
-    // REDIRECCIÓN COMPATIBLE CON APK
-    window.location.assign("pedido.html"); 
+    // Actualiza el precio total en el HTML
+    const totalElement = document.getElementById("total-price");
+    if (totalElement) totalElement.innerText = total.toFixed(2);
 }
+
+function addIng(name) {
+    if (ingredients[name]) {
+        ingredients[name].qty++;
+        updateTotal();
+    }
+}
+
+function removeIng(name) {
+    if (ingredients[name] && ingredients[name].qty > 0) {
+        ingredients[name].qty--;
+        updateTotal();
+    }
+}
+
+function confirmarPedido() {
+    try {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        let extras = [];
+        let totalFinal = basePrice;
+
+        for (let k in ingredients) {
+            if (ingredients[k].qty > 0) {
+                extras.push({
+                    name: ingredients[k].name,
+                    qty: ingredients[k].qty
+                });
+                totalFinal += ingredients[k].qty * ingredients[k].price;
+            }
+        }
+
+        cart.push({
+            name: "Bowl Chipsotle",
+            extras: extras,
+            total: totalFinal.toFixed(2)
+        });
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        
+        // En APKs es mejor usar window.location.href
+        window.location.href = "pedido.html";
+        
+    } catch (error) {
+        alert("Error al guardar: " + error);
+    }
+}
+
+// Inicializar al cargar
+updateTotal();

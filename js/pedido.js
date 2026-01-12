@@ -16,17 +16,17 @@ function renderCart() {
             : "Sin extras";
 
         container.innerHTML += `
-            <div class="cart-item">
-                <div class="cart-info">
-                    <strong>${item.name}</strong>
-                    <p class="extras-small">${extrasText}</p>
-                    <span class="price-tag">$${item.total}</span>
-                </div>
-                <div class="cart-actions">
-                    <button class="edit-btn" onclick="editItem(${index})">✏️</button>
-                    <button class="delete-btn" onclick="deleteItem(${index})">🗑️</button>
-                </div>
+        <div class="cart-item">
+            <div class="cart-info">
+                <strong>${item.name}</strong>
+                <p class="extras-small">${extrasText}</p>
+                <span class="price-tag">$${item.total}</span>
             </div>
+            <div class="cart-actions">
+                <button class="edit-btn" onclick="editItem(${index})">✏️</button>
+                <button class="delete-btn" onclick="deleteItem(${index})">🗑️</button>
+            </div>
+        </div>
         `;
     });
 }
