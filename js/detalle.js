@@ -46,11 +46,13 @@ function updateUI() {
 }
 
 function saveToCart() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    console.log("Guardando pedido..."); // Esto ayuda a debugear
     
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
     let extras = [];
     let total = basePrice;
 
+    // Recopilar ingredientes
     for (let id in ingredients) {
         if (ingredients[id].qty > 0) {
             extras.push({ 
@@ -68,12 +70,15 @@ function saveToCart() {
         total: total.toFixed(2)
     };
 
-    if (editIndex !== null) {
-        cart[editIndex] = itemPedido; // Reemplazar el existente
+    // Si editIndex existe (viene de la URL), reemplazamos. Si no, agregamos.
+    if (typeof editIndex !== 'undefined' && editIndex !== null) {
+        cart[editIndex] = itemPedido;
     } else {
-        cart.push(itemPedido); // Añadir nuevo
+        cart.push(itemPedido);
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    location.href = "pedido.html";
+    
+    // REDIRECCIÓN COMPATIBLE CON APK
+    window.location.assign("pedido.html"); 
 }
