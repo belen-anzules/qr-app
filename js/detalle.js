@@ -5,47 +5,57 @@ const ingredients = {
     frejol: { name: "Frejol", price: 1.0, qty: 0 }
 };
 
+// 1. FUNCIÓN QUE CARGA LO QUE DEJASTE ANTES
+function cargarDesdeURL() {
+    const params = new URLSearchParams(window.location.search);
+    for (let key in ingredients) {
+        if (params.has(key)) {
+            ingredients[key].qty = parseInt(params.get(key));
+        }
+    }
+    updateUI();
+}
+
 function updateUI() {
     let total = basePrice;
     for (let k in ingredients) {
-        if (document.getElementById(k + "-qty")) {
-            document.getElementById(k + "-qty").innerText = ingredients[k].qty;
+        let el = document.getElementById(k + "-qty");
+        if (el) {
+            el.innerText = ingredients[k].qty;
             total += ingredients[k].qty * ingredients[k].price;
         }
     }
-    if (document.getElementById("total-price")) {
-        document.getElementById("total-price").innerText = total.toFixed(2);
-    }
+    let totalEl = document.getElementById("total-price");
+    if (totalEl) totalEl.innerText = total.toFixed(2);
 }
 
 function addIng(name) { ingredients[name].qty++; updateUI(); }
 function removeIng(name) { if (ingredients[name].qty > 0) ingredients[name].qty--; updateUI(); }
 
 function confirmarPedido() {
-    // 1. Calculamos el total y extras
     let totalFinal = basePrice;
     let extrasArray = [];
-
+    
+    // Construimos una cadena de texto para los parámetros de la URL
+    let urlParams = "";
+    
     for (let k in ingredients) {
         if (ingredients[k].qty > 0) {
-            extrasArray.push(`${ingredients[k].qty}x ${ingredients[k].name}`);
+            extrasArray.push(ingredients[k].qty + "x " + ingredients[k].name);
             totalFinal += ingredients[k].qty * ingredients[k].price;
         }
+        // Guardamos la cantidad individual para poder editarla luego
+        urlParams += `&${k}=${ingredients[k].qty}`;
     }
 
     const extrasTexto = extrasArray.join(", ");
     const precioTexto = totalFinal.toFixed(2);
 
-    // 2. Intentamos guardar en LocalStorage (por si acaso funciona)
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push({ name: "Bowl Chipsotle", extras: extrasArray, total: precioTexto });
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    // 3. ¡EL TRUCO! Pasamos los datos por la URL para que pedido.html los reciba siempre
-    // Esto asegura que al menos el último plato se vea aunque el LocalStorage falle
-    const urlDestino = `pedido.html?nombre=Bowl Chipsotle&extras=${encodeURIComponent(extrasTexto)}&total=${precioTexto}`;
+    // Enviamos TODO por URL: texto para mostrar y números para editar
+    const destino = `pedido.html?nombre=Bowl Chipsotle&extras=${encodeURIComponent(extrasTexto)}&total=${precioTexto}${urlParams}`;
     
-    window.location.href = urlDestino;
+    window.location.href = destino;
 }
 
-updateUI();
+// Ejecutar al cargar la página
+window.onload = cargarDesdeURL;
