@@ -1,37 +1,60 @@
 const pedidoDiv = document.getElementById("pedido");
 
-function mostrarPedido() {
+function getCartFromURL() {
     const params = new URLSearchParams(window.location.search);
-    const nombre = params.get('nombre');
-    const extras = params.get('extras');
-    const total = params.get('total');
+    const cartData = params.get('cart');
+    return cartData ? JSON.parse(decodeURIComponent(cartData)) : [];
+}
 
-    if (!nombre) {
-        pedidoDiv.innerHTML = `<p style="text-align:center; padding:20px;">No hay pedido seleccionado.</p>`;
+function mostrarPedido() {
+    const cart = getCartFromURL();
+
+    if (cart.length === 0) {
+        pedidoDiv.innerHTML = `<p style="text-align:center; padding:20px;">Tu carrito está vacío.</p>`;
         return;
     }
 
-    // CONSTRUIR LINK DE REGRESO (Para editar)
-    // Extraemos las cantidades de la URL actual para mandarlas de vuelta
-    const arroz = params.get('arroz') || 0;
-    const pollo = params.get('pollo') || 0;
-    const frejol = params.get('frejol') || 0;
-    
-    const urlEditar = `detalle.html?arroz=${arroz}&pollo=${pollo}&frejol=${frejol}`;
+    pedidoDiv.innerHTML = "";
+    let totalFinalCompra = 0;
 
-    pedidoDiv.innerHTML = `
-        <div class="cart-item">
-            <div class="cart-info">
-                <strong>${nombre}</strong>
-                <p class="extras-small">${extras || "Sin extras"}</p>
-                <span class="price-tag">Total: $${total}</span>
+    cart.forEach((item, index) => {
+        totalFinalCompra += parseFloat(item.total);
+
+        // Creamos la tarjeta de cada plato
+        pedidoDiv.innerHTML += `
+            <div class="cart-item">
+                <div class="cart-info">
+                    <strong>${item.nombre} (#${index + 1})</strong>
+                    <p class="extras-small">${item.extras}</p>
+                    <span class="price-tag">$${item.total}</span>
+                </div>
+                <div class="cart-actions">
+                    <button class="delete-btn" onclick="eliminarPlato(${index})">🗑️</button>
+                </div>
             </div>
-            <div class="cart-actions">
-                <button class="edit-btn" onclick="location.href='${urlEditar}'">✏️</button>
-                <button class="delete-btn" onclick="location.href='menu.html'">🗑️</button>
-            </div>
+        `;
+    });
+
+    // Añadimos el Total Global al final si quieres
+    pedidoDiv.innerHTML += `
+        <div style="text-align:right; padding:10px; font-weight:bold; font-size:1.2rem;">
+            Total Compra: $${totalFinalCompra.toFixed(2)}
         </div>
     `;
+}
+
+function eliminarPlato(index) {
+    let cart = getCartFromURL();
+    cart.splice(index, 1); // Borramos el plato seleccionado
+    const cartString = encodeURIComponent(JSON.stringify(cart));
+    window.location.href = `pedido.html?cart=${cartString}`;
+}
+
+// IMPORTANTE: El botón "Añadir más platos" debe mantener el carrito actual
+function irAMenu() {
+    const cart = getCartFromURL();
+    const cartString = encodeURIComponent(JSON.stringify(cart));
+    window.location.href = `menu.html?cart=${cartString}`;
 }
 
 window.onload = mostrarPedido;

@@ -5,15 +5,11 @@ const ingredients = {
     frejol: { name: "Frejol", price: 1.0, qty: 0 }
 };
 
-// 1. FUNCIÓN QUE CARGA LO QUE DEJASTE ANTES
-function cargarDesdeURL() {
+// 1. Obtener el carrito actual de la URL
+function getCartFromURL() {
     const params = new URLSearchParams(window.location.search);
-    for (let key in ingredients) {
-        if (params.has(key)) {
-            ingredients[key].qty = parseInt(params.get(key));
-        }
-    }
-    updateUI();
+    const cartData = params.get('cart');
+    return cartData ? JSON.parse(decodeURIComponent(cartData)) : [];
 }
 
 function updateUI() {
@@ -33,29 +29,37 @@ function addIng(name) { ingredients[name].qty++; updateUI(); }
 function removeIng(name) { if (ingredients[name].qty > 0) ingredients[name].qty--; updateUI(); }
 
 function confirmarPedido() {
-    let totalFinal = basePrice;
+    const cart = getCartFromURL(); // Traemos los platos que ya estaban
+    
+    let totalItem = basePrice;
     let extrasArray = [];
-    
-    // Construimos una cadena de texto para los parámetros de la URL
-    let urlParams = "";
-    
+    let configActual = {}; // Guardamos las cantidades para poder editar luego
+
     for (let k in ingredients) {
+        configActual[k] = ingredients[k].qty;
         if (ingredients[k].qty > 0) {
-            extrasArray.push(ingredients[k].qty + "x " + ingredients[k].name);
-            totalFinal += ingredients[k].qty * ingredients[k].price;
+            extrasArray.push(`${ingredients[k].qty}x ${ingredients[k].name}`);
+            totalItem += ingredients[k].qty * ingredients[k].price;
         }
-        // Guardamos la cantidad individual para poder editarla luego
-        urlParams += `&${k}=${ingredients[k].qty}`;
     }
 
-    const extrasTexto = extrasArray.join(", ");
-    const precioTexto = totalFinal.toFixed(2);
+    // Creamos el nuevo objeto de plato
+    const nuevoPlato = {
+        nombre: "Bowl Chipsotle",
+        extras: extrasArray.join(", ") || "Sin extras",
+        total: totalItem.toFixed(2),
+        config: configActual
+    };
 
-    // Enviamos TODO por URL: texto para mostrar y números para editar
-    const destino = `pedido.html?nombre=Bowl Chipsotle&extras=${encodeURIComponent(extrasTexto)}&total=${precioTexto}${urlParams}`;
-    
-    window.location.href = destino;
+    // LO AÑADIMOS AL CARRITO EXISTENTE
+    cart.push(nuevoPlato);
+
+    // Convertimos todo el carrito a texto para la URL
+    const cartString = encodeURIComponent(JSON.stringify(cart));
+    window.location.href = `pedido.html?cart=${cartString}`;
 }
 
-// Ejecutar al cargar la página
-window.onload = cargarDesdeURL;
+window.onload = () => {
+    // Si estuviéramos editando, aquí se cargarían los datos (opcional por ahora)
+    updateUI();
+};
