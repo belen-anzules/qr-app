@@ -1,49 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Detalle</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-
 <body>
 
-<header class="header-clean">
-  <a href="menu.html" class="back">←</a>
-  <h2>Bowl Chipsotle</h2>
+<button onclick="prueba()">PROBAR BOTÓN</button>
 
-  <!-- ICONO PEDIDOS (HTML PURO) -->
-  <span class="cart-icon" onclick="goPedido()">🧾</span>
-</header>
+<script>
+  function prueba() {
+    alert("EL BOTÓN SÍ FUNCIONA");
+  }
+</script>
 
-<section class="detail-content">
-
-<p>Precio base: $7.99</p>
-
-<div class="ingredient">
-  Arroz
-  <button onclick="addIng('arroz')">+</button>
-  <span id="arroz">0</span>
-  <button onclick="removeIng('arroz')">-</button>
-</div>
-
-<div class="ingredient">
-  Pollo
-  <button onclick="addIng('pollo')">+</button>
-  <span id="pollo">0</span>
-  <button onclick="removeIng('pollo')">-</button>
-</div>
-
-<hr>
-
-<p>Total: $<span id="total">7.99</span></p>
-
-<button onclick="addBase()">Añadir plato base</button>
-<button onclick="addCustom()">Añadir personalizado</button>
-
-</section>
-
-<script src="js/detalle.js"></script>
 </body>
-</html>
