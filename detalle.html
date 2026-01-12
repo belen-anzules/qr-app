@@ -1,69 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalle</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Plato</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<!-- HEADER -->
 <header class="header-clean">
-  <a href="menu.html" class="back">←</a>
-  <h2>Bowl Chipsotle</h2>
-
-  <!-- ICONO PEDIDOS -->
-  <div class="cart-icon" onclick="goPedido()">🧾</div>
+    <a href="menu.html" class="back">← Volver</a>
+    <h2 id="dish-name">Bowl Chipsotle</h2>
+    <div class="cart-icon" onclick="location.href='pedido.html'">🧾</div>
 </header>
 
-<!-- CONTENIDO DETALLE -->
 <section class="detail-content">
+    <div class="product-image-placeholder">🥗</div>
+    <p class="price-base">Precio base: $<span id="base-price-display">7.99</span></p>
 
-  <p class="price-base">Precio base: $7.99</p>
+    <div class="ingredients-list">
+        <div class="ingredient">
+            <span>Arroz integral (+$1.50)</span>
+            <div class="controls">
+                <button onclick="removeIng('arroz')">−</button>
+                <span id="arroz-qty">0</span>
+                <button onclick="addIng('arroz')">+</button>
+            </div>
+        </div>
 
-  <!-- Ingredientes -->
-  <div class="ingredient">
-    <span>Arroz integral</span>
-    <div class="controls">
-      <button onclick="removeIng('arroz')">−</button>
-      <span id="arroz-qty">0</span>
-      <button onclick="addIng('arroz')">+</button>
+        <div class="ingredient">
+            <span>Pollo (+$2.00)</span>
+            <div class="controls">
+                <button onclick="removeIng('pollo')">−</button>
+                <span id="pollo-qty">0</span>
+                <button onclick="addIng('pollo')">+</button>
+            </div>
+        </div>
+
+        <div class="ingredient">
+            <span>Frejol (+$1.00)</span>
+            <div class="controls">
+                <button onclick="removeIng('frejol')">−</button>
+                <span id="frejol-qty">0</span>
+                <button onclick="addIng('frejol')">+</button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="ingredient">
-    <span>Pollo</span>
-    <div class="controls">
-      <button onclick="removeIng('pollo')">−</button>
-      <span id="pollo-qty">0</span>
-      <button onclick="addIng('pollo')">+</button>
+    <div class="total-bar">
+        <h3>Total: $<span id="total-price">7.99</span></h3>
     </div>
-  </div>
 
-  <div class="ingredient">
-    <span>Frejol</span>
-    <div class="controls">
-      <button onclick="removeIng('frejol')">−</button>
-      <span id="frejol-qty">0</span>
-      <button onclick="addIng('frejol')">+</button>
+    <div class="actions">
+        <button class="btn" onclick="saveToCart()">Confirmar Pedido ✅</button>
     </div>
-  </div>
-
-  <hr>
-
-  <!-- Totales -->
-  <p>Total: $<span id="total-price">7.99</span></p>
-
-  <!-- BOTONES DE AGREGAR -->
-  <button class="btn-cart" onclick="addBaseDish()">Añadir plato base 🥗</button>
-  <button class="btn secondary" onclick="addCustomDish()">Añadir personalizado 💪</button>
-
 </section>
 
-<!-- JS -->
-<script src="detalle.js"></script>
-
+<script src="js/detalle.js"></script>
 </body>
 </html>
