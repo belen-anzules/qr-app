@@ -1,12 +1,12 @@
 /* =========================================
-   1. RESET Y BASE (ESTILO APP)
+   1. RESET Y BASE (ESTILO APP NATIVA)
    ========================================= */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    -webkit-tap-highlight-color: transparent; /* Elimina el flash azul en móviles */
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -17,18 +17,17 @@ body {
     min-height: 100vh;
 }
 
-/* =========================================
-   2. COMPONENTES GLOBALES
-   ========================================= */
 .hidden { display: none !important; }
 
-/* Header estilo Barra de App */
+/* =========================================
+   2. CABECERAS (HEADERS)
+   ========================================= */
 header, .header-clean {
     position: sticky;
     top: 0;
     z-index: 100;
     background: #ffffff;
-    height: 60px;
+    height: 65px;
     display: flex;
     align-items: center;
     padding: 0 15px;
@@ -36,12 +35,13 @@ header, .header-clean {
 }
 
 header h2, .header-clean h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     flex: 1;
     text-align: center;
     color: #2d3436;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .back {
@@ -49,31 +49,35 @@ header h2, .header-clean h2 {
     font-size: 24px;
     color: #4CAF50;
     padding: 5px;
+    width: 40px;
 }
 
 .cart-icon {
     font-size: 24px;
     cursor: pointer;
-    position: relative;
+    width: 40px;
+    text-align: right;
 }
 
-/* Botones Grandes para Pulgares */
+/* =========================================
+   3. BOTONES
+   ========================================= */
 .btn {
     display: block;
     width: 100%;
     padding: 16px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     font-size: 16px;
     font-weight: bold;
     text-align: center;
     text-decoration: none;
-    transition: transform 0.1s;
+    transition: all 0.2s;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
-.btn:active { transform: scale(0.98); }
+.btn:active { transform: scale(0.97); }
 
 .btn-primary, .btn {
     background: #4CAF50;
@@ -86,38 +90,37 @@ header h2, .header-clean h2 {
 }
 
 /* =========================================
-   3. PANTALLAS ESPECÍFICAS
+   4. PANTALLA DE BIENVENIDA (INDEX)
    ========================================= */
-
-/* Bienvenida (Index) */
 .welcome {
     background: linear-gradient(180deg, #dfe9d7 0%, #8bb174 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .welcome .container {
     text-align: center;
-    padding: 40px;
+    padding: 60px 30px;
 }
 
-.logo { font-size: 80px; margin-bottom: 10px; }
+.logo { font-size: 80px; margin-bottom: 20px; }
 
-/* Menú de Platos */
+/* =========================================
+   5. MENÚ DE PLATOS (CARDS)
+   ========================================= */
 .menu { padding: 15px; }
 
 .card {
     background: white;
-    border-radius: 18px;
+    border-radius: 20px;
     overflow: hidden;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
 }
+
+.card a { text-decoration: none; color: inherit; }
 
 .card img {
     width: 100%;
-    height: 180px;
+    height: 190px;
     object-fit: cover;
 }
 
@@ -128,14 +131,25 @@ header h2, .header-clean h2 {
     align-items: center;
 }
 
-/* Detalle de Producto */
-.detail-content { padding: 20px; padding-bottom: 100px; }
+.card h3 { font-size: 1.1rem; color: #2d3436; }
+
+/* =========================================
+   6. DETALLE DE PRODUCTO
+   ========================================= */
+.detail-content { padding: 20px; padding-bottom: 120px; }
+
+.price-base {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
 
 .ingredient {
     background: #fff;
     padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 12px;
+    margin-bottom: 12px;
+    border-radius: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -149,8 +163,8 @@ header h2, .header-clean h2 {
 }
 
 .controls button {
-    width: 35px;
-    height: 35px;
+    width: 36px;
+    height: 36px;
     border-radius: 10px;
     border: none;
     background: #4CAF50;
@@ -159,39 +173,60 @@ header h2, .header-clean h2 {
     font-weight: bold;
 }
 
-.total-bar {
+.controls span {
+    font-weight: bold;
+    min-width: 20px;
     text-align: center;
-    padding: 20px;
-    font-size: 1.2rem;
-    color: #2d3436;
 }
 
 /* =========================================
-   4. CARRITO / PEDIDO
+   7. LISTA DE PEDIDOS (CARRITO)
    ========================================= */
 .cart-item {
     background: #fff;
-    padding: 15px;
-    border-radius: 15px;
-    margin-bottom: 12px;
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-left: 5px solid #4CAF50;
+    position: relative; /* Clave para posicionar hijos */
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    border-left: 6px solid #4CAF50;
 }
 
-.cart-info strong { font-size: 1.1rem; }
-.extras-small { font-size: 0.85rem; color: #666; margin: 4px 0; }
-.price-tag { font-weight: bold; color: #4CAF50; }
+.cart-info { flex: 1; padding-right: 10px; }
+.cart-info strong { font-size: 1.1rem; color: #2d3436; }
 
-.cart-actions { display: flex; gap: 10px; }
+.extras-small { 
+    font-size: 0.85rem; 
+    color: #666; 
+    margin: 5px 0; 
+    display: block;
+}
+
+.price-tag { 
+    font-weight: 800; 
+    color: #4CAF50; 
+    font-size: 1.1rem;
+}
+
+/* Botones de Editar y Borrar */
+.cart-actions {
+    display: flex;
+    gap: 8px;
+}
+
 .edit-btn, .delete-btn {
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid #eee;
-    background: #f8f9fa;
+    background: #f1f3f5;
+    border: none;
+    padding: 10px;
+    border-radius: 12px;
     cursor: pointer;
+    font-size: 18px;
 }
+
+.edit-btn:active, .delete-btn:active { background: #e9ecef; }
 
 /* Footer fijo en Pedido */
 .cart-footer {
@@ -200,12 +235,15 @@ header h2, .header-clean h2 {
     left: 0;
     width: 100%;
     background: white;
-    padding: 15px;
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+    padding: 15px 20px;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    z-index: 101;
 }
 
 /* =========================================
-   5. MODALES Y LOADERS
+   8. MODAL Y "X" (ARREGLO DE POSICIÓN)
    ========================================= */
 .modal {
     position: fixed;
@@ -220,14 +258,32 @@ header h2, .header-clean h2 {
 
 .modal-card {
     background: white;
-    padding: 30px;
-    border-radius: 20px;
+    padding: 40px 25px 25px 25px;
+    border-radius: 24px;
     width: 100%;
-    max-width: 400px;
+    max-width: 380px;
     text-align: center;
-    position: relative;
+    position: relative; /* Clave para la X absoluta */
 }
 
+/* LA "X" DE CIERRE EN LA ESQUINA */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #bbb;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+}
+
+.close:hover { color: #333; }
+
+/* =========================================
+   9. LOADER
+   ========================================= */
 .loader {
     position: fixed;
     inset: 0;
@@ -241,9 +297,11 @@ header h2, .header-clean h2 {
 
 .spinner {
     font-size: 60px;
-    animation: spin 1s infinite ease-in-out;
+    margin-bottom: 15px;
+    animation: bounce 1s infinite alternate;
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-20px); }
 }

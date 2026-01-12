@@ -1,46 +1,76 @@
-function renderCart() {
-    const container = document.getElementById("pedido-lista");
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+const pedidoContainer = document.getElementById("pedido-lista");
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+// 1. Leer parámetros de la URL (Plan B para la APK si LocalStorage falla)
+const params = new URLSearchParams(window.location.search);
+const nombreURL = params.get('nombre');
+
+if (nombreURL) {
+    // Si viene un plato por URL, lo agregamos al carrito temporal para mostrarlo
+    const nuevoItem = {
+        name: nombreURL,
+        extras: params.get('extras') ? params.get('extras').split(', ') : [],
+        total: params.get('total')
+    };
+    
+    // Evitar duplicados al recargar
+    const yaExiste = cart.some(item => item.total === nuevoItem.total && item.extras.join() === nuevoItem.extras.join());
+    if (!yaExiste) {
+        cart.push(nuevoItem);
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
+}
+
+// 2. Función para dibujar la lista de pedidos
+function render() {
     if (cart.length === 0) {
-        container.innerHTML = `<div class="empty-state">
-            <p>Tu carrito está vacío 🥑</p>
-        </div>`;
+        pedidoContainer.innerHTML = `
+            <div style="text-align:center; padding:50px; color:#777;">
+                <p>Tu pedido está vacío 🥑</p>
+            </div>`;
         return;
     }
 
-    container.innerHTML = "";
+    pedidoContainer.innerHTML = "";
     cart.forEach((item, index) => {
-        const extrasText = item.extras.length > 0 
-            ? item.extras.map(e => `• ${e.qty}x ${e.name}`).join("<br>") 
-            : "Sin extras";
+        // Formateamos los extras para que se vean bien
+        const extrasTexto = Array.isArray(item.extras) ? item.extras.join(", ") : item.extras;
 
-        container.innerHTML += `
-        <div class="cart-item">
-            <div class="cart-info">
-                <strong>${item.name}</strong>
-                <p class="extras-small">${extrasText}</p>
-                <span class="price-tag">$${item.total}</span>
+        pedidoContainer.innerHTML += `
+            <div class="cart-item">
+                <div class="cart-info">
+                    <strong>${item.name}</strong>
+                    <p class="extras-small">${extrasTexto || "Sin extras"}</p>
+                    <span class="price-tag">$${item.total}</span>
+                </div>
+                <div class="cart-actions">
+                    <button class="edit-btn" onclick="editar(${index})">✏️</button>
+                    <button class="delete-btn" onclick="eliminar(${index})">🗑️</button>
+                </div>
             </div>
-            <div class="cart-actions">
-                <button class="edit-btn" onclick="editItem(${index})">✏️</button>
-                <button class="delete-btn" onclick="deleteItem(${index})">🗑️</button>
-            </div>
-        </div>
         `;
     });
 }
 
-function deleteItem(index) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    renderCart();
+// 3. Función para Eliminar
+function eliminar(index) {
+    if (confirm("¿Eliminar este plato?")) {
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        render();
+    }
 }
 
-function editItem(index) {
-    // Redirigir a detalle pasando el índice por la URL
-    location.href = `detalle.html?edit=${index}`;
+// 4. Función para Editar (Regresa a detalle.html con los datos)
+function editar(index) {
+    const item = cart[index];
+    
+    // Guardamos qué índice estamos editando para que detalle.js sepa
+    localStorage.setItem("edit_index", index);
+    
+    // Redirigimos a detalle.html
+    // Nota: detalle.js debe estar preparado para leer esto (ya lo configuramos antes)
+    window.location.href = "detalle.html";
 }
 
-renderCart();
+render();
