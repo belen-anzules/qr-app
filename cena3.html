@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cena - Fajitas de Ternera</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-light">
+
+<header class="header-clean">
+    <a href="javascript:history.back()" class="back">‹</a>
+    <h2 style="letter-spacing: 1px;">DETALLE</h2>
+    <div style="width:40px;"></div>
+</header>
+
+<main class="container">
+    <div class="card-detalle">
+        <img src="img/fajitas.jpg" alt="Fajitas de Ternera" class="img-responsive-apk">
+        
+        <div class="info-header">
+            <h1>Fajitas de Ternera</h1>
+            <p class="description">Tiras de ternera magra salteadas con pimientos frescos y cebolla morada, servidas en tortillas de trigo.</p>
+        </div>
+
+        <div class="nutrition-bar">
+            <div class="nutri-item"><strong>Cal</strong><span id="total-calories">0</span></div>
+            <div class="nutri-item"><strong>Pro</strong><span id="total-protein">0</span>g</div>
+            <div class="nutri-item"><strong>Fat</strong><span id="total-fat">0</span>g</div>
+            <div class="nutri-item"><strong>Carb</strong><span id="total-carbs">0</span>g</div>
+        </div>
+
+        <div class="section-title">Personaliza tus ingredientes</div>
+
+        <div id="lista-ingredientes">
+            <div class="ingrediente-row">
+                <div class="ing-info">
+                    <span>Ternera Magra (150g)</span>
+                    <small>Cal: <span id="cal-ternera">0</span> | Pro: <span id="pro-ternera">0</span></small>
+                    <span style="display:none;" id="fat-ternera">0</span><span style="display:none;" id="carb-ternera">0</span>
+                </div>
+                <div class="controls">
+                    <button class="btn-qty" onclick="removeIng('ternera')">-</button>
+                    <span id="ternera-qty" class="qty-num">1</span>
+                    <button class="btn-qty" onclick="addIng('ternera')">+</button>
+                </div>
+            </div>
+
+            <div class="ingrediente-row">
+                <div class="ing-info">
+                    <span>Mix Pimientos</span>
+                    <small>Cal: <span id="cal-pimientos">0</span> | Pro: <span id="pro-pimientos">0</span></small>
+                    <span style="display:none;" id="fat-pimientos">0</span><span style="display:none;" id="carb-pimientos">0</span>
+                </div>
+                <div class="controls">
+                    <button class="btn-qty" onclick="removeIng('pimientos')">-</button>
+                    <span id="pimientos-qty" class="qty-num">1</span>
+                    <button class="btn-qty" onclick="addIng('pimientos')">+</button>
+                </div>
+            </div>
+
+            <div class="ingrediente-row">
+                <div class="ing-info">
+                    <span>Tortilla de Trigo (ud)</span>
+                    <small>Cal: <span id="cal-tortilla">0</span> | Pro: <span id="pro-tortilla">0</span></small>
+                    <span style="display:none;" id="fat-tortilla">0</span><span style="display:none;" id="carb-tortilla">0</span>
+                </div>
+                <div class="controls">
+                    <button class="btn-qty" onclick="removeIng('tortilla')">-</button>
+                    <span id="tortilla-qty" class="qty-num">2</span>
+                    <button class="btn-qty" onclick="addIng('tortilla')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="height: 120px;"></div>
+</main>
+
+<div class="footer-action">
+    <div class="price-container">
+        <small>Total a pagar</small>
+        <div class="price">$<span id="total-price">7.50</span></div>
+    </div>
+    <button class="btn-confirmar" onclick="confirmarPedido()">Añadir al pedido</button>
+</div>
+
+<script src="cena3.js"></script>
+</body>
+</html>

@@ -9,59 +9,47 @@
 <body>
 
 <header class="header-clean">
-    <a href="menu.html" class="back" style="text-decoration:none; font-size:24px;">‹</a>
-    <h2 id="plato-nombre">Bowl Chipotle</h2>
-    <div class="cart-icon" onclick="window.location.href='pedido.html'" style="font-size:22px; position:relative;">
-        🧾
-    </div>
+    <a href="javascript:history.back()" class="back" style="text-decoration:none; font-size:24px;">‹</a>
+    <h2 id="plato-nombre">Cargando...</h2>
+    <div class="cart-icon" onclick="window.location.href='pedido.html'" style="font-size:22px;">🧾</div>
 </header>
 
 <main class="detail-container">
     <div class="detail-img-header">
-        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Plato">
+        <img id="plato-img" src="" alt="Plato">
     </div>
 
     <section class="detail-content" style="padding: 20px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h3 style="font-size:1.4rem; color:#2D3436;">Personaliza tu Bowl</h3>
-            <span class="price-tag" style="font-size:1.1rem;">$7.99</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h3 id="plato-titulo-sec" style="font-size:1.4rem; color:#2D3436;">Personaliza tu plato</h3>
+            <span class="price-tag" style="font-size:1.1rem; color:#2E7D32; font-weight:bold;">$<span id="base-price-display">0.00</span></span>
         </div>
 
-        <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">Selecciona las porciones extras de tus ingredientes favoritos.</p>
+        <p id="plato-descripcion" style="color:#666; font-size:0.95rem; margin-bottom:20px; line-height:1.4;"></p>
 
-        <div class="ingredient-item">
+        <h4 style="margin-bottom:15px; color:#333;">Extras Sugeridos:</h4>
+
+        <div class="ingredient-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; background:#f9f9f9; padding:10px; border-radius:10px;">
             <div class="ing-info">
-                <span class="ing-name">Arroz integral</span>
-                <span class="ing-price">+$0.50</span>
+                <span class="ing-name" style="font-weight:600;">Aguacate Extra</span>
+                <span class="ing-price" style="display:block; font-size:0.8rem; color:#888;">+$1.00</span>
             </div>
             <div class="controls">
-                <button class="btn-qty" onclick="changeQty('arroz', -1)">−</button>
-                <span id="arroz-qty" class="qty-num">0</span>
-                <button class="btn-qty" onclick="changeQty('arroz', 1)">+</button>
-            </div>
-        </div>
-
-        <div class="ingredient-item">
-            <div class="ing-info">
-                <span class="ing-name">Pollo Grill</span>
-                <span class="ing-price">+$1.50</span>
-            </div>
-            <div class="controls">
-                <button class="btn-qty" onclick="changeQty('pollo', -1)">−</button>
-                <span id="pollo-qty" class="qty-num">0</span>
-                <button class="btn-qty" onclick="changeQty('pollo', 1)">+</button>
+                <button class="btn-qty" onclick="changeQty('aguacate', -1)">−</button>
+                <span id="aguacate-qty" style="margin:0 10px;">0</span>
+                <button class="btn-qty" onclick="changeQty('aguacate', 1)">+</button>
             </div>
         </div>
 
-        <div class="ingredient-item">
+        <div class="ingredient-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; background:#f9f9f9; padding:10px; border-radius:10px;">
             <div class="ing-info">
-                <span class="ing-name">Frijol Negro</span>
-                <span class="ing-price">+$0.50</span>
+                <span class="ing-name" style="font-weight:600;">Proteína Extra</span>
+                <span class="ing-price" style="display:block; font-size:0.8rem; color:#888;">+$2.00</span>
             </div>
             <div class="controls">
-                <button class="btn-qty" onclick="changeQty('frijol', -1)">−</button>
-                <span id="frijol-qty" class="qty-num">0</span>
-                <button class="btn-qty" onclick="changeQty('frijol', 1)">+</button>
+                <button class="btn-qty" onclick="changeQty('proteina', -1)">−</button>
+                <span id="proteina-qty" style="margin:0 10px;">0</span>
+                <button class="btn-qty" onclick="changeQty('proteina', 1)">+</button>
             </div>
         </div>
 
@@ -69,18 +57,37 @@
     </section>
 </main>
 
-<div class="cart-footer">
-    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:bold;">
-        <span>Total Estimado:</span>
-        <span style="color:#4CAF50;">$<span id="total-price">7.99</span></span>
+<div class="cart-footer" style="position:fixed; bottom:0; width:100%; background:white; padding:20px; box-shadow:0 -5px 15px rgba(0,0,0,0.05);">
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:bold; font-size:1.1rem;">
+        <span>Total:</span>
+        <span style="color:#2E7D32;">$<span id="total-price">0.00</span></span>
     </div>
-    <button class="btn btn-primary" onclick="confirmarPedido()">Añadir al Carrito ✅</button>
+    <button class="btn btn-primary" onclick="confirmarPedido()" style="width:100%; padding:15px; background:#2E7D32; color:white; border:none; border-radius:12px; font-weight:bold; font-size:1rem;">Añadir al Carrito ✅</button>
 </div>
 
 <script>
-    let basePrice = 7.99;
-    let extras = { arroz: 0, pollo: 0, frijol: 0 };
-    const prices = { arroz: 0.50, pollo: 1.50, frijol: 0.50 };
+    let currentBasePrice = 0;
+    let extras = { aguacate: 0, proteina: 0 };
+    const extraPrices = { aguacate: 1.00, proteina: 2.00 };
+
+    window.onload = () => {
+        const params = new URLSearchParams(window.location.search);
+        
+        // Cargar datos de la URL
+        const nombre = params.get('p_nombre') || "Plato Saludable";
+        currentBasePrice = parseFloat(params.get('p_precio')) || 0.00;
+        const imagen = params.get('p_img') || "";
+        const descripcion = params.get('p_desc') || "Deliciosa opción saludable preparada con ingredientes frescos.";
+
+        // Inyectar en el HTML
+        document.getElementById('plato-nombre').innerText = nombre;
+        document.getElementById('plato-titulo-sec').innerText = nombre;
+        document.getElementById('plato-img').src = imagen;
+        document.getElementById('plato-descripcion').innerText = descripcion;
+        document.getElementById('base-price-display').innerText = currentBasePrice.toFixed(2);
+        
+        updateTotal();
+    };
 
     function changeQty(ing, val) {
         if (extras[ing] + val >= 0) {
@@ -91,9 +98,9 @@
     }
 
     function updateTotal() {
-        let total = basePrice;
+        let total = currentBasePrice;
         for (let key in extras) {
-            total += extras[key] * prices[key];
+            total += extras[key] * extraPrices[key];
         }
         document.getElementById('total-price').innerText = total.toFixed(2);
     }
@@ -102,16 +109,17 @@
         const item = {
             nombre: document.getElementById('plato-nombre').innerText,
             total: document.getElementById('total-price').innerText,
-            extras: `Extras: ${extras.arroz} arroz, ${extras.pollo} pollo, ${extras.frijol} frijol`
+            img: document.getElementById('plato-img').src,
+            detalles: `Aguacate: ${extras.aguacate}, Proteína: ${extras.proteina}`
         };
         
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         cart.push(item);
         localStorage.setItem('cart', JSON.stringify(cart));
         
+        alert("¡Añadido al carrito!");
         window.location.href = 'pedido.html';
     }
 </script>
-
 </body>
 </html>

@@ -2,41 +2,85 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Almuerzos - Macro Fit</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<header>
-  <h2>🍽️ Almuerzos</h2>
-  <div class="cart-icon" onclick="irAPedido()">🧾</div>
-</header>
-
-<main class="menu">
-  <div class="card" onclick="irADetalle('detalle.html')">
-    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
-    <div class="info">
-      <h3>Bowl Chipsotle</h3>
-      <span>$7.99</span>
+  <header class="header-clean">
+    <div class="header-title-container">
+        <span class="app-logo-small">🥗</span>
+        <h2>ALMUERZO</h2>
     </div>
-  </div>
-</main>
+    <div class="cart-container" onclick="irAPedido()">
+        <span class="cart-icon">🛒</span>
+        <span id="cart-count" class="badge">0</span>
+    </div>
+  </header>
 
-<script>
-  function getCartRaw() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('cart') || encodeURIComponent(JSON.stringify([]));
-  }
+  <nav class="categorias-container">
+    <button class="cat-btn cat-desayuno" onclick="irACategoria('menu.html')">Desayuno</button>
+    <button class="cat-btn cat-almuerzo active" onclick="irACategoria('almuerzo.html')">Almuerzo</button>
+    <button class="cat-btn cat-cena" onclick="irACategoria('cena.html')">Cena</button>
+  </nav>
 
-  function irADetalle(url) {
-    window.location.href = `${url}?cart=${getCartRaw()}`;
-  }
+  <main class="menu">
+    <div class="card" onclick="irADetalle('almuerzo1.html')">
+      <div class="card-img-container">
+        <img src="img/almuerzo1.png" alt="Salmon" class="img-responsive">
+      </div>
+      <div class="info">
+        <h3>Salmón Teriyaki</h3>
+        <span class="price-tag">$12.50</span>
+      </div>
+    </div>
 
-  function irAPedido() {
-    window.location.href = `pedido.html?cart=${getCartRaw()}`;
-  }
-</script>
+    <div class="card" onclick="irADetalle('almuerzo2.html')">
+      <div class="card-img-container">
+        <img src="img/almuerzo2.png" alt="Pollo" class="img-responsive">
+      </div>
+      <div class="info">
+        <h3>Pollo al Grill</h3>
+        <span class="price-tag">$9.00</span>
+      </div>
+    </div>
 
+    <div class="card" onclick="irADetalle('almuerzo3.html')">
+      <div class="card-img-container">
+        <img src="img/almuerzo3.png" alt="Pasta" class="img-responsive">
+      </div>
+      <div class="info">
+        <h3>Pasta Integral Pesto</h3>
+        <span class="price-tag">$10.50</span>
+      </div>
+    </div>
+    <div style="height: 100px;"></div>
+  </main>
+
+  <script>
+    window.onload = () => {
+        const params = new URLSearchParams(window.location.search);
+        const cart = params.get('cart') ? JSON.parse(decodeURIComponent(params.get('cart'))) : [];
+        const badge = document.getElementById("cart-count");
+        badge.innerText = cart.length;
+        badge.style.display = cart.length > 0 ? "flex" : "none";
+    };
+
+    function irADetalle(pagina) {
+        const params = new URLSearchParams(window.location.search);
+        window.location.href = `${pagina}?${params.toString()}`;
+    }
+
+    function irACategoria(url) {
+        const params = new URLSearchParams(window.location.search);
+        window.location.href = `${url}?${params.toString()}`;
+    }
+
+    function irAPedido() {
+        const params = new URLSearchParams(window.location.search);
+        window.location.href = `pedido.html?${params.toString()}`;
+    }
+  </script>
 </body>
 </html>

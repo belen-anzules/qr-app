@@ -1,0 +1,35 @@
+<main class="container">
+    <h1>Tacos al Pastor</h1>
+    <img src="img/tacos.jpg" alt="Tacos" class="img-responsive">
+    <p>3 Tacos con piña, cilantro y cebolla.</p>
+    
+    <div class="nutrition-summary">
+        Cal: <span id="total-calories">0</span> | Pro: <span id="total-protein">0</span>g | Fat: <span id="total-fat">0</span>g | Carb: <span id="total-carbs">0</span>g
+    </div>
+
+    <div class="ingrediente">
+        <span>Tortilla de Maíz</span>
+        <button onclick="removeIng('tortilla')">-</button>
+        <span id="tortilla-qty">3</span>
+        <button onclick="addIng('tortilla')">+</button>
+        <div style="display:none;"><span id="cal-tortilla"></span><span id="pro-tortilla"></span><span id="fat-tortilla"></span><span id="carb-tortilla"></span></div>
+    </div>
+    <div class="ingrediente">
+        <span>Carne de Cerdo</span>
+        <button onclick="removeIng('cerdo')">-</button>
+        <span id="cerdo-qty">1</span>
+        <button onclick="addIng('cerdo')">+</button>
+        <div style="display:none;"><span id="cal-cerdo"></span><span id="pro-cerdo"></span><span id="fat-cerdo"></span><span id="carb-cerdo"></span></div>
+    </div>
+    <div class="ingrediente">
+        <span>Piña</span>
+        <button onclick="removeIng('pina')">-</button>
+        <span id="pina-qty">1</span>
+        <button onclick="addIng('pina')">+</button>
+        <div style="display:none;"><span id="cal-pina"></span><span id="pro-pina"></span><span id="fat-pina"></span><span id="carb-pina"></span></div>
+    </div>
+
+    <h3>Total: $<span id="total-price">5.50</span></h3>
+    <button onclick="confirmarPedido()" class="btn-pedido">Confirmar Pedido</button>
+</main>
+<script src="cena1.js"></script>

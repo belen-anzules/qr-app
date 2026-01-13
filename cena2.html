@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cena - Ensalada César</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-light">
+<header class="header-clean">
+    <a href="javascript:history.back()" class="back">‹</a>
+    <h2>DETALLE</h2>
+    <div style="width:40px;"></div>
+</header>
+
+<main class="container">
+    <div class="card-detalle">
+        <img src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9" alt="Ensalada" class="img-responsive-apk">
+        <div class="info-header">
+            <h1>Ensalada César Fit</h1>
+            <p class="description">Lechugas frescas, pechuga grillada y aderezo ligero de yogurt.</p>
+        </div>
+        <div class="nutrition-bar">
+            <div class="nutri-item"><strong>Cal</strong><span id="total-calories">0</span></div>
+            <div class="nutri-item"><strong>Pro</strong><span id="total-protein">0</span>g</div>
+            <div class="nutri-item"><strong>Fat</strong><span id="total-fat">0</span>g</div>
+            <div class="nutri-item"><strong>Carb</strong><span id="total-carbs">0</span>g</div>
+        </div>
+
+        <div class="section-title">Personaliza tu ensalada</div>
+
+        <div class="ingrediente-row">
+            <div class="ing-info"><span>Pechuga de Pollo (150g)</span><small>Cal: <span id="cal-pollo">0</span></small></div>
+            <div class="controls">
+                <button class="btn-qty" onclick="removeIng('pollo')">-</button>
+                <span id="pollo-qty" class="qty-num">1</span>
+                <button class="btn-qty" onclick="addIng('pollo')">+</button>
+            </div>
+        </div>
+
+        <div class="ingrediente-row">
+            <div class="ing-info"><span>Mix de Lechugas</span><small>Cal: <span id="cal-lechuga">0</span></small></div>
+            <div class="controls">
+                <button class="btn-qty" onclick="removeIng('lechuga')">-</button>
+                <span id="lechuga-qty" class="qty-num">1</span>
+                <button class="btn-qty" onclick="addIng('lechuga')">+</button>
+            </div>
+        </div>
+
+        <div class="ingrediente-row">
+            <div class="ing-info"><span>Parmesano (10g)</span><small>Cal: <span id="cal-queso">0</span></small></div>
+            <div class="controls">
+                <button class="btn-qty" onclick="removeIng('queso')">-</button>
+                <span id="queso-qty" class="qty-num">1</span>
+                <button class="btn-qty" onclick="addIng('queso')">+</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="footer-action">
+    <div class="price-container"><small>Total</small><div class="price">$<span id="total-price">6.00</span></div></div>
+    <button class="btn-confirmar" onclick="confirmarPedido()">Añadir al pedido</button>
+</div>
+<script src="cena2.js"></script>
+</body>
+</html>

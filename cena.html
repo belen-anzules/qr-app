@@ -1,32 +1,91 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Cenas - Macro Fit</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cenas - Macro Fit</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<header>
-  <h2>🌙 Cenas</h2>
-  <div class="cart-icon" onclick="irAPedido()">🧾</div>
-</header>
+  <header class="header-clean">
+    <div class="header-title-container">
+        <span class="app-logo-small">🌙</span>
+        <h2>CENA</h2>
+    </div>
+    <div class="cart-container" onclick="irAPedido()">
+        <span class="cart-icon">🛒</span>
+        <span id="cart-count" class="badge">0</span>
+    </div>
+  </header>
 
-<main class="menu">
-  <p style="text-align:center;">Próximamente opciones de cena saludable 🥗</p>
-</main>
+  <nav class="categorias-container">
+    <button class="cat-btn cat-desayuno" onclick="irACategoria('menu.html')">Desayuno</button>
+    <button class="cat-btn cat-almuerzo" onclick="irACategoria('almuerzo.html')">Almuerzo</button>
+    <button class="cat-btn cat-cena active" onclick="irACategoria('cena.html')">Cena</button>
+  </nav>
 
-<script>
-  function getCartRaw() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('cart') || encodeURIComponent(JSON.stringify([]));
-  }
+  <main class="menu">
+    <div class="card" onclick="irADetalle('cena1.html')">
+      <div class="card-img-container">
+        <img src="img/tacos.jpg" alt="Tacos">
+      </div>
+      <div class="info">
+        <h3>Tacos al Pastor</h3>
+        <span class="price-tag">$5.50</span>
+      </div>
+    </div>
 
-  function irAPedido() {
-    window.location.href = `pedido.html?cart=${getCartRaw()}`;
-  }
-</script>
+    <div class="card" onclick="irADetalle('cena2.html')">
+      <div class="card-img-container">
+        <img src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9" alt="Ensalada">
+      </div>
+      <div class="info">
+        <h3>Ensalada César Fit</h3>
+        <span class="price-tag">$6.00</span>
+      </div>
+    </div>
 
+    <div class="card" onclick="irADetalle('cena3.html')">
+      <div class="card-img-container">
+        <img src="img/fajitas.jpg" alt="Fajitas">
+      </div>
+      <div class="info">
+        <h3>Fajitas de Ternera</h3>
+        <span class="price-tag">$7.50</span>
+      </div>
+    </div>
+    
+    <div style="height: 100px;"></div>
+  </main>
+
+  <script>
+    window.onload = () => {
+        actualizarContador();
+    };
+
+    function actualizarContador() {
+        const params = new URLSearchParams(window.location.search);
+        const cart = params.get('cart') ? JSON.parse(decodeURIComponent(params.get('cart'))) : [];
+        const badge = document.getElementById("cart-count");
+        badge.innerText = cart.length;
+        badge.style.display = cart.length > 0 ? "flex" : "none";
+    }
+
+    function irADetalle(pagina) {
+        const params = new URLSearchParams(window.location.search);
+        window.location.href = `${pagina}?${params.toString()}`;
+    }
+
+    function irACategoria(url) {
+        const params = new URLSearchParams(window.location.search);
+        window.location.href = `${url}?${params.toString()}`;
+    }
+
+    function irAPedido() {
+        const params = new URLSearchParams(window.location.search);
+        window.location.href = `pedido.html?${params.toString()}`;
+    }
+  </script>
 </body>
 </html>

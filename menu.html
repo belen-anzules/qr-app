@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Macro Fit - Menú Completo</title>
+  <title>Macro Fit - Desayunos</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
   <header class="header-clean">
     <div class="header-title-container">
         <span class="app-logo-small">🥗</span>
-        <h2>MENÚ</h2>
+        <h2>DESAYUNO</h2>
     </div>
     <div class="cart-container" onclick="irAPedido()">
         <span class="cart-icon">🛒</span>
@@ -21,31 +21,19 @@
 
   <div style="padding: 15px 20px 0;">
       <p style="color: #888; font-size: 0.9rem;">Hola, <span id="nombre-usuario" style="color: #2E7D32; font-weight: 800;">Invitado</span> 👋</p>
-      <h1 style="font-size: 1.5rem; margin-top: 5px;">Platos Saludables</h1>
+      <h1 style="font-size: 1.5rem; margin-top: 5px;">Empieza tu día</h1>
   </div>
 
   <nav class="categorias-container">
     <button class="cat-btn cat-desayuno active" onclick="irACategoria('menu.html')">Desayuno</button>
     <button class="cat-btn cat-almuerzo" onclick="irACategoria('almuerzo.html')">Almuerzo</button>
-    <button class="cat-btn cat-comida" onclick="irACategoria('comida.html')">Comida</button>
     <button class="cat-btn cat-cena" onclick="irACategoria('cena.html')">Cena</button>
   </nav>
 
   <main class="menu">
-    
-    <div class="card" onclick="irADetalle('detalle.html', 'Bowl Chipsotle', 7.99, 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c')">
+    <div class="card" onclick="irADetalle('desayuno1.html')">
       <div class="card-img-container">
-        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Bowl">
-      </div>
-      <div class="info">
-        <h3>Bowl Chipsotle</h3>
-        <span class="price-tag">$7.99</span>
-      </div>
-    </div>
-
-    <div class="card" onclick="irADetalle('detalle.html', 'Overnight Oats', 5.99, 'img/desayuno1.png')">
-      <div class="card-img-container">
-        <img src="img/desayuno1.png" alt="Oats">
+        <img src="img/desayuno1.png" alt="Oats" class="img-responsive">
       </div>
       <div class="info">
         <h3>Overnight Oats</h3>
@@ -53,9 +41,9 @@
       </div>
     </div>
 
-    <div class="card" onclick="irADetalle('detalle.html', 'Tostada con Aguacate', 3.99, 'img/clasico_power.png')">
+    <div class="card" onclick="irADetalle('desayuno2.html')">
       <div class="card-img-container">
-        <img src="img/clasico_power.png" alt="Tostada">
+        <img src="img/clasico_power.png" alt="Tostada" class="img-responsive">
       </div>
       <div class="info">
         <h3>Tostada con Aguacate</h3>
@@ -63,70 +51,46 @@
       </div>
     </div>
 
-    <div class="card" onclick="irADetalle('detalle.html', 'Salmon Teriyaki', 12.50, 'https://images.unsplash.com/photo-1467003909585-2f8a72700288')">
+    <div class="card" onclick="irADetalle('desayuno3.html')">
       <div class="card-img-container">
-        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288" alt="Salmon">
-      </div>
-      <div class="info">
-        <h3>Salmón Teriyaki</h3>
-        <span class="price-tag">$12.50</span>
-      </div>
-    </div>
-
-    <div class="card" onclick="irADetalle('detalle.html', 'Ensalada César Fit', 6.50, 'https://images.unsplash.com/photo-1550304943-4f24f54ddde9')">
-      <div class="card-img-container">
-        <img src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9" alt="Cesar">
-      </div>
-      <div class="info">
-        <h3>Ensalada César Fit</h3>
-        <span class="price-tag">$6.50</span>
-      </div>
-    </div>
-
-    <div class="card" onclick="irADetalle('detalle.html', 'Pancakes de Avena', 4.99, 'https://images.unsplash.com/photo-1506084868730-342b1f8429b6')">
-      <div class="card-img-container">
-        <img src="https://images.unsplash.com/photo-1506084868730-342b1f8429b6" alt="Pancakes">
+        <img src="https://images.unsplash.com/photo-1506084868730-342b1f8429b6" alt="Pancakes" class="img-responsive">
       </div>
       <div class="info">
         <h3>Pancakes de Avena</h3>
         <span class="price-tag">$4.99</span>
       </div>
     </div>
-
     <div style="height: 100px;"></div>
   </main>
 
   <script>
     window.onload = () => {
-        // Cargar nombre del registro
         const nombre = localStorage.getItem('userName') || "Invitado";
         document.getElementById('nombre-usuario').innerText = nombre;
+        actualizarContador();
+    };
 
-        // Actualizar contador de carrito
+    function actualizarContador() {
         const params = new URLSearchParams(window.location.search);
         const cart = params.get('cart') ? JSON.parse(decodeURIComponent(params.get('cart'))) : [];
         const badge = document.getElementById("cart-count");
         badge.innerText = cart.length;
         badge.style.display = cart.length > 0 ? "flex" : "none";
-    };
+    }
 
-    function irADetalle(url, nombre, precio, imagen) {
+    function irADetalle(pagina) {
         const params = new URLSearchParams(window.location.search);
-        // Pasamos también el nombre y precio del plato seleccionado para que detalle.html sea dinámico
-        params.set('p_nombre', nombre);
-        params.set('p_precio', precio);
-        params.set('p_img', imagen);
+        window.location.href = `${pagina}?${params.toString()}`;
+    }
+
+    function irACategoria(url) {
+        const params = new URLSearchParams(window.location.search);
         window.location.href = `${url}?${params.toString()}`;
     }
 
     function irAPedido() {
         const params = new URLSearchParams(window.location.search);
         window.location.href = `pedido.html?${params.toString()}`;
-    }
-
-    function irACategoria(url) {
-        const params = new URLSearchParams(window.location.search);
-        window.location.href = `${url}?${params.toString()}`;
     }
   </script>
 </body>
