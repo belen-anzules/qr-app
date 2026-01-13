@@ -164,9 +164,102 @@ header h2 {
     border-radius: 16px;
     border: none;
     font-weight: 700;
+<<<<<<< HEAD
     font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
 }
+=======
+}
+
+.nutrition-table td:first-child,
+.nutrition-table th:first-child {
+    text-align: left;
+}
+.total-row {
+    background: #f1f8f4;
+    font-weight: bold;
+}
+.categorias {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.categorias button {
+  background: #e8f5e9;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.categorias button:hover {
+  background: #c8e6c9;
+}
+.categorias {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 15px auto;
+  max-width: 400px;
+}
+
+.categorias button {
+  flex: 1;
+  background: #e8f5e9;
+  border: none;
+  padding: 10px 0;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+}
+
+.categorias button:hover {
+  background: #c8e6c9;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.modal-content h3 {
+  margin-bottom: 15px;
+}
+
+.codigo {
+  font-size: 26px;
+  font-weight: bold;
+  margin: 15px 0;
+  color: #2e7d32;
+}
+.input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+>>>>>>> 5c7a0a013fc111b73acdf876d7e03dd16570d233
