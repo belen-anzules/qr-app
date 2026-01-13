@@ -6,99 +6,58 @@
     <title>Registro - Macro Fit</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
-<body class="bg-light">
-
+<body>
 <header class="header-clean">
-    <a href="index.html" class="back">←</a>
-    <h2>Registro</h2>
+    <a href="index.html" class="back" style="text-decoration:none;">←</a>
+    <h2>REGISTRO</h2>
 </header>
 
-<main class="container" style="padding: 20px; padding-bottom: 120px;">
-
-    <h3 style="margin-bottom: 10px;">👤 Información Personal</h3>
-
-    <input type="text" class="input" value="Juan Pérez">
-    <input type="email" class="input" value="juan.perez@email.com">
-    <input type="number" class="input" value="25">
+<main style="padding: 20px; padding-bottom: 100px;">
+    <h3 style="margin-bottom:15px;">👤 Datos Personales</h3>
+    <input type="text" class="input" id="input-nombre" placeholder="Escribe tu nombre">
+    <input type="email" class="input" placeholder="Tu correo electrónico">
     
-    <select class="input">
-        <option>Masculino</option>
-        <option>Femenino</option>
-        <option>Prefiero no decir</option>
+    <h3 style="margin: 20px 0 10px;">🏃 Objetivo</h3>
+    <select class="input" id="input-objetivo">
+        <option value="Saludable">Vida saludable</option>
+        <option value="Musculo">Ganar masa muscular</option>
+        <option value="Peso">Bajar de peso</option>
     </select>
-
-    <h3 style="margin: 25px 0 10px;">📏 Información Física</h3>
-
-    <input type="number" class="input" value="175">
-    <input type="number" class="input" value="72">
-
-    <h3 style="margin: 25px 0 10px;">🎯 Objetivo Fitness</h3>
-
-    <select class="input">
-        <option>Ganar masa muscular</option>
-        <option>Bajar de peso</option>
-        <option>Mantener peso</option>
-        <option>Vida saludable</option>
-    </select>
-
-    <h3 style="margin: 25px 0 10px;">🏃 Nivel de Actividad</h3>
-
-    <select class="input">
-        <option>Actividad moderada (3-5 días)</option>
-        <option>Sedentario</option>
-        <option>Actividad ligera (1-3 días)</option>
-        <option>Actividad intensa (6-7 días)</option>
-    </select>
-
-    <h3 style="margin: 25px 0 10px;">🥗 Hábitos Alimenticios</h3>
-
-    <select class="input">
-        <option>Alta en proteína</option>
-        <option>Balanceada</option>
-        <option>Vegetariana</option>
-        <option>Vegana</option>
-    </select>
-
-    <select class="input">
-        <option>Ninguna</option>
-        <option>Sin gluten</option>
-        <option>Sin lactosa</option>
-        <option>Diabético</option>
-    </select>
-
 </main>
 
 <div class="cart-footer">
-    <button class="btn" onclick="registrarUsuario()">Crear cuenta</button>
+    <button class="btn btn-primary" onclick="guardarYRegistrar()">Crear Cuenta</button>
 </div>
 
-<!-- MODAL -->
-<div id="modalRegistro" class="modal" style="display:none;">
+<div id="modalExito" class="modal">
     <div class="modal-card">
-        <span class="close" onclick="cerrarModal()">✕</span>
-        <h2>¡Registro exitoso! 🎉</h2>
-        <p>
-            Gracias <strong>Juan</strong> por registrarte en <strong>Macro Fit</strong>.<br><br>
-            Ya tenemos tu información y podemos recomendarte menús personalizados 💪🥗
-        </p>
-        <button class="btn" onclick="continuar()">Ir al menú</button>
+        <h2>¡Listo! 🎉</h2>
+        <p id="mensaje-exito"></p>
+        <button class="btn btn-primary" onclick="irAlMenu()">Entrar al Menú</button>
     </div>
 </div>
 
 <script>
-    function registrarUsuario() {
-        document.getElementById("modalRegistro").style.display = "flex";
+    function guardarYRegistrar() {
+        const nombre = document.getElementById('input-nombre').value;
+        const objetivo = document.getElementById('input-objetivo').value;
+
+        if(nombre.trim() === "") {
+            alert("Por favor, ingresa tu nombre");
+            return;
+        }
+
+        // GUARDAR EN LOCALSTORAGE
+        localStorage.setItem('userName', nombre);
+        localStorage.setItem('userGoal', objetivo);
+
+        document.getElementById('mensaje-exito').innerText = `¡Bienvenido ${nombre}! Tu perfil ha sido creado con éxito.`;
+        document.getElementById('modalExito').style.display = "flex";
     }
 
-    function cerrarModal() {
-        document.getElementById("modalRegistro").style.display = "none";
-    }
-
-    function continuar() {
-        window.location.href = "menu.html";
+    function irAlMenu() {
+        window.location.href = 'menu.html';
     }
 </script>
-
 </body>
 </html>
