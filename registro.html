@@ -7,57 +7,82 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
 <header class="header-clean">
     <a href="index.html" class="back" style="text-decoration:none;">←</a>
     <h2>REGISTRO</h2>
 </header>
 
-<main style="padding: 20px; padding-bottom: 100px;">
+<main style="padding: 20px; padding-bottom: 120px;">
+
     <h3 style="margin-bottom:15px;">👤 Datos Personales</h3>
-    <input type="text" class="input" id="input-nombre" placeholder="Escribe tu nombre">
-    <input type="email" class="input" placeholder="Tu correo electrónico">
-    
+
+    <input type="text" class="input" id="input-nombre" placeholder="Nombre">
+    <input type="text" class="input" id="input-apellido" placeholder="Apellido">
+    <input type="email" class="input" id="input-email" placeholder="Correo electrónico">
+
+    <h3 style="margin: 20px 0 10px;">📏 Datos Físicos</h3>
+
+    <input type="number" class="input" id="input-talla" placeholder="Talla (cm)">
+    <input type="number" class="input" id="input-peso" placeholder="Peso (kg)">
+
     <h3 style="margin: 20px 0 10px;">🏃 Objetivo</h3>
+
     <select class="input" id="input-objetivo">
+        <option value="">Selecciona un objetivo</option>
         <option value="Saludable">Vida saludable</option>
         <option value="Musculo">Ganar masa muscular</option>
         <option value="Peso">Bajar de peso</option>
     </select>
+
 </main>
 
 <div class="cart-footer">
     <button class="btn btn-primary" onclick="guardarYRegistrar()">Crear Cuenta</button>
 </div>
 
-<div id="modalExito" class="modal">
+<!-- MODAL DE ÉXITO -->
+<div id="modalExito" class="modal" style="display:none;">
     <div class="modal-card">
-        <h2>¡Listo! 🎉</h2>
+        <h2>🎉 Registro exitoso</h2>
         <p id="mensaje-exito"></p>
-        <button class="btn btn-primary" onclick="irAlMenu()">Entrar al Menú</button>
+        <button class="btn btn-primary" onclick="irAlMenu()">Ir al Menú</button>
     </div>
 </div>
 
 <script>
-    function guardarYRegistrar() {
-        const nombre = document.getElementById('input-nombre').value;
-        const objetivo = document.getElementById('input-objetivo').value;
+function guardarYRegistrar() {
 
-        if(nombre.trim() === "") {
-            alert("Por favor, ingresa tu nombre");
-            return;
-        }
+    const nombre   = document.getElementById('input-nombre').value.trim();
+    const apellido = document.getElementById('input-apellido').value.trim();
+    const email    = document.getElementById('input-email').value.trim();
+    const talla    = document.getElementById('input-talla').value.trim();
+    const peso     = document.getElementById('input-peso').value.trim();
+    const objetivo = document.getElementById('input-objetivo').value;
 
-        // GUARDAR EN LOCALSTORAGE
-        localStorage.setItem('userName', nombre);
-        localStorage.setItem('userGoal', objetivo);
-
-        document.getElementById('mensaje-exito').innerText = `¡Bienvenido ${nombre}! Tu perfil ha sido creado con éxito.`;
-        document.getElementById('modalExito').style.display = "flex";
+    if (!nombre || !apellido || !email || !talla || !peso || !objetivo) {
+        alert("⚠️ Por favor completa todos los campos");
+        return;
     }
 
-    function irAlMenu() {
-        window.location.href = 'menu.html';
-    }
+    // GUARDAR EN LOCALSTORAGE
+    localStorage.setItem('userName', nombre);
+    localStorage.setItem('userLastName', apellido);
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userHeight', talla);
+    localStorage.setItem('userWeight', peso);
+    localStorage.setItem('userGoal', objetivo);
+
+    document.getElementById('mensaje-exito').innerText =
+        `¡Bienvenido ${nombre}! Tu cuenta ha sido creada correctamente 💪`;
+
+    document.getElementById('modalExito').style.display = "flex";
+}
+
+function irAlMenu() {
+    window.location.href = "menu.html";
+}
 </script>
+
 </body>
 </html>
