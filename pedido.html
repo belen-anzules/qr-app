@@ -6,22 +6,49 @@
     <title>Mi Pedido</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="bg-light">
 
 <header class="header-clean">
     <a href="menu.html" class="back">← Menú</a>
     <h2>Resumen</h2>
 </header>
+
 <main class="container">
     <div id="pedido"></div> 
     
     <div class="cart-footer">
-       <button class="btn secondary" onclick="irAMenu()">+ Añadir más platos</button>
-        <button class="btn" onclick="alert('Pedido enviado a cocina')">Finalizar Compra</button>
+        <button class="btn secondary" onclick="irAMenu()">+ Añadir más platos</button>
+        <button class="btn" onclick="finalizarCompra()">Finalizar Compra</button>
     </div>
 </main>
-</main>
+
+<!-- 🔔 MODAL DE CONFIRMACIÓN -->
+<div id="modalConfirmacion" class="modal">
+    <div class="modal-content">
+        <h3>¡Gracias por tu pedido! 🥑</h3>
+        <p>
+            Por favor acércate a cancelar en el restaurante.<br><br>
+            <strong>Código de tu pedido:</strong>
+        </p>
+        <div id="codigoPedido" class="codigo"></div>
+        <button class="btn" onclick="cerrarModal()">Aceptar</button>
+    </div>
+</div>
 
 <script src="js/pedido.js"></script>
+
+<script>
+    function finalizarCompra() {
+        const codigo = Math.floor(100000 + Math.random() * 900000);
+        document.getElementById("codigoPedido").innerText = codigo;
+        document.getElementById("modalConfirmacion").style.display = "flex";
+    }
+
+    function cerrarModal() {
+        document.getElementById("modalConfirmacion").style.display = "none";
+    }
+</script>
+
 </body>
 </html>
