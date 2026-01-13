@@ -1,265 +1,295 @@
-/* --- Ajustes de Categorías (Pills) --- */
+/* RESET Y BASE APK */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: #F7F9FC;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* HEADER Y LOGO */
+.header-clean {
+    background: #ffffff;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.header-title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.app-logo-small {
+    font-size: 24px;
+}
+
+.header-clean h2 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #2D3436;
+}
+
+/* CATEGORÍAS */
 .categorias-container {
     display: flex;
-    overflow-x: auto;
+    gap: 12px;
     padding: 15px 20px;
-    gap: 10px;
+    overflow-x: auto;
     white-space: nowrap;
-    scrollbar-width: none; /* Ocultar scroll en Firefox */
+    scrollbar-width: none;
 }
-.categorias-container::-webkit-scrollbar { display: none; } /* Ocultar scroll en Chrome */
+
+.categorias-container::-webkit-scrollbar { display: none; }
 
 .cat-btn {
-    background: #eeeeee;
-    border: none;
-    padding: 8px 20px;
+    padding: 10px 20px;
     border-radius: 12px;
-    font-weight: 700;
-    color: #444;
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-.cat-btn.active {
-    background: #4CAF50;
-    color: white;
-}
-
-/* --- Ajuste de la Card para que se vea como la imagen --- */
-.card {
-    margin-bottom: 25px;
     border: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.cat-desayuno { background: #E3F2FD; color: #1976D2; }
+.cat-almuerzo { background: #FFF3E0; color: #F57C00; }
+.cat-comida { background: #E8F5E9; color: #388E3C; }
+.cat-cena { background: #F3E5F5; color: #7B1FA2; }
+.cat-btn.active { outline: 2px solid currentColor; font-weight: 800; }
+
+/* CARDS DE MENÚ */
+.menu { padding: 10px 20px; }
+
+.card {
     background: white;
-    border-radius: 28px; /* Más redondeado como la foto */
-    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border: 1px solid #edf2f7;
+}
+
+.card-img-container {
+    width: 100%;
+    height: 180px;
+    background: #f0f0f0;
+}
+
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .card .info {
-    padding: 20px 24px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.card h3 {
-    font-size: 1.3rem;
+.price-tag {
+    background: #4CAF50;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+/* BOTONES */
+.btn {
+    width: 100%;
+    padding: 16px;
+    border-radius: 15px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary { background: #4CAF50; color: white; }
+.btn-secondary { background: #E8F5E9; color: #4CAF50; border: 1px solid #4CAF50; }
+
+/* CARRITO BADGE */
+.cart-container { position: relative; }
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #FF5252;
+    color: white;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* INPUTS REGISTRO */
+.input-group { margin-bottom: 15px; }
+.input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #DDD;
+    background: white;
+    font-size: 1rem;
+}
+
+/* FOOTER FIJO */
+.cart-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+/* FONDO DE BIENVENIDA */
+.welcome-bg {
+    background: linear-gradient(180deg, #E8F5E9 0%, #FFFFFF 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ESTILO DE LAS ALERTAS / MODALES */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4); /* Fondo oscurecido */
+    backdrop-filter: blur(5px); /* Efecto de desenfoque APK moderna */
+    display: none; /* Oculto por defecto */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 2000;
+}
+
+.modal-card {
+    background: white;
+    width: 100%;
+    max-width: 350px;
+    border-radius: 28px;
+    padding: 35px 25px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounceIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+}
+
+/* BOTÓN DE REGISTRO COLOR ESPECÍFICO */
+.btn-primary {
+    background: #4CAF50;
+    color: white;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-secondary {
+    background: white;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+}
+/* DISEÑO DE DETALLE */
+.detail-img-header {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.detail-img-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ingredient-item {
+    background: white;
+    padding: 15px;
+    border-radius: 18px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+}
+
+.ing-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.ing-name {
     font-weight: 700;
     color: #333;
 }
 
-/* Estilo exacto del precio en la imagen */
-.price-tag {
-    background: #4CAF50 !important;
-    color: white !important;
-    padding: 6px 18px !important;
-    border-radius: 20px !important;
-    font-size: 1rem !important;
-    font-weight: 700 !important;
-}
-
-/* Ajuste del Header */
-.header-clean {
-    border-bottom: none;
-    height: 60px;
-}
-
-.app-logo {
-    background: transparent;
-    font-size: 28px;
-}
-
-header h2 {
-    letter-spacing: 2px;
-    font-size: 1.2rem;
-}
-/* Contenedor del icono */
-.cart-container {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.cart-icon {
-    font-size: 26px;
-}
-
-/* El círculo rojo (Badge) */
-.badge {
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    background-color: #ff5252; /* Rojo vibrante */
-    color: white;
-    font-size: 11px;
-    font-weight: bold;
-    min-width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid white; /* Esto hace que resalte sobre el fondo */
-    padding: 2px;
-    /* Ocultar si es cero inicialmente */
-    display: none; 
-}
-/* --- Botones de Acción en cada Plato (Carrito) --- */
-.cart-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-
-.edit-btn, .delete-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-/* Diseño específico para Editar (Lápiz) */
-.edit-btn {
-    background-color: #e8f5e9; /* Verde muy clarito */
+.ing-price {
+    font-size: 0.8rem;
     color: #4CAF50;
+    font-weight: 600;
 }
 
-/* Diseño específico para Borrar (Papelera) */
-.delete-btn {
-    background-color: #ffebee; /* Rojo muy clarito */
-    color: #ff5252;
-}
-
-.edit-btn:active, .delete-btn:active {
-    transform: scale(0.9);
-}
-
-/* --- Ajuste de los Botones del Footer --- */
-.cart-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: white;
-    padding: 20px;
-    padding-bottom: 35px; /* Extra para notch de celulares */
-    box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
-    border-radius: 25px 25px 0 0;
-    display: flex;
-    flex-direction: column; /* Botones uno sobre otro para mejor tacto */
-    gap: 10px;
-}
-
-/* Asegurar que todos los botones .btn midan lo mismo */
-.btn {
-    height: 55px; /* Altura estándar de app */
-    border-radius: 16px;
-    border: none;
-    font-weight: 700;
-<<<<<<< HEAD
-    font-size: 16px;
+.controls {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-=======
+    gap: 15px;
+    background: #f8f8f8;
+    padding: 5px 10px;
+    border-radius: 30px;
 }
 
-.nutrition-table td:first-child,
-.nutrition-table th:first-child {
-    text-align: left;
-}
-.total-row {
-    background: #f1f8f4;
+.btn-qty {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-size: 18px;
     font-weight: bold;
-}
-.categorias {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
+    color: #4CAF50;
+    cursor: pointer;
 }
 
-.categorias button {
-  background: #e8f5e9;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
+.qty-num {
+    font-weight: 800;
+    font-size: 1.1rem;
+    min-width: 20px;
+    text-align: center;
 }
-
-.categorias button:hover {
-  background: #c8e6c9;
-}
-.categorias {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  margin: 15px auto;
-  max-width: 400px;
-}
-
-.categorias button {
-  flex: 1;
-  background: #e8f5e9;
-  border: none;
-  padding: 10px 0;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: bold;
-  text-align: center;
-}
-
-.categorias button:hover {
-  background: #c8e6c9;
-}
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.modal-content {
-  background: #ffffff;
-  padding: 25px;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 360px;
-  text-align: center;
-}
-
-.modal-content h3 {
-  margin-bottom: 15px;
-}
-
-.codigo {
-  font-size: 26px;
-  font-weight: bold;
-  margin: 15px 0;
-  color: #2e7d32;
-}
-.input {
-  width: 100%;
-  padding: 14px;
-  border-radius: 14px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
-  font-size: 15px;
-}
->>>>>>> 5c7a0a013fc111b73acdf876d7e03dd16570d233

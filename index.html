@@ -2,47 +2,63 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Macro Fit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Macro Fit - Inicio</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+<body class="welcome-bg">
 
-<body class="welcome">
+<div class="container" style="text-align: center; padding: 80px 20px;">
+  <div class="logo-main" style="font-size: 80px; margin-bottom: 10px;">🥗</div>
+  <h1 style="font-weight: 900; color: #2E7D32; font-size: 2.5rem;">MACRO FIT</h1>
+  <p style="color: #666; margin-bottom: 50px;">Tu nutrición inteligente en un solo lugar.</p>
 
-<div class="loader" id="loader">
-  <div class="spinner">🥑</div>
-  <p>Cargando alimentación saludable...</p>
+  <button class="btn btn-primary" style="margin-bottom: 15px;" onclick="mostrarAlerta('registro')">Crear Cuenta</button>
+  <button class="btn btn-secondary" onclick="mostrarAlerta('invitado')">Entrar como Invitado</button>
 </div>
 
-<div class="container">
-  <div class="logo">🥗</div>
-  <h1>MACRO FIT</h1>
-
-  <p>
-    ¡Bienvenido/a!<br>
-    Tu camino hacia una vida más saludable empieza aquí.
-  </p>
-
-  <!-- 🔹 BOTÓN VINCULADO A REGISTRO -->
-  <a href="registro.html" class="btn">Registrarse</a>
-
-  <button type="button" class="btn secondary" id="btn-guest">Invitado</button>
-</div>
-
-<div id="welcome-modal" class="modal hidden">
+<div id="welcome-modal" class="modal">
   <div class="modal-card">
-    <span class="close" id="close-modal">✕</span>
-    <h2 id="modal-title"></h2>
-    <p id="modal-text"></p>
-    <a href="menu.html" class="btn">Continuar</a>
+    <span class="close" onclick="cerrarModal()">✕</span>
+    <div id="modal-icon" style="font-size: 50px; margin-bottom: 15px;"></div>
+    <h2 id="modal-title" style="margin-bottom: 10px; color: #333;"></h2>
+    <p id="modal-text" style="color: #666; margin-bottom: 25px;"></p>
+    
+    <div id="modal-footer">
+        </div>
   </div>
 </div>
 
-<script src="js/index.js"></script>
 <script>
-  window.onload = () => {
-    document.getElementById("loader").style.display = "none";
-  };
+  const modal = document.getElementById("welcome-modal");
+  const title = document.getElementById("modal-title");
+  const text = document.getElementById("modal-text");
+  const icon = document.getElementById("modal-icon");
+  const footer = document.getElementById("modal-footer");
+
+  function mostrarAlerta(tipo) {
+    if (tipo === 'registro') {
+      icon.innerText = "📝";
+      title.innerText = "¡Únete a nosotros!";
+      text.innerText = "Al registrarte, calcularemos tus macros y crearemos un plan personalizado para tus objetivos.";
+      footer.innerHTML = `<a href="registro.html" class="btn btn-primary" style="text-decoration:none;">Ir al Registro</a>`;
+    } else {
+      icon.innerText = "🔑";
+      title.innerText = "Modo Invitado";
+      text.innerText = "Podrás ver nuestro menú completo, pero no guardaremos tu progreso nutricional.";
+      footer.innerHTML = `<button class="btn btn-primary" onclick="window.location.href='menu.html'">Continuar al Menú</button>`;
+    }
+    modal.style.display = "flex";
+  }
+
+  function cerrarModal() {
+    modal.style.display = "none";
+  }
+
+  // Cerrar si hacen clic fuera de la tarjeta
+  window.onclick = function(event) {
+    if (event.target == modal) cerrarModal();
+  }
 </script>
 
 </body>

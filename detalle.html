@@ -2,55 +2,116 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Detalle del Plato - Macro Fit</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="header-clean">
-    <a href="menu.html" class="back">←</a>
-    <h2>Bowl Chipsotle</h2>
-    <div class="cart-icon" onclick="window.location.href='pedido.html'">🧾</div>
+    <a href="menu.html" class="back" style="text-decoration:none; font-size:24px;">‹</a>
+    <h2 id="plato-nombre">Bowl Chipotle</h2>
+    <div class="cart-icon" onclick="window.location.href='pedido.html'" style="font-size:22px; position:relative;">
+        🧾
+    </div>
 </header>
 
-<section class="detail-content">
-    <p class="price-base">Precio base: $7.99</p>
-
-    <div class="ingredient">
-        <span>Arroz integral</span>
-        <div class="controls">
-            <button onclick="removeIng('arroz')">−</button>
-            <span id="arroz-qty">0</span>
-            <button onclick="addIng('arroz')">+</button>
-        </div>
+<main class="detail-container">
+    <div class="detail-img-header">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Plato">
     </div>
 
-    <div class="ingredient">
-        <span>Pollo</span>
-        <div class="controls">
-            <button onclick="removeIng('pollo')">−</button>
-            <span id="pollo-qty">0</span>
-            <button onclick="addIng('pollo')">+</button>
+    <section class="detail-content" style="padding: 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h3 style="font-size:1.4rem; color:#2D3436;">Personaliza tu Bowl</h3>
+            <span class="price-tag" style="font-size:1.1rem;">$7.99</span>
         </div>
-    </div>
 
-    <div class="ingredient">
-        <span>Frejol</span>
-        <div class="controls">
-            <button onclick="removeIng('frejol')">−</button>
-            <span id="frejol-qty">0</span>
-            <button onclick="addIng('frejol')">+</button>
+        <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">Selecciona las porciones extras de tus ingredientes favoritos.</p>
+
+        <div class="ingredient-item">
+            <div class="ing-info">
+                <span class="ing-name">Arroz integral</span>
+                <span class="ing-price">+$0.50</span>
+            </div>
+            <div class="controls">
+                <button class="btn-qty" onclick="changeQty('arroz', -1)">−</button>
+                <span id="arroz-qty" class="qty-num">0</span>
+                <button class="btn-qty" onclick="changeQty('arroz', 1)">+</button>
+            </div>
         </div>
+
+        <div class="ingredient-item">
+            <div class="ing-info">
+                <span class="ing-name">Pollo Grill</span>
+                <span class="ing-price">+$1.50</span>
+            </div>
+            <div class="controls">
+                <button class="btn-qty" onclick="changeQty('pollo', -1)">−</button>
+                <span id="pollo-qty" class="qty-num">0</span>
+                <button class="btn-qty" onclick="changeQty('pollo', 1)">+</button>
+            </div>
+        </div>
+
+        <div class="ingredient-item">
+            <div class="ing-info">
+                <span class="ing-name">Frijol Negro</span>
+                <span class="ing-price">+$0.50</span>
+            </div>
+            <div class="controls">
+                <button class="btn-qty" onclick="changeQty('frijol', -1)">−</button>
+                <span id="frijol-qty" class="qty-num">0</span>
+                <button class="btn-qty" onclick="changeQty('frijol', 1)">+</button>
+            </div>
+        </div>
+
+        <div style="height: 120px;"></div>
+    </section>
+</main>
+
+<div class="cart-footer">
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:bold;">
+        <span>Total Estimado:</span>
+        <span style="color:#4CAF50;">$<span id="total-price">7.99</span></span>
     </div>
+    <button class="btn btn-primary" onclick="confirmarPedido()">Añadir al Carrito ✅</button>
+</div>
 
-    <hr>
-    <p>Total: $<span id="total-price">7.99</span></p>
+<script>
+    let basePrice = 7.99;
+    let extras = { arroz: 0, pollo: 0, frijol: 0 };
+    const prices = { arroz: 0.50, pollo: 1.50, frijol: 0.50 };
 
-    <button class="btn" onclick="confirmarPedido()">Confirmar Pedido ✅</button>
-</section>
+    function changeQty(ing, val) {
+        if (extras[ing] + val >= 0) {
+            extras[ing] += val;
+            document.getElementById(`${ing}-qty`).innerText = extras[ing];
+            updateTotal();
+        }
+    }
 
-<script src="js/detalle.js"></script>
+    function updateTotal() {
+        let total = basePrice;
+        for (let key in extras) {
+            total += extras[key] * prices[key];
+        }
+        document.getElementById('total-price').innerText = total.toFixed(2);
+    }
+
+    function confirmarPedido() {
+        const item = {
+            nombre: document.getElementById('plato-nombre').innerText,
+            total: document.getElementById('total-price').innerText,
+            extras: `Extras: ${extras.arroz} arroz, ${extras.pollo} pollo, ${extras.frijol} frijol`
+        };
+        
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push(item);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        window.location.href = 'pedido.html';
+    }
+</script>
 
 </body>
 </html>
