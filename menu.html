@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Macro Fit - Menú</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Macro Fit - Menú</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -13,46 +13,85 @@
         <span class="app-logo-small">🥗</span>
         <h2>MENÚ</h2>
     </div>
-    <div class="cart-container" onclick="location.href='pedido.html'">
-        <span style="font-size: 24px;">🛒</span>
+    <div class="cart-container" onclick="irAPedido()">
+        <span class="cart-icon">🛒</span>
         <span id="cart-count" class="badge">0</span>
     </div>
   </header>
 
   <nav class="categorias-container">
-    <button class="cat-btn cat-desayuno active">Desayuno</button>
-    <button class="cat-btn cat-almuerzo">Almuerzo</button>
-    <button class="cat-btn cat-comida">Comida</button>
-    <button class="cat-btn cat-cena">Cena</button>
+    <button class="cat-btn cat-desayuno active" onclick="irACategoria('menu.html')">Desayuno</button>
+    <button class="cat-btn cat-almuerzo" onclick="irACategoria('almuerzo.html')">Almuerzo</button>
+    <button class="cat-btn cat-comida" onclick="irACategoria('comida.html')">Comida</button>
+    <button class="cat-btn cat-cena" onclick="irACategoria('cena.html')">Cena</button>
   </nav>
 
   <main class="menu">
-    <div class="card" onclick="location.href='detalle.html'">
+    
+    <div class="card" onclick="irADetalle('detalle.html')">
       <div class="card-img-container">
         <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Bowl">
       </div>
       <div class="info">
-        <h3>Bowl Chipotle</h3>
+        <h3>Bowl Chipsotle</h3>
         <span class="price-tag">$7.99</span>
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" onclick="irADetalle('desayuno1.html')">
       <div class="card-img-container">
-        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd" alt="Salad">
+        <img src="img/desayuno1.png" alt="Oats">
       </div>
       <div class="info">
-        <h3>Salad Premium</h3>
-        <span class="price-tag">$6.50</span>
+        <h3>Overnight Oats</h3>
+        <span class="price-tag">$5.99</span>
       </div>
     </div>
+
+    <div class="card" onclick="irADetalle('desayuno2.html')">
+      <div class="card-img-container">
+        <img src="img/clasico_power.png" alt="Tostada">
+      </div>
+      <div class="info">
+        <h3>Tostada con Aguacate</h3>
+        <span class="price-tag">$3.99</span>
+      </div>
+    </div>
+
+    <div style="height: 100px;"></div>
   </main>
 
   <script>
+    function getCart() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('cart') ? JSON.parse(decodeURIComponent(params.get('cart'))) : [];
+    }
+
     window.onload = () => {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        document.getElementById("cart-count").innerText = cart.length;
+        const cart = getCart();
+        const badge = document.getElementById("cart-count");
+        if (cart.length > 0) {
+            badge.innerText = cart.length;
+            badge.style.display = "flex";
+        } else {
+            badge.style.display = "none";
+        }
     };
+
+    function irADetalle(url) {
+        const cartString = encodeURIComponent(JSON.stringify(getCart()));
+        window.location.href = `${url}?cart=${cartString}`;
+    }
+
+    function irAPedido() { 
+        const cartString = encodeURIComponent(JSON.stringify(getCart()));
+        window.location.href = `pedido.html?cart=${cartString}`; 
+    }
+    
+    function irACategoria(url) { 
+        const cartString = encodeURIComponent(JSON.stringify(getCart()));
+        window.location.href = `${url}?cart=${cartString}`; 
+    }
   </script>
 </body>
 </html>
