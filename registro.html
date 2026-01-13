@@ -5,7 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Macro Fit</title>
     <link rel="stylesheet" href="styles.css">
+
+    <!-- FIX CRÍTICO PARA BOTÓN -->
+    <style>
+        .cart-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            background: #fff;
+            padding: 15px;
+        }
+
+        .cart-footer button {
+            width: 100%;
+            pointer-events: auto;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+    </style>
 </head>
+
 <body>
 
 <header class="header-clean">
@@ -13,74 +51,78 @@
     <h2>REGISTRO</h2>
 </header>
 
-<main style="padding: 20px; padding-bottom: 120px;">
+<main style="padding: 20px; padding-bottom: 140px;">
 
-    <h3 style="margin-bottom:15px;">👤 Datos Personales</h3>
+    <h3>👤 Datos personales</h3>
+    <input type="text" class="input" id="nombre" placeholder="Nombre">
+    <input type="text" class="input" id="apellido" placeholder="Apellido">
+    <input type="email" class="input" id="email" placeholder="Correo electrónico">
 
-    <input type="text" class="input" id="input-nombre" placeholder="Nombre">
-    <input type="text" class="input" id="input-apellido" placeholder="Apellido">
-    <input type="email" class="input" id="input-email" placeholder="Correo electrónico">
+    <h3 style="margin-top:20px;">📏 Datos físicos</h3>
+    <input type="number" class="input" id="talla" placeholder="Talla (cm)">
+    <input type="number" class="input" id="peso" placeholder="Peso (kg)">
 
-    <h3 style="margin: 20px 0 10px;">📏 Datos Físicos</h3>
-
-    <input type="number" class="input" id="input-talla" placeholder="Talla (cm)">
-    <input type="number" class="input" id="input-peso" placeholder="Peso (kg)">
-
-    <h3 style="margin: 20px 0 10px;">🏃 Objetivo</h3>
-
-    <select class="input" id="input-objetivo">
-        <option value="">Selecciona un objetivo</option>
-        <option value="Saludable">Vida saludable</option>
-        <option value="Musculo">Ganar masa muscular</option>
+    <h3 style="margin-top:20px;">🏃 Objetivo</h3>
+    <select class="input" id="objetivo">
+        <option value="">Selecciona tu objetivo</option>
+        <option value="Vida saludable">Vida saludable</option>
+        <option value="Músculo">Ganar masa muscular</option>
         <option value="Peso">Bajar de peso</option>
     </select>
 
 </main>
 
 <div class="cart-footer">
-    <button class="btn btn-primary" onclick="guardarYRegistrar()">Crear Cuenta</button>
+    <button class="btn btn-primary" id="btnRegistrar" type="button">
+        Crear cuenta
+    </button>
 </div>
 
-<!-- MODAL DE ÉXITO -->
-<div id="modalExito" class="modal" style="display:none;">
+<!-- MODAL -->
+<div class="modal" id="modalExito">
     <div class="modal-card">
         <h2>🎉 Registro exitoso</h2>
-        <p id="mensaje-exito"></p>
-        <button class="btn btn-primary" onclick="irAlMenu()">Ir al Menú</button>
+        <p id="textoExito"></p>
+        <button class="btn btn-primary" id="btnMenu">Ir al menú</button>
     </div>
 </div>
 
 <script>
-function guardarYRegistrar() {
+document.addEventListener("DOMContentLoaded", () => {
 
-    const nombre   = document.getElementById('input-nombre').value.trim();
-    const apellido = document.getElementById('input-apellido').value.trim();
-    const email    = document.getElementById('input-email').value.trim();
-    const talla    = document.getElementById('input-talla').value.trim();
-    const peso     = document.getElementById('input-peso').value.trim();
-    const objetivo = document.getElementById('input-objetivo').value;
+    document.getElementById("btnRegistrar").addEventListener("click", registrar);
+    document.getElementById("btnMenu").addEventListener("click", () => {
+        window.location.href = "menu.html";
+    });
+
+});
+
+function registrar() {
+
+    const nombre   = document.getElementById("nombre").value.trim();
+    const apellido = document.getElementById("apellido").value.trim();
+    const email    = document.getElementById("email").value.trim();
+    const talla    = document.getElementById("talla").value.trim();
+    const peso     = document.getElementById("peso").value.trim();
+    const objetivo = document.getElementById("objetivo").value;
 
     if (!nombre || !apellido || !email || !talla || !peso || !objetivo) {
-        alert("⚠️ Por favor completa todos los campos");
+        alert("⚠️ Completa todos los campos");
         return;
     }
 
-    // GUARDAR EN LOCALSTORAGE
-    localStorage.setItem('userName', nombre);
-    localStorage.setItem('userLastName', apellido);
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userHeight', talla);
-    localStorage.setItem('userWeight', peso);
-    localStorage.setItem('userGoal', objetivo);
+    // GUARDAR DATOS
+    localStorage.setItem("userName", nombre);
+    localStorage.setItem("userLastName", apellido);
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("userHeight", talla);
+    localStorage.setItem("userWeight", peso);
+    localStorage.setItem("userGoal", objetivo);
 
-    document.getElementById('mensaje-exito').innerText =
-        `¡Bienvenido ${nombre}! Tu cuenta ha sido creada correctamente 💪`;
+    document.getElementById("textoExito").innerText =
+        `¡Bienvenido ${nombre}! Tu cuenta fue creada correctamente 💪`;
 
-    document.getElementById('modalExito').style.display = "flex";
-}
-
-function irAlMenu() {
-    window.location.href = "menu.html";
+    document.getElementById("modalExito").style.display = "flex";
 }
 </script>
 
