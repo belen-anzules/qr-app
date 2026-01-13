@@ -418,3 +418,11 @@ header h2, .header-clean h2 {
   margin: 15px 0;
   color: #2e7d32;
 }
+.input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
