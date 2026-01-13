@@ -1,162 +1,166 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tostada con Aguacate y Huevo Poché</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header class="header-clean">
-      <a href="menu.html" class="back">←</a>
-      <h2>Tostada con Aguacate y Huevo Poché</h2>
-      <div class="cart-icon" onclick="window.location.href='pedido.html'">
-        🧾
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tostada con Aguacate y Huevo Poché</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header-clean">
+    <a href="menu.html" class="back">←</a>
+    <h2>Tostada con Aguacate y Huevo Poché</h2>
+    <div class="cart-icon" onclick="window.location.href='pedido.html'">🧾</div>
+  </header>
+
+  <!-- CONTENIDO DETALLE -->
+  <section class="detail-content">
+
+    <!-- CARD CON IMAGEN CONTROLADA -->
+    <div class="card">
+      <div class="card-img-container">
+        <img src="img/clasico_power.png" alt="Tostada con Aguacate y Huevo Poché">
       </div>
-    </header>
+    </div>
 
-    <section class="detail-content">
-      <!-- IMAGEN -->
-      <div class="card">
-        <img src="img/clasico_power.png" alt="" />
+    <!-- DESCRIPCIÓN -->
+    <p>
+      Clásico Power Toast con pan de grano entero, aguacate machacado,
+      huevos poché y tomates cherry. Alto en fibra y proteína natural.
+    </p>
+
+    <!-- PRECIO BASE -->
+    <p class="price-base">
+      <strong>Precio base:</strong> $3.99
+    </p>
+
+    <!-- INGREDIENTES -->
+    <div class="ingredient-item">
+      <span>Pan de Masa Madre / Integral (50g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('pan')">−</button>
+        <span id="pan-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('pan')">+</button>
       </div>
+    </div>
 
-      <!-- DESCRIPCIÓN -->
-      <p>
-        Clásico Power Toast Pan de grano entero, aguacate machacado, dos huevos
-        poché y tomates cherry. Alto en fibra y proteína natural.
-      </p>
-
-      <p class="price-base"><strong>Precio base:</strong> $3.99</p>
-
-      <!-- INGREDIENTES -->
-      <div class="ingredient">
-        <span>Pan de Masa Madre/Integral (50g)</span>
-        <div class="controls">
-          <button onclick="removeIng('pan')">−</button>
-          <span id="pan-qty">1</span>
-          <button onclick="addIng('pan')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Aguacate (80g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('aguacate')">−</button>
+        <span id="aguacate-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('aguacate')">+</button>
       </div>
+    </div>
 
-      <div class="ingredient">
-        <span>Aguacate (80g)</span>
-        <div class="controls">
-          <button onclick="removeIng('aguacate')">−</button>
-          <span id="aguacate-qty">1</span>
-          <button onclick="addIng('aguacate')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Huevos Poché (2 unidades)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('huevos')">−</button>
+        <span id="huevos-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('huevos')">+</button>
       </div>
+    </div>
 
-      <div class="ingredient">
-        <span>Huevos Poché (2 unidades)</span>
-        <div class="controls">
-          <button onclick="removeIng('huevos')">−</button>
-          <span id="huevos-qty">1</span>
-          <button onclick="addIng('huevos')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Tomates Cherry (50g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('tomates')">−</button>
+        <span id="tomates-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('tomates')">+</button>
       </div>
+    </div>
 
-      <div class="ingredient">
-        <span>Tomates Cherry (50g)</span>
-        <div class="controls">
-          <button onclick="removeIng('tomates')">−</button>
-          <span id="tomates-qty">1</span>
-          <button onclick="addIng('tomates')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Semillas de Chía (5g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('chia')">−</button>
+        <span id="chia-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('chia')">+</button>
       </div>
+    </div>
 
-      <div class="ingredient">
-        <span>Semillas de Chía (5g)</span>
-        <div class="controls">
-          <button onclick="removeIng('chia')">−</button>
-          <span id="chia-qty">1</span>
-          <button onclick="addIng('chia')">+</button>
-        </div>
-      </div>
+    <!-- NUTRICIÓN -->
+    <div class="nutrition-summary">
+      <h3>Análisis Nutricional</h3>
 
+      <table class="nutrition-table">
+        <thead>
+          <tr>
+            <th>Ingrediente</th>
+            <th>Calorías</th>
+            <th>Proteína</th>
+            <th>Grasas</th>
+            <th>Carbs</th>
+          </tr>
+        </thead>
 
-      <!-- TABLA NUTRICIONAL -->
-      <div class="nutrition-summary">
-        <h3>Análisis Nutricional</h3>
+        <tbody>
+          <tr>
+            <td>Pan Integral</td>
+            <td><span id="cal-pan">0</span> kcal</td>
+            <td><span id="pro-pan">0</span> g</td>
+            <td><span id="fat-pan">0</span> g</td>
+            <td><span id="carb-pan">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Aguacate</td>
+            <td><span id="cal-aguacate">0</span> kcal</td>
+            <td><span id="pro-aguacate">0</span> g</td>
+            <td><span id="fat-aguacate">0</span> g</td>
+            <td><span id="carb-aguacate">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Huevos Poché</td>
+            <td><span id="cal-huevos">0</span> kcal</td>
+            <td><span id="pro-huevos">0</span> g</td>
+            <td><span id="fat-huevos">0</span> g</td>
+            <td><span id="carb-huevos">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Tomates Cherry</td>
+            <td><span id="cal-tomates">0</span> kcal</td>
+            <td><span id="pro-tomates">0</span> g</td>
+            <td><span id="fat-tomates">0</span> g</td>
+            <td><span id="carb-tomates">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Semillas de Chía</td>
+            <td><span id="cal-chia">0</span> kcal</td>
+            <td><span id="pro-chia">0</span> g</td>
+            <td><span id="fat-chia">0</span> g</td>
+            <td><span id="carb-chia">0</span> g</td>
+          </tr>
+        </tbody>
 
-        <table class="nutrition-table">
-          <thead>
-            <tr>
-              <th>Ingrediente</th>
-              <th>Calorías</th>
-              <th>Proteína</th>
-              <th>Grasas</th>
-              <th>Carbs</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Pan de Masa Madre/Integral</td>
-              <td><span id="cal-pan">0</span> kcal</td>
-              <td><span id="pro-pan">0</span> g</td>
-              <td><span id="fat-pan">0</span> g</td>
-              <td><span id="carb-pan">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Aguacate</td>
-              <td><span id="cal-aguacate">0</span> kcal</td>
-              <td><span id="pro-aguacate">0</span> g</td>
-              <td><span id="fat-aguacate">0</span> g</td>
-              <td><span id="carb-aguacate">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Huevos Poché</td>
-              <td><span id="cal-huevos">0</span> kcal</td>
-              <td><span id="pro-huevos">0</span> g</td>
-              <td><span id="fat-huevos">0</span> g</td>
-              <td><span id="carb-huevos">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Tomates Cherry</td>
-              <td><span id="cal-tomates">0</span> kcal</td>
-              <td><span id="pro-tomates">0</span> g</td>
-              <td><span id="fat-tomates">0</span> g</td>
-              <td><span id="carb-tomates">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Semillas de Chía</td>
-              <td><span id="cal-chia">0</span> kcal</td>
-              <td><span id="pro-chia">0</span> g</td>
-              <td><span id="fat-chia">0</span> g</td>
-              <td><span id="carb-chia">0</span> g</td>
-            </tr>
-            <tr>
-          </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td><strong>Total</strong></td>
+            <td><strong><span id="total-calories">0</span> kcal</strong></td>
+            <td><strong><span id="total-protein">0</span> g</strong></td>
+            <td><strong><span id="total-fat">0</span> g</strong></td>
+            <td><strong><span id="total-carbs">0</span> g</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
-          <tfoot>
-            <tr class="total-row">
-              <td><strong>Total</strong></td>
-              <td>
-                <strong><span id="total-calories">0</span> kcal</strong>
-              </td>
-              <td>
-                <strong><span id="total-protein">0</span> g</strong>
-              </td>
-              <td>
-                <strong><span id="total-fat">0</span> g</strong>
-              </td>
-              <td>
-                <strong><span id="total-carbs">0</span> g</strong>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-      <p class="total-row">
-        <strong>Precio Total:</strong> $<span id="total-price">3.99</span>
-      </p>
+    <!-- PRECIO TOTAL -->
+    <p class="total-row">
+      <strong>Precio Total:</strong> $
+      <span id="total-price">3.99</span>
+    </p>
 
-      <button class="btn" onclick="confirmarPedido()">
-        Confirmar Pedido ✅
-      </button>
-    </section>
+    <!-- BOTÓN -->
+    <button class="btn btn-primary" onclick="confirmarPedido()">
+      Confirmar Pedido ✅
+    </button>
 
-    <script src="js/desayuno2.js"></script>
-  </body>
+  </section>
+
+  <script src="js/desayuno2.js"></script>
+</body>
 </html>

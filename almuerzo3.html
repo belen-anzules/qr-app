@@ -1,176 +1,200 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bowls</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header class="header-clean">
-      <a href="menu.html" class="back">←</a>
-      <h2>Bowl Mediterraneo</h2>
-      <div class="cart-icon" onclick="window.location.href='pedido.html'">
-        🧾
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bowl Liboa</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header-clean">
+    <a href="menu.html" class="back">←</a>
+    <h2>Bowl Liboa</h2>
+    <div class="cart-icon" onclick="window.location.href='pedido.html'">🧾</div>
+  </header>
+
+  <!-- CONTENIDO DETALLE -->
+  <section class="detail-content">
+
+    <!-- CARD CON IMAGEN CONTROLADA -->
+    <div class="card">
+      <div class="card-img-container">
+        <img src="img/almuerzo2.png" alt="Bowl Liboa">
       </div>
-    </header>
+    </div>
 
-    <section class="detail-content">
-      <!-- IMAGEN -->
-      <div class="card">
-        <img src="img/almuerzo3.png" alt="" />
+    <!-- DESCRIPCIÓN -->
+    <p>
+      Una combinación balanceada de arroz, quinoa y frijol rojo con la frescura del
+      aguacate, elote tierno y cebolla morada. Servido sobre una base de lechuga con
+      un toque de cilantro y nuestro aderezo chipotle artesanal.
+    </p>
+
+    <!-- PRECIO BASE -->
+    <p class="price-base">
+      <strong>Precio base:</strong> $8.99
+    </p>
+
+    <!-- INGREDIENTES -->
+    <div class="ingredient-item">
+      <span>Arroz Integral (90g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('arroz')">−</button>
+        <span id="arroz-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('arroz')">+</button>
       </div>
+    </div>
 
-      <!-- DESCRIPCIÓN -->
-      <p>
-        Pechuga de pollo al limón sobre base mixta de arroz.
-        Acompañado de queso feta, garbanzos crocantes, aceitunas
-        y ensalada fresca de pepino-tomate.
-      </p>
-
-      <p class="price-base"><strong>Precio base:</strong> $7.99</p>
-
-      <!-- INGREDIENTES -->
-      <div class="ingredient">
-        <span>Pechuga de Pollo (120g)</span>
-        <div class="controls">
-          <button onclick="removeIng('pollo')">−</button>
-          <span id="pollo-qty">1</span>
-          <button onclick="addIng('pollo')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Quinoa (90g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('quinoa')">−</button>
+        <span id="quinoa-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('quinoa')">+</button>
       </div>
-      <div class="ingredient">
-        <span>Arroz (100g)</span>
-        <div class="controls">
-          <button onclick="removeIng('arroz')">−</button>
-          <span id="arroz-qty">1</span>
-          <button onclick="addIng('arroz')">+</button>
-        </div>
+    </div>
+
+    <div class="ingredient-item">
+      <span>Frijoles Rojos (50g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('frijoles')">−</button>
+        <span id="frijoles-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('frijoles')">+</button>
       </div>
+    </div>
 
-      <div class="ingredient">
-        <span>Garbanzos Especiados (50g)</span>
-        <div class="controls">
-          <button onclick="removeIng('garbanzos')">−</button>
-          <span id="garbanzos-qty">1</span>
-          <button onclick="addIng('garbanzos')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Aguacate (40g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('aguacate')">−</button>
+        <span id="aguacate-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('aguacate')">+</button>
       </div>
-      <div class="ingredient">
-        <span>Queso Feta (15g)</span>
-        <div class="controls">
-          <button onclick="removeIng('queso')">−</button>
-          <span id="queso-qty">1</span>
-          <button onclick="addIng('queso')">+</button>
-        </div>
+    </div>
+
+    <div class="ingredient-item">
+      <span>Elote tierno (30g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('elote')">−</button>
+        <span id="elote-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('elote')">+</button>
       </div>
+    </div>
 
-      <div class="ingredient">
-        <span>Tomate Cherry y Pepino (60g)</span>
-        <div class="controls">
-          <button onclick="removeIng('tomate')">−</button>
-          <span id="tomate-qty">1</span>
-          <button onclick="addIng('tomate')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Salsa Chipotle (20g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('salsa')">−</button>
+        <span id="salsa-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('salsa')">+</button>
       </div>
-      <div class="ingredient">
-        <span>Aceituna (4u)</span>
-        <div class="controls">
-          <button onclick="removeIng('aceituna')">−</button>
-          <span id="aceituna-qty">1</span>
-          <button onclick="addIng('aceituna')">+</button>
-        </div>
+    </div>
+
+    <div class="ingredient-item">
+      <span>Lechuga, Cilantro y Limón</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('lcl')">−</button>
+        <span id="lcl-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('lcl')">+</button>
       </div>
+    </div>
 
+    <!-- NUTRICIÓN -->
+    <div class="nutrition-summary">
+      <h3>Análisis Nutricional</h3>
 
-      <!-- TABLA NUTRICIONAL -->
-      <div class="nutrition-summary">
-        <h3>Análisis Nutricional</h3>
+      <table class="nutrition-table">
+        <thead>
+          <tr>
+            <th>Ingrediente</th>
+            <th>Calorías</th>
+            <th>Proteína</th>
+            <th>Grasas</th>
+            <th>Carbs</th>
+          </tr>
+        </thead>
 
-        <table class="nutrition-table">
-          <thead>
-            <tr>
-              <th>Ingrediente</th>
-              <th>Calorías</th>
-              <th>Proteína</th>
-              <th>Grasas</th>
-              <th>Carbs</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Pechuga de Pollo </td>
-              <td><span id="cal-pollo">0</span> kcal</td>
-              <td><span id="pro-pollo">0</span> g</td>
-              <td><span id="fat-pollo">0</span> g</td>
-              <td><span id="carb-pollo">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Arroz</td>
-              <td><span id="cal-arroz">0</span> kcal</td>
-              <td><span id="pro-arroz">0</span> g</td>
-              <td><span id="fat-arroz">0</span> g</td>
-              <td><span id="carb-arroz">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Garbanzos Especiados</td>
-              <td><span id="cal-garbanzos">0</span> kcal</td>
-              <td><span id="pro-garbanzos">0</span> g</td>
-              <td><span id="fat-garbanzos">0</span> g</td>
-              <td><span id="carb-garbanzos">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Queso Feta</td>
-              <td><span id="cal-queso">0</span> kcal</td>
-              <td><span id="pro-queso">0</span> g</td>
-              <td><span id="fat-queso">0</span> g</td>
-              <td><span id="carb-queso">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Tomate Cherry y Pepino</td>
-              <td><span id="cal-tomate">0</span> kcal</td>
-              <td><span id="pro-tomate">0</span> g</td>
-              <td><span id="fat-tomate">0</span> g</td>
-              <td><span id="carb-tomate">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Aceitunas</td>
-              <td><span id="cal-aceituna">0</span> kcal</td>
-              <td><span id="pro-aceituna">0</span> g</td>
-              <td><span id="fat-aceituna">0</span> g</td>
-              <td><span id="carb-aceituna">0</span> g</td>
-            </tr>
-            <tr></tr>
-          </tbody>
+        <tbody>
+          <tr>
+            <td>Arroz Integral</td>
+            <td><span id="cal-arroz">0</span> kcal</td>
+            <td><span id="pro-arroz">0</span> g</td>
+            <td><span id="fat-arroz">0</span> g</td>
+            <td><span id="carb-arroz">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Quinoa</td>
+            <td><span id="cal-quinoa">0</span> kcal</td>
+            <td><span id="pro-quinoa">0</span> g</td>
+            <td><span id="fat-quinoa">0</span> g</td>
+            <td><span id="carb-quinoa">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Frijoles Rojos</td>
+            <td><span id="cal-frijoles">0</span> kcal</td>
+            <td><span id="pro-frijoles">0</span> g</td>
+            <td><span id="fat-frijoles">0</span> g</td>
+            <td><span id="carb-frijoles">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Aguacate</td>
+            <td><span id="cal-aguacate">0</span> kcal</td>
+            <td><span id="pro-aguacate">0</span> g</td>
+            <td><span id="fat-aguacate">0</span> g</td>
+            <td><span id="carb-aguacate">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Elote Tierno</td>
+            <td><span id="cal-elote">0</span> kcal</td>
+            <td><span id="pro-elote">0</span> g</td>
+            <td><span id="fat-elote">0</span> g</td>
+            <td><span id="carb-elote">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Salsa Chipotle</td>
+            <td><span id="cal-salsa">0</span> kcal</td>
+            <td><span id="pro-salsa">0</span> g</td>
+            <td><span id="fat-salsa">0</span> g</td>
+            <td><span id="carb-salsa">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Lechuga, Cilantro y Limón</td>
+            <td><span id="cal-lcl">0</span> kcal</td>
+            <td><span id="pro-lcl">0</span> g</td>
+            <td><span id="fat-lcl">0</span> g</td>
+            <td><span id="carb-lcl">0</span> g</td>
+          </tr>
+        </tbody>
 
-          <tfoot>
-            <tr class="total-row">
-              <td><strong>Total</strong></td>
-              <td>
-                <strong><span id="total-calories">0</span> kcal</strong>
-              </td>
-              <td>
-                <strong><span id="total-protein">0</span> g</strong>
-              </td>
-              <td>
-                <strong><span id="total-fat">0</span> g</strong>
-              </td>
-              <td>
-                <strong><span id="total-carbs">0</span> g</strong>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-      <p class="total-row">
-        <strong>Precio Total:</strong> $<span id="total-price">7.99</span>
-      </p>
+        <tfoot>
+          <tr class="total-row">
+            <td><strong>Total</strong></td>
+            <td><strong><span id="total-calories">0</span> kcal</strong></td>
+            <td><strong><span id="total-protein">0</span> g</strong></td>
+            <td><strong><span id="total-fat">0</span> g</strong></td>
+            <td><strong><span id="total-carbs">0</span> g</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
-      <button class="btn" onclick="confirmarPedido()">
-        Confirmar Pedido ✅
-      </button>
-    </section>
+    <!-- PRECIO TOTAL -->
+    <p class="total-row">
+      <strong>Precio Total:</strong> $
+      <span id="total-price">8.99</span>
+    </p>
 
-    <script src="js/almuerzo3.js"></script>
-  </body>
+    <!-- BOTÓN -->
+    <button class="btn btn-primary" onclick="confirmarPedido()">
+      Confirmar Pedido ✅
+    </button>
+
+  </section>
+
+  <script src="js/almuerzo2.js"></script>
+
+</body>
 </html>

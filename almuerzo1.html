@@ -1,205 +1,216 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bowls</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header class="header-clean">
-      <a href="menu.html" class="back">←</a>
-      <h2>Bowl Chips Potle</h2>
-      <div class="cart-icon" onclick="window.location.href='pedido.html'">
-        🧾
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bowl Chips Potle</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header-clean">
+    <a href="menu.html" class="back">←</a>
+    <h2>Bowl Chips Potle</h2>
+    <div class="cart-icon" onclick="window.location.href='pedido.html'">🧾</div>
+  </header>
+
+  <!-- CONTENIDO DETALLE -->
+  <section class="detail-content">
+
+    <!-- CARD CON IMAGEN CONTROLADA -->
+    <div class="card">
+      <div class="card-img-container">
+        <img src="img/almuerzo1.png" alt="Bowl Chips Potle">
       </div>
-    </header>
+    </div>
 
-    <section class="detail-content">
-      <!-- IMAGEN -->
-      <div class="card">
-        <img src="img/almuerzo1.png" alt="" />
+    <!-- DESCRIPCIÓN -->
+    <p>
+      Base de arroz y pollo desmechado con frijoles, guacamole y pico de gallo.
+      Coronada con crujientes tiras de tortilla, limón, cilantro y el toque
+      ahumado de nuestra salsa chipotle. ¡Proteico, completo y delicioso!
+    </p>
+
+    <!-- PRECIO BASE -->
+    <p class="price-base">
+      <strong>Precio base:</strong> $7.99
+    </p>
+
+    <!-- INGREDIENTES -->
+    <div class="ingredient-item">
+      <span>Arroz Blanco (100g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('arroz')">−</button>
+        <span id="arroz-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('arroz')">+</button>
       </div>
+    </div>
 
-      <!-- DESCRIPCIÓN -->
-      <p>
-        Base de arroz y pollo desmechado con frijoles, guacamole y pico de
-        gallo. Coronada con crujientes tiras de tortilla, limón, cilantro y el
-        toque ahumado de nuestra salsa chipotle. ¡Proteico, completo y
-        delicioso!
-      </p>
-
-      <p class="price-base"><strong>Precio base:</strong> $7.99</p>
-
-      <!-- INGREDIENTES -->
-      <div class="ingredient">
-        <span>Arroz Blanco (100g)</span>
-        <div class="controls">
-          <button onclick="removeIng('arroz')">−</button>
-          <span id="arroz-qty">1</span>
-          <button onclick="addIng('arroz')">+</button>
-        </div>
-
-      <div class="ingredient">
-        <span>Pollo desmechado (120g)</span>
-        <div class="controls">
-          <button onclick="removeIng('pollo')">−</button>
-          <span id="pollo-qty">1</span>
-          <button onclick="addIng('pollo')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Pollo desmechado (120g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('pollo')">−</button>
+        <span id="pollo-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('pollo')">+</button>
       </div>
+    </div>
 
-      <div class="ingredient">
-        <span>Frijoles Rojos (60g)</span>
-        <div class="controls">
-          <button onclick="removeIng('frijoles')">−</button>
-          <span id="frijoles-qty">1</span>
-          <button onclick="addIng('frijoles')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Frijoles Rojos (60g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('frijoles')">−</button>
+        <span id="frijoles-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('frijoles')">+</button>
       </div>
-      <div class="ingredient">
-        <span>Guacamole</span>
-        <div class="controls">
-          <button onclick="removeIng('guacamole')">−</button>
-          <span id="guacamole-qty">1</span>
-          <button onclick="addIng('guacamole')">+</button>
-        </div>
+    </div>
 
-      <div class="ingredient">
-        <span>Tortillas Chips (15g)</span>
-        <div class="controls">
-          <button onclick="removeIng('tortilla')">−</button>
-          <span id="tortilla-qty">1</span>
-          <button onclick="addIng('tortilla')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Guacamole</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('guacamole')">−</button>
+        <span id="guacamole-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('guacamole')">+</button>
       </div>
+    </div>
 
-      <div class="ingredient">
-        <span>Pico de Gallo (40g)</span>
-        <div class="controls">
-          <button onclick="removeIng('pico')">−</button>
-          <span id="pico-qty">1</span>
-          <button onclick="addIng('pico')">+</button>
-        </div>
+    <div class="ingredient-item">
+      <span>Tortillas Chips (15g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('tortilla')">−</button>
+        <span id="tortilla-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('tortilla')">+</button>
       </div>
-      <div class="ingredient">
-        <span>Salsa Chipotle (20g)</span>
-        <div class="controls">
-          <button onclick="removeIng('salsa')">−</button>
-          <span id="salsa-qty">1</span>
-          <button onclick="addIng('salsa')">+</button>
-        </div>
-        <div class="ingredient">
-        <span>Lechuga, Cilantro y Limón</span>
-        <div class="controls">
-          <button onclick="removeIng('lcl')">−</button>
-          <span id="lcl-qty">1</span>
-          <button onclick="addIng('lcl')">+</button>
-        </div>
+    </div>
+
+    <div class="ingredient-item">
+      <span>Pico de Gallo (40g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('pico')">−</button>
+        <span id="pico-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('pico')">+</button>
       </div>
+    </div>
 
-      <!-- TABLA NUTRICIONAL -->
-      <div class="nutrition-summary">
-        <h3>Análisis Nutricional</h3>
-
-        <table class="nutrition-table">
-          <thead>
-            <tr>
-              <th>Ingrediente</th>
-              <th>Calorías</th>
-              <th>Proteína</th>
-              <th>Grasas</th>
-              <th>Carbs</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Arroz Blanco</td>
-              <td><span id="cal-arroz">0</span> kcal</td>
-              <td><span id="pro-arroz">0</span> g</td>
-              <td><span id="fat-arroz">0</span> g</td>
-              <td><span id="carb-arroz">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Pollo desmechado</td>
-              <td><span id="cal-pollo">0</span> kcal</td>
-              <td><span id="pro-pollo">0</span> g</td>
-              <td><span id="fat-pollo">0</span> g</td>
-              <td><span id="carb-pollo">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Frijoles Rojos</td>
-              <td><span id="cal-frijoles">0</span> kcal</td>
-              <td><span id="pro-frijoles">0</span> g</td>
-              <td><span id="fat-frijoles">0</span> g</td>
-              <td><span id="carb-frijoles">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Guacamole</td>
-              <td><span id="cal-guacamole">0</span> kcal</td>
-              <td><span id="pro-guacamole">0</span> g</td>
-              <td><span id="fat-guacamole">0</span> g</td>
-              <td><span id="carb-guacamole">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Tortillas Chips</td>
-              <td><span id="cal-tortilla">0</span> kcal</td>
-              <td><span id="pro-tortilla">0</span> g</td>
-              <td><span id="fat-tortilla">0</span> g</td>
-              <td><span id="carb-tortilla">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Pico de Gallo</td>
-              <td><span id="cal-pico">0</span> kcal</td>
-              <td><span id="pro-pico">0</span> g</td>
-              <td><span id="fat-pico">0</span> g</td>
-              <td><span id="carb-pico">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Salsa Chipotle</td>
-              <td><span id="cal-salsa">0</span> kcal</td>
-              <td><span id="pro-salsa">0</span> g</td>
-              <td><span id="fat-salsa">0</span> g</td>
-              <td><span id="carb-salsa">0</span> g</td>
-            </tr>
-            <tr>
-              <td>Lechuga, Cilantro y Limón</td>
-              <td><span id="cal-lcl">0</span> kcal</td>
-              <td><span id="pro-lcl">0</span> g</td>
-              <td><span id="fat-lcl">0</span> g</td>
-              <td><span id="carb-lcl">0</span> g</td>
-            </tr>
-            <tr></tr>
-          </tbody>
-
-          <tfoot>
-            <tr class="total-row">
-              <td><strong>Total</strong></td>
-              <td>
-                <strong><span id="total-calories">0</span> kcal</strong>
-              </td>
-              <td>
-                <strong><span id="total-protein">0</span> g</strong>
-              </td>
-              <td>
-                <strong><span id="total-fat">0</span> g</strong>
-              </td>
-              <td>
-                <strong><span id="total-carbs">0</span> g</strong>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+    <div class="ingredient-item">
+      <span>Salsa Chipotle (20g)</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('salsa')">−</button>
+        <span id="salsa-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('salsa')">+</button>
       </div>
-      <p class="total-row">
-        <strong>Precio Total:</strong> $<span id="total-price">7.99</span>
-      </p>
+    </div>
 
-      <button class="btn" onclick="confirmarPedido()">
-        Confirmar Pedido ✅
-      </button>
-    </section>
+    <div class="ingredient-item">
+      <span>Lechuga, Cilantro y Limón</span>
+      <div class="controls">
+        <button class="btn-qty" onclick="removeIng('lcl')">−</button>
+        <span id="lcl-qty" class="qty-num">1</span>
+        <button class="btn-qty" onclick="addIng('lcl')">+</button>
+      </div>
+    </div>
 
-    <script src="js/almuerzo1.js"></script>
-  </body>
+    <!-- NUTRICIÓN -->
+    <div class="nutrition-summary">
+      <h3>Análisis Nutricional</h3>
+
+      <table class="nutrition-table">
+        <thead>
+          <tr>
+            <th>Ingrediente</th>
+            <th>Calorías</th>
+            <th>Proteína</th>
+            <th>Grasas</th>
+            <th>Carbs</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Arroz Blanco</td>
+            <td><span id="cal-arroz">0</span> kcal</td>
+            <td><span id="pro-arroz">0</span> g</td>
+            <td><span id="fat-arroz">0</span> g</td>
+            <td><span id="carb-arroz">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Pollo desmechado</td>
+            <td><span id="cal-pollo">0</span> kcal</td>
+            <td><span id="pro-pollo">0</span> g</td>
+            <td><span id="fat-pollo">0</span> g</td>
+            <td><span id="carb-pollo">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Frijoles Rojos</td>
+            <td><span id="cal-frijoles">0</span> kcal</td>
+            <td><span id="pro-frijoles">0</span> g</td>
+            <td><span id="fat-frijoles">0</span> g</td>
+            <td><span id="carb-frijoles">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Guacamole</td>
+            <td><span id="cal-guacamole">0</span> kcal</td>
+            <td><span id="pro-guacamole">0</span> g</td>
+            <td><span id="fat-guacamole">0</span> g</td>
+            <td><span id="carb-guacamole">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Tortillas Chips</td>
+            <td><span id="cal-tortilla">0</span> kcal</td>
+            <td><span id="pro-tortilla">0</span> g</td>
+            <td><span id="fat-tortilla">0</span> g</td>
+            <td><span id="carb-tortilla">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Pico de Gallo</td>
+            <td><span id="cal-pico">0</span> kcal</td>
+            <td><span id="pro-pico">0</span> g</td>
+            <td><span id="fat-pico">0</span> g</td>
+            <td><span id="carb-pico">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Salsa Chipotle</td>
+            <td><span id="cal-salsa">0</span> kcal</td>
+            <td><span id="pro-salsa">0</span> g</td>
+            <td><span id="fat-salsa">0</span> g</td>
+            <td><span id="carb-salsa">0</span> g</td>
+          </tr>
+          <tr>
+            <td>Lechuga, Cilantro y Limón</td>
+            <td><span id="cal-lcl">0</span> kcal</td>
+            <td><span id="pro-lcl">0</span> g</td>
+            <td><span id="fat-lcl">0</span> g</td>
+            <td><span id="carb-lcl">0</span> g</td>
+          </tr>
+        </tbody>
+
+        <tfoot>
+          <tr class="total-row">
+            <td><strong>Total</strong></td>
+            <td><strong><span id="total-calories">0</span> kcal</strong></td>
+            <td><strong><span id="total-protein">0</span> g</strong></td>
+            <td><strong><span id="total-fat">0</span> g</strong></td>
+            <td><strong><span id="total-carbs">0</span> g</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <!-- PRECIO TOTAL -->
+    <p class="total-row">
+      <strong>Precio Total:</strong> $
+      <span id="total-price">7.99</span>
+    </p>
+
+    <!-- BOTÓN -->
+    <button class="btn btn-primary" onclick="confirmarPedido()">
+      Confirmar Pedido ✅
+    </button>
+
+  </section>
+
+  <script src="js/almuerzo1.js"></script>
+
+</body>
 </html>
