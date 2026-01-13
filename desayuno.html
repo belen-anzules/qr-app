@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Desayunos - Macro Fit</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>
+  <h2>🍳 Desayunos</h2>
+  <div class="cart-icon" onclick="irAPedido()">🧾</div>
+</header>
+
+<main class="menu">
+  <div class="card" onclick="irADetalle('desayuno1.html')">
+    <img src="img/desayuno1.png">
+    <div class="info">
+      <h3>Overnight Oats</h3>
+      <span>$5.99</span>
+    </div>
+  </div>
+
+  <div class="card" onclick="irADetalle('desayuno2.html')">
+    <img src="img/clasico_power.png">
+    <div class="info">
+      <h3>Tostada con Aguacate</h3>
+      <span>$3.99</span>
+    </div>
+  </div>
+</main>
+
+<script>
+  function getCartRaw() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('cart') || encodeURIComponent(JSON.stringify([]));
+  }
+
+  function irADetalle(url) {
+    window.location.href = `${url}?cart=${getCartRaw()}`;
+  }
+
+  function irAPedido() {
+    window.location.href = `pedido.html?cart=${getCartRaw()}`;
+  }
+</script>
+
+</body>
+</html>

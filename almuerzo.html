@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Almuerzos - Macro Fit</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>
+  <h2>🍽️ Almuerzos</h2>
+  <div class="cart-icon" onclick="irAPedido()">🧾</div>
+</header>
+
+<main class="menu">
+  <div class="card" onclick="irADetalle('detalle.html')">
+    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
+    <div class="info">
+      <h3>Bowl Chipsotle</h3>
+      <span>$7.99</span>
+    </div>
+  </div>
+</main>
+
+<script>
+  function getCartRaw() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('cart') || encodeURIComponent(JSON.stringify([]));
+  }
+
+  function irADetalle(url) {
+    window.location.href = `${url}?cart=${getCartRaw()}`;
+  }
+
+  function irAPedido() {
+    window.location.href = `pedido.html?cart=${getCartRaw()}`;
+  }
+</script>
+
+</body>
+</html>

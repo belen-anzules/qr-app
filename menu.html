@@ -16,6 +16,14 @@
 
   <header>
     <h2>MENÚ</h2>
+
+    <!-- 🔹 BOTONES DE CATEGORÍAS -->
+    <div class="categorias">
+      <button onclick="irACategoria('desayuno.html')">🍳 Desayuno</button>
+      <button onclick="irACategoria('almuerzo.html')">🍽️ Almuerzo</button>
+      <button onclick="irACategoria('cena.html')">🌙 Cena</button>
+    </div>
+
     <div class="cart-icon" onclick="irAPedido()">🧾</div>
   </header>
 
@@ -52,27 +60,29 @@
   </main>
 
   <script>
-    // 1. Quitar el loader al cargar
     window.onload = () => {
       document.getElementById("loader").style.display = "none";
     };
 
-    // 2. Función para obtener el carrito actual de la URL
     function getCartRaw() {
       const params = new URLSearchParams(window.location.search);
       return params.get('cart') || encodeURIComponent(JSON.stringify([]));
     }
 
-    // 3. Función para ir a un plato sin perder el carrito
     function irADetalle(urlDestino) {
       const cart = getCartRaw();
       window.location.href = `${urlDestino}?cart=${cart}`;
     }
 
-    // 4. Función para ir a la página de pedido
     function irAPedido() {
       const cart = getCartRaw();
       window.location.href = `pedido.html?cart=${cart}`;
+    }
+
+    // 🔹 NUEVA FUNCIÓN
+    function irACategoria(pagina) {
+      const cart = getCartRaw();
+      window.location.href = `${pagina}?cart=${cart}`;
     }
   </script>
 </body>

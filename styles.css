@@ -346,4 +346,43 @@ header h2, .header-clean h2 {
     background: #f1f8f4;
     font-weight: bold;
 }
+.categorias {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
 
+.categorias button {
+  background: #e8f5e9;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.categorias button:hover {
+  background: #c8e6c9;
+}
+.categorias {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 15px auto;
+  max-width: 400px;
+}
+
+.categorias button {
+  flex: 1;
+  background: #e8f5e9;
+  border: none;
+  padding: 10px 0;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+}
+
+.categorias button:hover {
+  background: #c8e6c9;
+}

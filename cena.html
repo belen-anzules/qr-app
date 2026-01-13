@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cenas - Macro Fit</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>
+  <h2>🌙 Cenas</h2>
+  <div class="cart-icon" onclick="irAPedido()">🧾</div>
+</header>
+
+<main class="menu">
+  <p style="text-align:center;">Próximamente opciones de cena saludable 🥗</p>
+</main>
+
+<script>
+  function getCartRaw() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('cart') || encodeURIComponent(JSON.stringify([]));
+  }
+
+  function irAPedido() {
+    window.location.href = `pedido.html?cart=${getCartRaw()}`;
+  }
+</script>
+
+</body>
+</html>
