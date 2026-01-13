@@ -2,87 +2,103 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Menú - Macro Fit</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
   <div class="loader" id="loader">
     <div class="spinner">🥑</div>
-    <p>Cargando comida saludable...</p>
+    <p>Preparando tu menú...</p>
   </div>
-
-  <header>
+  
+  <header class="header-clean">
+    <div class="app-logo">🥗</div>
     <h2>MENÚ</h2>
-
-    <!-- 🔹 BOTONES DE CATEGORÍAS -->
-    <div class="categorias">
-      <button onclick="irACategoria('desayuno.html')">🍳 Desayuno</button>
-      <button onclick="irACategoria('almuerzo.html')">🍽️ Almuerzo</button>
-      <button onclick="irACategoria('cena.html')">🌙 Cena</button>
+    <div class="cart-container" onclick="irAPedido()">
+        <span class="cart-icon">🛒</span>
+        <span id="cart-count" class="badge">0</span>
     </div>
-
-    <div class="cart-icon" onclick="irAPedido()">🧾</div>
   </header>
 
+  <nav class="categorias-container">
+    <button class="cat-btn active" onclick="irACategoria('menu.html')">Desayuno</button>
+    <button class="cat-btn" onclick="irACategoria('almuerzo.html')">Almuerzo</button>
+    <button class="cat-btn" onclick="irACategoria('comida.html')">Comida</button>
+    <button class="cat-btn" onclick="irACategoria('cena.html')">Cena</button>
+  </nav>
+
   <main class="menu">
-    <div class="card">
-      <div onclick="irADetalle('detalle.html')" style="cursor: pointer;">
-        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Bowl">
-        <div class="info">
-          <h3>Bowl Chipsotle</h3>
-          <span>$7.99</span>
-        </div>
+    <div class="card" onclick="irADetalle('detalle.html')">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Bowl">
+      <div class="info">
+        <h3>Bowl Chipsotle</h3>
+        <span class="price-tag">$7.99</span>
       </div>
     </div>
 
-    <div class="card">
-      <div onclick="irADetalle('desayuno1.html')" style="cursor: pointer;">
-        <img src="img/desayuno1.png" alt="Oats">
-        <div class="info">
-          <h3>Overnight Oats</h3>
-          <span>$5.99</span>
-        </div>
+    <div class="card" onclick="irADetalle('desayuno1.html')">
+      <img src="img/desayuno1.png" alt="Oats">
+      <div class="info">
+        <h3>Overnight Oats</h3>
+        <span class="price-tag">$5.99</span>
       </div>
     </div>
 
-    <div class="card">
-      <div onclick="irADetalle('desayuno2.html')" style="cursor: pointer;">
-        <img src="img/clasico_power.png" alt="Tostada">
-        <div class="info">
-          <h3>Tostada con Aguacate</h3>
-          <span>$3.99</span>
-        </div>
+    <div class="card" onclick="irADetalle('desayuno2.html')">
+      <img src="img/clasico_power.png" alt="Tostada">
+      <div class="info">
+        <h3>Tostada con Aguacate</h3>
+        <span class="price-tag">$3.99</span>
       </div>
     </div>
   </main>
 
   <script>
+    // 1. Manejo del Loader y actualización al cargar
     window.onload = () => {
-      document.getElementById("loader").style.display = "none";
+      const loader = document.getElementById("loader");
+      loader.style.opacity = "0";
+      setTimeout(() => {
+        loader.style.display = "none";
+      }, 500);
+
+      // Limpiar cualquier intento de edición previo al entrar al menú principal
+      localStorage.removeItem('editIndex');
+      
+      // Actualizar el número del carrito
+      actualizarContador();
     };
 
-    function getCartRaw() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('cart') || encodeURIComponent(JSON.stringify([]));
+    // 2. Función para contar items en el carrito (LocalStorage)
+    function actualizarContador() {
+      try {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const badge = document.getElementById("cart-count");
+        
+        if (cart.length > 0) {
+          badge.innerText = cart.length;
+          badge.style.display = "flex";
+        } else {
+          badge.style.display = "none";
+        }
+      } catch (e) {
+        console.error("Error accediendo al carrito", e);
+      }
     }
 
-    function irADetalle(urlDestino) {
-      const cart = getCartRaw();
-      window.location.href = `${urlDestino}?cart=${cart}`;
+    // 3. Navegación limpia para la APK
+    function irADetalle(url) {
+      window.location.href = url;
     }
 
-    function irAPedido() {
-      const cart = getCartRaw();
-      window.location.href = `pedido.html?cart=${cart}`;
+    function irAPedido() { 
+      window.location.href = 'pedido.html'; 
     }
-
-    // 🔹 NUEVA FUNCIÓN
-    function irACategoria(pagina) {
-      const cart = getCartRaw();
-      window.location.href = `${pagina}?cart=${cart}`;
+    
+    function irACategoria(url) { 
+      window.location.href = url; 
     }
   </script>
 </body>

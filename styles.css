@@ -1,420 +1,172 @@
-/* =========================================
-   1. RESET Y BASE (ESTILO APP NATIVA)
-   ========================================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    -webkit-tap-highlight-color: transparent;
-}
-
-body {
-    background-color: #f8f9fa;
-    color: #333;
-    line-height: 1.6;
-    overflow-x: hidden;
-    min-height: 100vh;
-}
-
-.hidden { display: none !important; }
-
-/* =========================================
-   2. CABECERAS (HEADERS)
-   ========================================= */
-header, .header-clean {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: #ffffff;
-    height: 65px;
+/* --- Ajustes de Categorías (Pills) --- */
+.categorias-container {
     display: flex;
-    align-items: center;
-    padding: 0 15px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    overflow-x: auto;
+    padding: 15px 20px;
+    gap: 10px;
+    white-space: nowrap;
+    scrollbar-width: none; /* Ocultar scroll en Firefox */
 }
+.categorias-container::-webkit-scrollbar { display: none; } /* Ocultar scroll en Chrome */
 
-header h2, .header-clean h2 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    flex: 1;
-    text-align: center;
-    color: #2d3436;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.back {
-    text-decoration: none;
-    font-size: 24px;
-    color: #4CAF50;
-    padding: 5px;
-    width: 40px;
-}
-
-.cart-icon {
-    font-size: 24px;
-    cursor: pointer;
-    width: 40px;
-    text-align: right;
-}
-
-/* =========================================
-   3. BOTONES
-   ========================================= */
-.btn {
-    display: block;
-    width: 100%;
-    padding: 16px;
+.cat-btn {
+    background: #eeeeee;
     border: none;
-    border-radius: 14px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    transition: all 0.2s;
-    cursor: pointer;
-    margin-bottom: 12px;
+    padding: 8px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #444;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
-.btn:active { transform: scale(0.97); }
-
-.btn-primary, .btn {
+.cat-btn.active {
     background: #4CAF50;
     color: white;
 }
 
-.btn-secondary, .secondary {
-    background: #ffc107;
-    color: #000;
-}
-
-/* =========================================
-   4. PANTALLA DE BIENVENIDA (INDEX)
-   ========================================= */
-.welcome {
-    background: linear-gradient(180deg, #dfe9d7 0%, #8bb174 100%);
-}
-
-.welcome .container {
-    text-align: center;
-    padding: 60px 30px;
-}
-
-.logo { font-size: 80px; margin-bottom: 20px; }
-
-/* =========================================
-   5. MENÚ DE PLATOS (CARDS)
-   ========================================= */
-.menu { padding: 15px; }
-
+/* --- Ajuste de la Card para que se vea como la imagen --- */
 .card {
+    margin-bottom: 25px;
+    border: none;
     background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-
-.card a { text-decoration: none; color: inherit; }
-
-.card img {
-    width: 100%;
-    height: 190px;
-    object-fit: cover;
+    border-radius: 28px; /* Más redondeado como la foto */
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
 }
 
 .card .info {
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 20px 24px;
 }
 
-.card h3 { font-size: 1.1rem; color: #2d3436; }
+.card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #333;
+}
 
-/* =========================================
-   6. DETALLE DE PRODUCTO
-   ========================================= */
-.detail-content { padding: 20px; padding-bottom: 120px; }
+/* Estilo exacto del precio en la imagen */
+.price-tag {
+    background: #4CAF50 !important;
+    color: white !important;
+    padding: 6px 18px !important;
+    border-radius: 20px !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+}
 
-.price-base {
+/* Ajuste del Header */
+.header-clean {
+    border-bottom: none;
+    height: 60px;
+}
+
+.app-logo {
+    background: transparent;
+    font-size: 28px;
+}
+
+header h2 {
+    letter-spacing: 2px;
     font-size: 1.2rem;
-    font-weight: bold;
-    color: #4CAF50;
-    margin-bottom: 20px;
 }
-
-.ingredient {
-    background: #fff;
-    padding: 15px;
-    margin-bottom: 12px;
-    border-radius: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-}
-
-.controls {
+/* Contenedor del icono */
+.cart-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    justify-content: center;
 }
 
-.controls button {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    border: none;
-    background: #4CAF50;
+.cart-icon {
+    font-size: 26px;
+}
+
+/* El círculo rojo (Badge) */
+.badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: #ff5252; /* Rojo vibrante */
     color: white;
-    font-size: 20px;
+    font-size: 11px;
     font-weight: bold;
-}
-
-.controls span {
-    font-weight: bold;
-    min-width: 20px;
-    text-align: center;
-}
-
-/* =========================================
-   7. LISTA DE PEDIDOS (CARRITO)
-   ========================================= */
-.cart-item {
-    background: #fff;
-    padding: 20px;
-    border-radius: 18px;
-    margin-bottom: 15px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    position: relative; /* Clave para posicionar hijos */
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-    border-left: 6px solid #4CAF50;
+    justify-content: center;
+    border: 2px solid white; /* Esto hace que resalte sobre el fondo */
+    padding: 2px;
+    /* Ocultar si es cero inicialmente */
+    display: none; 
 }
-
-.cart-info { flex: 1; padding-right: 10px; }
-.cart-info strong { font-size: 1.1rem; color: #2d3436; }
-
-.extras-small { 
-    font-size: 0.85rem; 
-    color: #666; 
-    margin: 5px 0; 
-    display: block;
-}
-
-.price-tag { 
-    font-weight: 800; 
-    color: #4CAF50; 
-    font-size: 1.1rem;
-}
-
-/* Botones de Editar y Borrar */
+/* --- Botones de Acción en cada Plato (Carrito) --- */
 .cart-actions {
     display: flex;
-    gap: 8px;
+    gap: 12px;
+    align-items: center;
 }
 
 .edit-btn, .delete-btn {
-    background: #f1f3f5;
-    border: none;
-    padding: 10px;
+    width: 42px;
+    height: 42px;
     border-radius: 12px;
-    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.edit-btn:active, .delete-btn:active { background: #e9ecef; }
+/* Diseño específico para Editar (Lápiz) */
+.edit-btn {
+    background-color: #e8f5e9; /* Verde muy clarito */
+    color: #4CAF50;
+}
 
-/* Footer fijo en Pedido */
+/* Diseño específico para Borrar (Papelera) */
+.delete-btn {
+    background-color: #ffebee; /* Rojo muy clarito */
+    color: #ff5252;
+}
+
+.edit-btn:active, .delete-btn:active {
+    transform: scale(0.9);
+}
+
+/* --- Ajuste de los Botones del Footer --- */
 .cart-footer {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     background: white;
-    padding: 15px 20px;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-    z-index: 101;
-}
-
-/* =========================================
-   8. MODAL Y "X" (ARREGLO DE POSICIÓN)
-   ========================================= */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
     padding: 20px;
-}
-
-.modal-card {
-    background: white;
-    padding: 40px 25px 25px 25px;
-    border-radius: 24px;
-    width: 100%;
-    max-width: 380px;
-    text-align: center;
-    position: relative; /* Clave para la X absoluta */
-}
-
-/* LA "X" DE CIERRE EN LA ESQUINA */
-.close {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #bbb;
-    cursor: pointer;
-    padding: 5px;
-    line-height: 1;
-}
-
-.close:hover { color: #333; }
-
-/* =========================================
-   9. LOADER
-   ========================================= */
-.loader {
-    position: fixed;
-    inset: 0;
-    background: #dfe9d7;
+    padding-bottom: 35px; /* Extra para notch de celulares */
+    box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+    border-radius: 25px 25px 0 0;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
+    flex-direction: column; /* Botones uno sobre otro para mejor tacto */
+    gap: 10px;
 }
 
-.spinner {
-    font-size: 60px;
-    margin-bottom: 15px;
-    animation: bounce 1s infinite alternate;
-}
-
-@keyframes bounce {
-    from { transform: translateY(0); }
-    to { transform: translateY(-20px); }
-}
-/* Resumen de ingredientes */
-.nutrition-summary {
-    margin-top: 20px;
-}
-
-.nutrition-summary h3 {
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-    color: #2d3436;
-}
-
-.nutrition-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.nutrition-table th,
-.nutrition-table td {
-    padding: 10px;
-    font-size: 0.9rem;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-}
-
-.nutrition-table th {
-    background: #f1f5f2;
+/* Asegurar que todos los botones .btn midan lo mismo */
+.btn {
+    height: 55px; /* Altura estándar de app */
+    border-radius: 16px;
+    border: none;
     font-weight: 700;
-}
-
-.nutrition-table td:first-child,
-.nutrition-table th:first-child {
-    text-align: left;
-}
-.total-row {
-    background: #f1f8f4;
-    font-weight: bold;
-}
-.categorias {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.categorias button {
-  background: #e8f5e9;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.categorias button:hover {
-  background: #c8e6c9;
-}
-.categorias {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  margin: 15px auto;
-  max-width: 400px;
-}
-
-.categorias button {
-  flex: 1;
-  background: #e8f5e9;
-  border: none;
-  padding: 10px 0;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: bold;
-  text-align: center;
-}
-
-.categorias button:hover {
-  background: #c8e6c9;
-}
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.modal-content {
-  background: #ffffff;
-  padding: 25px;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 360px;
-  text-align: center;
-}
-
-.modal-content h3 {
-  margin-bottom: 15px;
-}
-
-.codigo {
-  font-size: 26px;
-  font-weight: bold;
-  margin: 15px 0;
-  color: #2e7d32;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }

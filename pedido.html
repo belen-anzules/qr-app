@@ -2,44 +2,88 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Pedido</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mi Pedido - Macro Fit</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="bg-light">
+<body>
 
 <header class="header-clean">
-    <a href="menu.html" class="back">← Menú</a>
-    <h2>Resumen</h2>
-</header>
+    <a href="menu.html" class="back">‹</a>
+    <h2>RESUMEN</h2>
+    <div style="width: 40px;"></div> </header>
 
-<main class="container">
-    <div id="pedido"></div> 
+<main class="menu"> <div id="pedido-lista">
+        </div> 
     
-    <div class="cart-footer">
-        <button class="btn secondary" onclick="irAMenu()">+ Añadir más platos</button>
-        <button class="btn" onclick="finalizarCompra()">Finalizar Compra</button>
-    </div>
+    <div style="height: 180px;"></div>
 </main>
 
-<!-- 🔔 MODAL DE CONFIRMACIÓN -->
+<div class="cart-footer">
+    <button class="btn btn-secondary" onclick="irAMenu()">+ Añadir más platos</button>
+    <button class="btn btn-primary" onclick="finalizarCompra()">Finalizar Compra</button>
+</div>
+
 <div id="modalConfirmacion" class="modal">
-    <div class="modal-content">
-        <h3>¡Gracias por tu pedido! 🥑</h3>
-        <p>
-            Por favor acércate a cancelar en el restaurante.<br><br>
-            <strong>Código de tu pedido:</strong>
+    <div class="modal-card">
+        <span class="close" onclick="cerrarModal()">×</span>
+        <h3>¡Pedido Recibido! 🥑</h3>
+        <p style="margin-top: 10px; color: #666;">
+            Acércate a caja para cancelar tu pedido.
         </p>
-        <div id="codigoPedido" class="codigo"></div>
-        <button class="btn" onclick="cerrarModal()">Aceptar</button>
+        <div class="codigo-contenedor">
+            <p style="font-size: 0.8rem; color: #999; margin-bottom: 5px;">CÓDIGO DE PEDIDO</p>
+            <div id="codigoPedido" class="codigo"></div>
+        </div>
+        <button class="btn btn-primary" onclick="limpiarYRegresar()" style="margin-top: 20px;">Entendido</button>
     </div>
 </div>
 
-<script src="js/pedido.js"></script>
-
 <script>
+    // 1. Mostrar los platos guardados al cargar
+    window.onload = mostrarPedido;
+
+    // Dentro del cart.forEach...
+contenedor.innerHTML += `
+    <div class="cart-item">
+        <div class="cart-info">
+            <strong style="color:#333; font-size:1.1rem;">${item.nombre}</strong>
+            <p class="extras-small" style="color:#777; font-size:0.85rem; margin: 4px 0;">${item.extras}</p>
+            <span class="price-tag" style="color:#4CAF50; font-weight:800;">$${item.total}</span>
+        </div>
+        <div class="cart-actions">
+            <button class="edit-btn" onclick="prepararEdicion(${index})">✏️</button>
+            <button class="delete-btn" onclick="eliminarPlato(${index})">🗑️</button>
+        </div>
+    </div>
+`;
+
+    // 2. Funciones de gestión
+    function eliminarPlato(index) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        mostrarPedido();
+    }
+
+    function prepararEdicion(index) {
+        const cart = JSON.parse(localStorage.getItem('cart'));
+        const item = cart[index];
+        localStorage.setItem('editIndex', index);
+        // Regresa a la página original del plato (ej: detalle.html) para editar
+        window.location.href = item.page;
+    }
+
+    function irAMenu() {
+        window.location.href = 'menu.html';
+    }
+
+    // 3. Lógica del Checkout
     function finalizarCompra() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if(cart.length === 0) return alert("Añade algo primero");
+
         const codigo = Math.floor(100000 + Math.random() * 900000);
         document.getElementById("codigoPedido").innerText = codigo;
         document.getElementById("modalConfirmacion").style.display = "flex";
@@ -47,6 +91,11 @@
 
     function cerrarModal() {
         document.getElementById("modalConfirmacion").style.display = "none";
+    }
+
+    function limpiarYRegresar() {
+        localStorage.removeItem('cart'); // Opcional: limpiar pedido tras finalizar
+        window.location.href = 'menu.html';
     }
 </script>
 
