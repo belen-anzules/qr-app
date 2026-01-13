@@ -1,35 +1,153 @@
-<main class="container">
-    <h1>Tacos al Pastor</h1>
-    <img src="img/tacos.jpg" alt="Tacos" class="img-responsive">
-    <p>3 Tacos con piña, cilantro y cebolla.</p>
-    
-    <div class="nutrition-summary">
-        Cal: <span id="total-calories">0</span> | Pro: <span id="total-protein">0</span>g | Fat: <span id="total-fat">0</span>g | Carb: <span id="total-carbs">0</span>g
-    </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tacos al Pastor Fit</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
 
-    <div class="ingrediente">
-        <span>Tortilla de Maíz</span>
-        <button onclick="removeIng('tortilla')">-</button>
-        <span id="tortilla-qty">3</span>
-        <button onclick="addIng('tortilla')">+</button>
-        <div style="display:none;"><span id="cal-tortilla"></span><span id="pro-tortilla"></span><span id="fat-tortilla"></span><span id="carb-tortilla"></span></div>
-    </div>
-    <div class="ingrediente">
-        <span>Carne de Cerdo</span>
-        <button onclick="removeIng('cerdo')">-</button>
-        <span id="cerdo-qty">1</span>
-        <button onclick="addIng('cerdo')">+</button>
-        <div style="display:none;"><span id="cal-cerdo"></span><span id="pro-cerdo"></span><span id="fat-cerdo"></span><span id="carb-cerdo"></span></div>
-    </div>
-    <div class="ingrediente">
-        <span>Piña</span>
-        <button onclick="removeIng('pina')">-</button>
-        <span id="pina-qty">1</span>
-        <button onclick="addIng('pina')">+</button>
-        <div style="display:none;"><span id="cal-pina"></span><span id="pro-pina"></span><span id="fat-pina"></span><span id="carb-pina"></span></div>
-    </div>
+<body>
 
-    <h3>Total: $<span id="total-price">5.50</span></h3>
-    <button onclick="confirmarPedido()" class="btn-pedido">Confirmar Pedido</button>
-</main>
-<script src="cena1.js"></script>
+    <!-- HEADER -->
+    <header class="header-clean">
+        <a href="menu.html" class="back">←</a>
+        <h2>Tacos al Pastor Fit</h2>
+        <div class="cart-icon" onclick="window.location.href='pedido.html'">🧾</div>
+    </header>
+
+    <!-- CONTENIDO DETALLE -->
+    <section class="detail-content">
+
+        <!-- CARD CON IMAGEN CONTROLADA -->
+        <div class="card">
+            <div class="card-img-container">
+                <img 
+                    src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b" 
+                    alt="Tacos al Pastor Fit">
+            </div>
+        </div>
+
+        <!-- DESCRIPCIÓN -->
+        <p>
+            Tacos balanceados y saludables preparados con cerdo magro marinado,
+            piña asada y tortillas de maíz artesanales.
+        </p>
+
+        <!-- PRECIO BASE -->
+        <p class="price-base">
+            <strong>Precio base:</strong> $5.50
+        </p>
+
+        <!-- INGREDIENTES -->
+        <div class="ingredient-item">
+            <span>Cerdo Magro (100g)</span>
+            <div class="controls">
+                <button class="btn-qty" onclick="removeIng('cerdo')">−</button>
+                <span id="cerdo-qty" class="qty-num">1</span>
+                <button class="btn-qty" onclick="addIng('cerdo')">+</button>
+            </div>
+        </div>
+
+        <div class="ingredient-item">
+            <span>Tortillas de Maíz (3 unidades)</span>
+            <div class="controls">
+                <button class="btn-qty" onclick="removeIng('tortilla')">−</button>
+                <span id="tortilla-qty" class="qty-num">3</span>
+                <button class="btn-qty" onclick="addIng('tortilla')">+</button>
+            </div>
+        </div>
+
+        <div class="ingredient-item">
+            <span>Piña Asada (30g)</span>
+            <div class="controls">
+                <button class="btn-qty" onclick="removeIng('pina')">−</button>
+                <span id="pina-qty" class="qty-num">1</span>
+                <button class="btn-qty" onclick="addIng('pina')">+</button>
+            </div>
+        </div>
+
+        <div class="ingredient-item">
+            <span>Aguacate (Opcional)</span>
+            <div class="controls">
+                <button class="btn-qty" onclick="removeIng('aguacate')">−</button>
+                <span id="aguacate-qty" class="qty-num">0</span>
+                <button class="btn-qty" onclick="addIng('aguacate')">+</button>
+            </div>
+        </div>
+
+        <!-- NUTRICIÓN -->
+        <div class="nutrition-summary">
+            <h3>Análisis Nutricional</h3>
+
+            <table class="nutrition-table">
+                <thead>
+                    <tr>
+                        <th>Ingrediente</th>
+                        <th>Calorías</th>
+                        <th>Proteína</th>
+                        <th>Grasas</th>
+                        <th>Carbs</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Cerdo Magro</td>
+                        <td><span id="cal-cerdo">0</span> kcal</td>
+                        <td><span id="pro-cerdo">0</span> g</td>
+                        <td><span id="fat-cerdo">0</span> g</td>
+                        <td><span id="carb-cerdo">0</span> g</td>
+                    </tr>
+                    <tr>
+                        <td>Tortillas de Maíz</td>
+                        <td><span id="cal-tortilla">0</span> kcal</td>
+                        <td><span id="pro-tortilla">0</span> g</td>
+                        <td><span id="fat-tortilla">0</span> g</td>
+                        <td><span id="carb-tortilla">0</span> g</td>
+                    </tr>
+                    <tr>
+                        <td>Piña Asada</td>
+                        <td><span id="cal-pina">0</span> kcal</td>
+                        <td><span id="pro-pina">0</span> g</td>
+                        <td><span id="fat-pina">0</span> g</td>
+                        <td><span id="carb-pina">0</span> g</td>
+                    </tr>
+                    <tr>
+                        <td>Aguacate</td>
+                        <td><span id="cal-aguacate">0</span> kcal</td>
+                        <td><span id="pro-aguacate">0</span> g</td>
+                        <td><span id="fat-aguacate">0</span> g</td>
+                        <td><span id="carb-aguacate">0</span> g</td>
+                    </tr>
+                </tbody>
+
+                <tfoot>
+                    <tr class="total-row">
+                        <td><strong>Total</strong></td>
+                        <td><strong><span id="total-calories">0</span> kcal</strong></td>
+                        <td><strong><span id="total-protein">0</span> g</strong></td>
+                        <td><strong><span id="total-fat">0</span> g</strong></td>
+                        <td><strong><span id="total-carbs">0</span> g</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- PRECIO TOTAL -->
+        <p class="total-row">
+            <strong>Precio Total:</strong> $
+            <span id="total-price">5.50</span>
+        </p>
+
+        <!-- BOTÓN -->
+        <button class="btn btn-primary" onclick="confirmarPedido()">
+            Confirmar Pedido ✅
+        </button>
+
+    </section>
+
+    <script src="js/cena1.js"></script>
+
+</body>
+</html>

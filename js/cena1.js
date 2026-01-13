@@ -1,7 +1,9 @@
 const basePrice = 5.50;
 const ingredients = {
+    cerdo: { name: "Cerdo Magro", price: 1.5, calories: 180, protein: 22, fat: 9, carbs: 2, qty: 1, included: true },
     tortilla: { name: "Tortilla de Maíz", price: 0.5, calories: 50, protein: 1.2, fat: 0.5, carbs: 10, qty: 3, included: true },
-    cerdo: { name: "Carne al Pastor", price: 1.5, calories: 180, protein: 22, fat: 9, carbs: 2, qty: 1, included: true }
+    pina: { name: "Piña Asada", price: 0.4, calories: 25, protein: 0.2, fat: 0.1, carbs: 6, qty: 1, included: true },
+    aguacate: { name: "Aguacate", price: 1.0, calories: 160, protein: 2, fat: 15, carbs: 9, qty: 0, included: false }
 };
 
 let editIndex = null;
@@ -22,31 +24,26 @@ function updateUI() {
 
     for (let key in ingredients) {
         const ing = ingredients[key];
-        const qtyEl = document.getElementById(`${key}-qty`);
-        
-        if(qtyEl) {
-            qtyEl.innerText = ing.qty;
-            
-            // Cálculos
-            const c = ing.calories * ing.qty;
-            const p = ing.protein * ing.qty;
-            const f = ing.fat * ing.qty;
-            const cb = ing.carbs * ing.qty;
+        if(document.getElementById(`${key}-qty`)) {
+            document.getElementById(`${key}-qty`).innerText = ing.qty;
+            document.getElementById(`cal-${key}`).innerText = ing.calories * ing.qty;
+            document.getElementById(`pro-${key}`).innerText = (ing.protein * ing.qty).toFixed(1);
+            document.getElementById(`fat-${key}`).innerText = (ing.fat * ing.qty).toFixed(1);
+            document.getElementById(`carb-${key}`).innerText = (ing.carbs * ing.qty).toFixed(1);
 
-            // Actualizar textos pequeños de cada fila (si existen)
-            if(document.getElementById(`cal-${key}`)) document.getElementById(`cal-${key}`).innerText = c;
-            if(document.getElementById(`pro-${key}`)) document.getElementById(`pro-${key}`).innerText = p.toFixed(1);
-            if(document.getElementById(`fat-${key}`)) document.getElementById(`fat-${key}`).innerText = f.toFixed(1);
-            if(document.getElementById(`carb-${key}`)) document.getElementById(`carb-${key}`).innerText = cb.toFixed(1);
+            totalCal += ing.calories * ing.qty;
+            totalPro += ing.protein * ing.qty;
+            totalFat += ing.fat * ing.qty;
+            totalCarb += ing.carbs * ing.qty;
 
-            totalCal += c; totalPro += p; totalFat += f; totalCarb += cb;
-
-            // Lógica de precio: Si quitas lo incluido, resta. Si agregas más de lo incluido, suma.
-            if (ing.included) {
-                if (ing.qty === 0) totalPrice -= ing.price;
-                else if (ing.qty > (key === 'tortilla' ? 3 : 1)) { 
-                    totalPrice += (ing.qty - (key === 'tortilla' ? 3 : 1)) * ing.price;
-                }
+            // Lógica de precio idéntica a desayuno2.js
+            if (ing.qty === 0) {
+                if (ing.included) totalPrice -= ing.price;
+            } else if (ing.qty > (key === 'tortilla' ? 3 : 1)) {
+                let baseQty = (key === 'tortilla' ? 3 : 1);
+                totalPrice += (ing.qty - baseQty) * ing.price;
+            } else if (!ing.included && ing.qty > 0) {
+                totalPrice += ing.qty * ing.price;
             }
         }
     }
@@ -69,12 +66,13 @@ function confirmarPedido() {
     let configActual = {};
     for (let k in ingredients) {
         configActual[k] = ingredients[k].qty;
-        if (ingredients[k].qty > (k === 'tortilla' ? 3 : 1)) extrasArray.push(`${ingredients[k].qty}x ${ingredients[k].name}`);
-        if (ingredients[k].qty === 0) extrasArray.push(`Sin ${ingredients[k].name}`);
+        let baseQty = (k === 'tortilla' ? 3 : 1);
+        if (ingredients[k].qty > baseQty) extrasArray.push(`${ingredients[k].qty}x ${ingredients[k].name}`);
+        if (ingredients[k].qty === 0 && ingredients[k].included) extrasArray.push(`Sin ${ingredients[k].name}`);
     }
 
     const item = {
-        nombre: "Tacos al Pastor",
+        nombre: "Tacos al Pastor Fit",
         page: "cena1.html",
         extras: extrasArray.join(", ") || "Receta estándar",
         total: document.getElementById("total-price").innerText,
@@ -84,7 +82,6 @@ function confirmarPedido() {
     if (editIndex !== null) cart[editIndex] = item;
     else cart.push(item);
 
-    // Redirigir enviando el carrito completo por la URL
     window.location.href = `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
 }
 

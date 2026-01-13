@@ -1,90 +1,139 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cena - Fajitas de Ternera</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cena 3 - Bowl de Salmón Fit</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-light">
 
-<header class="header-clean">
-    <a href="javascript:history.back()" class="back">‹</a>
-    <h2 style="letter-spacing: 1px;">DETALLE</h2>
-    <div style="width:40px;"></div>
-</header>
+<body>
 
-<main class="container">
-    <div class="card-detalle">
-        <img src="img/fajitas.jpg" alt="Fajitas de Ternera" class="img-responsive-apk">
-        
-        <div class="info-header">
-            <h1>Fajitas de Ternera</h1>
-            <p class="description">Tiras de ternera magra salteadas con pimientos frescos y cebolla morada, servidas en tortillas de trigo.</p>
+    <!-- HEADER -->
+    <header class="header-clean">
+        <a href="menu.html" class="back">←</a>
+        <h2>Bowl de Salmón Fit</h2>
+        <div class="cart-icon" onclick="window.location.href='pedido.html'">
+            🧾
         </div>
+    </header>
 
-        <div class="nutrition-bar">
-            <div class="nutri-item"><strong>Cal</strong><span id="total-calories">0</span></div>
-            <div class="nutri-item"><strong>Pro</strong><span id="total-protein">0</span>g</div>
-            <div class="nutri-item"><strong>Fat</strong><span id="total-fat">0</span>g</div>
-            <div class="nutri-item"><strong>Carb</strong><span id="total-carbs">0</span>g</div>
-        </div>
+    <!-- CONTENIDO DETALLE -->
+    <section class="detail-content">
 
-        <div class="section-title">Personaliza tus ingredientes</div>
-
-        <div id="lista-ingredientes">
-            <div class="ingrediente-row">
-                <div class="ing-info">
-                    <span>Ternera Magra (150g)</span>
-                    <small>Cal: <span id="cal-ternera">0</span> | Pro: <span id="pro-ternera">0</span></small>
-                    <span style="display:none;" id="fat-ternera">0</span><span style="display:none;" id="carb-ternera">0</span>
-                </div>
-                <div class="controls">
-                    <button class="btn-qty" onclick="removeIng('ternera')">-</button>
-                    <span id="ternera-qty" class="qty-num">1</span>
-                    <button class="btn-qty" onclick="addIng('ternera')">+</button>
-                </div>
-            </div>
-
-            <div class="ingrediente-row">
-                <div class="ing-info">
-                    <span>Mix Pimientos</span>
-                    <small>Cal: <span id="cal-pimientos">0</span> | Pro: <span id="pro-pimientos">0</span></small>
-                    <span style="display:none;" id="fat-pimientos">0</span><span style="display:none;" id="carb-pimientos">0</span>
-                </div>
-                <div class="controls">
-                    <button class="btn-qty" onclick="removeIng('pimientos')">-</button>
-                    <span id="pimientos-qty" class="qty-num">1</span>
-                    <button class="btn-qty" onclick="addIng('pimientos')">+</button>
-                </div>
-            </div>
-
-            <div class="ingrediente-row">
-                <div class="ing-info">
-                    <span>Tortilla de Trigo (ud)</span>
-                    <small>Cal: <span id="cal-tortilla">0</span> | Pro: <span id="pro-tortilla">0</span></small>
-                    <span style="display:none;" id="fat-tortilla">0</span><span style="display:none;" id="carb-tortilla">0</span>
-                </div>
-                <div class="controls">
-                    <button class="btn-qty" onclick="removeIng('tortilla')">-</button>
-                    <span id="tortilla-qty" class="qty-num">2</span>
-                    <button class="btn-qty" onclick="addIng('tortilla')">+</button>
-                </div>
+        <!-- CARD CON IMAGEN CONTROLADA -->
+        <div class="card">
+            <div class="card-img-container">
+                <img 
+                    src="img/cena3.png" 
+                    alt="Bowl de Salmón Fit">
             </div>
         </div>
-    </div>
 
-    <div style="height: 120px;"></div>
-</main>
+        <!-- DESCRIPCIÓN -->
+        <p>
+            Bowl nutritivo con salmón fresco grillado, base de quinoa orgánica 
+            y edamames tiernos. Rico en Omega-3 y proteínas de alta calidad.
+        </p>
 
-<div class="footer-action">
-    <div class="price-container">
-        <small>Total a pagar</small>
-        <div class="price">$<span id="total-price">7.50</span></div>
-    </div>
-    <button class="btn-confirmar" onclick="confirmarPedido()">Añadir al pedido</button>
-</div>
+        <!-- PRECIO BASE -->
+        <p class="price-base">
+            <strong>Precio base:</strong> $8.50
+        </p>
 
-<script src="cena3.js"></script>
+        <!-- INGREDIENTES -->
+        <div class="ingredient-item">
+            <span>Salmón Grill (120g)</span>
+            <div class="controls">
+                <button class="btn-qty" onclick="removeIng('salmon')">−</button>
+                <span id="salmon-qty" class="qty-num">1</span>
+                <button class="btn-qty" onclick="addIng('salmon')">+</button>
+            </div>
+        </div>
+
+        <div class="ingredient-item">
+            <span>Quinoa Cocida (100g)</span>
+            <div class="controls">
+                <button class="btn-qty" onclick="removeIng('quinoa')">−</button>
+                <span id="quinoa-qty" class="qty-num">1</span>
+                <button class="btn-qty" onclick="addIng('quinoa')">+</button>
+            </div>
+        </div>
+
+        <div class="ingredient-item">
+            <span>Edamames (50g)</span>
+            <div class="controls">
+                <button class="btn-qty" onclick="removeIng('edamame')">−</button>
+                <span id="edamame-qty" class="qty-num">1</span>
+                <button class="btn-qty" onclick="addIng('edamame')">+</button>
+            </div>
+        </div>
+
+        <!-- NUTRICIÓN -->
+        <div class="nutrition-summary">
+            <h3>Análisis Nutricional</h3>
+
+            <table class="nutrition-table">
+                <thead>
+                    <tr>
+                        <th>Ingrediente</th>
+                        <th>Calorías</th>
+                        <th>Proteína</th>
+                        <th>Grasas</th>
+                        <th>Carbs</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Salmón Grill</td>
+                        <td><span id="cal-salmon">0</span> kcal</td>
+                        <td><span id="pro-salmon">0</span> g</td>
+                        <td><span id="fat-salmon">0</span> g</td>
+                        <td><span id="carb-salmon">0</span> g</td>
+                    </tr>
+                    <tr>
+                        <td>Quinoa</td>
+                        <td><span id="cal-quinoa">0</span> kcal</td>
+                        <td><span id="pro-quinoa">0</span> g</td>
+                        <td><span id="fat-quinoa">0</span> g</td>
+                        <td><span id="carb-quinoa">0</span> g</td>
+                    </tr>
+                    <tr>
+                        <td>Edamames</td>
+                        <td><span id="cal-edamame">0</span> kcal</td>
+                        <td><span id="pro-edamame">0</span> g</td>
+                        <td><span id="fat-edamame">0</span> g</td>
+                        <td><span id="carb-edamame">0</span> g</td>
+                    </tr>
+                </tbody>
+
+                <tfoot>
+                    <tr class="total-row">
+                        <td><strong>Total</strong></td>
+                        <td><strong><span id="total-calories">0</span> kcal</strong></td>
+                        <td><strong><span id="total-protein">0</span> g</strong></td>
+                        <td><strong><span id="total-fat">0</span> g</strong></td>
+                        <td><strong><span id="total-carbs">0</span> g</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- PRECIO TOTAL -->
+        <p class="total-row">
+            <strong>Precio Total:</strong> $
+            <span id="total-price">8.50</span>
+        </p>
+
+        <!-- BOTÓN -->
+        <button class="btn btn-primary" onclick="confirmarPedido()">
+            Confirmar Pedido ✅
+        </button>
+
+    </section>
+
+    <script src="js/cena3.js"></script>
+
 </body>
 </html>

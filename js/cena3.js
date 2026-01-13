@@ -1,8 +1,8 @@
-const basePrice = 7.50;
+const basePrice = 8.50;
 const ingredients = {
-    ternera: { name: "Ternera Magra", price: 2.5, calories: 210, protein: 26, fat: 11, carbs: 0, qty: 1, included: true },
-    pimientos: { name: "Mix Pimientos", price: 0.6, calories: 30, protein: 1, fat: 0.2, carbs: 6, qty: 1, included: true },
-    tortilla: { name: "Tortilla Trigo", price: 0.5, calories: 90, protein: 3, fat: 2, carbs: 18, qty: 2, included: true }
+    salmon: { name: "Salmón Grill", price: 3.5, calories: 208, protein: 20, fat: 13, carbs: 0, qty: 1, included: true },
+    quinoa: { name: "Quinoa Cocida", price: 1.0, calories: 120, protein: 4.4, fat: 1.9, carbs: 21, qty: 1, included: true },
+    edamame: { name: "Edamame", price: 0.8, calories: 121, protein: 11, fat: 5, carbs: 10, qty: 1, included: true }
 };
 
 let editIndex = null;
@@ -23,28 +23,21 @@ function updateUI() {
 
     for (let key in ingredients) {
         const ing = ingredients[key];
-        const qtyElement = document.getElementById(`${key}-qty`);
-        
-        if (qtyElement) {
-            qtyElement.innerText = ing.qty;
-            
-            const c = ing.calories * ing.qty;
-            const p = ing.protein * ing.qty;
-            const f = ing.fat * ing.qty;
-            const cb = ing.carbs * ing.qty;
+        if(document.getElementById(`${key}-qty`)) {
+            document.getElementById(`${key}-qty`).innerText = ing.qty;
+            document.getElementById(`cal-${key}`).innerText = ing.calories * ing.qty;
+            document.getElementById(`pro-${key}`).innerText = (ing.protein * ing.qty).toFixed(1);
+            document.getElementById(`fat-${key}`).innerText = (ing.fat * ing.qty).toFixed(1);
+            document.getElementById(`carb-${key}`).innerText = (ing.carbs * ing.qty).toFixed(1);
 
-            if(document.getElementById(`cal-${key}`)) document.getElementById(`cal-${key}`).innerText = c;
-            if(document.getElementById(`pro-${key}`)) document.getElementById(`pro-${key}`).innerText = p.toFixed(1);
+            totalCal += ing.calories * ing.qty;
+            totalPro += ing.protein * ing.qty;
+            totalFat += ing.fat * ing.qty;
+            totalCarb += ing.carbs * ing.qty;
 
-            totalCal += c; totalPro += p; totalFat += f; totalCarb += cb;
-
-            // Lógica de precio: resta si es 0, suma si es extra
-            if (ing.included) {
-                if (ing.qty === 0) totalPrice -= ing.price;
-                else if (ing.qty > (key === 'tortilla' ? 2 : 1)) {
-                    totalPrice += (ing.qty - (key === 'tortilla' ? 2 : 1)) * ing.price;
-                }
-            }
+            // Lógica de precio: resta si se quita ingrediente incluido, suma si se aumenta
+            if (ing.qty === 0) totalPrice -= ing.price;
+            else if (ing.qty > 1) totalPrice += (ing.qty - 1) * ing.price;
         }
     }
 
@@ -66,15 +59,12 @@ function confirmarPedido() {
     let configActual = {};
     for (let k in ingredients) {
         configActual[k] = ingredients[k].qty;
-        if (ingredients[k].qty > (k === 'tortilla' ? 2 : 1)) {
-            extrasArray.push(`${ingredients[k].qty}x ${ingredients[k].name}`);
-        } else if (ingredients[k].qty === 0) {
-            extrasArray.push(`Sin ${ingredients[k].name}`);
-        }
+        if (ingredients[k].qty > 1) extrasArray.push(`${ingredients[k].qty}x ${ingredients[k].name}`);
+        if (ingredients[k].qty === 0) extrasArray.push(`Sin ${ingredients[k].name}`);
     }
 
     const item = {
-        nombre: "Fajitas de Ternera",
+        nombre: "Bowl Salmón Fit",
         page: "cena3.html", 
         extras: extrasArray.join(", ") || "Receta estándar",
         total: document.getElementById("total-price").innerText,
@@ -84,7 +74,6 @@ function confirmarPedido() {
     if (editIndex !== null) cart[editIndex] = item;
     else cart.push(item);
 
-    alert("¡Fajitas añadidas!");
     window.location.href = `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
 }
 

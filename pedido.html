@@ -22,7 +22,7 @@
             <span>Subtotal</span>
             <span id="subtotal">$0.00</span>
         </div>
-        <div style="display: flex; justify-content: space-between; font-weight: 900; font-size: 1.4rem; color: #2D3436; border-top: 1px dashed #ddd; pt: 15px; margin-top: 10px;">
+        <div style="display: flex; justify-content: space-between; font-weight: 900; font-size: 1.4rem; color: #2D3436; border-top: 1px dashed #ddd; padding-top: 15px; margin-top: 10px;">
             <span>TOTAL</span>
             <span id="total-global" style="color: #4CAF50;">$0.00</span>
         </div>
@@ -36,24 +36,23 @@
     <button class="btn btn-primary" onclick="finalizarCompra()">Confirmar Pedido</button>
 </div>
 
-<div id="modalConfirmacion" class="modal">
-    <div class="modal-card">
+<div id="modalConfirmacion" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000;">
+    <div class="modal-card" style="background:white; padding:30px; border-radius:30px; text-align:center; width:80%;">
         <div style="font-size: 50px; margin-bottom: 15px;">🥗</div>
         <h2 style="color: #2D3436;">¡Buen provecho!</h2>
-        <p style="color: #666; margin-bottom: 20px;">Tu pedido ha sido enviado a cocina. Paga con este código:</p>
-        
-        <div class="codigo-contenedor">
-            <p style="font-size: 0.7rem; color: #888; margin-bottom: 5px; font-weight: bold;">CÓDIGO DE CAJA</p>
-            <div id="codigoPedido" class="codigo"></div>
+        <p style="color: #666; margin-bottom: 20px;">Tu pedido ha sido enviado. Paga en caja con este código:</p>
+        <div style="background:#f0f0f0; padding:15px; border-radius:15px;">
+            <p style="font-size: 0.7rem; color: #888; margin-bottom: 5px; font-weight: bold;">CÓDIGO DE PEDIDO</p>
+            <div id="codigoPedido" style="font-size:2rem; font-weight:900; color:#4CAF50;"></div>
         </div>
-        
-        <button class="btn btn-primary" onclick="limpiarYSalir()">Finalizar</button>
+        <button class="btn btn-primary" onclick="limpiarYSalir()" style="margin-top:20px; width:100%;">Finalizar</button>
     </div>
 </div>
 
 <script>
     function getCart() {
         const params = new URLSearchParams(window.location.search);
+        // Priorizamos la URL para que la edición funcione, si no hay nada, devolvemos vacío
         return params.get('cart') ? JSON.parse(decodeURIComponent(params.get('cart'))) : [];
     }
 
@@ -63,17 +62,12 @@
         const resumen = document.getElementById('resumen-pago');
         const cartString = encodeURIComponent(JSON.stringify(cart));
         
-        // Mantener navegación sin perder carrito
+        // Mantener el carrito al volver al menú
         document.getElementById('link-back-menu').href = `menu.html?cart=${cartString}`;
         document.getElementById('btn-add-more').onclick = () => location.href = `menu.html?cart=${cartString}`;
 
         if(cart.length === 0) {
-            container.innerHTML = `
-                <div style="text-align:center; padding:60px 20px;">
-                    <div style="font-size:60px; margin-bottom:20px;">🥣</div>
-                    <p style="color:#999; font-weight:600;">Tu carrito está vacío</p>
-                    <a href="menu.html" class="btn btn-primary" style="display:inline-block; margin-top:20px; text-decoration:none;">Ver Menú</a>
-                </div>`;
+            container.innerHTML = `<div style="text-align:center; padding:60px 20px;"><p>Tu carrito está vacío</p></div>`;
             resumen.style.display = "none";
             return;
         }
@@ -85,22 +79,24 @@
         cart.forEach((item, index) => {
             sumaTotal += parseFloat(item.total);
             
-            // Lógica de edición: pasar nombre, precio base e imagen original si fuera necesario
+            // CONSTRUIR URL DE EDICIÓN:
+            // Regresamos a la página original del plato (item.page)
             let configParams = "";
-            for(let key in item.config) configParams += `&${key}=${item.config[key]}`;
-            // Añadimos p_nombre y p_precio para que detalle.html cargue correctamente los datos del plato
-            const urlEditar = `detalle.html?cart=${cartString}&editIndex=${index}&p_nombre=${encodeURIComponent(item.nombre)}&p_precio=7.99${configParams}`;
+            for(let key in item.config) {
+                configParams += `&${key}=${item.config[key]}`;
+            }
+            const urlEditar = `${item.page}?cart=${cartString}&editIndex=${index}${configParams}`;
 
             container.innerHTML += `
-                <div class="card" style="padding:15px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; border-radius:20px;">
+                <div class="card" style="padding:15px; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; border-radius:20px; background:white; box-shadow:0 4px 10px rgba(0,0,0,0.05);">
                     <div style="flex:1;">
                         <strong style="font-size:1.1rem; color:#333;">${item.nombre}</strong>
                         <p style="font-size:0.8rem; color:#888; margin:4px 0;">${item.extras}</p>
                         <span style="color:#4CAF50; font-weight:bold;">$${item.total}</span>
                     </div>
                     <div style="display:flex; gap:10px;">
-                        <button class="btn-qty" onclick="location.href='${urlEditar}'" style="background:#E8F5E9; color:#4CAF50;">✏️</button>
-                        <button class="btn-qty" onclick="eliminar(${index})" style="background:#FFEBEE; color:#F44336;">🗑️</button>
+                        <button onclick="location.href='${urlEditar}'" style="border:none; background:#E8F5E9; color:#4CAF50; padding:10px; border-radius:12px; cursor:pointer;">✏️</button>
+                        <button onclick="eliminar(${index})" style="border:none; background:#FFEBEE; color:#F44336; padding:10px; border-radius:12px; cursor:pointer;">🗑️</button>
                     </div>
                 </div>`;
         });
@@ -122,7 +118,6 @@
     }
 
     function limpiarYSalir() {
-        // Al finalizar, borramos carrito y volvemos al menú limpio
         window.location.href = 'menu.html';
     }
 

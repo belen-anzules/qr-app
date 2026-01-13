@@ -9,14 +9,14 @@
 <body>
 
 <header class="header-clean">
-    <a href="javascript:history.back()" class="back" style="text-decoration:none; font-size:24px;">‹</a>
+    <a id="btn-volver" class="back" style="text-decoration:none; font-size:24px;">‹</a>
     <h2 id="plato-nombre">Cargando...</h2>
-    <div class="cart-icon" onclick="window.location.href='pedido.html'" style="font-size:22px;">🧾</div>
+    <div class="cart-icon" id="btn-cart" style="font-size:22px; cursor:pointer;">🧾</div>
 </header>
 
 <main class="detail-container">
     <div class="detail-img-header">
-        <img id="plato-img" src="" alt="Plato">
+        <img id="plato-img" src="" alt="Plato" style="width:100%; height:300px; object-fit:cover;">
     </div>
 
     <section class="detail-content" style="padding: 20px;">
@@ -36,7 +36,7 @@
             </div>
             <div class="controls">
                 <button class="btn-qty" onclick="changeQty('aguacate', -1)">−</button>
-                <span id="aguacate-qty" style="margin:0 10px;">0</span>
+                <span id="aguacate-qty" style="margin:0 10px; font-weight:bold;">0</span>
                 <button class="btn-qty" onclick="changeQty('aguacate', 1)">+</button>
             </div>
         </div>
@@ -48,7 +48,7 @@
             </div>
             <div class="controls">
                 <button class="btn-qty" onclick="changeQty('proteina', -1)">−</button>
-                <span id="proteina-qty" style="margin:0 10px;">0</span>
+                <span id="proteina-qty" style="margin:0 10px; font-weight:bold;">0</span>
                 <button class="btn-qty" onclick="changeQty('proteina', 1)">+</button>
             </div>
         </div>
@@ -57,7 +57,7 @@
     </section>
 </main>
 
-<div class="cart-footer" style="position:fixed; bottom:0; width:100%; background:white; padding:20px; box-shadow:0 -5px 15px rgba(0,0,0,0.05);">
+<div class="cart-footer" style="position:fixed; bottom:0; width:100%; background:white; padding:20px; box-shadow:0 -5px 15px rgba(0,0,0,0.05); box-sizing:border-box;">
     <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-weight:bold; font-size:1.1rem;">
         <span>Total:</span>
         <span style="color:#2E7D32;">$<span id="total-price">0.00</span></span>
@@ -69,22 +69,37 @@
     let currentBasePrice = 0;
     let extras = { aguacate: 0, proteina: 0 };
     const extraPrices = { aguacate: 1.00, proteina: 2.00 };
+    let editIndex = null;
 
     window.onload = () => {
         const params = new URLSearchParams(window.location.search);
-        
-        // Cargar datos de la URL
+        const cartString = params.get('cart') || "";
+
+        // 1. Configurar botones de navegación para no perder el carrito
+        document.getElementById('btn-volver').href = `menu.html?cart=${cartString}`;
+        document.getElementById('btn-cart').onclick = () => location.href = `pedido.html?cart=${cartString}`;
+
+        // 2. Cargar datos básicos del plato desde la URL
         const nombre = params.get('p_nombre') || "Plato Saludable";
         currentBasePrice = parseFloat(params.get('p_precio')) || 0.00;
-        const imagen = params.get('p_img') || "";
+        const imagen = params.get('p_img') || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c";
         const descripcion = params.get('p_desc') || "Deliciosa opción saludable preparada con ingredientes frescos.";
 
-        // Inyectar en el HTML
         document.getElementById('plato-nombre').innerText = nombre;
         document.getElementById('plato-titulo-sec').innerText = nombre;
         document.getElementById('plato-img').src = imagen;
         document.getElementById('plato-descripcion').innerText = descripcion;
         document.getElementById('base-price-display').innerText = currentBasePrice.toFixed(2);
+
+        // 3. Lógica de EDICIÓN: Si viene de pedido.html, cargar valores previos
+        if (params.has('editIndex')) {
+            editIndex = params.get('editIndex');
+            if(params.has('aguacate')) extras.aguacate = parseInt(params.get('aguacate'));
+            if(params.has('proteina')) extras.proteina = parseInt(params.get('proteina'));
+            
+            document.getElementById('aguacate-qty').innerText = extras.aguacate;
+            document.getElementById('proteina-qty').innerText = extras.proteina;
+        }
         
         updateTotal();
     };
@@ -106,19 +121,40 @@
     }
 
     function confirmarPedido() {
+        const params = new URLSearchParams(window.location.search);
+        // Obtener el carrito actual de la URL
+        let cart = params.get('cart') ? JSON.parse(decodeURIComponent(params.get('cart'))) : [];
+
+        // Crear descripción de extras para el resumen
+        let detArray = [];
+        if(extras.aguacate > 0) detArray.push(`${extras.aguacate}x Aguacate`);
+        if(extras.proteina > 0) detArray.push(`${extras.proteina}x Proteína`);
+
         const item = {
             nombre: document.getElementById('plato-nombre').innerText,
             total: document.getElementById('total-price').innerText,
-            img: document.getElementById('plato-img').src,
-            detalles: `Aguacate: ${extras.aguacate}, Proteína: ${extras.proteina}`
+            page: "detalle.html", // Referencia para editar
+            extras: detArray.join(", ") || "Sin extras",
+            config: { 
+                aguacate: extras.aguacate, 
+                proteina: extras.proteina,
+                p_nombre: document.getElementById('plato-nombre').innerText,
+                p_precio: currentBasePrice,
+                p_img: document.getElementById('plato-img').src,
+                p_desc: document.getElementById('plato-descripcion').innerText
+            }
         };
-        
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        cart.push(item);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
-        alert("¡Añadido al carrito!");
-        window.location.href = 'pedido.html';
+
+        // Si estamos editando, reemplazamos. Si no, añadimos.
+        if (editIndex !== null) {
+            cart[editIndex] = item;
+        } else {
+            cart.push(item);
+        }
+
+        // Enviar de vuelta a pedido.html con el carrito actualizado en la URL
+        const cartString = encodeURIComponent(JSON.stringify(cart));
+        window.location.href = `pedido.html?cart=${cartString}`;
     }
 </script>
 </body>

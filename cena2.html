@@ -2,66 +2,136 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cena - Ensalada César</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cena 2 - Ensalada César</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-light">
-<header class="header-clean">
-    <a href="javascript:history.back()" class="back">‹</a>
-    <h2>DETALLE</h2>
-    <div style="width:40px;"></div>
-</header>
 
-<main class="container">
-    <div class="card-detalle">
-        <img src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9" alt="Ensalada" class="img-responsive-apk">
-        <div class="info-header">
-            <h1>Ensalada César Fit</h1>
-            <p class="description">Lechugas frescas, pechuga grillada y aderezo ligero de yogurt.</p>
+<body>
+
+    <!-- HEADER -->
+    <header class="header-clean">
+        <a href="menu.html" class="back">←</a>
+        <h2>Ensalada César Fit</h2>
+        <div class="cart-icon" onclick="window.location.href='pedido.html'">🧾</div>
+    </header>
+
+    <!-- CONTENIDO DETALLE -->
+    <section class="detail-content">
+
+        <!-- CARD CON IMAGEN CONTROLADA -->
+        <div class="card">
+            <div class="card-img-container">
+                <img 
+                    src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9" 
+                    alt="Ensalada César Fit">
+            </div>
         </div>
-        <div class="nutrition-bar">
-            <div class="nutri-item"><strong>Cal</strong><span id="total-calories">0</span></div>
-            <div class="nutri-item"><strong>Pro</strong><span id="total-protein">0</span>g</div>
-            <div class="nutri-item"><strong>Fat</strong><span id="total-fat">0</span>g</div>
-            <div class="nutri-item"><strong>Carb</strong><span id="total-carbs">0</span>g</div>
-        </div>
 
-        <div class="section-title">Personaliza tu ensalada</div>
+        <!-- DESCRIPCIÓN -->
+        <p>
+            Pechuga grillada, mix de lechugas frescas y queso parmesano
+            con aderezo ligero.
+        </p>
 
-        <div class="ingrediente-row">
-            <div class="ing-info"><span>Pechuga de Pollo (150g)</span><small>Cal: <span id="cal-pollo">0</span></small></div>
+        <!-- PRECIO BASE -->
+        <p class="price-base">
+            <strong>Precio base:</strong> $6.00
+        </p>
+
+        <!-- INGREDIENTES -->
+        <div class="ingredient-item">
+            <span>Pechuga Grill (150g)</span>
             <div class="controls">
-                <button class="btn-qty" onclick="removeIng('pollo')">-</button>
+                <button class="btn-qty" onclick="removeIng('pollo')">−</button>
                 <span id="pollo-qty" class="qty-num">1</span>
                 <button class="btn-qty" onclick="addIng('pollo')">+</button>
             </div>
         </div>
 
-        <div class="ingrediente-row">
-            <div class="ing-info"><span>Mix de Lechugas</span><small>Cal: <span id="cal-lechuga">0</span></small></div>
+        <div class="ingredient-item">
+            <span>Mix Lechugas</span>
             <div class="controls">
-                <button class="btn-qty" onclick="removeIng('lechuga')">-</button>
+                <button class="btn-qty" onclick="removeIng('lechuga')">−</button>
                 <span id="lechuga-qty" class="qty-num">1</span>
                 <button class="btn-qty" onclick="addIng('lechuga')">+</button>
             </div>
         </div>
 
-        <div class="ingrediente-row">
-            <div class="ing-info"><span>Parmesano (10g)</span><small>Cal: <span id="cal-queso">0</span></small></div>
+        <div class="ingredient-item">
+            <span>Queso Parmesano</span>
             <div class="controls">
-                <button class="btn-qty" onclick="removeIng('queso')">-</button>
+                <button class="btn-qty" onclick="removeIng('queso')">−</button>
                 <span id="queso-qty" class="qty-num">1</span>
                 <button class="btn-qty" onclick="addIng('queso')">+</button>
             </div>
         </div>
-    </div>
-</main>
 
-<div class="footer-action">
-    <div class="price-container"><small>Total</small><div class="price">$<span id="total-price">6.00</span></div></div>
-    <button class="btn-confirmar" onclick="confirmarPedido()">Añadir al pedido</button>
-</div>
-<script src="cena2.js"></script>
+        <!-- NUTRICIÓN -->
+        <div class="nutrition-summary">
+            <h3>Análisis Nutricional</h3>
+
+            <table class="nutrition-table">
+                <thead>
+                    <tr>
+                        <th>Ingrediente</th>
+                        <th>Calorías</th>
+                        <th>Proteína</th>
+                        <th>Grasas</th>
+                        <th>Carbs</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Pechuga Grill</td>
+                        <td><span id="cal-pollo">0</span> kcal</td>
+                        <td><span id="pro-pollo">0</span> g</td>
+                        <td><span id="fat-pollo">0</span> g</td>
+                        <td><span id="carb-pollo">0</span> g</td>
+                    </tr>
+                    <tr>
+                        <td>Mix Lechugas</td>
+                        <td><span id="cal-lechuga">0</span> kcal</td>
+                        <td><span id="pro-lechuga">0</span> g</td>
+                        <td><span id="fat-lechuga">0</span> g</td>
+                        <td><span id="carb-lechuga">0</span> g</td>
+                    </tr>
+                    <tr>
+                        <td>Parmesano</td>
+                        <td><span id="cal-queso">0</span> kcal</td>
+                        <td><span id="pro-queso">0</span> g</td>
+                        <td><span id="fat-queso">0</span> g</td>
+                        <td><span id="carb-queso">0</span> g</td>
+                    </tr>
+                </tbody>
+
+                <tfoot>
+                    <tr class="total-row">
+                        <td><strong>Total</strong></td>
+                        <td><strong><span id="total-calories">0</span> kcal</strong></td>
+                        <td><strong><span id="total-protein">0</span> g</strong></td>
+                        <td><strong><span id="total-fat">0</span> g</strong></td>
+                        <td><strong><span id="total-carbs">0</span> g</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- PRECIO TOTAL -->
+        <p class="total-row">
+            <strong>Precio Total:</strong> $
+            <span id="total-price">6.00</span>
+        </p>
+
+        <!-- BOTÓN -->
+        <button class="btn btn-primary" onclick="confirmarPedido()">
+            Confirmar Pedido ✅
+        </button>
+
+    </section>
+
+    <script src="js/cena2.js"></script>
+
 </body>
 </html>
