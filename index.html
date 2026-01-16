@@ -13,53 +13,10 @@
   <h1 style="font-weight: 900; color: #2E7D32; font-size: 2.5rem;">MACRO FIT</h1>
   <p style="color: #666; margin-bottom: 50px;">Tu nutrición inteligente en un solo lugar.</p>
 
-  <button class="btn btn-primary" style="margin-bottom: 15px;" onclick="mostrarAlerta('registro')">Crear Cuenta</button>
-  <button class="btn btn-secondary" onclick="mostrarAlerta('invitado')">Entrar como Invitado</button>
+  <a href="menu.html" class="btn btn-primary" style="text-decoration: none; display: inline-block; padding: 15px 60px; font-size: 1.2rem;">
+    Iniciar
+  </a>
 </div>
-
-<div id="welcome-modal" class="modal">
-  <div class="modal-card">
-    <span class="close" onclick="cerrarModal()">✕</span>
-    <div id="modal-icon" style="font-size: 50px; margin-bottom: 15px;"></div>
-    <h2 id="modal-title" style="margin-bottom: 10px; color: #333;"></h2>
-    <p id="modal-text" style="color: #666; margin-bottom: 25px;"></p>
-    
-    <div id="modal-footer">
-        </div>
-  </div>
-</div>
-
-<script>
-  const modal = document.getElementById("welcome-modal");
-  const title = document.getElementById("modal-title");
-  const text = document.getElementById("modal-text");
-  const icon = document.getElementById("modal-icon");
-  const footer = document.getElementById("modal-footer");
-
-  function mostrarAlerta(tipo) {
-    if (tipo === 'registro') {
-      icon.innerText = "📝";
-      title.innerText = "¡Únete a nosotros!";
-      text.innerText = "Al registrarte, calcularemos tus macros y crearemos un plan personalizado para tus objetivos.";
-      footer.innerHTML = `<a href="registro.html" class="btn btn-primary" style="text-decoration:none;">Ir al Registro</a>`;
-    } else {
-      icon.innerText = "🔑";
-      title.innerText = "Modo Invitado";
-      text.innerText = "Podrás ver nuestro menú completo, pero no guardaremos tu progreso nutricional.";
-      footer.innerHTML = `<button class="btn btn-primary" onclick="window.location.href='menu.html'">Continuar al Menú</button>`;
-    }
-    modal.style.display = "flex";
-  }
-
-  function cerrarModal() {
-    modal.style.display = "none";
-  }
-
-  // Cerrar si hacen clic fuera de la tarjeta
-  window.onclick = function(event) {
-    if (event.target == modal) cerrarModal();
-  }
-</script>
 
 </body>
 </html>
