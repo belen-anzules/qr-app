@@ -37,50 +37,48 @@
 </div>
 
 <!-- MODAL FORMULARIO -->
-<div id="modalFormulario" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
-    <div style="background:white; padding:30px; border-radius:25px; width:85%; max-width:420px; text-align:center;">
-        
+<div id="modalFormulario" class="modal" style="display:none;">
+    <div class="modal-card">
+
+        <!-- ❌ cerrar -->
+        <button onclick="cerrarFormulario()" style="position:absolute; top:15px; right:20px; border:none; background:none; font-size:22px;">✖</button>
+
         <div style="font-size:40px;">🥗</div>
-        <h2 style="margin-bottom:10px;">¡Ya casi está listo!</h2>
-        <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">
+        <h2>¡Ya casi está listo!</h2>
+        <p style="font-size:0.9rem; color:#666;">
             Para confirmar tu pedido, por favor completa estos datos.
         </p>
 
-        <input id="nombre" type="text" placeholder="Nombre completo"
-            style="width:100%; padding:12px; margin-bottom:10px; border-radius:12px; border:1px solid #ccc;">
+        <input id="nombre" type="text" placeholder="Nombre completo">
+        <input id="cedula" type="text" placeholder="Cédula">
+        <input id="telefono" type="text" placeholder="Teléfono">
 
-        <input id="cedula" type="text" placeholder="Cédula"
-            style="width:100%; padding:12px; margin-bottom:10px; border-radius:12px; border:1px solid #ccc;">
-
-        <input id="telefono" type="text" placeholder="Teléfono"
-            style="width:100%; padding:12px; margin-bottom:20px; border-radius:12px; border:1px solid #ccc;">
-
-        <button class="btn btn-primary" style="width:100%;" onclick="confirmarPago()">
-            Generar código de pago
-        </button>
+        <button class="btn btn-primary" onclick="confirmarPago()">Generar código de pago</button>
     </div>
 </div>
 
 <!-- MODAL CONFIRMACIÓN -->
-<div id="modalConfirmacion" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
-    <div style="background:white; padding:30px; border-radius:25px; width:85%; max-width:420px; text-align:center;">
+<div id="modalConfirmacion" class="modal" style="display:none;">
+    <div class="modal-card">
+
+        <!-- ❌ cerrar -->
+        <button onclick="cerrarConfirmacion()" style="position:absolute; top:15px; right:20px; border:none; background:none; font-size:22px;">✖</button>
+
         <div style="font-size:50px;">✅</div>
         <h2>Pedido confirmado</h2>
 
-        <p id="datosCliente" style="color:#666; margin:15px 0;"></p>
+        <p id="datosCliente" style="color:#666;"></p>
 
         <div style="background:#f0f0f0; padding:15px; border-radius:15px;">
             <p style="font-size:0.7rem; font-weight:bold;">CÓDIGO DE PAGO</p>
             <div id="codigoPedido" style="font-size:2rem; font-weight:900; color:#4CAF50;"></div>
         </div>
 
-        <p style="font-size:0.85rem; color:#888; margin-top:15px;">
+        <p style="font-size:0.85rem; color:#888; margin-top:10px;">
             Presenta este código en caja para realizar el pago.
         </p>
 
-        <button class="btn btn-primary" style="margin-top:20px; width:100%;" onclick="limpiarYSalir()">
-            Finalizar
-        </button>
+        <button class="btn btn-primary" onclick="limpiarYSalir()">Finalizar</button>
     </div>
 </div>
 
@@ -108,13 +106,27 @@ function mostrarPedido() {
     container.innerHTML = "";
     let total = 0;
 
-    cart.forEach(item => {
+    cart.forEach((item, index) => {
         total += parseFloat(item.total);
+
+        let configParams = "";
+        for(let key in item.config) {
+            configParams += `&${key}=${item.config[key]}`;
+        }
+
+        const urlEditar = `${item.page}?cart=${cartString}&editIndex=${index}${configParams}`;
+
         container.innerHTML += `
-            <div style="padding:15px; margin-bottom:15px; border-radius:20px; background:white;">
-                <strong>${item.nombre}</strong>
-                <p style="font-size:0.8rem; color:#888;">${item.extras}</p>
-                <span style="color:#4CAF50;">$${item.total}</span>
+            <div class="card">
+                <div>
+                    <strong>${item.nombre}</strong>
+                    <p class="extras-small">${item.extras}</p>
+                    <span class="price">$${item.total}</span>
+                </div>
+                <div class="actions">
+                    <button onclick="location.href='${urlEditar}'">✏️</button>
+                    <button onclick="eliminarPlato(${index})">🗑️</button>
+                </div>
             </div>`;
     });
 
@@ -122,17 +134,31 @@ function mostrarPedido() {
     document.getElementById("total-global").innerText = `$${total.toFixed(2)}`;
 }
 
+function eliminarPlato(index) {
+    let cart = getCart();
+    cart.splice(index, 1);
+    location.href = `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
+}
+
 function abrirFormulario() {
     document.getElementById("modalFormulario").style.display = "flex";
 }
 
+function cerrarFormulario() {
+    document.getElementById("modalFormulario").style.display = "none";
+}
+
+function cerrarConfirmacion() {
+    document.getElementById("modalConfirmacion").style.display = "none";
+}
+
 function confirmarPago() {
-    const nombre = document.getElementById("nombre").value.trim();
-    const cedula = document.getElementById("cedula").value.trim();
-    const telefono = document.getElementById("telefono").value.trim();
+    const nombre = nombreInput.value.trim();
+    const cedula = cedulaInput.value.trim();
+    const telefono = telefonoInput.value.trim();
 
     if(!nombre || !cedula || !telefono) {
-        alert("Por favor completa todos los datos para continuar");
+        alert("Por favor completa todos los datos");
         return;
     }
 
@@ -146,13 +172,17 @@ function confirmarPago() {
 
     document.getElementById("codigoPedido").innerText = codigo;
 
-    document.getElementById("modalFormulario").style.display = "none";
+    cerrarFormulario();
     document.getElementById("modalConfirmacion").style.display = "flex";
 }
 
 function limpiarYSalir() {
     window.location.href = "menu.html";
 }
+
+const nombreInput = document.getElementById("nombre");
+const cedulaInput = document.getElementById("cedula");
+const telefonoInput = document.getElementById("telefono");
 
 window.onload = mostrarPedido;
 </script>

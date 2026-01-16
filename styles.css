@@ -325,3 +325,64 @@ body {
     min-width: 20px;
     text-align: center;
 }
+/* Contenedor de acciones */
+.pedido-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* BOTÓN EDITAR */
+.btn-edit {
+    background: #e3f2fd;
+    color: #1976d2;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-edit:hover {
+    background: #bbdefb;
+}
+
+/* BOTÓN ELIMINAR */
+.btn-delete {
+    background: #fdecea;
+    color: #d32f2f;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-delete:hover {
+    background: #f9c0bb;
+}
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #999;
+    transition: 0.2s;
+}
+
+.modal-close:hover {
+    color: #000;
+}
+.pedido-card {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
