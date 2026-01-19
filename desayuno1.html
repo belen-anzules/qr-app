@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Overnight Oats Zucchini Bread</title>
   <link rel="stylesheet" href="styles.css" />
+
   <style>
-    /* Estilos para la ventana de Datos Curiosos (Modal) */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(0,0,0,0.6);
-      display: none; 
+      display: none;
       justify-content: center;
       align-items: center;
       z-index: 1000;
@@ -24,45 +24,9 @@
       max-width: 400px;
       border-radius: 15px;
       padding: 20px;
-      position: relative;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-      margin-bottom: 15px;
-    }
-
-    .modal-header h3 {
-      margin: 0;
-      color: #333;
-    }
-
-    .close-modal {
-      font-size: 28px;
-      cursor: pointer;
-      color: #999;
-      line-height: 1;
-    }
-
-    .dato-item {
-      margin-bottom: 15px;
-      font-size: 14px;
-      line-height: 1.5;
-      color: #555;
-    }
-
-    .dato-item strong {
-      color: #2e7d32; /* Verde para resaltar componentes de la avena */
-      display: block;
-      margin-bottom: 3px;
-    }
-
-    /* Ajuste para el header e icono azul */
     .header-clean {
       display: flex;
       justify-content: space-between;
@@ -73,7 +37,6 @@
 
     .cart-icon {
       font-size: 24px;
-      color: #8bb9fe; /* Azul claro como en tu imagen */
       cursor: pointer;
     }
   </style>
@@ -81,135 +44,140 @@
 
 <body>
 
-  <header class="header-clean">
-    <a href="menu.html" class="back">←</a>
-    <h2>Overnight Oats</h2>
-    <div class="cart-icon" onclick="toggleDatosCuriosos()">🧾</div>
-  </header>
+<header class="header-clean">
+  <a href="menu.html" class="back">←</a>
+  <h2>Overnight Oats</h2>
+  <div class="cart-icon" onclick="toggleDatosCuriosos()">🧾</div>
+</header>
 
-  <section class="detail-content">
+<section class="detail-content">
 
-    <div class="card">
-      <div class="card-img-container">
-        <img src="img/desayuno1.png" alt="Overnight Oats Zucchini Bread">
-      </div>
-    </div>
-
-    <p>
-      Nuestra avena en leche de almendras o yogurt griego, mezclada con ralladura
-      de zucchini para fibra extra, canela, nueces crujientes y arándanos frescos.
-    </p>
-
-    <p class="price-base">
-      <strong>Precio base:</strong> $5.99
-    </p>
-
-    <div class="ingredient-item">
-      <span>Avena Integral</span>
-      <div class="controls">
-        <button class="btn-qty" onclick="removeIng('avena')">−</button>
-        <span id="avena-qty" class="qty-num">1</span>
-        <button class="btn-qty" onclick="addIng('avena')">+</button>
-      </div>
-    </div>
-
-    <div class="ingredient-item">
-      <span>Yogur Griego Natural</span>
-      <div class="controls">
-        <button class="btn-qty" onclick="removeIng('yogurt')">−</button>
-        <span id="yogurt-qty" class="qty-num">1</span>
-        <button class="btn-qty" onclick="addIng('yogurt')">+</button>
-      </div>
-    </div>
-
-    <div class="ingredient-item">
-      <span>Zucchini (Calabacín)</span>
-      <div class="controls">
-        <button class="btn-qty" onclick="removeIng('zucchini')">−</button>
-        <span id="zucchini-qty" class="qty-num">1</span>
-        <button class="btn-qty" onclick="addIng('zucchini')">+</button>
-      </div>
-    </div>
-
-    <div class="nutrition-summary">
-      <h3>Análisis Nutricional</h3>
-      <table class="nutrition-table">
-        <thead>
-          <tr>
-            <th>Ingrediente</th>
-            <th>Calorías</th>
-            <th>Proteína</th>
-            <th>Grasas</th>
-            <th>Carbs</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Avena Integral</td>
-            <td><span id="cal-avena">0</span> kcal</td>
-            <td><span id="pro-avena">0</span> g</td>
-            <td><span id="fat-avena">0</span> g</td>
-            <td><span id="carb-avena">0</span> g</td>
-          </tr>
-          </tbody>
-        <tfoot>
-          <tr class="total-row">
-            <td><strong>Total</strong></td>
-            <td><strong><span id="total-calories">0</span> kcal</strong></td>
-            <td><strong><span id="total-protein">0</span> g</strong></td>
-            <td><strong><span id="total-fat">0</span> g</strong></td>
-            <td><strong><span id="total-carbs">0</span> g</strong></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-
-    <p class="total-row">
-      <strong>Precio Total:</strong> $
-      <span id="total-price">5.99</span>
-    </p>
-
-    <button class="btn btn-primary" onclick="confirmarPedido()">
-      Confirmar Pedido ✅
-    </button>
-
-  </section>
-
-  <div id="modal-datos" class="modal-overlay" onclick="toggleDatosCuriosos()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-      <div class="modal-header">
-        <h3>¿Sabías qué?</h3>
-        <span class="close-modal" onclick="toggleDatosCuriosos()">&times;</span>
-      </div>
-      <div class="modal-body">
-        <div class="dato-item">
-          <strong>🥣 Digestión Ligera</strong>
-          Al dejar la avena en remojo toda la noche, los almidones se descomponen, facilitando la digestión.
-        </div>
-        <div class="dato-item">
-          <strong>🥒 El Secreto del Zucchini</strong>
-          Aporta volumen y fibra sin alterar el sabor, absorbiendo los aromas de la canela.
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-img-container">
+      <img src="img/desayuno1.png" alt="Overnight Oats Zucchini Bread">
     </div>
   </div>
 
-  <script src="js/desayuno1.js"></script>
+  <p>
+    Nuestra avena con yogurt griego, zucchini rallado, nueces y arándanos.
+  </p>
 
-  <script>
-    function toggleDatosCuriosos() {
-      const modal = document.getElementById('modal-datos');
-      if (modal.style.display === 'flex') {
-        modal.style.display = 'none';
-      } else {
-        modal.style.display = 'flex';
-      }
-    }
+  <p class="price-base"><strong>Precio base:</strong> $5.99</p>
 
-    function confirmarPedido() {
-      // Aquí puedes agregar la lógica para confirmar el pedido
-      alert("Pedido de Overnight Oats confirmado ✅");
-    }
-  </script>
+  <!-- INGREDIENTES (MISMO DISEÑO) -->
+  <div class="ingredient-item">
+    <span>Avena Integral</span>
+    <div class="controls">
+      <button class="btn-qty" onclick="removeIng('avena')">−</button>
+      <span id="avena-qty" class="qty-num">1</span>
+      <button class="btn-qty" onclick="addIng('avena')">+</button>
+    </div>
+  </div>
+
+  <div class="ingredient-item">
+    <span>Yogur Griego</span>
+    <div class="controls">
+      <button class="btn-qty" onclick="removeIng('yogurt')">−</button>
+      <span id="yogurt-qty" class="qty-num">1</span>
+      <button class="btn-qty" onclick="addIng('yogurt')">+</button>
+    </div>
+  </div>
+
+  <div class="ingredient-item">
+    <span>Leche de Almendras</span>
+    <div class="controls">
+      <button class="btn-qty" onclick="removeIng('leche')">−</button>
+      <span id="leche-qty" class="qty-num">1</span>
+      <button class="btn-qty" onclick="addIng('leche')">+</button>
+    </div>
+  </div>
+
+  <div class="ingredient-item">
+    <span>Zucchini</span>
+    <div class="controls">
+      <button class="btn-qty" onclick="removeIng('zucchini')">−</button>
+      <span id="zucchini-qty" class="qty-num">1</span>
+      <button class="btn-qty" onclick="addIng('zucchini')">+</button>
+    </div>
+  </div>
+
+  <div class="ingredient-item">
+    <span>Nueces</span>
+    <div class="controls">
+      <button class="btn-qty" onclick="removeIng('nueces')">−</button>
+      <span id="nueces-qty" class="qty-num">1</span>
+      <button class="btn-qty" onclick="addIng('nueces')">+</button>
+    </div>
+  </div>
+
+  <div class="ingredient-item">
+    <span>Arándanos</span>
+    <div class="controls">
+      <button class="btn-qty" onclick="removeIng('arandanos')">−</button>
+      <span id="arandanos-qty" class="qty-num">1</span>
+      <button class="btn-qty" onclick="addIng('arandanos')">+</button>
+    </div>
+  </div>
+
+  <div class="ingredient-item">
+    <span>Miel</span>
+    <div class="controls">
+      <button class="btn-qty" onclick="removeIng('miel')">−</button>
+      <span id="miel-qty" class="qty-num">0</span>
+      <button class="btn-qty" onclick="addIng('miel')">+</button>
+    </div>
+  </div>
+
+  <!-- TABLA NUTRICIONAL (MISMO ESTILO) -->
+  <div class="nutrition-summary">
+    <h3>Análisis Nutricional</h3>
+    <table class="nutrition-table">
+      <tbody>
+        <tr><td>Avena</td><td id="cal-avena"></td><td id="pro-avena"></td><td id="fat-avena"></td><td id="carb-avena"></td></tr>
+        <tr><td>Yogur</td><td id="cal-yogurt"></td><td id="pro-yogurt"></td><td id="fat-yogurt"></td><td id="carb-yogurt"></td></tr>
+        <tr><td>Leche</td><td id="cal-leche"></td><td id="pro-leche"></td><td id="fat-leche"></td><td id="carb-leche"></td></tr>
+        <tr><td>Zucchini</td><td id="cal-zucchini"></td><td id="pro-zucchini"></td><td id="fat-zucchini"></td><td id="carb-zucchini"></td></tr>
+        <tr><td>Nueces</td><td id="cal-nueces"></td><td id="pro-nueces"></td><td id="fat-nueces"></td><td id="carb-nueces"></td></tr>
+        <tr><td>Arándanos</td><td id="cal-arandanos"></td><td id="pro-arandanos"></td><td id="fat-arandanos"></td><td id="carb-arandanos"></td></tr>
+        <tr><td>Miel</td><td id="cal-miel"></td><td id="pro-miel"></td><td id="fat-miel"></td><td id="carb-miel"></td></tr>
+      </tbody>
+
+      <tfoot>
+        <tr class="total-row">
+          <td>Total</td>
+          <td id="total-calories"></td>
+          <td id="total-protein"></td>
+          <td id="total-fat"></td>
+          <td id="total-carbs"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <p class="total-row">
+    <strong>Total:</strong> $<span id="total-price">5.99</span>
+  </p>
+
+  <button class="btn btn-primary" onclick="confirmarPedido()">
+    Confirmar Pedido ✅
+  </button>
+
+</section>
+
+<div id="modal-datos" class="modal-overlay" onclick="toggleDatosCuriosos()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h3>¿Sabías qué?</h3>
+    <p>La avena remojada mejora la digestión.</p>
+  </div>
+</div>
+
+<script src="js/desayuno1.js"></script>
+<script>
+function toggleDatosCuriosos() {
+  const modal = document.getElementById("modal-datos");
+  modal.style.display = modal.style.display === "flex" ? "none" : "flex";
+}
+</script>
+
 </body>
 </html>
