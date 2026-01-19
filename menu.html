@@ -26,9 +26,9 @@
     </div>
   </header>
 
-  <div style="padding: 15px 20px 0;">
-      <p style="color: #888; font-size: 0.9rem;">Hola, <span id="nombre-usuario" style="color: #2E7D32; font-weight: 800;">Invitado</span> 👋</p>
-      <h1 style="font-size: 1.5rem; margin-top: 5px;">Empieza tu día</h1>
+  <div style="padding: 20px 20px 0;">
+      <h1 style="font-size: 1.6rem; color: #333; margin-bottom: 5px;">¡Bienvenido a Macro Fit!</h1>
+      <p style="color: #666; font-size: 0.95rem;">Selecciona tu opción favorita para empezar el día con energía.</p>
   </div>
 
   <nav class="categorias-container">
@@ -72,8 +72,7 @@
 
   <script>
     window.onload = () => {
-        const nombre = localStorage.getItem('userName') || "Invitado";
-        document.getElementById('nombre-usuario').innerText = nombre;
+        // Se eliminó la lógica de nombre-usuario
         actualizarContador();
     };
 
@@ -81,8 +80,10 @@
         const params = new URLSearchParams(window.location.search);
         const cart = params.get('cart') ? JSON.parse(decodeURIComponent(params.get('cart'))) : [];
         const badge = document.getElementById("cart-count");
-        badge.innerText = cart.length;
-        badge.style.display = cart.length > 0 ? "flex" : "none";
+        if(badge) {
+            badge.innerText = cart.length;
+            badge.style.display = cart.length > 0 ? "flex" : "none";
+        }
     }
 
     function irADetalle(pagina) {

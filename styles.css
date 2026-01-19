@@ -1,13 +1,13 @@
 /* ============================================================
-   CONFIGURACIÓN NATIVA APK - MACRO FIT (FINAL)
+   MACRO FIT - ESTILOS COMPLETOS PARA APP
    ============================================================ */
 
+/* ===== VARIABLES ===== */
 :root {
     --primary: #2E7D32;
     --bg-app: #F7F9FC;
     --white: #ffffff;
     --text-main: #333;
-    /* Colores de categorías solicitados */
     --color-desayuno: #1976D2;
     --bg-desayuno: #E3F2FD;
     --color-almuerzo: #F57C00;
@@ -16,17 +16,17 @@
     --bg-cena: #F3E5F5;
 }
 
+/* ===== BODY / APP ===== */
 body {
     background-color: var(--bg-app);
     color: var(--text-main);
     margin: 0;
     font-family: 'Segoe UI', Roboto, sans-serif;
-    /* ESPACIO PARA QUE EL BOTÓN FIJO NO TAPE LA TABLA */
-    padding-bottom: 180px; 
+    padding-bottom: 180px; /* espacio para footer */
     overscroll-behavior-y: contain;
 }
 
-/* --- HEADER --- */
+/* ===== HEADER ===== */
 .header-clean {
     background: var(--white);
     padding: 15px 20px;
@@ -34,21 +34,46 @@ body {
     align-items: center;
     justify-content: space-between;
     position: sticky;
-    top: 0; z-index: 1000;
+    top: 0;
+    z-index: 1000;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
-.header-clean h2 { font-size: 1rem; font-weight: 800; margin: 0; }
-.back { text-decoration: none; font-size: 1.5rem; color: #333; }
+.header-clean h2 {
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0;
+}
 
-/* --- CATEGORÍAS (COLORES RECUPERADOS) --- */
-.categorias-container { display: flex; gap: 10px; padding: 15px; overflow-x: auto; }
-.cat-btn { padding: 10px 20px; border-radius: 14px; border: none; font-weight: 700; font-size: 0.85rem; }
+.back {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+}
+
+/* ===== CATEGORÍAS ===== */
+.categorias-container {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    overflow-x: auto;
+}
+
+.cat-btn {
+    padding: 10px 20px;
+    border-radius: 14px;
+    border: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
 .cat-desayuno { background: var(--bg-desayuno); color: var(--color-desayuno); }
 .cat-almuerzo { background: var(--bg-almuerzo); color: var(--color-almuerzo); }
 .cat-cena { background: var(--bg-cena); color: var(--color-cena); }
 
-/* --- INGREDIENTES RESPONSIVE --- */
+/* ===== INGREDIENTES ===== */
 .ingredient-item {
     background: var(--white);
     margin: 8px 15px;
@@ -86,35 +111,56 @@ body {
     color: var(--primary);
     font-weight: 800;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    cursor: pointer;
 }
 
-/* --- ANÁLISIS NUTRICIONAL (ESTILO OSCURO PROFESIONAL) --- */
+/* ===== ANÁLISIS NUTRICIONAL ===== */
 .nutrition-summary {
-    background: #2D3436; 
-    border-radius: 22px; 
+    background: #2D3436;
+    border-radius: 22px;
     padding: 20px;
-    margin: 25px 15px; 
+    margin: 25px 15px;
     color: white;
 }
 
 .nutrition-summary h3 {
-    font-size: 0.8rem; 
-    text-align: center; 
+    font-size: 0.8rem;
+    text-align: center;
     color: #81C784;
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-.nutrition-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.nutrition-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
 
-.nutrition-table th { color: #81C784; font-weight: 400; padding-bottom: 12px; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.nutrition-table th:first-child { text-align: left; }
+.nutrition-table th {
+    color: #81C784;
+    font-weight: 400;
+    padding-bottom: 12px;
+    text-align: right;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
 
-.nutrition-table td { padding: 12px 2px; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.nutrition-table td:first-child { text-align: left; color: #CCC; }
+.nutrition-table th:first-child {
+    text-align: left;
+}
 
-/* FILA DE TOTALES (VERDE DE LA IMAGEN) */
+.nutrition-table td {
+    padding: 12px 2px;
+    text-align: right;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.nutrition-table td:first-child {
+    text-align: left;
+    color: #CCC;
+}
+
 .total-row td {
     background: #2E7D32 !important;
     color: white !important;
@@ -122,13 +168,16 @@ body {
     padding: 14px 5px !important;
     border: none;
 }
+
 .total-row td:first-child { border-radius: 12px 0 0 12px; }
 .total-row td:last-child { border-radius: 0 12px 12px 0; }
 
-/* --- FOOTER FIJO (BOTÓN DE CONFIRMAR) --- */
+/* ===== FOOTER FIJO ===== */
 .footer-container {
     position: fixed;
-    bottom: 0; left: 0; width: 100%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     background: var(--white);
     padding: 20px;
     box-shadow: 0 -10px 25px rgba(0,0,0,0.08);
@@ -155,4 +204,62 @@ body {
     font-size: 1rem;
     font-weight: 800;
     text-transform: uppercase;
+    cursor: pointer;
+}
+
+/* ===== MODALES ===== */
+.modal, .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content, .modal-card {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 25px;
+    width: 85%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.close-modal {
+    font-size: 26px;
+    cursor: pointer;
+    color: #999;
+}
+
+/* ===== BOTONES GENERALES ===== */
+.btn {
+    padding: 15px 25px;
+    border-radius: 15px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-secondary { background: #f0f0f0; color: #333; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .nutrition-table { font-size: 13px; }
+    .ingredient-item { padding: 12px 14px; }
+    .btn-qty { width: 28px; height: 28px; font-size: 0.85rem; }
 }
