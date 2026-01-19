@@ -5,39 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tostada con Aguacate y Huevo Poché</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Estilos para la ventana de Datos Curiosos (Modal) */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none; /* Oculto por defecto */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      width: 85%;
+      max-width: 400px;
+      border-radius: 15px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: #333;
+    }
+
+    .close-modal {
+      font-size: 28px;
+      cursor: pointer;
+      color: #999;
+      line-height: 1;
+    }
+
+    .dato-item {
+      margin-bottom: 15px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #555;
+    }
+
+    .dato-item strong {
+      color: #e67e22; /* Color naranja para resaltar el aguacate/huevo */
+      display: block;
+      margin-bottom: 3px;
+    }
+  </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
   <header class="header-clean">
     <a href="menu.html" class="back">←</a>
     <h2>Tostada con Aguacate y Huevo Poché</h2>
-    <div class="cart-icon" onclick="window.location.href='pedido.html'">🧾</div>
+    <div class="cart-icon" onclick="toggleDatosCuriosos()" style="cursor: pointer;">🧾</div>
   </header>
 
-  <!-- CONTENIDO DETALLE -->
   <section class="detail-content">
 
-    <!-- CARD CON IMAGEN CONTROLADA -->
     <div class="card">
       <div class="card-img-container">
         <img src="img/clasico_power.png" alt="Tostada con Aguacate y Huevo Poché">
       </div>
     </div>
 
-    <!-- DESCRIPCIÓN -->
     <p>
       Clásico Power Toast con pan de grano entero, aguacate machacado,
       huevos poché y tomates cherry. Alto en fibra y proteína natural.
     </p>
 
-    <!-- PRECIO BASE -->
     <p class="price-base">
       <strong>Precio base:</strong> $3.99
     </p>
 
-    <!-- INGREDIENTES -->
     <div class="ingredient-item">
       <span>Pan de Masa Madre / Integral (50g)</span>
       <div class="controls">
@@ -83,7 +134,6 @@
       </div>
     </div>
 
-    <!-- NUTRICIÓN -->
     <div class="nutrition-summary">
       <h3>Análisis Nutricional</h3>
 
@@ -148,19 +198,55 @@
       </table>
     </div>
 
-    <!-- PRECIO TOTAL -->
     <p class="total-row">
       <strong>Precio Total:</strong> $
       <span id="total-price">3.99</span>
     </p>
 
-    <!-- BOTÓN -->
     <button class="btn btn-primary" onclick="confirmarPedido()">
       Confirmar Pedido ✅
     </button>
 
   </section>
 
+  <div id="modal-datos" class="modal-overlay" onclick="toggleDatosCuriosos()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>¿Sabías qué?</h3>
+        <span class="close-modal" onclick="toggleDatosCuriosos()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="dato-item">
+          <strong>🥑 Grasas Inteligentes</strong>
+          El aguacate es rico en grasas monoinsaturadas que ayudan a reducir el colesterol "malo" y son esenciales para la salud del corazón.
+        </div>
+        <div class="dato-item">
+          <strong>🥚 Proteína de Alta Calidad</strong>
+          El huevo poché conserva mejor sus nutrientes al no usar aceites en su cocción, aportando aminoácidos esenciales para tus músculos.
+        </div>
+        <div class="dato-item">
+          <strong>🍞 Saciedad Prolongada</strong>
+          El pan de grano entero junto con la fibra de la chía ayuda a que la energía se libere lentamente, evitándote el hambre antes del almuerzo.
+        </div>
+        <div class="dato-item">
+          <strong>🍅 El Poder del Licopeno</strong>
+          Los tomates cherry son una gran fuente de licopeno, un antioxidante que protege tus células y mejora la salud de la piel.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/desayuno2.js"></script>
+
+  <script>
+    function toggleDatosCuriosos() {
+      const modal = document.getElementById('modal-datos');
+      if (modal.style.display === 'flex') {
+        modal.style.display = 'none';
+      } else {
+        modal.style.display = 'flex';
+      }
+    }
+  </script>
 </body>
 </html>

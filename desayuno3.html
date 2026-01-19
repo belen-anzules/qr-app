@@ -5,40 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Superbowl Griego</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Estilos para la ventana de Datos Curiosos (Modal) */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none; /* Oculto por defecto */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      width: 85%;
+      max-width: 400px;
+      border-radius: 15px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: #333;
+    }
+
+    .close-modal {
+      font-size: 28px;
+      cursor: pointer;
+      color: #999;
+      line-height: 1;
+    }
+
+    .dato-item {
+      margin-bottom: 15px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #555;
+    }
+
+    .dato-item strong {
+      color: #0277bd; /* Azul para resaltar el estilo griego/yogurt */
+      display: block;
+      margin-bottom: 3px;
+    }
+  </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
   <header class="header-clean">
     <a href="menu.html" class="back">←</a>
     <h2>Superbowl Griego</h2>
-    <div class="cart-icon" onclick="window.location.href='pedido.html'">🧾</div>
+    <div class="cart-icon" onclick="toggleDatosCuriosos()" style="cursor: pointer;">🧾</div>
   </header>
 
-  <!-- CONTENIDO DETALLE -->
   <section class="detail-content">
 
-    <!-- CARD CON IMAGEN CONTROLADA -->
     <div class="card">
       <div class="card-img-container">
         <img src="img/desayuno3.png" alt="Superbowl Griego">
       </div>
     </div>
 
-    <!-- DESCRIPCIÓN -->
     <p>
       Base cremosa de yogur griego natural, coronada con granola artesanal,
       frutos rojos frescos y un toque de mantequilla de almendra natural.
       Nutritivo, balanceado y delicioso.
     </p>
 
-    <!-- PRECIO BASE -->
     <p class="price-base">
       <strong>Precio base:</strong> $3.99
     </p>
 
-    <!-- INGREDIENTES -->
     <div class="ingredient-item">
       <span>Yogurt Griego Natural (200g)</span>
       <div class="controls">
@@ -93,7 +144,6 @@
       </div>
     </div>
 
-    <!-- NUTRICIÓN -->
     <div class="nutrition-summary">
       <h3>Análisis Nutricional</h3>
 
@@ -165,19 +215,55 @@
       </table>
     </div>
 
-    <!-- PRECIO TOTAL -->
     <p class="total-row">
       <strong>Precio Total:</strong> $
       <span id="total-price">3.99</span>
     </p>
 
-    <!-- BOTÓN -->
     <button class="btn btn-primary" onclick="confirmarPedido()">
       Confirmar Pedido ✅
     </button>
 
   </section>
 
+  <div id="modal-datos" class="modal-overlay" onclick="toggleDatosCuriosos()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>¿Sabías qué?</h3>
+        <span class="close-modal" onclick="toggleDatosCuriosos()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="dato-item">
+          <strong>🍦 Proteína Real</strong>
+          El yogur griego tiene el doble de proteína que el yogur regular, ayudándote a reparar tejidos y mantener tus músculos sanos.
+        </div>
+        <div class="dato-item">
+          <strong>💎 Semillas de Hemp</strong>
+          Son una de las pocas fuentes vegetales de "proteína completa" y contienen el equilibrio perfecto de Omega-3 y Omega-6.
+        </div>
+        <div class="dato-item">
+          <strong>🍓 Escudo Antioxidante</strong>
+          Las fresas y arándanos frescos son ricos en antocianinas, que protegen tu corazón y combaten la inflamación celular.
+        </div>
+        <div class="dato-item">
+          <strong>💪 Mantequilla de Almendra</strong>
+          A diferencia de otras grasas, aporta vitamina E y magnesio, mejorando la salud de tu piel y tu presión arterial.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/desayuno3.js"></script>
+
+  <script>
+    function toggleDatosCuriosos() {
+      const modal = document.getElementById('modal-datos');
+      if (modal.style.display === 'flex') {
+        modal.style.display = 'none';
+      } else {
+        modal.style.display = 'flex';
+      }
+    }
+  </script>
 </body>
 </html>

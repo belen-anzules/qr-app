@@ -5,40 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bowl Liboa</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Estilos para la ventana de Datos Curiosos (Modal) */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none; /* Oculto por defecto */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      width: 85%;
+      max-width: 400px;
+      border-radius: 15px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: #333;
+    }
+
+    .close-modal {
+      font-size: 28px;
+      cursor: pointer;
+      color: #999;
+      line-height: 1;
+    }
+
+    .dato-item {
+      margin-bottom: 15px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #555;
+    }
+
+    .dato-item strong {
+      color: #2e7d32; /* Verde bosque para el estilo saludable Liboa */
+      display: block;
+      margin-bottom: 3px;
+    }
+  </style>
 </head>
 
 <body>
 
-  <!-- HEADER -->
   <header class="header-clean">
     <a href="menu.html" class="back">←</a>
     <h2>Bowl Liboa</h2>
-    <div class="cart-icon" onclick="window.location.href='pedido.html'">🧾</div>
+    <div class="cart-icon" onclick="toggleDatosCuriosos()" style="cursor: pointer;">🧾</div>
   </header>
 
-  <!-- CONTENIDO DETALLE -->
   <section class="detail-content">
 
-    <!-- CARD CON IMAGEN CONTROLADA -->
     <div class="card">
       <div class="card-img-container">
         <img src="img/almuerzo2.png" alt="Bowl Liboa">
       </div>
     </div>
 
-    <!-- DESCRIPCIÓN -->
     <p>
       Una combinación balanceada de arroz, quinoa y frijol rojo con la frescura del
       aguacate, elote tierno y cebolla morada. Servido sobre una base de lechuga con
       un toque de cilantro y nuestro aderezo chipotle artesanal.
     </p>
 
-    <!-- PRECIO BASE -->
     <p class="price-base">
       <strong>Precio base:</strong> $8.99
     </p>
 
-    <!-- INGREDIENTES -->
     <div class="ingredient-item">
       <span>Arroz Integral (90g)</span>
       <div class="controls">
@@ -102,7 +153,6 @@
       </div>
     </div>
 
-    <!-- NUTRICIÓN -->
     <div class="nutrition-summary">
       <h3>Análisis Nutricional</h3>
 
@@ -181,20 +231,51 @@
       </table>
     </div>
 
-    <!-- PRECIO TOTAL -->
     <p class="total-row">
       <strong>Precio Total:</strong> $
       <span id="total-price">8.99</span>
     </p>
 
-    <!-- BOTÓN -->
     <button class="btn btn-primary" onclick="confirmarPedido()">
       Confirmar Pedido ✅
     </button>
 
   </section>
 
+  <div id="modal-datos" class="modal-overlay" onclick="toggleDatosCuriosos()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>¿Sabías qué?</h3>
+        <span class="close-modal" onclick="toggleDatosCuriosos()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="dato-item">
+          <strong>🌾 Arroz Integral vs Blanco</strong>
+          El arroz integral conserva su salvado y germen, lo que te aporta hasta 3 veces más fibra y mantiene tus niveles de energía estables por más tiempo.
+        </div>
+        <div class="dato-item">
+          <strong>💪 Quinoa: Proteína Vegana</strong>
+          La quinoa es uno de los pocos alimentos vegetales que contiene todos los aminoácidos esenciales, convirtiendo este bowl en una fuente de proteína completa.
+        </div>
+        <div class="dato-item">
+          <strong>🌽 Elote Tierno</strong>
+          Además de dar un toque dulce, el elote es rico en luteína y zeaxantina, antioxidantes fundamentales para proteger tu salud visual.
+        </div>
+        <div class="dato-item">
+          <strong>⚖️ Saciedad Prolongada</strong>
+          La combinación de la fibra de los frijoles y las grasas saludables del aguacate ayuda a que te sientas satisfecho por mucho más tiempo, evitando picar entre horas.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/almuerzo2.js"></script>
 
+  <script>
+    function toggleDatosCuriosos() {
+      const modal = document.getElementById('modal-datos');
+      modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+    }
+  </script>
 </body>
 </html>
