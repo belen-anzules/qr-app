@@ -13,9 +13,16 @@
         <span class="app-logo-small">🥗</span>
         <h2>DESAYUNO</h2>
     </div>
-    <div class="cart-container" onclick="irAPedido()">
-        <span class="cart-icon">🛒</span>
-        <span id="cart-count" class="badge">0</span>
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="resumen-icon-container" onclick="window.location.href='pedido.html'">
+            <span style="font-size: 1.3rem;">🧾</span>
+        </div>
+
+        <div class="cart-container" onclick="irAPedido()">
+            <span class="cart-icon">🛒</span>
+            <span id="cart-count" class="badge">0</span>
+        </div>
     </div>
   </header>
 
