@@ -1,5 +1,5 @@
 /* ============================================================
-   ESTILO APK MACRO FIT - CORREGIDO Y ORGANIZADO
+   ESTILO APK MACRO FIT - DISEÑO PROFESIONAL
    ============================================================ */
 
 :root {
@@ -7,6 +7,7 @@
     --bg-app: #F7F9FC;
     --white: #ffffff;
     --text-main: #333;
+    --text-light: #636E72;
 }
 
 * {
@@ -18,7 +19,7 @@
 body {
     background-color: var(--bg-app);
     color: var(--text-main);
-    padding-bottom: 120px;
+    padding-bottom: 120px; /* Espacio para el botón de compra fijo */
 }
 
 /* --- HEADER --- */
@@ -34,8 +35,9 @@ body {
 }
 
 .header-title-container { display: flex; align-items: center; gap: 10px; }
-.header-clean h2 { font-size: 1.1rem; font-weight: 800; color: #2D3436; }
-.cart-container { position: relative; cursor: pointer; font-size: 22px; }
+.header-clean h2 { font-size: 1.1rem; font-weight: 800; color: #2D3436; text-transform: uppercase; }
+
+.cart-container { position: relative; cursor: pointer; font-size: 24px; }
 .badge {
     position: absolute; top: -5px; right: -5px;
     background: #FF5252; color: white; width: 18px; height: 18px;
@@ -43,7 +45,7 @@ body {
     align-items: center; justify-content: center; font-weight: bold;
 }
 
-/* --- CATEGORÍAS (COLORES RECUPERADOS) --- */
+/* --- CATEGORÍAS (COLORES RECUPERADOS Y BRILLANTES) --- */
 .categorias-container {
     display: flex; gap: 12px; padding: 15px 20px;
     overflow-x: auto; white-space: nowrap; scrollbar-width: none;
@@ -51,107 +53,115 @@ body {
 .categorias-container::-webkit-scrollbar { display: none; }
 
 .cat-btn {
-    padding: 10px 22px; border-radius: 14px; border: none;
-    font-weight: 700; font-size: 0.9rem; transition: 0.3s;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    padding: 12px 25px; border-radius: 16px; border: none;
+    font-weight: 800; font-size: 0.9rem; transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
+/* Colores específicos solicitados */
 .cat-desayuno { background: #E3F2FD; color: #1976D2; } /* Azul */
 .cat-almuerzo { background: #FFF3E0; color: #F57C00; } /* Naranja */
 .cat-cena { background: #F3E5F5; color: #7B1FA2; }     /* Púrpura */
 
 .cat-btn.active { 
     transform: scale(1.05);
-    outline: 2px solid currentColor;
+    box-shadow: 0 0 0 2px currentColor;
 }
 
 /* --- CARDS DE MENÚ --- */
 .menu { padding: 10px 20px; }
 .card {
-    background: white; border-radius: 22px; margin-bottom: 20px;
-    overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-    border: 1px solid #edf2f7; cursor: pointer;
+    background: white; border-radius: 24px; margin-bottom: 25px;
+    overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0; cursor: pointer;
 }
-.card-img-container { width: 100%; height: 180px; background: #f9f9f9; }
+.card-img-container { width: 100%; height: 200px; background: #eee; }
 .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
-.card .info { padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-.card h3 { font-size: 1rem; font-weight: 700; }
-.price-tag { background: #4CAF50; color: white; padding: 6px 12px; border-radius: 12px; font-weight: 800; }
 
-/* --- SECCIÓN DETALLE (BOWL) --- */
+.card .info { padding: 18px; display: flex; justify-content: space-between; align-items: center; }
+.card h3 { font-size: 1.1rem; font-weight: 700; color: #2D3436; }
+.price-tag { background: #4CAF50; color: white; padding: 6px 14px; border-radius: 14px; font-weight: 800; }
+
+/* --- SECCIÓN DETALLE (INGREDIENTES) --- */
 .detail-content { padding: 20px; max-width: 500px; margin: 0 auto; }
 .ingredient-item {
-    background: white; padding: 15px; border-radius: 18px;
+    background: white; padding: 15px; border-radius: 20px;
     display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
-/* --- TABLA NUTRICIONAL (NUEVO DISEÑO CON CUADROS) --- */
+/* --- TABLA NUTRICIONAL (DISEÑO DE CUADROS TIPO APP) --- */
 .nutrition-summary {
-    background: #2D3436; border-radius: 24px; padding: 20px;
-    margin: 25px 0; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    background: #2D3436; border-radius: 28px; padding: 25px;
+    margin: 30px 0; color: white; box-shadow: 0 15px 35px rgba(0,0,0,0.2);
 }
 
 .nutrition-summary h3 {
-    font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
-    margin-bottom: 15px; color: #81C784; text-align: center;
+    font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px;
+    margin-bottom: 20px; color: #81C784; text-align: center; font-weight: 800;
 }
 
-/* Filas de la tabla como "Celdas" */
-.nutrition-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
-.nutrition-table thead { display: none; } /* Ocultar encabezados para móvil */
+.nutrition-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+.nutrition-table thead { display: none; }
 
+/* Cuadros individuales para cada nutriente */
 .nutrition-table tbody tr {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.07);
+    transition: 0.3s;
 }
 
 .nutrition-table td {
-    padding: 12px 10px;
-    font-size: 0.85rem;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 14px 15px;
+    font-size: 0.9rem;
 }
 
 .nutrition-table td:first-child { 
-    border-radius: 12px 0 0 12px; 
+    border-radius: 15px 0 0 15px; 
     font-weight: 600; 
-    color: #E0E0E0;
-    width: 40%;
+    color: #f0f0f0;
 }
 
 .nutrition-table td:last-child { 
-    border-radius: 0 12px 12px 0; 
+    border-radius: 0 15px 15px 0; 
     text-align: right;
+    font-weight: 800;
+    color: #81C784;
 }
 
-/* Fila de Totales con Cuadros Verdes */
+/* Fila de Totales (Destacada en Verde) */
 .total-row td {
-    background: rgba(76, 175, 80, 0.15) !important;
-    border: 1px solid #4CAF50 !important;
-    color: #81C784 !important;
-    font-weight: 800 !important;
-    font-size: 0.95rem !important;
+    background: #4CAF50 !important;
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    font-size: 1rem !important;
+    padding: 16px !important;
 }
 
-/* --- BOTONES DE CONTROL (+/-) --- */
-.controls { display: flex; align-items: center; background: #f0f0f0; border-radius: 12px; padding: 3px; }
+/* --- CONTROLES +/- --- */
+.controls { display: flex; align-items: center; background: #F1F2F6; border-radius: 15px; padding: 4px; }
 .btn-qty {
-    width: 32px; height: 32px; border-radius: 10px; border: none;
-    background: white; color: #4CAF50; font-weight: bold; cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 35px; height: 35px; border-radius: 12px; border: none;
+    background: white; color: var(--primary); font-weight: 900; 
+    font-size: 1.2rem; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
-.qty-num { padding: 0 12px; font-weight: 800; }
+.qty-num { padding: 0 15px; font-weight: 800; font-size: 1.1rem; }
 
-/* --- FOOTER DE COMPRA --- */
+/* --- BARRA DE COMPRA INFERIOR (FLOTANTE) --- */
 .total-row:not(table .total-row) {
     position: fixed; bottom: 0; left: 0; width: 100%;
     background: white; padding: 20px; display: flex;
     flex-direction: column; align-items: center;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.05); border-radius: 25px 25px 0 0;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.1); border-radius: 30px 30px 0 0;
+    z-index: 1001;
 }
 
+#total-price { font-size: 2rem; font-weight: 900; color: #2D3436; margin: 5px 0 15px; }
+
 .btn-primary {
-    width: 100%; max-width: 400px; background: #4CAF50; color: white;
-    padding: 18px; border-radius: 18px; border: none; font-weight: 700;
-    font-size: 1.1rem; box-shadow: 0 6px 15px rgba(76,175,80,0.3);
+    width: 100%; max-width: 400px; background: #2E7D32; color: white;
+    padding: 18px; border-radius: 20px; border: none; font-weight: 800;
+    font-size: 1.1rem; box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+    text-transform: uppercase; letter-spacing: 1px;
 }
+
+.btn-primary:active { transform: scale(0.97); }
