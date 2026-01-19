@@ -1,5 +1,5 @@
 /* ============================================================
-   ESTILO APK MACRO FIT - DISEÑO PROFESIONAL
+   CONFIGURACIÓN NATIVA APK - MACRO FIT
    ============================================================ */
 
 :root {
@@ -7,161 +7,192 @@
     --bg-app: #F7F9FC;
     --white: #ffffff;
     --text-main: #333;
-    --text-light: #636E72;
+    /* Colores de categorías solicitados */
+    --color-desayuno: #1976D2;
+    --bg-desayuno: #E3F2FD;
+    --color-almuerzo: #F57C00;
+    --bg-almuerzo: #FFF3E0;
+    --color-cena: #7B1FA2;
+    --bg-cena: #F3E5F5;
+}
+
+/* Bloqueo de comportamiento de navegador */
+html, body {
+    overflow-x: hidden;
+    overscroll-behavior-y: contain; /* Evita el "rebote" de recarga en Android */
+    height: 100%;
+    -webkit-user-select: none; /* Evita que el usuario seleccione texto como en una web */
+    user-select: none;
 }
 
 * {
     margin: 0; padding: 0; box-sizing: border-box;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent; /* Elimina el cuadro azul al tocar botones */
 }
 
 body {
     background-color: var(--bg-app);
     color: var(--text-main);
-    padding-bottom: 120px; /* Espacio para el botón de compra fijo */
+    padding-bottom: 110px; /* Espacio para el botón fijo inferior */
 }
 
-/* --- HEADER --- */
+/* --- HEADER ESTILO APP --- */
 .header-clean {
     background: var(--white);
-    padding: 15px 20px;
+    padding: 12px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0; z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
-.header-title-container { display: flex; align-items: center; gap: 10px; }
-.header-clean h2 { font-size: 1.1rem; font-weight: 800; color: #2D3436; text-transform: uppercase; }
-
-.cart-container { position: relative; cursor: pointer; font-size: 24px; }
-.badge {
-    position: absolute; top: -5px; right: -5px;
-    background: #FF5252; color: white; width: 18px; height: 18px;
-    border-radius: 50%; font-size: 10px; display: flex;
-    align-items: center; justify-content: center; font-weight: bold;
+.header-title-container h2 {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
 }
 
-/* --- CATEGORÍAS (COLORES RECUPERADOS Y BRILLANTES) --- */
+/* --- CATEGORÍAS (COLORES RECUPERADOS) --- */
 .categorias-container {
-    display: flex; gap: 12px; padding: 15px 20px;
-    overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+    display: flex; 
+    gap: 12px; 
+    padding: 15px 20px;
+    overflow-x: auto; 
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
 }
 .categorias-container::-webkit-scrollbar { display: none; }
 
 .cat-btn {
-    padding: 12px 25px; border-radius: 16px; border: none;
-    font-weight: 800; font-size: 0.9rem; transition: 0.3s;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    padding: 10px 20px; 
+    border-radius: 14px; 
+    border: none;
+    font-weight: 700; 
+    font-size: 0.85rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.04);
 }
 
-/* Colores específicos solicitados */
-.cat-desayuno { background: #E3F2FD; color: #1976D2; } /* Azul */
-.cat-almuerzo { background: #FFF3E0; color: #F57C00; } /* Naranja */
-.cat-cena { background: #F3E5F5; color: #7B1FA2; }     /* Púrpura */
+/* Aplicación de tus colores bonitos */
+.cat-desayuno { background: var(--bg-desayuno); color: var(--color-desayuno); }
+.cat-almuerzo { background: var(--bg-almuerzo); color: var(--color-almuerzo); }
+.cat-cena { background: var(--bg-cena); color: var(--color-cena); }
 
-.cat-btn.active { 
-    transform: scale(1.05);
+.cat-btn.active {
     box-shadow: 0 0 0 2px currentColor;
+    transform: scale(1.02);
 }
 
-/* --- CARDS DE MENÚ --- */
-.menu { padding: 10px 20px; }
+/* --- CARDS TIPO APP --- */
+.menu { padding: 10px 15px; }
 .card {
-    background: white; border-radius: 24px; margin-bottom: 25px;
-    overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    border: 1px solid #f0f0f0; cursor: pointer;
+    background: var(--white);
+    border-radius: 20px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+    border: 1px solid #eee;
 }
-.card-img-container { width: 100%; height: 200px; background: #eee; }
+
+.card-img-container { width: 100%; height: 160px; }
 .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
 
-.card .info { padding: 18px; display: flex; justify-content: space-between; align-items: center; }
-.card h3 { font-size: 1.1rem; font-weight: 700; color: #2D3436; }
-.price-tag { background: #4CAF50; color: white; padding: 6px 14px; border-radius: 14px; font-weight: 800; }
+.card .info { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
+.card h3 { font-size: 0.95rem; font-weight: 700; }
+.price-tag { background: #4CAF50; color: white; padding: 5px 10px; border-radius: 10px; font-weight: 800; }
 
-/* --- SECCIÓN DETALLE (INGREDIENTES) --- */
-.detail-content { padding: 20px; max-width: 500px; margin: 0 auto; }
-.ingredient-item {
-    background: white; padding: 15px; border-radius: 20px;
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-}
-
-/* --- TABLA NUTRICIONAL (DISEÑO DE CUADROS TIPO APP) --- */
+/* --- CUADROS NUTRICIONALES (DISEÑO ENTENDIBLE) --- */
 .nutrition-summary {
-    background: #2D3436; border-radius: 28px; padding: 25px;
-    margin: 30px 0; color: white; box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    background: #2D3436; 
+    border-radius: 22px; 
+    padding: 18px;
+    margin: 20px 15px; 
+    color: white;
 }
 
 .nutrition-summary h3 {
-    font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px;
-    margin-bottom: 20px; color: #81C784; text-align: center; font-weight: 800;
+    font-size: 0.75rem; 
+    text-align: center; 
+    color: #81C784;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.nutrition-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
-.nutrition-table thead { display: none; }
+.nutrition-table { width: 100%; border-collapse: separate; border-spacing: 0 6px; }
 
-/* Cuadros individuales para cada nutriente */
+/* Cada nutriente dentro de un cuadro oscuro suave */
 .nutrition-table tbody tr {
-    background: rgba(255, 255, 255, 0.07);
-    transition: 0.3s;
+    background: rgba(255, 255, 255, 0.06);
 }
 
 .nutrition-table td {
-    padding: 14px 15px;
-    font-size: 0.9rem;
+    padding: 10px 12px;
+    font-size: 0.85rem;
 }
 
 .nutrition-table td:first-child { 
-    border-radius: 15px 0 0 15px; 
-    font-weight: 600; 
-    color: #f0f0f0;
+    border-radius: 10px 0 0 10px; 
+    color: #CCC;
 }
 
 .nutrition-table td:last-child { 
-    border-radius: 0 15px 15px 0; 
-    text-align: right;
-    font-weight: 800;
+    border-radius: 0 10px 10px 0; 
+    text-align: right; 
+    font-weight: 700;
     color: #81C784;
 }
 
-/* Fila de Totales (Destacada en Verde) */
+/* CUADRO DE TOTALES DESTACADO */
 .total-row td {
     background: #4CAF50 !important;
-    color: #ffffff !important;
-    font-weight: 900 !important;
-    font-size: 1rem !important;
-    padding: 16px !important;
+    color: white !important;
+    font-weight: 800 !important;
+    padding: 12px !important;
 }
 
-/* --- CONTROLES +/- --- */
-.controls { display: flex; align-items: center; background: #F1F2F6; border-radius: 15px; padding: 4px; }
-.btn-qty {
-    width: 35px; height: 35px; border-radius: 12px; border: none;
-    background: white; color: var(--primary); font-weight: 900; 
-    font-size: 1.2rem; cursor: pointer; box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-}
-.qty-num { padding: 0 15px; font-weight: 800; font-size: 1.1rem; }
-
-/* --- BARRA DE COMPRA INFERIOR (FLOTANTE) --- */
+/* --- BOTÓN DE ACCIÓN FIJO (BOTTOM BAR) --- */
 .total-row:not(table .total-row) {
-    position: fixed; bottom: 0; left: 0; width: 100%;
-    background: white; padding: 20px; display: flex;
-    flex-direction: column; align-items: center;
-    box-shadow: 0 -10px 30px rgba(0,0,0,0.1); border-radius: 30px 30px 0 0;
-    z-index: 1001;
+    position: fixed;
+    bottom: 0; left: 0; width: 100%;
+    background: var(--white);
+    padding: 15px 20px;
+    box-shadow: 0 -10px 25px rgba(0,0,0,0.08);
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2000;
 }
 
-#total-price { font-size: 2rem; font-weight: 900; color: #2D3436; margin: 5px 0 15px; }
+#total-price {
+    font-size: 1.6rem;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
 
 .btn-primary {
-    width: 100%; max-width: 400px; background: #2E7D32; color: white;
-    padding: 18px; border-radius: 20px; border: none; font-weight: 800;
-    font-size: 1.1rem; box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
-    text-transform: uppercase; letter-spacing: 1px;
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
 }
 
-.btn-primary:active { transform: scale(0.97); }
+/* Estilo para los botones +/- dentro de los ingredientes */
+.ingredient-item {
+    background: white;
+    margin: 10px 15px;
+    padding: 12px 15px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
