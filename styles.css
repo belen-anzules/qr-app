@@ -13,7 +13,7 @@ body {
     line-height: 1.6;
 }
 
-/* HEADER Y LOGO */
+/* HEADER */
 .header-clean {
     background: #ffffff;
     padding: 15px 20px;
@@ -32,253 +32,73 @@ body {
     gap: 10px;
 }
 
-.app-logo-small {
-    font-size: 24px;
-}
-
 .header-clean h2 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 800;
-    letter-spacing: 1px;
     color: #2D3436;
 }
 
-/* CATEGORÍAS */
-.categorias-container {
-    display: flex;
-    gap: 12px;
-    padding: 15px 20px;
-    overflow-x: auto;
-    white-space: nowrap;
-    scrollbar-width: none;
+/* CONTENIDO DETALLE */
+.detail-content {
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-.categorias-container::-webkit-scrollbar { display: none; }
-
-.cat-btn {
-    padding: 10px 20px;
-    border-radius: 12px;
-    border: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+.description-text {
+    font-size: 0.95rem;
+    color: #636e72;
+    margin: 15px 0;
 }
 
-.cat-desayuno { background: #E3F2FD; color: #1976D2; }
-.cat-almuerzo { background: #FFF3E0; color: #F57C00; }
-.cat-comida { background: #E8F5E9; color: #388E3C; }
-.cat-cena { background: #F3E5F5; color: #7B1FA2; }
-.cat-btn.active { outline: 2px solid currentColor; font-weight: 800; }
-
-/* CARDS DE MENÚ */
-.menu { padding: 10px 20px; }
-
-.card {
-    background: white;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    border: 1px solid #edf2f7;
-}
-
-/* IMÁGENES CARD (CORREGIDO) */
-.card-img-container {
-    width: 100%;
-    height: 170px; /* altura controlada */
-    background: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.card-img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-}
-
-/* EFECTO TÁCTIL */
-.card:active .card-img-container img {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
-}
-
-/* DETALLE – IMAGEN PRINCIPAL */
+/* IMAGEN PRINCIPAL */
 .detail-img-header {
     width: 100%;
-    height: 260px; /* antes se veía gigante */
-    max-height: 260px;
-    background: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 240px;
+    border-radius: 25px;
     overflow: hidden;
     position: relative;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 .detail-img-header img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
 }
 
-/* Sombra superior */
-.detail-img-header::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.15), transparent);
-    pointer-events: none;
-}
-
-.card .info {
-    padding: 15px;
+/* PRECIO BASE */
+.price-base-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 20px 0;
+    padding: 0 5px;
 }
 
-.price-tag {
-    background: #4CAF50;
-    color: white;
-    padding: 5px 12px;
-    border-radius: 10px;
-    font-weight: 700;
+.price-base-label {
+    font-weight: 600;
+    color: #b2bec3;
+    font-size: 0.9rem;
 }
 
-/* BOTONES */
-.btn {
-    width: 100%;
-    padding: 16px;
-    border-radius: 15px;
-    border: none;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-primary {
-    background: #4CAF50;
-    color: white;
-    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-}
-
-.btn-secondary {
-    background: white;
-    color: #4CAF50;
-    border: 2px solid #4CAF50;
-}
-
-/* CARRITO BADGE */
-.cart-container { position: relative; }
-
-.badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #FF5252;
-    color: white;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    font-size: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* INPUTS */
-.input-group { margin-bottom: 15px; }
-
-.input {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid #DDD;
-    background: white;
-    font-size: 1rem;
-}
-
-/* FOOTER */
-.cart-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: white;
-    padding: 20px;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* BIENVENIDA */
-.welcome-bg {
-    background: linear-gradient(180deg, #E8F5E9 0%, #FFFFFF 100%);
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* MODAL */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(5px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 2000;
-}
-
-.modal-card {
-    background: white;
-    width: 100%;
-    max-width: 350px;
-    border-radius: 28px;
-    padding: 35px 25px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    animation: bounceIn 0.4s ease;
-}
-
-@keyframes bounceIn {
-    from { transform: scale(0.85); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-.close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 20px;
-    color: #999;
-    cursor: pointer;
+.price-base-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #2D3436;
 }
 
 /* INGREDIENTES */
 .ingredient-item {
     background: white;
     padding: 15px;
-    border-radius: 18px;
+    border-radius: 20px;
     margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-    border: 1px solid #f0f0f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    border: 1px solid #f1f3f5;
 }
 
 .ing-info {
@@ -288,27 +108,29 @@ body {
 
 .ing-name {
     font-weight: 700;
-    color: #333;
+    font-size: 0.9rem;
+    color: #2D3436;
 }
 
 .ing-price {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #4CAF50;
     font-weight: 600;
 }
 
+/* CONTROLES */
 .controls {
     display: flex;
     align-items: center;
-    gap: 15px;
-    background: #f8f8f8;
-    padding: 5px 10px;
+    gap: 12px;
+    background: #f8f9fa;
+    padding: 6px 12px;
     border-radius: 30px;
 }
 
 .btn-qty {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     border: none;
     background: white;
@@ -321,68 +143,91 @@ body {
 
 .qty-num {
     font-weight: 800;
-    font-size: 1.1rem;
-    min-width: 20px;
+    font-size: 1rem;
+    min-width: 15px;
     text-align: center;
 }
-/* Contenedor de acciones */
-.pedido-actions {
-    display: flex;
-    gap: 8px;
-}
 
-/* BOTÓN EDITAR */
-.btn-edit {
-    background: #e3f2fd;
-    color: #1976d2;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 14px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.btn-edit:hover {
-    background: #bbdefb;
-}
-
-/* BOTÓN ELIMINAR */
-.btn-delete {
-    background: #fdecea;
-    color: #d32f2f;
-    border: none;
-    padding: 6px 14px;
-    border-radius: 14px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.btn-delete:hover {
-    background: #f9c0bb;
-}
-.modal-close {
-    position: absolute;
-    top: 15px;
-    right: 18px;
-    background: none;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
-    color: #999;
-    transition: 0.2s;
-}
-
-.modal-close:hover {
-    color: #000;
-}
-.pedido-card {
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 22px;
+/* NUTRICIÓN */
+.nutrition-summary {
     background: #ffffff;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    border-radius: 24px;
+    padding: 20px;
+    margin: 30px 0;
+    border: 1px solid #edf2f7;
+}
+
+.nutrition-summary h3 {
+    font-size: 0.9rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    color: #b2bec3;
+}
+
+.nutrition-table-wrapper {
+    overflow-x: auto;
+}
+
+.nutrition-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.nutrition-table th {
+    text-align: left;
+    padding-bottom: 10px;
+    color: #b2bec3;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.nutrition-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid #f8f9fa;
+    color: #2D3436;
+}
+
+.total-row td {
+    border-top: 2px solid #f1f3f5;
+    padding-top: 15px;
+}
+
+/* PRECIO TOTAL BAR */
+.price-total-bar {
+    margin-top: 20px;
+    padding: 20px 5px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.total-price-text {
+    text-align: right;
+}
+
+.total-price-text span:first-child {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #b2bec3;
+    display: block;
+}
+
+.total-price-text span:last-child {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #2D3436;
+}
+
+/* BOTÓN PRINCIPAL */
+.btn-primary {
+    background: #4CAF50;
+    color: white;
+    width: 100%;
+    padding: 18px;
+    border-radius: 18px;
+    border: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+    cursor: pointer;
 }
