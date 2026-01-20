@@ -1,5 +1,5 @@
 /* ============================================================
-   MACRO FIT - ESTILOS COMPLETOS PARA APP
+   MACRO FIT - ESTILOS COMPLETOS (CORREGIDO Y CENTRADO)
    ============================================================ */
 
 /* ===== VARIABLES ===== */
@@ -22,7 +22,7 @@ body {
     color: var(--text-main);
     margin: 0;
     font-family: 'Segoe UI', Roboto, sans-serif;
-    padding-bottom: 180px; /* espacio para footer */
+    padding-bottom: 120px; 
     overscroll-behavior-y: contain;
 }
 
@@ -58,6 +58,7 @@ body {
     gap: 10px;
     padding: 15px;
     overflow-x: auto;
+    justify-content: center;
 }
 
 .cat-btn {
@@ -72,8 +73,77 @@ body {
 .cat-desayuno { background: var(--bg-desayuno); color: var(--color-desayuno); }
 .cat-almuerzo { background: var(--bg-almuerzo); color: var(--color-almuerzo); }
 .cat-cena { background: var(--bg-cena); color: var(--color-cena); }
+.cat-btn.active { filter: brightness(0.9); border: 1px solid currentColor; }
 
-/* ===== INGREDIENTES ===== */
+/* ===== MENU PRINCIPAL (TARJETAS GRANDES) ===== */
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* CENTRADO HORIZONTAL */
+    gap: 25px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.card {
+    background: var(--white);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column; /* Imagen arriba, texto abajo */
+    width: 100%;
+    max-width: 350px;       /* Ancho ideal para que no se vea gigante */
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin: 0 auto;         /* FUERZA EL CENTRADO */
+}
+
+.card:active { transform: scale(0.97); }
+
+/* CONTENEDOR DE IMAGEN UNIFICADO */
+.card-img-container {
+    width: 100%;
+    height: 220px;          /* Altura fija y elegante */
+    overflow: hidden;
+    display: block;
+}
+
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* Centra y corta la imagen perfectamente */
+    display: block;
+}
+
+.card .info {
+    padding: 15px 20px 20px;
+    text-align: center;     /* Texto centrado para armonía */
+}
+
+.card .info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.price-tag {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ===== VISTA DETALLE PLATO (CENTRADO) ===== */
+.detail-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ===== INGREDIENTES (LISTA PEQUEÑA) ===== */
 .ingredient-item {
     background: var(--white);
     margin: 8px 15px;
@@ -89,8 +159,6 @@ body {
     flex: 1;
     font-weight: 600;
     font-size: 0.95rem;
-    color: var(--text-main);
-    padding-right: 10px;
 }
 
 .controls {
@@ -129,7 +197,6 @@ body {
     color: #81C784;
     margin-bottom: 15px;
     text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .nutrition-table {
@@ -138,60 +205,32 @@ body {
     font-size: 0.85rem;
 }
 
-.nutrition-table th {
-    color: #81C784;
-    font-weight: 400;
-    padding-bottom: 12px;
-    text-align: right;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.nutrition-table th:first-child {
-    text-align: left;
-}
-
-.nutrition-table td {
-    padding: 12px 2px;
+.nutrition-table td, .nutrition-table th {
+    padding: 10px 5px;
     text-align: right;
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.nutrition-table td:first-child {
+.nutrition-table th:first-child, .nutrition-table td:first-child {
     text-align: left;
-    color: #CCC;
 }
 
 .total-row td {
-    background: #2E7D32 !important;
+    background: var(--primary) !important;
     color: white !important;
-    font-weight: 800 !important;
-    padding: 14px 5px !important;
-    border: none;
+    font-weight: 800;
 }
 
-.total-row td:first-child { border-radius: 12px 0 0 12px; }
-.total-row td:last-child { border-radius: 0 12px 12px 0; }
-
-/* ===== FOOTER FIJO ===== */
+/* ===== FOOTER ===== */
 .footer-container {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    bottom: 0; left: 0; width: 100%;
     background: var(--white);
     padding: 20px;
     box-shadow: 0 -10px 25px rgba(0,0,0,0.08);
     border-radius: 25px 25px 0 0;
     z-index: 2000;
-}
-
-.price-display {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    font-weight: 800;
-    font-size: 1.4rem;
+    box-sizing: border-box;
 }
 
 .btn-primary {
@@ -204,234 +243,63 @@ body {
     font-size: 1rem;
     font-weight: 800;
     text-transform: uppercase;
+}
+
+/* ===== ALERTAS SUTILES (DATOS CURIOSOS) ===== */
+.info-alert {
+    position: relative;
+    font-size: 26px;
     cursor: pointer;
+    animation: swing 2s ease infinite;
+}
+
+.info-alert::after {
+    content: '';
+    position: absolute;
+    top: -2px; right: -2px;
+    width: 10px; height: 10px;
+    background: #FF5252;
+    border-radius: 50%;
+    border: 2px solid white;
+    animation: pulse-red 2s infinite;
+}
+
+.info-alert.visto::after { display: none; }
+
+@keyframes swing {
+    0%, 100% { transform: rotate(0deg); }
+    20% { transform: rotate(10deg); }
+    40% { transform: rotate(-10deg); }
+}
+
+@keyframes pulse-red {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 82, 82, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
 }
 
 /* ===== MODALES ===== */
-.modal, .modal-overlay {
+.modal {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.5);
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 3000;
 }
 
-.modal-content, .modal-card {
+.modal-content {
     background: white;
-    padding: 20px 30px;
+    padding: 25px;
     border-radius: 25px;
     width: 85%;
     max-width: 400px;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    position: relative;
 }
 
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.close-modal {
-    font-size: 26px;
-    cursor: pointer;
-    color: #999;
-}
-
-/* ===== BOTONES GENERALES ===== */
-.btn {
-    padding: 15px 25px;
-    border-radius: 15px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.btn-secondary { background: #f0f0f0; color: #333; }
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 480px) {
-    .nutrition-table { font-size: 13px; }
-    .ingredient-item { padding: 12px 14px; }
-    .btn-qty { width: 28px; height: 28px; font-size: 0.85rem; }
-}
-@media (max-width: 480px) {
-    .card {
-        padding: 12px;
-        gap: 14px;
-    }
-
-    .card-img-container {
-        width: 100px;
-        height: 100px;
-    }
-
-    .card .info h3 {
-        font-size: 0.95rem;
-    }
-}
-/* ===== MENU CARDS (AJUSTADO PARA TEXTO ABAJO) ===== */
-.menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra las tarjetas horizontalmente */
-    gap: 25px;           /* Espacio elegante entre platos */
-    padding: 20px;       /* Margen alrededor de la lista */
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.card {
-    background: var(--white);
-    border-radius: 24px;    /* Bordes más redondeados y modernos */
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 350px;       /* Tamaño ideal para móviles */
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05); /* Sombra más suave */
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    padding: 0;             /* Imagen a sangre (sin bordes blancos) */
-}
-
-.card:active {
-    transform: scale(0.97); /* Efecto de click */
-}
-.card-img-container {
-    width: 100%;
-    height: 200px;         /* Altura fija para uniformidad */
-    overflow: hidden;
-}
-
-.card-img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.card .info {
-    padding: 15px 20px 20px; /* Más espacio abajo para el precio */
-    text-align: left;        /* Alineación limpia a la izquierda */
-}
-
-.card .info h3 {
-    margin: 0 0 5px 0;
-    font-size: 1.2rem;
-    color: var(--text-main);
-}
-
-.price-tag {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--primary);
-    display: block;         /* Asegura que el precio esté en su propia línea */
-}
-
-/* ============================================================
-   MANTENEMOS TUS TABLAS Y RESPONSIVE DE NUTRICIÓN INTACTOS
-   ============================================================ */
+/* ===== RESPONSIVE TABLA ===== */
 @media (max-width: 600px) {
-    .nutrition-summary {
-        overflow-x: auto;
-    }
-    .nutrition-table {
-        min-width: 520px;
-    }
-}
-
-.welcome-bg {
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-/* ===== IMAGEN UNIFORME ===== */
-.card-img-container {
-    width: 120px;
-    height: 120px;
-    flex-shrink: 0;
-    border-radius: 18px;
-    overflow: hidden;
-}
-
-.card-img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* ===== INFO ===== */
-.card .info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 6px;
-}
-
-.card .info h3 {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 800;
-    color: var(--text-main);
-}
-
-.price-tag {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--primary);
-}
-
-
-.card-img-container {
-    width: 100%;
-    max-width: 320px;
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
-
-.card-img-container img {
-    width: 100%;
-    display: block;
-    object-fit: cover;
-}
-/* ===== TABLA RESPONSIVE SOLO EN MÓVIL ===== */
-@media (max-width: 600px) {
-    .nutrition-summary {
-        overflow-x: auto;
-    }
-
-    .nutrition-table {
-        min-width: 520px;
-    }
-}
-/* ===== PANTALLA DE INICIO ESTÁTICA ===== */
-.welcome-bg {
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden; /* Evita que se mueva */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-app);
-}
-
-/* Ajuste para que los botones tipo enlace no se estiren si no quieres */
-.btn-primary {
-    text-align: center;
-    box-sizing: border-box;
+    .nutrition-summary { overflow-x: auto; }
+    .nutrition-table { min-width: 300px; }
 }
