@@ -132,6 +132,7 @@
         <input type="tel" id="telefono" placeholder="Celular">
        <button class="btn btn-primary" onclick="procesarFinalizado()">GENERAR TICKET</button>
 
+
         <button style="margin-top:15px; background:none; border:none; color:#bbb;" onclick="cerrarModales()">
             Volver
         </button>
@@ -209,15 +210,18 @@ function validarYConfirmar() {
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
 }function procesarFinalizado() {
+    // 1. Tomar datos del formulario
     const nom = document.getElementById("nombre").value.trim();
     const ci = document.getElementById("cedula").value.trim();
     const tel = document.getElementById("telefono").value.trim();
 
+    // 2. Validar campos
     if (!nom || !ci || !tel) {
         alert("⚠️ Completa todos los campos antes de generar el ticket");
         return;
     }
 
+    // 3. Crear ticket
     const ahora = new Date();
     const ticket = {
         codigo: "TK-" + Math.floor(1000 + Math.random() * 9000),
@@ -228,11 +232,14 @@ function cerrarModales() {
         hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    // Guardar ticket en localStorage
+    // 4. Guardar ticket
     localStorage.setItem("ticketAPK", JSON.stringify(ticket));
     localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticket));
 
-    // Redirigir a ver-ticket.html
+    // 5. Limpiar carrito si quieres
+    // localStorage.removeItem("cart");
+
+    // 6. Redirigir a ver-ticket.html
     window.location.href = "ver-ticket.html";
 }
 
