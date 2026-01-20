@@ -130,11 +130,9 @@
         <input type="text" id="nombre" placeholder="Tu nombre">
         <input type="number" id="cedula" placeholder="Cédula">
         <input type="tel" id="telefono" placeholder="Celular">
-       <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="procesarFinalizado()">
-    GENERAR TICKET
-</button>
-
-
+        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="procesarFinalizado()">
+            GENERAR TICKET
+        </button>
         <button style="margin-top:15px; background:none; border:none; color:#bbb;" onclick="cerrarModales()">
             Volver
         </button>
@@ -212,7 +210,6 @@ function validarYConfirmar() {
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
 }
-
 function procesarFinalizado() {
     const nom = document.getElementById("nombre").value.trim();
     const ci = document.getElementById("cedula").value.trim();
@@ -234,13 +231,14 @@ function procesarFinalizado() {
         hora: ahora.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
     };
 
-    // Guardar ticket
+    // Guardar ticket en localStorage
     localStorage.setItem("ticketAPK", JSON.stringify(ticket));
     localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticket));
 
-    // Redirigir directamente
+    // Redirigir directamente a ver-ticket.html
     window.location.href = "ver-ticket.html";
-} 
+}
+
 function eliminarPlato(index) {
     let cart = getCartFromURL();
     cart.splice(index, 1);

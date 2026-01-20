@@ -38,17 +38,6 @@ h2 {
     color: #333;
 }
 
-.codigo-box {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: #4CAF50;
-    margin: 15px 0;
-    padding: 12px;
-    border: 2px dashed #4CAF50;
-    border-radius: 12px;
-    background: #f9fff9;
-}
-
 .btn-verde {
     background: #4CAF50;
     color: white;
@@ -69,34 +58,30 @@ h2 {
 document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
 
-    function obtenerTicket() {
-        let t = localStorage.getItem("ticketAPK");
-        if (!t) t = localStorage.getItem("ticketAPK_BACKUP");
-        if (!t) return null;
-        return JSON.parse(t);
-    }
+    // Obtener el ticket desde localStorage
+    const ticket = JSON.parse(localStorage.getItem("ticketAPK") || "null");
 
-    const t = obtenerTicket();
-
-    if (!t) {
+    // Si no hay ticket guardado
+    if (!ticket) {
         app.innerHTML = `
-            <div style="font-size:60px; margin-bottom:15px;">🥗</div>
-            <h3>No hay tickets generados</h3>
-            <p>Aún no se ha generado ningún ticket.</p>
-            <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
+            <div style="font-size:60px; text-align:center;">🥗</div>
+            <h3 style="text-align:center;">No hay tickets generados</h3>
+            <p style="text-align:center;">Aún no se ha generado ningún ticket. Crea uno desde el menú.</p>
+            <button class="btn-verde" style="display:block; margin:20px auto;" onclick="location.href='menu.html'">
+                IR AL MENÚ
+            </button>
         `;
         return;
     }
 
+    // Mostrar los datos del ticket
     app.innerHTML = `
         <h2>Mi Ticket</h2>
-        <div class="codigo-box">${t.codigo}</div>
-
-        <div class="cuadro"><strong>Cliente:</strong> ${t.cliente}</div>
-        <div class="cuadro"><strong>Cédula:</strong> ${t.cedula}</div>
-        <div class="cuadro"><strong>Teléfono:</strong> ${t.telefono}</div>
-        <div class="cuadro"><strong>Fecha:</strong> ${t.fecha}</div>
-        <div class="cuadro"><strong>Hora:</strong> ${t.hora}</div>
+        <div class="cuadro"><strong>Cliente:</strong> ${ticket.cliente}</div>
+        <div class="cuadro"><strong>Cédula:</strong> ${ticket.cedula}</div>
+        <div class="cuadro"><strong>Teléfono:</strong> ${ticket.telefono}</div>
+        <div class="cuadro"><strong>Fecha:</strong> ${ticket.fecha}</div>
+        <div class="cuadro"><strong>Hora:</strong> ${ticket.hora}</div>
 
         <button class="btn-verde" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
     `;
