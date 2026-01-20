@@ -1,34 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resumen del Pedido</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen del Pedido</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos existentes */
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,.05);
+        }
+        .cart-info strong { display: block }
+        .price-tag { color: #4CAF50; font-weight: 700 }
+        .cart-actions button { border: none; background: none; font-size: 18px; cursor: pointer; }
 
-<link rel="stylesheet" href="styles.css">
-
-<style>
-.cart-item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:#fff;
-    padding:15px;
-    margin-bottom:10px;
-    border-radius:15px;
-    box-shadow:0 2px 5px rgba(0,0,0,.05);
-}
-.cart-info strong{display:block}
-.price-tag{color:#4CAF50;font-weight:700}
-.cart-actions button{
-    border:none;
-    background:none;
-    font-size:18px;
-    cursor:pointer;
-}
-</style>
+        /* --- ESTILOS DEL MODAL (TARJETA BONITA) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none; /* Oculto por defecto */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        .modal-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-card h3 { margin-top: 0; color: #333; }
+        .modal-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .btn-generate {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .order-code {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #2c3e50;
+            letter-spacing: 5px;
+            margin: 20px 0;
+            padding: 10px;
+            border: 2px dashed #4CAF50;
+            display: inline-block;
+        }
+    </style>
 </head>
-
 <body>
 
 <header class="header-clean">
@@ -47,12 +97,24 @@
 
 <div class="cart-footer">
     <button class="btn btn-secondary" onclick="irAMenu()">+ Añadir otro plato</button>
-    <button class="btn btn-primary" onclick="confirmarPedido()">Confirmar Pedido</button>
+    <button class="btn btn-primary" onclick="mostrarFormulario()">Confirmar Pedido</button>
+</div>
+
+<div id="modal-pedido" class="modal-overlay">
+    <div class="modal-card" id="modal-content">
+        <h3>¡Ya casi acabamos! 📝</h3>
+        <p>Ingresa tus datos para generar tu ticket de caja.</p>
+        <input type="text" id="nombre" placeholder="Nombre completo" required>
+        <input type="number" id="cedula" placeholder="Cédula" required>
+        <input type="tel" id="telefono" placeholder="Teléfono" required>
+        <button class="btn-generate" onclick="generarCodigo()">GENERAR CÓDIGO</button>
+        <button style="margin-top:10px; background:none; border:none; color:gray; cursor:pointer;" onclick="cerrarModal()">Cancelar</button>
+    </div>
 </div>
 
 <script>
 /* =========================
-   CARRITO DESDE URL
+   LÓGICA DEL CARRITO
 ========================= */
 function getCart() {
     const params = new URLSearchParams(window.location.search);
@@ -61,9 +123,6 @@ function getCart() {
         : [];
 }
 
-/* =========================
-   MOSTRAR PEDIDO
-========================= */
 function mostrarPedido() {
     const cart = getCart();
     const cont = document.getElementById("pedido-lista");
@@ -71,11 +130,7 @@ function mostrarPedido() {
     const totalSpan = document.getElementById("total-global");
 
     if (cart.length === 0) {
-        cont.innerHTML = `
-            <div style="text-align:center;padding:60px;color:#888">
-                <div style="font-size:40px">🥣</div>
-                Carrito vacío
-            </div>`;
+        cont.innerHTML = `<div style="text-align:center;padding:60px;color:#888"><div style="font-size:40px">🥣</div>Carrito vacío</div>`;
         totalBox.style.display = "none";
         return;
     }
@@ -86,14 +141,9 @@ function mostrarPedido() {
 
     cart.forEach((item, index) => {
         total += parseFloat(item.total);
-
         let configParams = "";
-        for (let k in item.config) {
-            configParams += `&${k}=${item.config[k]}`;
-        }
-
-        const urlEditar =
-            `${item.page}?cart=${cartString}&editIndex=${index}${configParams}`;
+        for (let k in item.config) { configParams += `&${k}=${item.config[k]}`; }
+        const urlEditar = `${item.page}?cart=${cartString}&editIndex=${index}${configParams}`;
 
         cont.innerHTML += `
             <div class="cart-item">
@@ -106,38 +156,64 @@ function mostrarPedido() {
                     <button onclick="location.href='${urlEditar}'">✏️</button>
                     <button onclick="eliminarPlato(${index})">🗑️</button>
                 </div>
-            </div>
-        `;
+            </div>`;
     });
 
     totalSpan.innerText = total.toFixed(2);
     totalBox.style.display = "block";
 }
 
-/* =========================
-   ELIMINAR PLATO
-========================= */
 function eliminarPlato(index) {
     let cart = getCart();
     cart.splice(index, 1);
-    window.location.href =
-        `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
+    window.location.href = `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
 }
 
-/* =========================
-   VOLVER AL MENÚ
-========================= */
 function irAMenu() {
     const cart = getCart();
-    window.location.href =
-        `menu.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
+    window.location.href = `menu.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
 }
 
 /* =========================
-   CONFIRMAR PEDIDO
+   LÓGICA DEL MODAL Y CÓDIGO
 ========================= */
-function confirmarPedido() {
-    alert("Pedido confirmado ✅\n(Paso siguiente: pago)");
+function mostrarFormulario() {
+    const cart = getCart();
+    if(cart.length === 0) return alert("El carrito está vacío");
+    document.getElementById("modal-pedido").style.display = "flex";
+}
+
+function cerrarModal() {
+    document.getElementById("modal-pedido").style.display = "none";
+}
+
+function generarCodigo() {
+    const nombre = document.getElementById("nombre").value;
+    const cedula = document.getElementById("cedula").value;
+    const telefono = document.getElementById("telefono").value;
+
+    if (!nombre || !cedula || !telefono) {
+        alert("Por favor completa todos los campos");
+        return;
+    }
+
+    // Generar un código aleatorio (ejemplo: ABC-123)
+    const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const codigo = letras.charAt(Math.floor(Math.random() * letras.length)) + 
+                   letras.charAt(Math.floor(Math.random() * letras.length)) + "-" + 
+                   Math.floor(100 + Math.random() * 900);
+
+    // Cambiar el contenido del modal por el ticket final
+    const modalContent = document.getElementById("modal-content");
+    modalContent.innerHTML = `
+        <div style="font-size: 50px">✅</div>
+        <h3>¡Pedido Confirmado!</h3>
+        <p>Gracias <strong>${nombre}</strong>,</p>
+        <p>Presenta este código en caja para pagar:</p>
+        <div class="order-code">${codigo}</div>
+        <p style="font-size: 0.8rem; color: #666;">C.I: ${cedula} | Tel: ${telefono}</p>
+        <button class="btn-generate" onclick="window.location.href='menu.html'">VOLVER AL INICIO</button>
+    `;
 }
 
 window.onload = mostrarPedido;

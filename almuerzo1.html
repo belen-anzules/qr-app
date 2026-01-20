@@ -77,9 +77,9 @@
 <header class="header-clean">
   <a href="menu.html" class="back">←</a>
   <h2>Bowl Chips Potle</h2>
-  <div class="cart-icon" onclick="toggleDatosCuriosos()" style="cursor:pointer;">🧾</div>
-</header>
-
+ <div class="info-alert" onclick="toggleDatosCuriosos()">
+    <span style="font-size: 1.3rem;">🧾</span>
+</div>
 <section class="detail-content">
 
   <div class="card">
@@ -273,9 +273,22 @@
 <script src="js/almuerzo1.js"></script>
 <script>
   function toggleDatosCuriosos() {
-    const modal = document.getElementById('modal-datos');
-    modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-  }
+    const modal = document.getElementById("modal-datos");
+    const infoIcon = document.querySelector(".info-alert");
+    
+    if (!modal) return;
+
+    if (modal.style.display === "flex") {
+        modal.style.display = "none";
+    } else {
+        modal.style.display = "flex";
+        
+        // Al interactuar, quitamos la animación y el punto rojo
+        if (infoIcon) {
+            infoIcon.classList.add("visto");
+        }
+    }
+}
 </script>
 
 </body>
