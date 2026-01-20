@@ -75,47 +75,39 @@ function validarYConfirmar() {
 // 4. Cerrar ventanas emergentes
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-}
-
-// 5. PROCESAR EL TICKET FINAL (Persistencia para APK y GitHub)
-function procesarFinalizado() {
+}function procesarFinalizado() {
     const nom = document.getElementById("nombre").value.trim();
-    const ci = document.getElementById("cedula").value.trim();
-    const tel = document.getElementById("telefono").value.trim();
+    if (!nom) { alert("⚠️ Ingresa tu nombre"); return; }
 
-    if (!nom || !ci || !tel) { 
-        alert("⚠️ Por favor completa todos tus datos."); 
-        return; 
-    }
-
-    // Generar datos del ticket
     const cod = "TK-" + Math.floor(1000 + Math.random() * 9000);
     const ahora = new Date();
     
-    const datosTicket = {
+    const datos = {
         codigo: cod,
         cliente: nom,
-        cedula: ci,
-        telefono: tel,
         fecha: ahora.toLocaleDateString(),
         hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    // GUARDAR EN LOCALSTORAGE: Esto es lo que permite que el ticket "valga" en la app
-    localStorage.setItem('ticketAPK', JSON.stringify(datosTicket));
+    // --- EL TRUCO PARA LA APP ---
+    // 1. Intentamos guardar
+    localStorage.setItem('ticketAPK', JSON.stringify(datos));
 
-    // Cambiar contenido del modal para mostrar éxito
+    // 2. Verificamos inmediatamente si se guardó (esto fuerza al WebView a despertar)
+    const verificacion = localStorage.getItem('ticketAPK');
+    
+    if(!verificacion) {
+        alert("Error de memoria en la App. Inténtalo de nuevo.");
+        return;
+    }
+
+    // 3. Si todo está bien, mostramos el éxito
     const container = document.getElementById("modal-content-registro");
     container.innerHTML = `
         <div style="font-size: 50px;">✨</div>
         <h2 style="margin:10px 0;">¡Pedido Exitoso!</h2>
-        <p style="color:#666">Presenta este código en caja para pagar:</p>
-        <div class="order-code" style="font-size: 2.5rem; font-weight: 900; color: #4CAF50; margin: 20px 0; border: 3px dashed #4CAF50; padding: 15px;">
+        <div style="font-size: 2.5rem; font-weight: 900; color: #4CAF50; margin: 20px 0; border: 3px dashed #4CAF50; padding: 15px;">
             ${cod}
-        </div>
-        <div style="background:#f9f9f9; padding:15px; border-radius:20px; text-align:left; font-size:0.9rem; margin-bottom:15px;">
-            <strong>Cliente:</strong> ${nom}<br>
-            <strong>Cédula:</strong> ${ci}
         </div>
         <button onclick="window.location.href='menu.html'" 
                 style="background:#4CAF50; color:white; border:none; padding:15px; width:100%; border-radius:15px; font-weight:bold; cursor:pointer;">
