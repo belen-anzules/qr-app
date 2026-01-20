@@ -10,7 +10,7 @@
             background: #f4f7f6;
             display: flex;
             justify-content: center;
-            padding-top: 30px;
+            padding: 30px 10px;
             margin: 0;
         }
         .ticket-card {
@@ -18,10 +18,11 @@
             padding: 25px;
             border-radius: 25px;
             width: 85%;
-            max-width: 350px;
+            max-width: 400px;
             text-align: center;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
+        .ticket-card h2 { margin-bottom: 15px; }
         .codigo-box {
             font-size: 2.8rem;
             font-weight: 900;
@@ -32,14 +33,14 @@
             background: #f9fff9;
             border-radius: 12px;
         }
-        .info-txt {
-            text-align: left;
+        .info-txt { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .info-box {
             background: #f1f3f5;
-            padding: 15px;
-            border-radius: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: left;
             font-size: 0.9rem;
             color: #333;
-            margin-top: 10px;
         }
         .btn-verde {
             background: #4CAF50;
@@ -55,52 +56,53 @@
     </style>
 </head>
 <body>
-    <div class="ticket-card" id="app"></div>
+    <div class="ticket-card" id="app">
+        <h2>Cargando ticket...</h2>
+    </div>
 
     <script>
-       document.addEventListener("DOMContentLoaded", function() {
-    const app = document.getElementById("app");
+        document.addEventListener("DOMContentLoaded", function() {
+            const app = document.getElementById("app");
 
-    function obtenerTicket() {
-        let t = localStorage.getItem("ticketAPK");
-        if (!t) t = localStorage.getItem("ticketAPK_BACKUP");
-        if (!t) return null;
-        return JSON.parse(t);
-    }
+            // Función para obtener el ticket seguro
+            function obtenerTicket() {
+                let t = localStorage.getItem("ticketAPK");
+                if (!t) t = localStorage.getItem("ticketAPK_BACKUP");
+                if (!t) return null;
+                return JSON.parse(t);
+            }
 
-    const t = obtenerTicket();
+            // Obtenemos el ticket
+            const t = obtenerTicket();
 
-    if (!t) {
-        app.innerHTML = `
-            <div style="font-size:60px; text-align:center;">🥗</div>
-            <h3 style="text-align:center;">No hay tickets generados</h3>
-            <p style="text-align:center;">Aún no se ha generado ningún ticket. Crea uno desde el menú.</p>
-            <button class="btn-verde" onclick="location.href='menu.html'" style="margin-top:20px;">
-                IR AL MENÚ
-            </button>
-        `;
-        return;
-    }
+            if (!t) {
+                app.innerHTML = `
+                    <div style="font-size:60px; text-align:center;">🥗</div>
+                    <h2 style="text-align:center;">¡Hola!</h2>
+                    <p style="text-align:center; color:#666;">No tienes tickets generados. Crea uno desde el menú.</p>
+                    <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
+                `;
+                return;
+            }
 
-    app.innerHTML = `
-        <div style="font-size:45px; text-align:center;">🧾</div>
-        <h2 style="text-align:center;">Mi Ticket</h2>
-        <div class="codigo-box">${t.codigo}</div>
-        <div class="info-txt">
-            <strong>👤 Cliente:</strong> ${t.cliente}<br>
-            <strong>📄 Cédula:</strong> ${t.cedula}<br>
-            <strong>📱 Teléfono:</strong> ${t.telefono}<br>
-            <strong>📅 Fecha:</strong> ${t.fecha}<br>
-            <strong>⏰ Hora:</strong> ${t.hora}
-        </div>
-        <button class="btn-verde" onclick="
-            localStorage.removeItem('ticketAPK'); 
-            localStorage.removeItem('ticketAPK_BACKUP'); 
-            location.href='menu.html';
-        " style="margin-top:20px;">VOLVER AL MENÚ</button>
-    `;
-});
-
+            // Mostrar ticket con cuadros para cada dato
+            app.innerHTML = `
+                <h2>Mi Ticket</h2>
+                <div class="codigo-box">${t.codigo}</div>
+                <div class="info-txt">
+                    <div class="info-box"><strong>👤 Cliente:</strong> ${t.cliente}</div>
+                    <div class="info-box"><strong>📄 Cédula:</strong> ${t.cedula}</div>
+                    <div class="info-box"><strong>📱 Teléfono:</strong> ${t.telefono}</div>
+                    <div class="info-box"><strong>📅 Fecha:</strong> ${t.fecha}</div>
+                    <div class="info-box"><strong>⏰ Hora:</strong> ${t.hora}</div>
+                </div>
+                <button class="btn-verde" onclick="
+                    localStorage.removeItem('ticketAPK'); 
+                    localStorage.removeItem('ticketAPK_BACKUP'); 
+                    location.href='menu.html';
+                ">VOLVER AL MENÚ</button>
+            `;
+        });
     </script>
 </body>
 </html>
