@@ -4,61 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Ticket</title>
+
     <style>
-        body { font-family: sans-serif; background: #f4f7f6; display: flex; justify-content: center; padding-top: 30px; }
+        body {
+            font-family: sans-serif;
+            background: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            padding-top: 30px;
+            margin: 0;
+        }
+
         .ticket-card {
-            background: white; padding: 25px; border-radius: 25px;
-            width: 85%; max-width: 350px; text-align: center;
+            background: white;
+            padding: 25px;
+            border-radius: 25px;
+            width: 85%;
+            max-width: 350px;
+            text-align: center;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
+
         .codigo-box {
-            font-size: 2.8rem; font-weight: 900; color: #4CAF50;
-            margin: 15px 0; padding: 10px; border: 2px dashed #4CAF50;
-            background: #f9fff9; border-radius: 12px;
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #4CAF50;
+            margin: 15px 0;
+            padding: 10px;
+            border: 2px dashed #4CAF50;
+            background: #f9fff9;
+            border-radius: 12px;
         }
+
         .info-txt {
-            text-align: left; background: #f1f3f5; padding: 15px;
-            border-radius: 15px; font-size: 0.9rem; color: #333;
+            text-align: left;
+            background: #f1f3f5;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #333;
+            margin-top: 10px;
         }
+
         .btn-verde {
-            background: #4CAF50; color: white; border: none;
-            padding: 15px; width: 100%; border-radius: 15px;
-            font-weight: bold; cursor: pointer; margin-top: 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
         }
     </style>
 </head>
+
 <body>
 
+    <!-- CONTENEDOR PRINCIPAL -->
     <div class="ticket-card" id="app">
-        </div>
+        <!-- El contenido se carga dinámicamente -->
+    </div>
 
-    <script>
-        window.onload = () => {
-            // LLAMAMOS al dato almacenado
-            const rawData = localStorage.getItem('ticketGuardado');
-            const display = document.getElementById("app");
+    <!-- LÓGICA DEL TICKET -->
+    <script src="ver-ticket.js"></script>
 
-            if (!rawData) {
-                display.innerHTML = `
-                    <h3>Sin tickets activos</h3>
-                    <p>No tienes ningún pedido pendiente.</p>
-                    <button class="btn-verde" onclick="window.location.href='menu.html'">IR AL MENÚ</button>
-                `;
-            } else {
-                const t = JSON.parse(rawData); // Convertimos de texto a objeto
-                display.innerHTML = `
-                    <div style="font-size:40px">🧾</div>
-                    <h2>Mi Ticket</h2>
-                    <div class="codigo-box">${t.codigo}</div>
-                    <div class="info-txt">
-                        <strong>👤 Cliente:</strong> ${t.cliente}<br>
-                        <strong>📅 Fecha:</strong> ${t.fecha}<br>
-                        <strong>⏰ Hora:</strong> ${t.hora}
-                    </div>
-                    <button class="btn-verde" onclick="window.location.href='menu.html'">VOLVER</button>
-                `;
-            }
-        };
-    </script>
 </body>
 </html>

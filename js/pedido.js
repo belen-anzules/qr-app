@@ -138,6 +138,31 @@ function irAMenu() {
     const cartString = encodeURIComponent(JSON.stringify(cart));
     window.location.href = `menu.html?cart=${cartString}`;
 }
+function guardarTicket(datosTicket) {
+    try {
+        const ticketFinal = {
+            ...datosTicket,
+            timestamp: Date.now() // CLAVE PARA APP
+        };
+
+        localStorage.setItem("ticketAPK", JSON.stringify(ticketFinal));
+
+        // Forzar escritura (clave para WebView)
+        const guardado = guardarTicket(datosTicket);
+
+if (!guardado) {
+    alert("Error al guardar el ticket. Intenta nuevamente.");
+    return;
+}
+
+        console.log("Ticket guardado correctamente:", ticketFinal);
+        return true;
+    } catch (e) {
+        console.error("Error guardando ticket:", e);
+        return false;
+    }
+}
+
 
 // Carga inicial al abrir la página
 window.onload = mostrarPedido;
