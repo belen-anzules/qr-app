@@ -263,3 +263,32 @@ body {
     .ingredient-item { padding: 12px 14px; }
     .btn-qty { width: 28px; height: 28px; font-size: 0.85rem; }
 }
+.card {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.card-img-container {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.card-img-container img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+}
+/* ===== TABLA RESPONSIVE SOLO EN MÓVIL ===== */
+@media (max-width: 600px) {
+    .nutrition-summary {
+        overflow-x: auto;
+    }
+
+    .nutrition-table {
+        min-width: 520px;
+    }
+}
