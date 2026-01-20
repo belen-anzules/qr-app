@@ -5,39 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi Ticket - Macro Fit</title>
 <style>
-body {
-    font-family: sans-serif;
-    background: #f4f7f6;
+/* RESET BASICO */
+* {
+    box-sizing: border-box;
     margin: 0;
+    padding: 0;
+}
+
+/* BODY */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f7f6;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     padding: 30px 0;
+    min-height: 100vh;
 }
 
+/* TARJETA DE TICKET */
 .ticket-card {
     background: white;
-    padding: 25px;
+    padding: 25px 20px;
     border-radius: 25px;
     width: 90%;
-    max-width: 380px;
+    max-width: 400px;
     text-align: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    animation: fadeIn 0.5s ease-in-out;
 }
 
+/* TITULO */
 h2 {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #4CAF50;
 }
 
+/* CUADROS DE INFO */
 .cuadro {
     background: #f1f3f5;
     padding: 15px;
     border-radius: 12px;
-    margin: 8px 0;
+    margin: 10px 0;
     text-align: left;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #333;
 }
 
+/* BOTON VERDE */
 .btn-verde {
     background: #4CAF50;
     color: white;
@@ -48,33 +64,75 @@ h2 {
     font-weight: bold;
     cursor: pointer;
     margin-top: 20px;
+    transition: 0.3s;
+}
+
+.btn-verde:hover {
+    background: #45a049;
+}
+
+/* MENSAJE CARGANDO */
+#cargando {
+    font-size: 1rem;
+    color: #888;
+    margin: 40px 0;
+}
+
+/* ANIMACION SUAVE */
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+/* RESPONSIVE */
+@media (max-width: 450px) {
+    .ticket-card {
+        padding: 20px 15px;
+    }
+    .cuadro { font-size: 0.95rem; }
+    h2 { font-size: 1.6rem; }
+    .btn-verde { padding: 12px; font-size: 0.95rem; }
 }
 </style>
 </head>
-<body><div class="ticket-card" id="app"></div>
+<body>
+
+<div class="ticket-card" id="app">
+    <div id="cargando">Cargando datos del ticket...</div>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
-    const ticketJSON = localStorage.getItem("ticketAPK");
 
-    if (!ticketJSON) {
+    // Simular carga de datos
+    setTimeout(() => {
+        const ticketJSON = localStorage.getItem("ticketAPK");
+
+        if (!ticketJSON) {
+            app.innerHTML = `
+                <h2>Oops! 😅</h2>
+                <p>No se encontró ningún ticket.</p>
+                <button class="btn-verde" onclick="location.href='menu.html'">Ir al menú</button>
+            `;
+            return;
+        }
+
+        const ticket = JSON.parse(ticketJSON);
+
         app.innerHTML = `
-            <h3>No hay ticket</h3>
-            <button onclick="location.href='menu.html'">Ir al menú</button>
+            <h2>Mi Ticket</h2>
+            <div class="cuadro"><strong>Cliente:</strong> ${ticket.cliente}</div>
+            <div class="cuadro"><strong>Cédula:</strong> ${ticket.cedula}</div>
+            <div class="cuadro"><strong>Teléfono:</strong> ${ticket.telefono}</div>
+            <div class="cuadro"><strong>Fecha:</strong> ${ticket.fecha}</div>
+            <div class="cuadro"><strong>Hora:</strong> ${ticket.hora}</div>
+            <div class="cuadro"><strong>Código:</strong> ${ticket.codigo}</div>
+            <button class="btn-verde" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
         `;
-        return;
-    }
-
-    const ticket = JSON.parse(ticketJSON);
-
-    app.innerHTML = `
-        <h2>Mi Ticket</h2>
-        <div class="cuadro"><strong>Cliente:</strong> ${ticket.cliente}</div>
-        <button onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
-    `;
+    }, 500); // medio segundo para efecto de carga
 });
-
 </script>
+
 </body>
 </html>
