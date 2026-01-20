@@ -3,23 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Ticket</title>
+    <title>Mi Ticket - Macro Fit</title>
     <style>
-        :root {
-            --primary: #4CAF50;
-            --dark: #2c3e50;
-            --light: #f4f7f6;
-        }
-
         body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 30px 0;
-            background: var(--light);
+            font-family: sans-serif;
+            background: #f4f7f6;
             display: flex;
             justify-content: center;
+            padding-top: 30px;
+            margin: 0;
         }
-
         .ticket-card {
             background: white;
             padding: 25px;
@@ -29,30 +22,27 @@
             text-align: center;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-
         .codigo-box {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 900;
-            color: var(--primary);
+            color: #4CAF50;
             margin: 15px 0;
             padding: 10px;
-            border: 2px dashed var(--primary);
+            border: 2px dashed #4CAF50;
             background: #f9fff9;
             border-radius: 12px;
         }
-
         .info-txt {
             text-align: left;
             background: #f1f3f5;
             padding: 15px;
             border-radius: 15px;
             font-size: 0.9rem;
-            color: var(--dark);
+            color: #333;
             margin-top: 10px;
         }
-
         .btn-verde {
-            background: var(--primary);
+            background: #4CAF50;
             color: white;
             border: none;
             padding: 15px;
@@ -62,77 +52,62 @@
             cursor: pointer;
             margin-top: 20px;
         }
-
-        .empty-message {
-            text-align: center;
-            color: #888;
-        }
-
-        .empty-message div {
-            font-size: 60px;
-        }
     </style>
 </head>
 <body>
+    <div class="ticket-card" id="app"></div>
 
-<div class="ticket-card" id="app"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function obtenerTicketSeguro() {
+                let t = localStorage.getItem("ticketAPK");
+                if (!t) t = localStorage.getItem("ticketAPK_BACKUP");
+                if (!t) return null;
+                return JSON.parse(t);
+            }
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
+            function mostrarTicket() {
+                const app = document.getElementById("app");
+                const t = obtenerTicketSeguro();
 
-    function obtenerTicketSeguro() {
-        let t = localStorage.getItem("ticketAPK");
-        if (!t) t = localStorage.getItem("ticketAPK_BACKUP");
-        if (!t) return null;
-        return JSON.parse(t);
-    }
+                if (!t) {
+                    app.innerHTML = `
+                        <div style="font-size:60px; text-align:center;">🥗</div>
+                        <h3 style="text-align:center;">No hay tickets generados</h3>
+                        <p style="text-align:center;">Aún no se ha generado ningún ticket. Crea uno desde el menú.</p>
+                        <button class="btn-verde" style="display:block; margin:20px auto;" onclick="location.href='menu.html'">
+                            IR AL MENÚ
+                        </button>
+                    `;
+                    return;
+                }
 
-    function mostrarTicket() {
-        const app = document.getElementById("app");
-        const t = obtenerTicketSeguro();
+                app.innerHTML = `
+                    <div style="font-size:45px; text-align:center;">🧾</div>
+                    <h2 style="text-align:center;">Mi Ticket</h2>
 
-        if (!t) {
-            app.innerHTML = `
-                <div class="empty-message">
-                    <div>🥗</div>
-                    <h3>No hay tickets generados</h3>
-                    <p>Aún no se ha generado ningún ticket. Crea uno desde el menú.</p>
-                    <button class="btn-verde" onclick="location.href='menu.html'">
-                        IR AL MENÚ
+                    <div class="codigo-box">${t.codigo}</div>
+
+                    <div class="info-txt">
+                        <strong>👤 Cliente:</strong> ${t.cliente}<br>
+                        <strong>📄 Cédula:</strong> ${t.cedula}<br>
+                        <strong>📱 Teléfono:</strong> ${t.telefono}<br>
+                        <strong>📅 Fecha:</strong> ${t.fecha}<br>
+                        <strong>⏰ Hora:</strong> ${t.hora}
+                    </div>
+
+                    <button class="btn-verde" onclick="
+                        localStorage.removeItem('ticketAPK'); 
+                        localStorage.removeItem('ticketAPK_BACKUP'); 
+                        location.href='menu.html';
+                    ">
+                        VOLVER AL MENÚ
                     </button>
-                </div>
-            `;
-            return;
-        }
+                `;
+            }
 
-        // Mostrar ticket existente
-        app.innerHTML = `
-            <div style="font-size:45px; text-align:center;">🧾</div>
-            <h2 style="text-align:center;">Mi Ticket</h2>
-
-            <div class="codigo-box">${t.codigo}</div>
-
-            <div class="info-txt">
-                <strong>👤 Cliente:</strong> ${t.cliente}<br>
-                <strong>📄 Cédula:</strong> ${t.cedula}<br>
-                <strong>📱 Teléfono:</strong> ${t.telefono}<br>
-                <strong>📅 Fecha:</strong> ${t.fecha}<br>
-                <strong>⏰ Hora:</strong> ${t.hora}
-            </div>
-
-<button class="btn-verde" onclick="
-    localStorage.removeItem('ticketAPK');
-    localStorage.removeItem('ticketAPK_BACKUP');
-    location.href='menu.html';
-">
-    VOLVER AL MENÚ
-</button>
-        `;
-    }
-
-    mostrarTicket();
-});
-</script>
-
+            mostrarTicket();
+        });
+    </script>
 </body>
 </html>
