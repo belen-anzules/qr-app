@@ -5,32 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Ticket - Macro Fit</title>
     <style>
-        :root { --primary: #4CAF50; --bg: #f4f7f6; --text: #333; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding-top: 80px; display: flex; justify-content: center; min-height: 100vh; }
-        header { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: white; display: flex; align-items: center; padding: 0 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 1000; box-sizing: border-box; }
-        .btn-atras { text-decoration: none; color: var(--text); font-weight: bold; background: #f0f0f0; padding: 8px 15px; border-radius: 12px; }
-        .ticket-card { background: white; padding: 25px 20px; border-radius: 25px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); height: fit-content; }
-        .codigo-box { font-size: 2rem; font-weight: 900; background: #e8f5e9; color: var(--primary); padding: 15px; border-radius: 15px; border: 2px dashed var(--primary); margin: 20px 0; }
-        .cuadro { background: #f8f9fa; padding: 15px; border-radius: 12px; text-align: left; margin-bottom: 20px; font-size: 1rem; line-height: 1.6; }
-        .btn-verde { background: var(--primary); color: white; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-bottom: 10px; }
-        .btn-outline { background: transparent; color: #888; border: 1px solid #ddd; }
+        :root {
+            --primary: #4CAF50;
+            --bg: #f4f7f6;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            margin: 0;
+            padding-top: 80px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        header {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 60px;
+            background: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .btn-atras {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: bold;
+            font-size: 0.9rem;
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 12px;
+        }
+
+        .ticket-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .codigo-box {
+            font-size: 2rem;
+            font-weight: 900;
+            background: #e8f5e9;
+            color: var(--primary);
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px dashed var(--primary);
+            margin: 20px 0;
+        }
+
+        .cuadro {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .btn-verde {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 18px;
+            width: 100%;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #888;
+            border: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="menu.html" class="btn-atras">⬅ Menú</a>
+    <a href="menu.html" class="btn-atras">⬅ Volver al Menú</a>
 </header>
 
 <div class="ticket-card" id="app">
     </div>
 
-   <script>
-    // 1. Esta función se encarga de "limpiar" la vista
+<script>
+    // Función simple para el botón borrar
     function borrarYNuevo() {
-        // Guardamos una marca en el teléfono indicando que el usuario borró el ticket
-        localStorage.setItem("ticket_borrado", "true");
-        // Recargamos para que el script aplique el cambio
         window.location.href = "menu.html";
     }
 
@@ -38,53 +116,40 @@
         const app = document.getElementById("app");
         const params = new URLSearchParams(window.location.search);
         
-        // Revisamos si el usuario acaba de presionar el botón "Borrar"
-        const fueBorrado = localStorage.getItem("ticket_borrado");
-
-        // 2. Definimos los datos (Si hay en URL los usa, si no, usa los quemados)
+        // DATOS: Prioridad URL, si no hay, usa los QUEMADOS
         const ticket = {
-            codigo: params.get('cod') || "MF-733169",
+            codigo: params.get('cod') || "MF-000000",
             cliente: params.get('nom') || "CLIENTE GENERAL",
             cedula: params.get('ci') || "0000000000",
-            telefono: params.get('tel') || "0900000000",
-            fecha: params.get('fec') || new Date().toLocaleDateString(),
-            hora: params.get('hor') || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            telefono: params.get('tel') || "0000000000",
+            fecha: params.get('fec') || "00/00/0000",
+            hora: params.get('hor') || "00:00"
         };
 
-        // 3. LÓGICA DE VISUALIZACIÓN
-        // Si hay datos en la URL, siempre los mostramos (porque es un pedido nuevo)
-        // Si NO hay datos en la URL y el usuario presionó borrar antes, mostramos pantalla vacía
-        if (!params.get('cod') && fueBorrado === "true") {
-            app.innerHTML = `
-                <div style="font-size:60px; margin-bottom:15px;">🥗</div>
-                <h2>Macro Fit</h2>
-                <p>No tienes tickets activos en este momento.</p>
-                <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ PRINCIPAL</button>
-            `;
-        } else {
-            // Si el pedido es nuevo (viene por URL), reseteamos la marca de borrado
-            if (params.get('cod')) {
-                localStorage.removeItem("ticket_borrado");
-            }
-
-            // Mostramos el ticket (ya sea con datos reales o quemados)
-            app.innerHTML = `
-                <div style="font-size:40px;">✅</div>
-                <h2>¡Pedido Listo!</h2>
-                <div class="codigo-box">${ticket.codigo}</div>
-                <div class="cuadro">
-                    <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
-                    <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
-                    <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
-                    <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                    <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
-                    <strong>⏰ Hora:</strong> ${ticket.hora}
-                </div>
-                <button class="btn-verde" onclick="borrarYNuevo()">🗑️ BORRAR Y NUEVO PEDIDO</button>
-                <button class="btn-verde btn-outline" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
-            `;
-        }
+        // Renderizado directo y seguro
+        app.innerHTML = `
+            <div style="font-size:40px;">✅</div>
+            <h2>¡Pedido Listo!</h2>
+            <div class="codigo-box">${ticket.codigo}</div>
+            <div class="cuadro">
+                <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
+                <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
+                <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
+                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
+                <strong>⏰ Hora:</strong> ${ticket.hora}
+            </div>
+            
+            <button class="btn-verde" onclick="borrarYNuevo()">
+                🗑️ BORRAR Y NUEVO PEDIDO
+            </button>
+            
+            <button class="btn-verde btn-outline" onclick="location.href='menu.html'">
+                VOLVER AL MENÚ
+            </button>
+        `;
     });
 </script>
+
 </body>
 </html>
