@@ -1,10 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cenas - Macro Fit</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cenas - Macro Fit</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Estilos para los modales de ticket y borrado */
+    .modal-confirm-borrar {
+        background: white; padding: 25px; border-radius: 25px;
+        width: 80%; max-width: 320px; text-align: center;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        animation: aparecer 0.3s ease-out;
+    }
+    @keyframes aparecer { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .btn-borrar-si { background: #e74c3c; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: bold; flex: 1; cursor: pointer; }
+    .btn-borrar-no { background: #f1f3f5; color: #333; border: none; padding: 12px; border-radius: 12px; font-weight: bold; flex: 1; cursor: pointer; }
+    
+    /* Estilos de botones de categorías */
+    .cat-btn { border: none; padding: 10px 20px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 0.9rem; transition: 0.3s; }
+    .cat-desayuno { background: #d1e3f0; color: #507b9d; }
+    .cat-almuerzo { background: #fff4e1; color: #f39c12; }
+    .cat-cena { background: #f5ebf7; color: #a569bd; }
+    .cat-btn.active { outline: 2px solid currentColor; transform: scale(1.05); }
+
+    /* ARREGLO: Estilo para la burbuja del ticket */
+    .resumen-icon-container { position: relative; }
+    .ticket-badge {
+        position: absolute; top: -2px; right: -2px;
+        background: #e74c3c; width: 10px; height: 10px;
+        border-radius: 50%; border: 2px solid white; display: none;
+    }
+  </style>
 </head>
 <body>
 
@@ -13,13 +40,25 @@
         <span class="app-logo-small">🌙</span>
         <h2>CENA</h2>
     </div>
-    <div class="cart-container" onclick="irAPedido()">
-        <span class="cart-icon">🛒</span>
-        <span id="cart-count" class="badge">0</span>
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="resumen-icon-container" onclick="verTicketAPK()" style="cursor: pointer;">
+            <span style="font-size: 1.3rem;">🧾</span>
+            <span id="dot-ticket" class="ticket-badge"></span>
+        </div>
+        <div class="cart-container" onclick="irAPedido()" style="cursor: pointer;">
+            <span class="cart-icon">🛒</span>
+            <span id="cart-count" class="badge">0</span>
+        </div>
     </div>
   </header>
 
-  <nav class="categorias-container">
+  <div style="padding: 20px 20px 0;">
+      <h1 style="font-size: 1.6rem; color: #333; margin-bottom: 5px; font-weight: 800;">¡Bienvenido a Macro Fit!</h1>
+      <p style="color: #666; font-size: 0.95rem;">Termina tu día con una opción ligera y nutritiva.</p>
+  </div>
+
+  <nav class="categorias-container" style="display: flex; gap: 10px; padding: 15px 20px;">
     <button class="cat-btn cat-desayuno" onclick="irACategoria('menu.html')">Desayuno</button>
     <button class="cat-btn cat-almuerzo" onclick="irACategoria('almuerzo.html')">Almuerzo</button>
     <button class="cat-btn cat-cena active" onclick="irACategoria('cena.html')">Cena</button>
@@ -28,7 +67,7 @@
   <main class="menu">
     <div class="card" onclick="irADetalle('cena1.html')">
       <div class="card-img-container">
-        <img src="img/tacos.jpg" alt="Tacos">
+        <img src="img/tacos.jpg" alt="Tacos" class="img-responsive">
       </div>
       <div class="info">
         <h3>Tacos al Pastor</h3>
@@ -38,7 +77,7 @@
 
     <div class="card" onclick="irADetalle('cena2.html')">
       <div class="card-img-container">
-        <img src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9" alt="Ensalada">
+        <img src="https://images.unsplash.com/photo-1550304943-4f24f54ddde9" alt="Ensalada" class="img-responsive">
       </div>
       <div class="info">
         <h3>Ensalada César Fit</h3>
@@ -48,44 +87,95 @@
 
     <div class="card" onclick="irADetalle('cena3.html')">
       <div class="card-img-container">
-        <img src="img/cena3.png" alt="Fajitas">
+        <img src="img/cena3.png" alt="Fajitas" class="img-responsive">
       </div>
       <div class="info">
         <h3>Bowl de Salmón Fit</h3>
         <span class="price-tag">$7.50</span>
       </div>
     </div>
-    
     <div style="height: 100px;"></div>
   </main>
+
+  <div id="vista-ticket" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; flex-direction:column; align-items:center; justify-content:center; z-index:9999; backdrop-filter: blur(5px);">
+    <div style="background: white; padding: 30px; border-radius: 30px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-top: 8px solid #4CAF50;">
+        <div id="ticket-dinamico"></div>
+        <button onclick="cerrarVistaTicket()" style="background:#f1f3f5; color:#333; border:none; padding:15px; width:100%; border-radius:15px; font-weight:bold; cursor:pointer; margin-top:15px; font-size:1rem;">
+            CERRAR
+        </button>
+    </div>
+  </div>
+
+  <div id="modal-confirm-borrado" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:none; flex-direction:column; align-items:center; justify-content:center; z-index:10000; backdrop-filter: blur(3px);">
+    <div class="modal-confirm-borrar">
+        <div style="font-size: 40px;">⚠️</div>
+        <h3 style="margin: 10px 0;">¿Eliminar ticket?</h3>
+        <p style="color: #666; font-size: 0.9rem; line-height: 1.4;">Si borras el ticket ahora, no podrás mostrar el código en caja para pagar tu pedido.</p>
+        <div style="display: flex; gap: 10px; margin-top: 25px;">
+            <button class="btn-borrar-no" onclick="cerrarConfirmacion()">NO, VOLVER</button>
+            <button class="btn-borrar-si" onclick="borrarTicketDefinitivo()">SÍ, BORRAR</button>
+        </div>
+    </div>
+  </div>
 
   <script>
     window.onload = () => {
         actualizarContador();
+        actualizarIndicadorTicket();
     };
+
+    // Función para mostrar el puntito rojo si hay datos guardados
+    function actualizarIndicadorTicket() {
+        const data = localStorage.getItem('ticketAPK');
+        const dot = document.getElementById("dot-ticket");
+        if (dot) { dot.style.display = data ? "block" : "none"; }
+    }
+
+    function verTicketAPK() {
+        const data = localStorage.getItem('ticketAPK');
+        const contenedor = document.getElementById("ticket-dinamico");
+        if (data) {
+            const t = JSON.parse(data);
+            contenedor.innerHTML = `
+                <div style="font-size: 50px;">🧾</div>
+                <h2 style="margin: 10px 0; color:#333; font-weight:900;">TU TICKET</h2>
+                <div style="font-size: 2.8rem; font-weight: 900; color: #4CAF50; margin: 15px 0; padding: 10px; border: 2px dashed #4CAF50; background: #f9fff9; border-radius: 15px;">${t.codigo}</div>
+                <div style="text-align: left; background: #f8f9fa; padding: 15px; border-radius: 15px; font-size: 0.9rem; color: #444;">
+                    <strong>👤 Cliente:</strong> ${t.cliente}<br>
+                    <strong>📅 Fecha:</strong> ${t.fecha}<br>
+                    <strong>⏰ Hora:</strong> ${t.hora}
+                </div>
+                <button onclick="mostrarConfirmacionBorrar()" style="background:none; color:#e74c3c; border:none; padding:10px; width:100%; margin-top:10px; font-size:0.85rem; cursor:pointer; font-weight:bold; display:flex; align-items:center; justify-content:center; gap:5px;">🗑️ BORRAR ESTE TICKET</button>`;
+        } else {
+            contenedor.innerHTML = `<div style="font-size: 60px; margin-bottom: 15px;">🥗</div><h2 style="color:#333; font-weight:900;">¡HOLA!</h2><p style="color:#666; font-size: 0.95rem; line-height: 1.4; margin-bottom: 20px;">Parece que aún no tienes un pedido activo.</p>`;
+        }
+        document.getElementById("vista-ticket").style.display = "flex";
+    }
+
+    function mostrarConfirmacionBorrar() { document.getElementById("modal-confirm-borrado").style.display = "flex"; }
+    function cerrarConfirmacion() { document.getElementById("modal-confirm-borrado").style.display = "none"; }
+    function cerrarVistaTicket() { document.getElementById("vista-ticket").style.display = "none"; }
+    
+    function borrarTicketDefinitivo() { 
+        localStorage.removeItem('ticketAPK'); 
+        actualizarIndicadorTicket(); 
+        cerrarConfirmacion(); 
+        cerrarVistaTicket(); 
+    }
 
     function actualizarContador() {
         const params = new URLSearchParams(window.location.search);
         const cart = params.get('cart') ? JSON.parse(decodeURIComponent(params.get('cart'))) : [];
         const badge = document.getElementById("cart-count");
-        badge.innerText = cart.length;
-        badge.style.display = cart.length > 0 ? "flex" : "none";
+        if(badge) {
+            badge.innerText = cart.length;
+            badge.style.display = cart.length > 0 ? "flex" : "none";
+        }
     }
 
-    function irADetalle(pagina) {
-        const params = new URLSearchParams(window.location.search);
-        window.location.href = `${pagina}?${params.toString()}`;
-    }
-
-    function irACategoria(url) {
-        const params = new URLSearchParams(window.location.search);
-        window.location.href = `${url}?${params.toString()}`;
-    }
-
-    function irAPedido() {
-        const params = new URLSearchParams(window.location.search);
-        window.location.href = `pedido.html?${params.toString()}`;
-    }
+    function irADetalle(pagina) { window.location.href = `${pagina}?${new URLSearchParams(window.location.search).toString()}`; }
+    function irACategoria(url) { window.location.href = `${url}?${new URLSearchParams(window.location.search).toString()}`; }
+    function irAPedido() { window.location.href = `pedido.html?${new URLSearchParams(window.location.search).toString()}`; }
   </script>
 </body>
 </html>
