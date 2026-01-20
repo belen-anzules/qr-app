@@ -210,32 +210,32 @@ function validarYConfirmar() {
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
 }
-
-/* 🔥 FUNCIÓN CLAVE */
 function procesarFinalizado() {
     const nom = document.getElementById("nombre").value.trim();
     const ci = document.getElementById("cedula").value.trim();
     const tel = document.getElementById("telefono").value.trim();
 
     if (!nom || !ci || !tel) {
-        alert("Completa todos los datos");
+        // ❌ NO alert
+        document.getElementById("modal-registro").style.display = "none";
+        document.getElementById("modal-vacio").style.display = "flex";
         return;
     }
 
     const ahora = new Date();
+    const codigo = "TK-" + Math.floor(1000 + Math.random() * 9000);
 
-    const ticket = {
-        codigo: "TK-" + Math.floor(1000 + Math.random() * 9000),
+    const params = new URLSearchParams({
+        codigo: codigo,
         cliente: nom,
         fecha: ahora.toLocaleDateString(),
         hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
+    });
 
-    localStorage.setItem("ticketAPK", JSON.stringify(ticket));
-
-    // ✅ REDIRECCIÓN CORRECTA
-    window.location.href = "ver-ticket.html";
+    // 🚀 EN APP ESTO SÍ FUNCIONA
+    window.location.href = "ver-ticket.html?" + params.toString();
 }
+
 
 function eliminarPlato(index) {
     let cart = getCartFromURL();

@@ -1,27 +1,28 @@
 /* ==========================================
    MACRO FIT - VER TICKET
 ========================================== */
+function obtenerTicketDesdeURL() {
+    const params = new URLSearchParams(window.location.search);
 
-function obtenerTicketSeguro() {
-    let t = localStorage.getItem("ticketAPK");
+    if (!params.has("codigo")) return null;
 
-    if (!t) {
-        t = localStorage.getItem("ticketAPK_BACKUP");
-    }
-
-    if (!t) return null;
-
-    return JSON.parse(t);
+    return {
+        codigo: params.get("codigo"),
+        cliente: params.get("cliente"),
+        fecha: params.get("fecha"),
+        hora: params.get("hora")
+    };
 }
 
 function mostrarTicket() {
-    const display = document.getElementById("app");
-    const t = obtenerTicketSeguro();
+    const app = document.getElementById("app");
+    const t = obtenerTicketDesdeURL();
 
     if (!t) {
-        display.innerHTML = `
-            <h3>Sin ticket activo</h3>
-            <p>No se encontró ningún pedido.</p>
+        app.innerHTML = `
+            <div style="font-size:60px">🥗</div>
+            <h3>No hay ticket activo</h3>
+            <p>Genera tu pedido para ver el código.</p>
             <button class="btn-verde" onclick="location.href='menu.html'">
                 IR AL MENÚ
             </button>
@@ -29,7 +30,7 @@ function mostrarTicket() {
         return;
     }
 
-    display.innerHTML = `
+    app.innerHTML = `
         <div style="font-size:45px">🧾</div>
         <h2>Mi Ticket</h2>
 
