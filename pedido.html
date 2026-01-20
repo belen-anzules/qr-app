@@ -85,10 +85,11 @@ body {
 .modal-card {
     background: white;
     padding: 30px;
-    border-radius: 30px;
+    border-radius: 25px;
     width: 85%;
     max-width: 380px;
     text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 .modal-card input {
@@ -122,17 +123,21 @@ body {
     <button class="btn btn-primary" onclick="validarYConfirmar()">Confirmar</button>
 </div>
 
-<!-- MODAL REGISTRO -->
+<!-- MODAL REGISTRO AMIGABLE -->
 <div id="modal-registro" class="modal-overlay">
     <div class="modal-card">
-        <h2>¡Casi listo! 📝</h2>
+        <div style="font-size:50px; margin-bottom:10px;">📝</div>
+        <h2 style="color:#2E7D32; margin-bottom:5px;">¡Casi listo!</h2>
+        <p style="font-size:0.9rem; color:#555; margin-bottom:15px;">
+            ¡Rellena tus datos para recibir tu pedido rápido y seguro! 🚀
+        </p>
         <input type="text" id="nombre" placeholder="Tu nombre">
         <input type="number" id="cedula" placeholder="Cédula">
         <input type="tel" id="telefono" placeholder="Celular">
         <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="procesarFinalizado()">
             GENERAR TICKET
         </button>
-        <button style="margin-top:15px; background:none; border:none; color:#bbb;" onclick="cerrarModales()">
+        <button style="margin-top:10px; background:none; border:none; color:#888;" onclick="cerrarModales()">
             Volver
         </button>
     </div>
@@ -213,9 +218,7 @@ function validarYConfirmar() {
 
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-}
-
-function procesarFinalizado() {
+}function procesarFinalizado() {
     const nombre = document.getElementById("nombre").value.trim();
     const cedula = document.getElementById("cedula").value.trim();
     const telefono = document.getElementById("telefono").value.trim();
@@ -237,10 +240,10 @@ function procesarFinalizado() {
         codigo: codigo
     };
 
+    // Guardamos en localStorage
     localStorage.setItem("ticketAPK", JSON.stringify(ticket));
 
-    alert(`¡Ticket generado! Tu código: ${codigo}`);
-
+    // Redirigimos directamente a ver-ticket.html
     window.location.href = "ver-ticket.html";
 }
 
