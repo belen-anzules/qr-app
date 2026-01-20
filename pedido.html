@@ -274,7 +274,8 @@ function validarYConfirmar() {
 
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-}function procesarFinalizado() {
+}
+function procesarFinalizado() {
     // 1. Capturamos los datos exactos que el usuario ve en pantalla
     const nom = document.getElementById("nombre").value.trim();
     const ci = document.getElementById("cedula").value.trim();
@@ -291,10 +292,18 @@ function cerrarModales() {
     const fecha = ahora.toLocaleDateString();
     const hora = ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+    // --- NUEVO: GUARDADO PARA PERSISTENCIA ---
+    const datosParaGuardar = { 
+        codigo: cod, cliente: nom, cedula: ci, 
+        telefono: tel, fecha: fecha, hora: hora 
+    };
+    localStorage.setItem("ticketAPK", JSON.stringify(datosParaGuardar));
+    // -----------------------------------------
+
     // 3. LA CLAVE: Enviamos todo por la URL para que no se pierda en la APK
     const destino = `ver-ticket.html?cod=${cod}&nom=${encodeURIComponent(nom)}&ci=${encodeURIComponent(ci)}&tel=${encodeURIComponent(tel)}&fec=${encodeURIComponent(fecha)}&hor=${encodeURIComponent(hora)}`;
 
-    // Redirección inmediata (Eliminamos el delay para que sea instantáneo)
+    // Redirección inmediata
     window.location.href = destino;
 }
 function eliminarPlato(index) {

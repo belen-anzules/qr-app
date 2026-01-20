@@ -9,7 +9,6 @@
             --primary: #4CAF50;
             --bg: #f4f7f6;
             --text: #333;
-            --error: #e74c3c;
         }
 
         body {
@@ -39,9 +38,6 @@
             text-decoration: none;
             color: var(--text);
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             font-size: 0.9rem;
             background: #f0f0f0;
             padding: 8px 15px;
@@ -56,12 +52,11 @@
             max-width: 400px;
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            animation: fadeIn 0.4s ease-out;
             height: fit-content;
         }
 
         .codigo-box {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 900;
             background: #e8f5e9;
             color: var(--primary);
@@ -77,116 +72,102 @@
             border-radius: 12px;
             text-align: left;
             margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
         .btn-verde {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 16px;
+            padding: 18px;
             width: 100%;
             border-radius: 15px;
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
+            font-size: 1rem;
+            margin-bottom: 10px;
         }
 
         .btn-outline {
             background: transparent;
             color: #888;
             border: 1px solid #ddd;
-            margin-top: 10px;
         }
-
-        @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="menu.html" class="btn-atras"><span>⬅</span> Volver al Menú</a>
+    <a href="menu.html" class="btn-atras">⬅ Volver al Menú</a>
 </header>
 
 <div class="ticket-card" id="app">
     </div>
-
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const app = document.getElementById("app");
-    const params = new URLSearchParams(window.location.search);
-    
-    // 1. Intentamos capturar los datos de la URL primero (Prioridad 1)
-    const ticketURL = {
-        codigo: params.get('cod'),
-        cliente: params.get('nom'),
-        cedula: params.get('ci'),
-        telefono: params.get('tel'),
-        fecha: params.get('fec'),
-        hora: params.get('hor')
-    };
-
-    // 2. Si la URL tiene datos, mostramos de inmediato
-    if (ticketURL.codigo) {
-        mostrarPantalla(ticketURL);
-    } 
-    // 3. Si no hay en URL, buscamos en el respaldo (Prioridad 2)
-    else {
-        const backup = JSON.parse(localStorage.getItem("ticketAPK") || "null");
-        if (backup) {
-            mostrarPantalla(backup);
-        } else {
-            // 4. Si todo falla, mostrar error amigable
-            mostrarError();
-        }
+    // Borrado directo sin alertas
+    function borrarYNuevo() {
+        localStorage.removeItem("ticketAPK"); // Borra el respaldo
+        window.location.href = "menu.html";    // Salta al menú
     }
 
-    function mostrarPantalla(t) {
-        app.innerHTML = `
-            <div style="font-size:50px; margin-bottom:10px;">✅</div>
-            <h2 style="margin:0; color:var(--primary);">¡Pedido Confirmado!</h2>
-            <p style="color:#666; font-size:0.9rem;">Muestra este código en caja</p>
-            
-            <div class="codigo-box">${t.codigo}</div>
-            
-            <div class="cuadro">
-                <strong>👤 Cliente:</strong> ${t.cliente}<br>
-                <strong>📄 Cédula:</strong> ${t.cedula}<br>
-                <strong>📱 Teléfono:</strong> ${t.telefono}<br>
-                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                <div style="font-size:0.85rem; color:#888;">
-                    📅 ${t.fecha} | ⏰ ${t.hora}
-                </div>
-            </div>
-            
-            <button class="btn-verde" onclick="borrarYNuevo()">
-                🗑️ BORRAR Y NUEVO PEDIDO
-            </button>
-            
-            <button class="btn-verde btn-outline" onclick="location.href='menu.html'">
-                VOLVER AL MENÚ
-            </button>
-        `;
-    }
-
-    // Nueva función para limpiar datos y navegar
-    window.borrarYNuevo = function() {
-        // 1. Borramos el almacenamiento local
-        localStorage.removeItem("ticketAPK");
-        localStorage.removeItem("ticketAPK_BACKUP");
-        localStorage.removeItem("carritoMacroFit"); // Si tienes esta clave del carrito
+    document.addEventListener("DOMContentLoaded", function() {
+        const app = document.getElementById("app");
+        const params = new URLSearchParams(window.location.search);
         
-        // 2. Redirigimos al menú limpio (sin parámetros en URL)
-        window.location.href = "menu.html";
-    };
-    function mostrarError() {
-        app.innerHTML = `
-            <div style="font-size:60px; margin-bottom:15px;">🥗</div>
-            <h2 style="color:var(--text);">¡Hola!</h2>
-            <p style="color:#666; margin-bottom:25px;">Parece que no tienes un ticket activo en este momento o ya fue procesado.</p>
-            <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ PRINCIPAL</button>
-        `;
-    }
-});
+        // Intentamos capturar datos de URL
+        let ticket = {
+            codigo: params.get('cod'),
+            cliente: params.get('nom'),
+            cedula: params.get('ci'),
+            telefono: params.get('tel'),
+            fecha: params.get('fec'),
+            hora: params.get('hor')
+        };
+
+        // Si la URL está limpia (por recarga), recuperamos de la memoria
+        if (!ticket.codigo) {
+            const backup = localStorage.getItem("ticketAPK");
+            if (backup) {
+                ticket = JSON.parse(backup);
+            }
+        }
+
+        // Mostrar ticket si existe la información
+        if (ticket.codigo) {
+            app.innerHTML = `
+                <div style="font-size:40px;">✅</div>
+                <h2>¡Pedido Listo!</h2>
+                <div class="codigo-box">${ticket.codigo}</div>
+                <div class="cuadro">
+                    <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
+                    <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
+                    <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
+                    <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                    <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
+                    <strong>⏰ Hora:</strong> ${ticket.hora}
+                </div>
+                
+                <button class="btn-verde" onclick="borrarYNuevo()">
+                    🗑️ BORRAR Y NUEVO PEDIDO
+                </button>
+                
+                <button class="btn-verde btn-outline" onclick="location.href='menu.html'">
+                    VOLVER AL MENÚ
+                </button>
+            `;
+        } else {
+            // Estado cuando no hay ticket guardado
+            app.innerHTML = `
+                <div style="font-size:60px;">🥗</div>
+                <h2>Macro Fit</h2>
+                <p>No hay tickets activos.</p>
+                <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
+            `;
+        }
+    });
+
 </script>
 
 </body>
