@@ -107,9 +107,9 @@
     </div>
 
 <script>
-    // Función de borrado directo
+
+    // Función para el botón borrar (solo redirige al menú)
     function borrarYNuevo() {
-        // Simplemente redirigimos al menú para "limpiar" la pantalla actual
         window.location.href = "menu.html";
     }
 
@@ -117,7 +117,7 @@
         const app = document.getElementById("app");
         const params = new URLSearchParams(window.location.search);
         
-        // Extraemos los datos de la URL
+        // Recogemos los datos de la URL
         const ticket = {
             codigo: params.get('cod'),
             cliente: params.get('nom'),
@@ -127,7 +127,7 @@
             hora: params.get('hor')
         };
 
-        // Si el código existe en la URL, mostramos el ticket
+        // Si hay código, dibujamos el ticket
         if (ticket.codigo) {
             app.innerHTML = `
                 <div style="font-size:40px;">✅</div>
@@ -151,7 +151,7 @@
                 </button>
             `;
         } else {
-            // Si entran sin datos
+            // Si por error entran sin datos
             app.innerHTML = `
                 <div style="font-size:60px; margin-bottom:15px;">🥗</div>
                 <h2>Macro Fit</h2>
