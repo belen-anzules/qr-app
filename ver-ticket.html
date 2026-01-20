@@ -1,108 +1,106 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Ticket - Macro Fit</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            background: #f4f7f6;
-            display: flex;
-            justify-content: center;
-            padding: 30px 10px;
-            margin: 0;
-        }
-        .ticket-card {
-            background: white;
-            padding: 25px;
-            border-radius: 25px;
-            width: 85%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        .ticket-card h2 { margin-bottom: 15px; }
-        .codigo-box {
-            font-size: 2.8rem;
-            font-weight: 900;
-            color: #4CAF50;
-            margin: 15px 0;
-            padding: 10px;
-            border: 2px dashed #4CAF50;
-            background: #f9fff9;
-            border-radius: 12px;
-        }
-        .info-txt { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        .info-box {
-            background: #f1f3f5;
-            padding: 12px;
-            border-radius: 12px;
-            text-align: left;
-            font-size: 0.9rem;
-            color: #333;
-        }
-        .btn-verde {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Ticket - Macro Fit</title>
+<style>
+body {
+    font-family: sans-serif;
+    background: #f4f7f6;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    padding: 30px 0;
+}
+
+.ticket-card {
+    background: white;
+    padding: 25px;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+.cuadro {
+    background: #f1f3f5;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 8px 0;
+    text-align: left;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.codigo-box {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #4CAF50;
+    margin: 15px 0;
+    padding: 12px;
+    border: 2px dashed #4CAF50;
+    border-radius: 12px;
+    background: #f9fff9;
+}
+
+.btn-verde {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+</style>
 </head>
 <body>
-    <div class="ticket-card" id="app">
-        <h2>Cargando ticket...</h2>
-    </div>
+<div class="ticket-card" id="app"></div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const app = document.getElementById("app");
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const app = document.getElementById("app");
 
-            // Función para obtener el ticket seguro
-            function obtenerTicket() {
-                let t = localStorage.getItem("ticketAPK");
-                if (!t) t = localStorage.getItem("ticketAPK_BACKUP");
-                if (!t) return null;
-                return JSON.parse(t);
-            }
+    function obtenerTicket() {
+        let t = localStorage.getItem("ticketAPK");
+        if (!t) t = localStorage.getItem("ticketAPK_BACKUP");
+        if (!t) return null;
+        return JSON.parse(t);
+    }
 
-            // Obtenemos el ticket
-            const t = obtenerTicket();
+    const t = obtenerTicket();
 
-            if (!t) {
-                app.innerHTML = `
-                    <div style="font-size:60px; text-align:center;">🥗</div>
-                    <h2 style="text-align:center;">¡Hola!</h2>
-                    <p style="text-align:center; color:#666;">No tienes tickets generados. Crea uno desde el menú.</p>
-                    <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
-                `;
-                return;
-            }
+    if (!t) {
+        app.innerHTML = `
+            <div style="font-size:60px; margin-bottom:15px;">🥗</div>
+            <h3>No hay tickets generados</h3>
+            <p>Aún no se ha generado ningún ticket.</p>
+            <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
+        `;
+        return;
+    }
 
-            // Mostrar ticket con cuadros para cada dato
-            app.innerHTML = `
-                <h2>Mi Ticket</h2>
-                <div class="codigo-box">${t.codigo}</div>
-                <div class="info-txt">
-                    <div class="info-box"><strong>👤 Cliente:</strong> ${t.cliente}</div>
-                    <div class="info-box"><strong>📄 Cédula:</strong> ${t.cedula}</div>
-                    <div class="info-box"><strong>📱 Teléfono:</strong> ${t.telefono}</div>
-                    <div class="info-box"><strong>📅 Fecha:</strong> ${t.fecha}</div>
-                    <div class="info-box"><strong>⏰ Hora:</strong> ${t.hora}</div>
-                </div>
-                <button class="btn-verde" onclick="
-                    localStorage.removeItem('ticketAPK'); 
-                    localStorage.removeItem('ticketAPK_BACKUP'); 
-                    location.href='menu.html';
-                ">VOLVER AL MENÚ</button>
-            `;
-        });
-    </script>
+    app.innerHTML = `
+        <h2>Mi Ticket</h2>
+        <div class="codigo-box">${t.codigo}</div>
+
+        <div class="cuadro"><strong>Cliente:</strong> ${t.cliente}</div>
+        <div class="cuadro"><strong>Cédula:</strong> ${t.cedula}</div>
+        <div class="cuadro"><strong>Teléfono:</strong> ${t.telefono}</div>
+        <div class="cuadro"><strong>Fecha:</strong> ${t.fecha}</div>
+        <div class="cuadro"><strong>Hora:</strong> ${t.hora}</div>
+
+        <button class="btn-verde" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
+    `;
+});
+</script>
 </body>
 </html>
