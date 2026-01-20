@@ -138,29 +138,30 @@ function irAMenu() {
     const cartString = encodeURIComponent(JSON.stringify(cart));
     window.location.href = `menu.html?cart=${cartString}`;
 }
-function guardarTicket(datosTicket) {
+    function guardarTicketSeguro(datos) {
     try {
         const ticketFinal = {
-            ...datosTicket,
-            timestamp: Date.now() // CLAVE PARA APP
+            ...datos,
+            creado: new Date().toISOString(),
+            ts: Date.now()
         };
 
         localStorage.setItem("ticketAPK", JSON.stringify(ticketFinal));
+        localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticketFinal));
 
-        // Forzar escritura (clave para WebView)
-        const guardado = guardarTicket(datosTicket);
-
-if (!guardado) {
-    alert("Error al guardar el ticket. Intenta nuevamente.");
-    return;
-}
-
-        console.log("Ticket guardado correctamente:", ticketFinal);
-        return true;
+        const test = localStorage.getItem("ticketAPK");
+        return !!test;
     } catch (e) {
-        console.error("Error guardando ticket:", e);
+        console.error("Fallo guardando ticket", e);
         return false;
     }
+}
+localStorage.setItem('ticketAPK', JSON.stringify(datosTicket));
+const ok = guardarTicketSeguro(datosTicket);
+
+if (!ok) {
+    alert("No se pudo guardar el ticket. Intenta nuevamente.");
+    return;
 }
 
 

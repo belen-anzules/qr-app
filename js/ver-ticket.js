@@ -2,16 +2,22 @@
    MACRO FIT - VER TICKET
    ========================================== */
 
-function obtenerTicket() {
-    let ticket = localStorage.getItem("ticketAPK");
+function obtenerTicketSeguro() {
+    let t = localStorage.getItem("ticketAPK");
 
-    // Backup para WebView / APK
-    if (!ticket) {
-        ticket = localStorage.getItem("ticketAPK_BACKUP");
+    if (!t) {
+        t = localStorage.getItem("ticketAPK_BACKUP");
     }
 
-    return ticket ? JSON.parse(ticket) : null;
+    if (!t) {
+        console.warn("No hay ticket en storage");
+        return null;
+    }
+
+    return JSON.parse(t);
 }
+const ticket = obtenerTicketSeguro();
+
 
 function mostrarTicket() {
     const display = document.getElementById("app");

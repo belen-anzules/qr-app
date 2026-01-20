@@ -1,5 +1,5 @@
 /* ============================================================
-   MACRO FIT - ESTILOS COMPLETOS (CORREGIDO Y CENTRADO)
+   MACRO FIT - ESTILOS COMPLETOS (ORIGINAL)
    ============================================================ */
 
 /* ===== VARIABLES ===== */
@@ -22,7 +22,7 @@ body {
     color: var(--text-main);
     margin: 0;
     font-family: 'Segoe UI', Roboto, sans-serif;
-    padding-bottom: 120px; 
+    padding-bottom: 120px;
     overscroll-behavior-y: contain;
 }
 
@@ -75,58 +75,54 @@ body {
 .cat-cena { background: var(--bg-cena); color: var(--color-cena); }
 .cat-btn.active { filter: brightness(0.9); border: 1px solid currentColor; }
 
-/* ===== MENU PRINCIPAL (TARJETAS GRANDES) ===== */
+/* ===== MENU PRINCIPAL ===== */
 .menu {
     display: flex;
     flex-direction: column;
-    align-items: center;    /* Centra las tarjetas en la pantalla */
+    align-items: center;
     gap: 20px;
     padding: 15px;
     width: 100%;
     box-sizing: border-box;
 }
 
-/* ===== TARJETA ESTILO APP MODERNA ===== */
+/* ===== TARJETAS ===== */
 .card {
     background: var(--white);
     border-radius: 20px;
     display: flex;
-    flex-direction: column; /* Imagen arriba, texto abajo */
+    flex-direction: column;
     width: 100%;
-    max-width: 340px;       /* Tamaño ideal para que no toque los bordes */
+    max-width: 340px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     cursor: pointer;
     margin-bottom: 10px;
 }
 
-/* ===== CONTENEDOR DE IMAGEN (OCUPA TODO EL ANCHO) ===== */
 .card-img-container {
-    width: 100% !important; /* Forzamos el 100% para que no se achique */
-    height: 180px;          /* Altura fija para que todas sean iguales */
-    margin: 0 !important;   /* Quitamos cualquier margen lateral */
+    width: 100% !important;
+    height: 180px;
+    margin: 0 !important;
     padding: 0 !important;
-    border-radius: 0;       /* Quitamos el radio interno para que pegue arriba */
+    border-radius: 0;
 }
 
 .card-img-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover;      /* La imagen llena el espacio sin deformarse */
+    object-fit: cover;
     display: block;
 }
 
-/* ===== INFO (TEXTO DEBAJO DE LA FOTO) ===== */
 .card .info {
     padding: 15px;
-    text-align: left;       /* O 'center' si prefieres el nombre en el medio */
-    flex: none;             /* Evita que el texto intente subir al lado de la foto */
+    text-align: left;
 }
 
 .card .info h3 {
     margin: 0;
     font-size: 1.1rem;
-    color: var(--text-main);
 }
 
 .price-tag {
@@ -136,7 +132,8 @@ body {
     font-weight: 700;
     color: var(--primary);
 }
-/* ===== VISTA DETALLE PLATO (CENTRADO) ===== */
+
+/* ===== DETALLE ===== */
 .detail-content {
     display: flex;
     flex-direction: column;
@@ -144,8 +141,7 @@ body {
     padding: 20px;
 }
 
-/* ===== INGREDIENTES (LISTA PEQUEÑA) ===== */
-/* ===== INGREDIENTES (CORREGIDO A LA IZQUIERDA) ===== */
+/* ===== INGREDIENTES ===== */
 .ingredient-item {
     background: var(--white);
     margin: 10px 15px;
@@ -153,66 +149,33 @@ body {
     border-radius: 18px;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Mantiene nombre a la izquierda y controles a la derecha */
+    justify-content: space-between;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    text-align: left; /* Asegura que el texto no se centre */
+    text-align: left;
 }
 
 .ingredient-info {
     flex: 1;
     font-weight: 600;
     font-size: 0.95rem;
-    color: var(--text-main);
-    text-align: left; /* Forzamos alineación izquierda del texto */
+    text-align: left;
     padding-right: 10px;
 }
 
-/* ===== LISTA DE INGREDIENTES (FORZAR IZQUIERDA) ===== */
-#ingredients-list {
-    width: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: stretch !important; /* Estira los items para que no floten en el centro */
-    padding: 0;
-    margin: 0;
-}
-/* ===== RESET PARA LISTA DE INGREDIENTES ===== */
-#ingredients-list, 
+#ingredients-list,
 .ingredients-container {
     width: 100% !important;
     max-width: 100% !important;
-    display: block !important; /* Cambiamos flex por block para evitar el centrado heredado */
+    display: block !important;
     text-align: left !important;
     padding: 0 !important;
     margin: 0 auto !important;
 }
 
-/* cada renglón de ingrediente */
-.ingredient-item {
-    background: var(--white);
-    margin: 10px 15px !important; /* Margen lateral para que no pegue a los bordes */
-    padding: 14px 18px;
-    border-radius: 18px;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-}
-
-/* El nombre del ingrediente */
-.ingredient-info {
-    text-align: left !important; /* FUERZA IZQUIERDA */
-    flex: 1 !important;
-    font-weight: 600;
-    font-size: 0.95rem;
-    display: block !important;
-}
-
-/* Los botones + y - */
 .controls {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-end !important; /* FUERZA DERECHA */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     gap: 12px;
 }
 
@@ -228,7 +191,7 @@ body {
     cursor: pointer;
 }
 
-/* ===== ANÁLISIS NUTRICIONAL ===== */
+/* ===== NUTRICIÓN ===== */
 .nutrition-summary {
     background: #2D3436;
     border-radius: 22px;
@@ -242,7 +205,6 @@ body {
     text-align: center;
     color: #81C784;
     margin-bottom: 15px;
-    text-transform: uppercase;
 }
 
 .nutrition-table {
@@ -251,13 +213,15 @@ body {
     font-size: 0.85rem;
 }
 
-.nutrition-table td, .nutrition-table th {
+.nutrition-table td,
+.nutrition-table th {
     padding: 10px 5px;
     text-align: right;
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.nutrition-table th:first-child, .nutrition-table td:first-child {
+.nutrition-table td:first-child,
+.nutrition-table th:first-child {
     text-align: left;
 }
 
@@ -270,13 +234,14 @@ body {
 /* ===== FOOTER ===== */
 .footer-container {
     position: fixed;
-    bottom: 0; left: 0; width: 100%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     background: var(--white);
     padding: 20px;
     box-shadow: 0 -10px 25px rgba(0,0,0,0.08);
     border-radius: 25px 25px 0 0;
     z-index: 2000;
-    box-sizing: border-box;
 }
 
 .btn-primary {
@@ -288,46 +253,12 @@ body {
     border: none;
     font-size: 1rem;
     font-weight: 800;
-    text-transform: uppercase;
-}
-
-/* ===== ALERTAS SUTILES (DATOS CURIOSOS) ===== */
-.info-alert {
-    position: relative;
-    font-size: 26px;
-    cursor: pointer;
-    animation: swing 2s ease infinite;
-}
-
-.info-alert::after {
-    content: '';
-    position: absolute;
-    top: -2px; right: -2px;
-    width: 10px; height: 10px;
-    background: #FF5252;
-    border-radius: 50%;
-    border: 2px solid white;
-    animation: pulse-red 2s infinite;
-}
-
-.info-alert.visto::after { display: none; }
-
-@keyframes swing {
-    0%, 100% { transform: rotate(0deg); }
-    20% { transform: rotate(10deg); }
-    40% { transform: rotate(-10deg); }
-}
-
-@keyframes pulse-red {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 82, 82, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); }
 }
 
 /* ===== MODALES ===== */
 .modal {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
+    inset: 0;
     background: rgba(0,0,0,0.5);
     display: none;
     justify-content: center;
@@ -349,6 +280,7 @@ body {
     .nutrition-summary { overflow-x: auto; }
     .nutrition-table { min-width: 300px; }
 }
+
 .ticket-badge {
     position: absolute;
     top: -5px;
@@ -358,6 +290,39 @@ body {
     height: 12px;
     border-radius: 50%;
     border: 2px solid white;
-    display: none; /* Se activa con JS */
+    display: none;
 }
-.resumen-icon-container { position: relative; }
+
+.resumen-icon-container {
+    position: relative;
+}
+
+/* ============================================================
+   BOTÓN INICIO – AÑADIDO (NO AFECTA NADA MÁS)
+   ============================================================ */
+
+.inicio-container {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-app);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5000;
+}
+
+.btn-inicio {
+    background: var(--primary);
+    color: white;
+    padding: 22px 40px;
+    border-radius: 22px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.btn-inicio:active {
+    transform: scale(0.96);
+}
