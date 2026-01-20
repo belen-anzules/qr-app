@@ -150,54 +150,49 @@
 <script>document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
 
-    function obtenerTicket() {
-        // Intentamos obtener de varias fuentes por si la APK particiona el storage
-        let rawData = localStorage.getItem("ticketAPK") || 
-                      localStorage.getItem("ticketAPK_BACKUP");
-        
-        if (rawData) {
-            try {
-                return JSON.parse(rawData);
-            } catch (e) {
-                console.error("Error parseando JSON", e);
-                return null;
-            }
+    // Función para leer la URL
+    const params = new URLSearchParams(window.location.search);
+    
+    // Extraemos los datos de la URL
+    const ticket = {
+        codigo: params.get('cod'),
+        cliente: params.get('nom'),
+        cedula: params.get('ci'),
+        telefono: params.get('tel'),
+        fecha: params.get('fec'),
+        hora: params.get('hor')
+    };
+
+    // Si no hay datos en URL, intentamos buscar en localStorage (por si acaso)
+    if (!ticket.codigo) {
+        const backup = JSON.parse(localStorage.getItem("ticketAPK") || "{}");
+        if (backup.codigo) {
+            // Mostrar datos del backup si existen
+            mostrarPantalla(backup);
+        } else {
+            app.innerHTML = `<h2>Error: Datos no recibidos</h2><button onclick="location.href='menu.html'">Volver</button>`;
         }
-        return null;
+    } else {
+        mostrarPantalla(ticket);
     }
 
-    // Aumentamos el tiempo de espera a 2 segundos para dar tiempo al WebView
-    // de cargar el sistema de archivos internos donde reside el localStorage
-    setTimeout(() => {
-        const ticket = obtenerTicket();
-
-        if (!ticket) {
-            app.innerHTML = `
-                <div style="font-size:60px;">⚠️</div>
-                <h2 style="color:#e74c3c;">¡Ups! No hay ticket</h2>
-                <p style="color:#666; margin-bottom:20px;">No encontramos la información en la memoria de la App.</p>
-                <button class="btn-verde" onclick="location.href='menu.html'">VOLVER A INTENTAR</button>
-            `;
-            return;
-        }
-
-        // Renderizado del ticket (Mantenemos tu diseño original)
+    function mostrarPantalla(t) {
         app.innerHTML = `
             <div style="font-size:40px;">✅</div>
             <h2>¡Pedido Listo!</h2>
-            <div class="codigo-box">${ticket.codigo}</div>
+            <div class="codigo-box">${t.codigo}</div>
             <div class="cuadro">
-                <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
-                <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
-                <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
+                <strong>👤 Cliente:</strong> ${t.cliente || 'No indicado'}<br>
+                <strong>📄 Cédula:</strong> ${t.cedula || '---'}<br>
+                <strong>📱 Teléfono:</strong> ${t.telefono || '---'}<br>
                 <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
-                <strong>⏰ Hora:</strong> ${ticket.hora}
+                <strong>📅 Fecha:</strong> ${t.fecha}<br>
+                <strong>⏰ Hora:</strong> ${t.hora}
             </div>
-            <button class="btn-verde" onclick="window.print()">IMPRIMIR O CAPTURAR</button>
+            <button class="btn-verde" onclick="window.print()">CAPTURAR PANTALLA</button>
             <button class="btn-verde btn-outline" onclick="location.href='menu.html'">NUEVO PEDIDO</button>
         `;
-    }, 2000); 
+    }
 });
 </script>
 

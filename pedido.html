@@ -274,8 +274,7 @@ function validarYConfirmar() {
 
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-}
-function procesarFinalizado() {
+}function procesarFinalizado() {
     const inputNom = document.getElementById("nombre");
     const inputCi = document.getElementById("cedula");
     const inputTel = document.getElementById("telefono");
@@ -285,36 +284,22 @@ function procesarFinalizado() {
         return;
     }
 
-    const ahora = new Date();
-    const datosTicket = {
-        codigo: "MF-" + Math.floor(100000 + Math.random() * 900000),
-        cliente: inputNom.value.trim(),
-        cedula: inputCi.value.trim(),
-        telefono: inputTel.value.trim(),
-        fecha: ahora.toLocaleDateString(),
-        hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
+    // Creamos los datos
+    const nom = encodeURIComponent(inputNom.value.trim());
+    const ci = encodeURIComponent(inputCi.value.trim());
+    const tel = encodeURIComponent(inputTel.value.trim());
+    const cod = "MF-" + Math.floor(100000 + Math.random() * 900000);
+    const fecha = encodeURIComponent(new Date().toLocaleDateString());
+    const hora = encodeURIComponent(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
 
-    try {
-        // Limpieza previa para evitar colisiones de memoria en el WebView
-        localStorage.removeItem("ticketAPK");
-        
-        // Guardado síncrono
-        const dataJson = JSON.stringify(datosTicket);
-        localStorage.setItem("ticketAPK", dataJson);
-        localStorage.setItem("ticketAPK_BACKUP", dataJson);
+    // Construimos la URL con todos los datos incluidos
+    const urlTicket = `ver-ticket.html?cod=${cod}&nom=${nom}&ci=${ci}&tel=${tel}&fec=${fecha}&hor=${hora}`;
 
-        console.log("Guardado en APK exitoso");
+    // Opcional: Intentamos guardar en localStorage como respaldo
+    localStorage.setItem("ticketAPK", JSON.stringify({codigo: cod, cliente: inputNom.value}));
 
-        // En APKs, la redirección inmediata a veces corta el proceso de escritura.
-        // Aumentamos ligeramente el delay y usamos una ruta relativa limpia.
-        setTimeout(() => {
-            window.location.replace("ver-ticket.html"); 
-        }, 250);
-
-    } catch (error) {
-        alert("Error de almacenamiento: " + error.message);
-    }
+    // Redirección inmediata con datos en URL
+    window.location.href = urlTicket;
 }
 function eliminarPlato(index) {
     let cart = getCartFromURL();
