@@ -1,110 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resumen del Pedido</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen del Pedido</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #f8f9fa;
+            --accent: #FF9800;
+            --dark: #2c3e50;
+        }
 
-<style>
-    :root {
-        --primary: #4CAF50;
-        --secondary: #f8f9fa;
-        --accent: #FF9800;
-        --dark: #2c3e50;
-    }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f7f6; color: var(--dark); padding-bottom: 120px; }
 
-    body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f7f6; color: var(--dark); }
+        .cart-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #fff; padding: 15px; margin: 12px 20px;
+            border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,.05);
+        }
+        .cart-info { flex: 1; }
+        .extras-small { font-size: 0.8rem; color: #888; margin: 4px 0; }
+        .price-tag { color: var(--primary); font-weight: 800; }
 
-    /* --- CARRITO ITEMS --- */
-    .cart-item {
-        display: flex; justify-content: space-between; align-items: center;
-        background: #fff; padding: 15px; margin-bottom: 12px;
-        border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,.05);
-    }
-    .price-tag { color: var(--primary); font-weight: 800; }
+        .cart-actions { display: flex; gap: 8px; }
+        .action-btn { border: none; background: #f0f2f5; padding: 10px; border-radius: 12px; cursor: pointer; }
 
-    /* --- FOOTER FIXED --- */
-    .cart-footer {
-        position: fixed; bottom: 0; width: 100%;
-        background: white; padding: 20px;
-        display: flex; gap: 10px; box-sizing: border-box;
-        border-radius: 25px 25px 0 0; box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
-    }
+        .cart-footer {
+            position: fixed; bottom: 0; width: 100%;
+            background: white; padding: 20px;
+            display: flex; gap: 10px; box-sizing: border-box;
+            border-radius: 25px 25px 0 0; box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
+            z-index: 900;
+        }
 
-    /* --- BOTONES --- */
-    .btn {
-        flex: 1; border: none; padding: 16px; border-radius: 15px;
-        font-weight: bold; font-size: 1rem; cursor: pointer; transition: 0.3s;
-    }
-    .btn-secondary { background: var(--secondary); color: var(--dark); border: 1px solid #ddd; }
-    .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); }
+        .btn { flex: 1; border: none; padding: 16px; border-radius: 15px; font-weight: bold; cursor: pointer; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-secondary { background: var(--secondary); color: var(--dark); border: 1px solid #ddd; }
 
-    /* --- MODALES (TARJETAS) --- */
-    .modal-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.6); display: none;
-        justify-content: center; align-items: center; z-index: 1000;
-        backdrop-filter: blur(5px);
-    }
-    .modal-card {
-        background: white; padding: 30px; border-radius: 30px;
-        width: 85%; max-width: 380px; text-align: center;
-        animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    @keyframes slideIn { from { transform: translateY(20%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-    /* --- ESTILOS FORMULARIO --- */
-    .modal-card input {
-        width: 100%; padding: 14px; margin: 8px 0;
-        border: 1px solid #eee; border-radius: 12px;
-        background: #f9f9f9; font-size: 16px; box-sizing: border-box;
-    }
-    .order-code {
-        font-size: 2.5rem; font-weight: 900; color: var(--primary);
-        margin: 20px 0; padding: 15px; border: 3px dashed #eee; background: #fdfdfd;
-    }
-</style>
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); display: none;
+            justify-content: center; align-items: center; z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        .modal-card { background: white; padding: 30px; border-radius: 30px; width: 85%; max-width: 380px; text-align: center; }
+        .modal-card input { width: 100%; padding: 14px; margin: 8px 0; border: 1px solid #eee; border-radius: 12px; box-sizing: border-box; }
+        .order-code { font-size: 2.5rem; font-weight: 900; color: var(--primary); margin: 20px 0; border: 3px dashed #4CAF50; padding: 15px; }
+    </style>
 </head>
-
 <body>
 
 <header style="padding: 20px; text-align: center; background: white;">
-    <h2 style="margin:0; font-weight: 900; color: var(--dark);">MI PEDIDO</h2>
+    <h2 style="margin:0; font-weight: 900;">MI PEDIDO</h2>
 </header>
 
-<main style="padding: 20px; padding-bottom: 120px;">
-    <div id="pedido-lista"></div>
-    
-    <div id="total-box" style="display:none; text-align:right; padding:20px;">
-        <span style="font-size: 1.1rem; color: #888;">Total a pagar</span><br>
-        <span style="font-size: 2rem; font-weight: 900;">$<span id="total-global">0.00</span></span>
-    </div>
-</main>
+<div id="pedido-lista"></div>
 
-<div class="cart-footer">
-    <button class="btn btn-secondary" onclick="irAMenu()">+ Añadir platos</button>
-    <button class="btn btn-primary" onclick="validarYConfirmar()">Confirmar Pedido</button>
+<div id="total-box" style="display:none; text-align:right; padding:20px; margin-bottom: 20px;">
+    <span style="color: #888;">Total a pagar</span><br>
+    <span style="font-size: 2rem; font-weight: 900;">$<span id="total-global">0.00</span></span>
 </div>
 
-<div id="modal-vacio" class="modal-overlay">
-    <div class="modal-card">
-        <div style="font-size: 60px;">🍕</div>
-        <h2 style="color: var(--dark);">¿Aún no has elegido?</h2>
-        <p style="color: #666; line-height: 1.5;">Parece que tu carrito está esperando algo delicioso. ¡Explora nuestro menú y déjate antojar!</p>
-        <button class="btn btn-primary" style="width: 100%; margin-top: 15px;" onclick="irAMenu()">Ver el Menú ahora</button>
-        <button style="margin-top:15px; background:none; border:none; color:#bbb; cursor:pointer;" onclick="cerrarModales()">Cerrar</button>
-    </div>
+<div class="cart-footer">
+    <button class="btn btn-secondary" onclick="irAMenu()">+ Añadir</button>
+    <button class="btn btn-primary" onclick="validarYConfirmar()">Confirmar</button>
 </div>
 
 <div id="modal-registro" class="modal-overlay">
     <div class="modal-card" id="modal-content-registro">
-        <h2 style="margin-top:0">¡Ya casi acabamos! 📝</h2>
-        <p style="color:#666">Ingresa tus datos para generar tu ticket.</p>
+        <h2>¡Casi listo! 📝</h2>
         <input type="text" id="nombre" placeholder="Tu nombre">
-        <input type="number" id="cedula" placeholder="Cédula de identidad">
-        <input type="tel" id="telefono" placeholder="Número de celular">
-        <button class="btn btn-primary" style="width:100%; margin-top:15px;" onclick="procesarFinalizado()">GENERAR CÓDIGO</button>
-        <button style="margin-top:15px; background:none; border:none; color:#bbb; cursor:pointer;" onclick="cerrarModales()">Volver</button>
+        <input type="number" id="cedula" placeholder="Cédula">
+        <input type="tel" id="telefono" placeholder="Celular">
+        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="procesarFinalizado()">GENERAR TICKET</button>
+        <button style="margin-top:15px; background:none; border:none; color:#bbb;" onclick="cerrarModales()">Volver</button>
+    </div>
+</div>
+
+<div id="modal-vacio" class="modal-overlay">
+    <div class="modal-card">
+        <h2>Carrito vacío</h2>
+        <button class="btn btn-primary" onclick="irAMenu()">Ver Menú</button>
     </div>
 </div>
 
@@ -123,13 +100,7 @@ function mostrarPedido() {
     const totalSpan = document.getElementById("total-global");
 
     if (cart.length === 0) {
-        if(pedidoDiv) {
-            pedidoDiv.innerHTML = `
-                <div style="text-align:center; padding:60px 20px; color:#ccc;">
-                    <div style="font-size:80px; opacity:0.3;">🛒</div>
-                    <p>No hay platos en tu lista</p>
-                </div>`;
-        }
+        pedidoDiv.innerHTML = `<div style="text-align:center; padding:50px; color:#ccc;">🛒 Tu lista está vacía</div>`;
         if(totalBox) totalBox.style.display = "none";
         return;
     }
@@ -140,31 +111,30 @@ function mostrarPedido() {
     cart.forEach((item, index) => {
         totalGlobal += parseFloat(item.total);
         
+        // --- RECONSTRUCCIÓN DE URL PARA EDITAR ---
         let configParams = "";
         for (let key in item.config) {
             configParams += `&${key}=${item.config[key]}`;
         }
-
         const cartString = encodeURIComponent(JSON.stringify(cart));
         const urlEditar = `${item.page}?cart=${cartString}&editIndex=${index}${configParams}`;
 
         pedidoDiv.innerHTML += `
             <div class="cart-item">
                 <div class="cart-info">
-                    <strong style="font-size:1.1rem">${item.nombre}</strong>
-                    <p style="font-size:0.85rem; color:#888; margin:4px 0;">${item.extras || ''}</p>
+                    <strong>${item.nombre}</strong>
+                    <p class="extras-small">${item.extras || 'Sin cambios'}</p>
                     <span class="price-tag">$${parseFloat(item.total).toFixed(2)}</span>
                 </div>
-                <div class="cart-actions" style="display:flex; gap:10px;">
-                    <button style="border:none; background:#f0f0f0; border-radius:10px; padding:8px;" onclick="location.href='${urlEditar}'">✏️</button>
-                    <button style="border:none; background:#f0f0f0; border-radius:10px; padding:8px;" onclick="eliminarPlato(${index})">🗑️</button>
+                <div class="cart-actions">
+                    <button class="action-btn" onclick="location.href='${urlEditar}'">✏️</button>
+                    <button class="action-btn" onclick="eliminarPlato(${index})">🗑️</button>
                 </div>
-            </div>
-        `;
+            </div>`;
     });
 
-    if(totalSpan) totalSpan.innerText = totalGlobal.toFixed(2);
-    if(totalBox) totalBox.style.display = "block";
+    totalSpan.innerText = totalGlobal.toFixed(2);
+    totalBox.style.display = "block";
 }
 
 function validarYConfirmar() {
@@ -185,40 +155,27 @@ function procesarFinalizado() {
     const ci = document.getElementById("cedula").value.trim();
     const tel = document.getElementById("telefono").value.trim();
 
-    if (!nom || !ci || !tel) { 
-        alert("⚠️ Por favor completa todos tus datos."); 
-        return; 
-    }
+    if (!nom || !ci || !tel) { alert("Completa todos los datos"); return; }
 
     const cod = "TK-" + Math.floor(1000 + Math.random() * 9000);
     const ahora = new Date();
     
+    // Guardar para la persistencia de la App
     const datos = {
         codigo: cod,
         cliente: nom,
-        cedula: ci,
-        telefono: tel,
         fecha: ahora.toLocaleDateString(),
         hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
-
-    // 1. Guardar en LocalStorage (Persistencia para el icono de ticket en el menú)
     localStorage.setItem('ticketAPK', JSON.stringify(datos));
 
-    const container = document.getElementById("modal-content-registro");
-    container.innerHTML = `
+    // Mostrar resultado final
+    document.getElementById("modal-content-registro").innerHTML = `
         <div style="font-size: 50px;">✨</div>
-        <h2 style="margin:10px 0;">¡Pedido Exitoso!</h2>
-        <p style="color:#666">Presenta este código en caja para pagar:</p>
+        <h2>¡Pedido Exitoso!</h2>
         <div class="order-code">${cod}</div>
-        <div style="background:#f9f9f9; padding:15px; border-radius:20px; text-align:left; font-size:0.9rem; margin-bottom:15px;">
-            <strong>Cliente:</strong> ${nom}<br>
-            <strong>Cédula:</strong> ${ci}
-        </div>
-        <button onclick="window.location.href='menu.html'" 
-                style="background:#4CAF50; color:white; border:none; padding:15px; width:100%; border-radius:15px; font-weight:bold; cursor:pointer;">
-            VOLVER AL MENÚ
-        </button>
+        <p>Muestra este código en caja.</p>
+        <button class="btn btn-primary" style="width:100%" onclick="window.location.href='menu.html'">TERMINAR</button>
     `;
 }
 
@@ -235,6 +192,5 @@ function irAMenu() {
 
 window.onload = mostrarPedido;
 </script>
-
 </body>
 </html>
