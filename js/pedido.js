@@ -1,31 +1,34 @@
 /* ==========================================
-   MACRO FIT - LÓGICA DE PEDIDO Y TICKET
+   MACRO FIT - LÓGICA DE PEDIDO (pedido.js)
    ========================================== */
 
 const pedidoDiv = document.getElementById("pedido-lista");
 
-// 1. Obtener los platos desde la URL
+// 1. Obtener los platos desde la URL (Mantiene la persistencia entre páginas)
 function getCartFromURL() {
     const params = new URLSearchParams(window.location.search);
     const cartData = params.get('cart');
-    return cartData ? JSON.parse(decodeURIComponent(cartData)) : [];
+    try {
+        return cartData ? JSON.parse(decodeURIComponent(cartData)) : [];
+    } catch (e) {
+        console.error("Error al decodificar el carrito:", e);
+        return [];
+    }
 }
 
-// 2. Renderizar la lista de platos en el resumen
+// 2. Renderizar la lista de platos y calcular el total
 function mostrarPedido() {
     const cart = getCartFromURL();
     const totalBox = document.getElementById("total-box");
     const totalSpan = document.getElementById("total-global");
 
     if (cart.length === 0) {
-        if(pedidoDiv) {
-            pedidoDiv.innerHTML = `
-                <div style="text-align:center; padding:60px 20px; color:#ccc;">
-                    <div style="font-size:80px; opacity:0.3;">🛒</div>
-                    <p>No hay platos en tu lista</p>
-                </div>`;
-        }
-        if(totalBox) totalBox.style.display = "none";
+        pedidoDiv.innerHTML = `
+            <div style="text-align:center; padding:60px 20px; color:#ccc;">
+                <div style="font-size:80px; opacity:0.3;">🥗</div>
+                <p>Tu carrito está vacío</p>
+            </div>`;
+        if (totalBox) totalBox.style.display = "none";
         return;
     }
 
@@ -35,9 +38,12 @@ function mostrarPedido() {
     cart.forEach((item, index) => {
         totalGlobal += parseFloat(item.total);
         
+        // Reconstrucción de la configuración para volver a editar el plato
         let configParams = "";
-        for (let key in item.config) {
-            configParams += `&${key}=${item.config[key]}`;
+        if (item.config) {
+            for (let key in item.config) {
+                configParams += `&${key}=${item.config[key]}`;
+            }
         }
 
         const cartString = encodeURIComponent(JSON.stringify(cart));
@@ -46,23 +52,22 @@ function mostrarPedido() {
         pedidoDiv.innerHTML += `
             <div class="cart-item">
                 <div class="cart-info">
-                    <strong style="font-size:1.1rem">${item.nombre}</strong>
-                    <p style="font-size:0.85rem; color:#888; margin:4px 0;">${item.extras || ''}</p>
+                    <strong>${item.nombre}</strong>
+                    <p class="extras-small">${item.extras || 'Personalizado'}</p>
                     <span class="price-tag">$${parseFloat(item.total).toFixed(2)}</span>
                 </div>
-                <div class="cart-actions" style="display:flex; gap:10px;">
-                    <button style="border:none; background:#f0f0f0; border-radius:10px; padding:8px;" onclick="location.href='${urlEditar}'">✏️</button>
-                    <button style="border:none; background:#f0f0f0; border-radius:10px; padding:8px;" onclick="eliminarPlato(${index})">🗑️</button>
+                <div class="cart-actions">
+                    <button class="action-btn" title="Editar" onclick="location.href='${urlEditar}'">✏️</button>
+                    <button class="action-btn" title="Eliminar" onclick="eliminarPlato(${index})">🗑️</button>
                 </div>
-            </div>
-        `;
+            </div>`;
     });
 
-    if(totalSpan) totalSpan.innerText = totalGlobal.toFixed(2);
-    if(totalBox) totalBox.style.display = "block";
+    if (totalSpan) totalSpan.innerText = totalGlobal.toFixed(2);
+    if (totalBox) totalBox.style.display = "block";
 }
 
-// 3. Validar si el carrito está vacío antes de pedir datos
+// 3. Validar si hay platos antes de mostrar el formulario de pago
 function validarYConfirmar() {
     const cart = getCartFromURL();
     if (cart.length === 0) {
@@ -72,61 +77,67 @@ function validarYConfirmar() {
     }
 }
 
-// 4. Cerrar ventanas emergentes
+// 4. Cerrar ventanas emergentes (Modales)
 function cerrarModales() {
-    document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-}function procesarFinalizado() {
+    const modales = document.querySelectorAll('.modal-overlay');
+    modales.forEach(m => m.style.display = 'none');
+}
+
+// 5. Generar código de ticket y guardar en memoria local
+function procesarFinalizado() {
     const nom = document.getElementById("nombre").value.trim();
-    if (!nom) { alert("⚠️ Ingresa tu nombre"); return; }
+    const ci = document.getElementById("cedula").value.trim();
+    const tel = document.getElementById("telefono").value.trim();
+
+    if (!nom || !ci || !tel) { 
+        alert("⚠️ Por favor, completa todos los campos para generar tu ticket."); 
+        return; 
+    }
 
     const cod = "TK-" + Math.floor(1000 + Math.random() * 9000);
     const ahora = new Date();
     
-    const datos = {
+    const datosTicket = {
         codigo: cod,
         cliente: nom,
+        cedula: ci,
+        telefono: tel,
         fecha: ahora.toLocaleDateString(),
         hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    // --- EL TRUCO PARA LA APP ---
-    // 1. Intentamos guardar
-    localStorage.setItem('ticketAPK', JSON.stringify(datos));
+    // Guardar para que el icono del ticket aparezca en el menú
+    localStorage.setItem('ticketAPK', JSON.stringify(datosTicket));
 
-    // 2. Verificamos inmediatamente si se guardó (esto fuerza al WebView a despertar)
-    const verificacion = localStorage.getItem('ticketAPK');
-    
-    if(!verificacion) {
-        alert("Error de memoria en la App. Inténtalo de nuevo.");
-        return;
-    }
-
-    // 3. Si todo está bien, mostramos el éxito
+    // Cambiar dinámicamente el contenido del modal para mostrar el código generado
     const container = document.getElementById("modal-content-registro");
     container.innerHTML = `
         <div style="font-size: 50px;">✨</div>
         <h2 style="margin:10px 0;">¡Pedido Exitoso!</h2>
-        <div style="font-size: 2.5rem; font-weight: 900; color: #4CAF50; margin: 20px 0; border: 3px dashed #4CAF50; padding: 15px;">
+        <div class="order-code">
             ${cod}
         </div>
+        <p style="color:#666; font-size: 0.9rem;">Presenta este código en caja para pagar y retirar tu pedido.</p>
         <button onclick="window.location.href='menu.html'" 
-                style="background:#4CAF50; color:white; border:none; padding:15px; width:100%; border-radius:15px; font-weight:bold; cursor:pointer;">
-            VOLVER AL MENÚ
+                style="background:#4CAF50; color:white; border:none; padding:15px; width:100%; border-radius:15px; font-weight:bold; cursor:pointer; margin-top:10px;">
+            VOLVER AL INICIO
         </button>
     `;
 }
 
-// 6. Funciones de navegación y limpieza
+// 6. Funciones de navegación (Importantes para no perder los platos)
 function eliminarPlato(index) {
     let cart = getCartFromURL();
     cart.splice(index, 1);
-    window.location.href = `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
+    const cartString = encodeURIComponent(JSON.stringify(cart));
+    window.location.href = `pedido.html?cart=${cartString}`;
 }
 
 function irAMenu() {
     const cart = getCartFromURL();
-    window.location.href = `menu.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
+    const cartString = encodeURIComponent(JSON.stringify(cart));
+    window.location.href = `menu.html?cart=${cartString}`;
 }
 
-// Carga inicial
+// Carga inicial al abrir la página
 window.onload = mostrarPedido;
