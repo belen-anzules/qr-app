@@ -108,58 +108,71 @@
 
 <script>
 
-    // Función para el botón borrar (solo redirige al menú)
-    function borrarYNuevo() {
-        window.location.href = "menu.html";
+    document.addEventListener("DOMContentLoaded", function() {
+    const app = document.getElementById("app");
+    const params = new URLSearchParams(window.location.search);
+    
+    // 1. Intentamos capturar los datos que vienen por la URL (lo que envía pedido.html)
+    let ticket = {
+        codigo: params.get('cod'),
+        cliente: params.get('nom'),
+        cedula: params.get('ci'),
+        telefono: params.get('tel'),
+        fecha: params.get('fec'),
+        hora: params.get('hor')
+    };
+
+    // 2. CONEXIÓN AUTOMÁTICA:
+    if (ticket.codigo) {
+        // Si hay datos en la URL, los guardamos en la "memoria" del teléfono
+        // por si el usuario cierra la app y quiere volver a verlos después.
+        localStorage.setItem("ticketRespaldo", JSON.stringify(ticket));
+    } else {
+        // Si NO hay datos en la URL (porque entraste desde el menú),
+        // vamos a ver si tenemos algo guardado de antes.
+        const guardado = localStorage.getItem("ticketRespaldo");
+        if (guardado) {
+            ticket = JSON.parse(guardado);
+        }
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        const app = document.getElementById("app");
-        const params = new URLSearchParams(window.location.search);
-        
-        // Recogemos los datos de la URL
-        const ticket = {
-            codigo: params.get('cod'),
-            cliente: params.get('nom'),
-            cedula: params.get('ci'),
-            telefono: params.get('tel'),
-            fecha: params.get('fec'),
-            hora: params.get('hor')
-        };
+    // 3. Mostrar el ticket
+    if (ticket.codigo) {
+        app.innerHTML = `
+            <div style="font-size:40px;">✅</div>
+            <h2>Tu Ticket</h2>
+            <div class="codigo-box">${ticket.codigo}</div>
+            <div class="cuadro">
+                <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
+                <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
+                <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
+                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                📅 ${ticket.fecha} | ⏰ ${ticket.hora}
+            </div>
+            
+            <button class="btn-verde" onclick="borrarYNuevo()">
+                🗑️ BORRAR TICKET
+            </button>
+            
+            <button class="btn-verde btn-outline" onclick="location.href='menu.html'">
+                VOLVER AL MENÚ
+            </button>
+        `;
+    } else {
+        app.innerHTML = `
+            <div style="font-size:60px;">🥗</div>
+            <h2>Macro Fit</h2>
+            <p>No tienes tickets generados actualmente.</p>
+            <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
+        `;
+    }
+});
 
-        // Si hay código, dibujamos el ticket
-        if (ticket.codigo) {
-            app.innerHTML = `
-                <div style="font-size:40px;">✅</div>
-                <h2>¡Pedido Listo!</h2>
-                <div class="codigo-box">${ticket.codigo}</div>
-                <div class="cuadro">
-                    <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
-                    <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
-                    <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
-                    <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                    <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
-                    <strong>⏰ Hora:</strong> ${ticket.hora}
-                </div>
-                
-                <button class="btn-verde" onclick="borrarYNuevo()">
-                    🗑️ BORRAR Y NUEVO PEDIDO
-                </button>
-                
-                <button class="btn-verde btn-outline" onclick="location.href='menu.html'">
-                    VOLVER AL MENÚ
-                </button>
-            `;
-        } else {
-            // Si por error entran sin datos
-            app.innerHTML = `
-                <div style="font-size:60px; margin-bottom:15px;">🥗</div>
-                <h2>Macro Fit</h2>
-                <p>No hay tickets activos.</p>
-                <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
-            `;
-        }
-    });
+// Función para el botón borrar
+function borrarYNuevo() {
+    localStorage.removeItem("ticketRespaldo"); // Limpiamos la memoria
+    window.location.href = "menu.html";         // Regresamos al menú
+}
 </script>
 
 </body>
