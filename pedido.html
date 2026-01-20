@@ -275,31 +275,27 @@ function validarYConfirmar() {
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
 }function procesarFinalizado() {
-    const inputNom = document.getElementById("nombre");
-    const inputCi = document.getElementById("cedula");
-    const inputTel = document.getElementById("telefono");
+    // 1. Capturamos los datos exactos que el usuario ve en pantalla
+    const nom = document.getElementById("nombre").value.trim();
+    const ci = document.getElementById("cedula").value.trim();
+    const tel = document.getElementById("telefono").value.trim();
 
-    if (!inputNom.value || !inputCi.value || !inputTel.value) {
-        alert("⚠️ Por favor, completa todos los campos.");
+    if (!nom || !ci || !tel) {
+        alert("⚠️ Completa tus datos para continuar");
         return;
     }
 
-    // Creamos los datos
-    const nom = encodeURIComponent(inputNom.value.trim());
-    const ci = encodeURIComponent(inputCi.value.trim());
-    const tel = encodeURIComponent(inputTel.value.trim());
+    // 2. Generamos los datos del ticket
     const cod = "MF-" + Math.floor(100000 + Math.random() * 900000);
-    const fecha = encodeURIComponent(new Date().toLocaleDateString());
-    const hora = encodeURIComponent(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    const ahora = new Date();
+    const fecha = ahora.toLocaleDateString();
+    const hora = ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    // Construimos la URL con todos los datos incluidos
-    const urlTicket = `ver-ticket.html?cod=${cod}&nom=${nom}&ci=${ci}&tel=${tel}&fec=${fecha}&hor=${hora}`;
+    // 3. LA CLAVE: Enviamos todo por la URL para que no se pierda en la APK
+    const destino = `ver-ticket.html?cod=${cod}&nom=${encodeURIComponent(nom)}&ci=${encodeURIComponent(ci)}&tel=${encodeURIComponent(tel)}&fec=${encodeURIComponent(fecha)}&hor=${encodeURIComponent(hora)}`;
 
-    // Opcional: Intentamos guardar en localStorage como respaldo
-    localStorage.setItem("ticketAPK", JSON.stringify({codigo: cod, cliente: inputNom.value}));
-
-    // Redirección inmediata con datos en URL
-    window.location.href = urlTicket;
+    // Redirección inmediata (Eliminamos el delay para que sea instantáneo)
+    window.location.href = destino;
 }
 function eliminarPlato(index) {
     let cart = getCartFromURL();
