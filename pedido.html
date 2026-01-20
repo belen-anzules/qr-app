@@ -214,9 +214,9 @@ function cerrarModales() {
     const ci = document.getElementById("cedula").value.trim();
     const tel = document.getElementById("telefono").value.trim();
 
-    // Validar campos
+    // ✅ Validación
     if (!nom || !ci || !tel) {
-        alert("⚠️ Completa todos los campos para generar tu ticket");
+        alert("⚠️ Completa todos los campos antes de generar el ticket");
         return;
     }
 
@@ -234,11 +234,14 @@ function cerrarModales() {
         })
     };
 
-    // Guardar en localStorage
+    // Guardar ticket en localStorage
     localStorage.setItem("ticketAPK", JSON.stringify(ticket));
     localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticket));
 
-    // Redirigir a ver-ticket.html
+    // 🔹 Opcional: limpiar carrito
+    localStorage.removeItem("cart"); // si tu carrito se guarda como "cart"
+
+    // Redirigir al ticket
     window.location.href = "ver-ticket.html";
 }
 

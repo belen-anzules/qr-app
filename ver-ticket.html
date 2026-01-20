@@ -68,7 +68,6 @@
     </style>
 </head>
 <body>
-
 <div class="ticket-card" id="app"></div>
 
 <script>
@@ -86,24 +85,23 @@ document.addEventListener("DOMContentLoaded", function() {
         const t = obtenerTicketSeguro();
 
         if (!t) {
-            // Mensaje amigable si no hay ticket
             app.innerHTML = `
-                <div class="no-ticket">🥗</div>
-                <h3>No hay tickets generados</h3>
-                <p>Aún no se ha generado ningún ticket. Crea uno desde el menú.</p>
-                <button class="btn-verde" onclick="location.href='menu.html'">
+                <div style="font-size:60px; text-align:center;">🥗</div>
+                <h3 style="text-align:center;">No hay tickets generados</h3>
+                <p style="text-align:center;">Aún no se ha generado ningún ticket. Crea uno desde el menú.</p>
+                <button class="btn-verde" style="display:block; margin:20px auto;" onclick="location.href='menu.html'">
                     IR AL MENÚ
                 </button>
             `;
             return;
         }
 
-        // Mostrar ticket existente
+        // Mostrar ticket
         app.innerHTML = `
-            <div style="font-size:45px">🧾</div>
-            <h2>Mi Ticket</h2>
+            <div style="font-size:45px; text-align:center;">🧾</div>
+            <h2 style="text-align:center;">Mi Ticket</h2>
 
-            <div class="codigo-box">${t.codigo}</div>
+            <div class="codigo-box" style="text-align:center;">${t.codigo}</div>
 
             <div class="info-txt">
                 <strong>👤 Cliente:</strong> ${t.cliente}<br>
@@ -113,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <strong>⏰ Hora:</strong> ${t.hora}
             </div>
 
-            <button class="btn-verde" onclick="location.href='menu.html'">
+            <button class="btn-verde" onclick="location.href='menu.html'" style="margin-top:15px;">
                 VOLVER AL MENÚ
             </button>
         `;
@@ -122,6 +120,3 @@ document.addEventListener("DOMContentLoaded", function() {
     mostrarTicket();
 });
 </script>
-
-</body>
-</html>
