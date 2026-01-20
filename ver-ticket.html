@@ -16,19 +16,16 @@
             font-family: 'Segoe UI', sans-serif;
             background: var(--bg);
             margin: 0;
-            padding-top: 80px; /* Espacio para el header fijo */
+            padding-top: 80px;
             display: flex;
             justify-content: center;
             min-height: 100vh;
         }
 
-        /* HEADER CON BOTÓN DE VOLVER */
         header {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
+            top: 0; left: 0;
+            width: 100%; height: 60px;
             background: white;
             display: flex;
             align-items: center;
@@ -49,12 +46,8 @@
             background: #f0f0f0;
             padding: 8px 15px;
             border-radius: 12px;
-            transition: 0.3s;
         }
 
-        .btn-atras:hover { background: #e0e0e0; }
-
-        /* TARJETA DE TICKET */
         .ticket-card {
             background: white;
             padding: 25px 20px;
@@ -63,52 +56,40 @@
             max-width: 400px;
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.4s ease-out;
             height: fit-content;
-            margin-bottom: 40px;
         }
 
-        h2 { color: var(--primary); margin-bottom: 20px; }
-
         .codigo-box {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 900;
             background: #e8f5e9;
             color: var(--primary);
-            padding: 10px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 15px;
             border: 2px dashed var(--primary);
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
 
         .cuadro {
             background: #f8f9fa;
             padding: 15px;
             border-radius: 12px;
-            margin: 10px 0;
             text-align: left;
-            font-size: 1rem;
-            color: var(--text);
-            line-height: 1.6;
+            margin-bottom: 20px;
         }
 
         .btn-verde {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 15px;
+            padding: 16px;
             width: 100%;
             border-radius: 15px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
             text-transform: uppercase;
-            text-decoration: none;
-            display: block;
         }
-
-        .btn-verde:hover { opacity: 0.9; transform: scale(1.02); }
 
         .btn-outline {
             background: transparent;
@@ -117,44 +98,25 @@
             margin-top: 10px;
         }
 
-        /* Spinner de carga */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from {opacity:0; transform: translateY(20px);} to {opacity:1; transform: translateY(0);} }
+        @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="menu.html" class="btn-atras">
-        <span>⬅</span> Volver al Menú
-    </a>
+    <a href="menu.html" class="btn-atras"><span>⬅</span> Volver al Menú</a>
 </header>
 
 <div class="ticket-card" id="app">
-    <div id="cargando-seccion">
-        <div class="loader"></div>
-        <p>Generando tu ticket...</p>
     </div>
-</div>
 
-<script>document.addEventListener("DOMContentLoaded", function() {
+<script>
+document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
-
-    // Función para leer la URL
     const params = new URLSearchParams(window.location.search);
     
-    // Extraemos los datos de la URL
-    const ticket = {
+    // 1. Intentamos capturar los datos de la URL primero (Prioridad 1)
+    const ticketURL = {
         codigo: params.get('cod'),
         cliente: params.get('nom'),
         cedula: params.get('ci'),
@@ -163,34 +125,65 @@
         hora: params.get('hor')
     };
 
-    // Si no hay datos en URL, intentamos buscar en localStorage (por si acaso)
-    if (!ticket.codigo) {
-        const backup = JSON.parse(localStorage.getItem("ticketAPK") || "{}");
-        if (backup.codigo) {
-            // Mostrar datos del backup si existen
+    // 2. Si la URL tiene datos, mostramos de inmediato
+    if (ticketURL.codigo) {
+        mostrarPantalla(ticketURL);
+    } 
+    // 3. Si no hay en URL, buscamos en el respaldo (Prioridad 2)
+    else {
+        const backup = JSON.parse(localStorage.getItem("ticketAPK") || "null");
+        if (backup) {
             mostrarPantalla(backup);
         } else {
-            app.innerHTML = `<h2>Error: Datos no recibidos</h2><button onclick="location.href='menu.html'">Volver</button>`;
+            // 4. Si todo falla, mostrar error amigable
+            mostrarError();
         }
-    } else {
-        mostrarPantalla(ticket);
     }
 
     function mostrarPantalla(t) {
         app.innerHTML = `
-            <div style="font-size:40px;">✅</div>
-            <h2>¡Pedido Listo!</h2>
+            <div style="font-size:50px; margin-bottom:10px;">✅</div>
+            <h2 style="margin:0; color:var(--primary);">¡Pedido Confirmado!</h2>
+            <p style="color:#666; font-size:0.9rem;">Muestra este código en caja</p>
+            
             <div class="codigo-box">${t.codigo}</div>
+            
             <div class="cuadro">
-                <strong>👤 Cliente:</strong> ${t.cliente || 'No indicado'}<br>
-                <strong>📄 Cédula:</strong> ${t.cedula || '---'}<br>
-                <strong>📱 Teléfono:</strong> ${t.telefono || '---'}<br>
+                <strong>👤 Cliente:</strong> ${t.cliente}<br>
+                <strong>📄 Cédula:</strong> ${t.cedula}<br>
+                <strong>📱 Teléfono:</strong> ${t.telefono}<br>
                 <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                <strong>📅 Fecha:</strong> ${t.fecha}<br>
-                <strong>⏰ Hora:</strong> ${t.hora}
+                <div style="font-size:0.85rem; color:#888;">
+                    📅 ${t.fecha} | ⏰ ${t.hora}
+                </div>
             </div>
-            <button class="btn-verde" onclick="window.print()">CAPTURAR PANTALLA</button>
-            <button class="btn-verde btn-outline" onclick="location.href='menu.html'">NUEVO PEDIDO</button>
+            
+            <button class="btn-verde" onclick="borrarYNuevo()">
+                🗑️ BORRAR Y NUEVO PEDIDO
+            </button>
+            
+            <button class="btn-verde btn-outline" onclick="location.href='menu.html'">
+                VOLVER AL MENÚ
+            </button>
+        `;
+    }
+
+    // Nueva función para limpiar datos y navegar
+    window.borrarYNuevo = function() {
+        // 1. Borramos el almacenamiento local
+        localStorage.removeItem("ticketAPK");
+        localStorage.removeItem("ticketAPK_BACKUP");
+        localStorage.removeItem("carritoMacroFit"); // Si tienes esta clave del carrito
+        
+        // 2. Redirigimos al menú limpio (sin parámetros en URL)
+        window.location.href = "menu.html";
+    };
+    function mostrarError() {
+        app.innerHTML = `
+            <div style="font-size:60px; margin-bottom:15px;">🥗</div>
+            <h2 style="color:var(--text);">¡Hola!</h2>
+            <p style="color:#666; margin-bottom:25px;">Parece que no tienes un ticket activo en este momento o ya fue procesado.</p>
+            <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ PRINCIPAL</button>
         `;
     }
 });
