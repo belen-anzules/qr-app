@@ -200,9 +200,10 @@ function mostrarPedido() {
 }
 
 function validarYConfirmar() {
-    const cart = getCartFromURL();
-    document.getElementById(cart.length === 0 ? "modal-vacio" : "modal-registro").style.display = "flex";
+    // Abrimos solo el modal-nombre
+    abrirModalNombre();
 }
+
 
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
