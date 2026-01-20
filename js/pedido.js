@@ -83,46 +83,35 @@ function cerrarModales() {
     modales.forEach(m => m.style.display = 'none');
 }
 
-// 5. Generar código de ticket y guardar en memoria local
 function procesarFinalizado() {
     const nom = document.getElementById("nombre").value.trim();
     const ci = document.getElementById("cedula").value.trim();
     const tel = document.getElementById("telefono").value.trim();
 
-    if (!nom || !ci || !tel) { 
-        alert("⚠️ Por favor, completa todos los campos para generar tu ticket."); 
-        return; 
+    if (!nom || !ci || !tel) {
+        alert("⚠️ Completa todos los campos");
+        return;
     }
 
-    const cod = "TK-" + Math.floor(1000 + Math.random() * 9000);
     const ahora = new Date();
-    
     const datosTicket = {
-        codigo: cod,
+        codigo: "TK-" + Math.floor(1000 + Math.random() * 9000),
         cliente: nom,
         cedula: ci,
         telefono: tel,
         fecha: ahora.toLocaleDateString(),
-        hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        hora: ahora.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
+        })
     };
 
-    // Guardar para que el icono del ticket aparezca en el menú
-    localStorage.setItem('ticketAPK', JSON.stringify(datosTicket));
+    // Guardado seguro
+    localStorage.setItem("ticketAPK", JSON.stringify(datosTicket));
+    localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(datosTicket));
 
-    // Cambiar dinámicamente el contenido del modal para mostrar el código generado
-    const container = document.getElementById("modal-content-registro");
-    container.innerHTML = `
-        <div style="font-size: 50px;">✨</div>
-        <h2 style="margin:10px 0;">¡Pedido Exitoso!</h2>
-        <div class="order-code">
-            ${cod}
-        </div>
-        <p style="color:#666; font-size: 0.9rem;">Presenta este código en caja para pagar y retirar tu pedido.</p>
-        <button onclick="window.location.href='menu.html'" 
-                style="background:#4CAF50; color:white; border:none; padding:15px; width:100%; border-radius:15px; font-weight:bold; cursor:pointer; margin-top:10px;">
-            VOLVER AL INICIO
-        </button>
-    `;
+    // REDIRECCIÓN DIRECTA
+    window.location.href = "ver-ticket.html";
 }
 
 // 6. Funciones de navegación (Importantes para no perder los platos)
@@ -155,13 +144,6 @@ function irAMenu() {
         console.error("Fallo guardando ticket", e);
         return false;
     }
-}
-localStorage.setItem('ticketAPK', JSON.stringify(datosTicket));
-const ok = guardarTicketSeguro(datosTicket);
-
-if (!ok) {
-    alert("No se pudo guardar el ticket. Intenta nuevamente.");
-    return;
 }
 
 
