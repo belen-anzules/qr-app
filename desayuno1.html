@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="styles.css" />
 
   <style>
+    /* Estilos unificados para el Modal (Igual a Almuerzo) */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -24,9 +25,45 @@
       max-width: 400px;
       border-radius: 15px;
       padding: 20px;
+      position: relative;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .modal-header h3 {
+      margin: 0;
+      color: #333;
+    }
+
+    .close-modal {
+      font-size: 28px;
+      cursor: pointer;
+      color: #999;
+      line-height: 1;
+    }
+
+    .dato-item {
+      margin-bottom: 15px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #555;
+    }
+
+    .dato-item strong {
+      color: #e65100; /* Un color naranja cálido para el desayuno */
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    /* Ajustes de espaciado */
     .header-clean {
       display: flex;
       justify-content: space-between;
@@ -58,13 +95,12 @@
     </div>
   </div>
 
-  <p>
-    Nuestra avena con yogurt griego, zucchini rallado, nueces y arándanos.
+  <p style="padding: 0 20px; color: #666;">
+    Nuestra avena con yogurt griego, zucchini rallado, nueces y arándanos. Una explosión de fibra y proteína para empezar tu día.
   </p>
 
-  <p class="price-base"><strong>Precio base:</strong> $5.99</p>
+  <p class="price-base" style="padding: 0 20px;"><strong>Precio base:</strong> $5.99</p>
 
-  <!-- INGREDIENTES (MISMO DISEÑO) -->
   <div class="ingredient-item">
     <span>Avena Integral</span>
     <div class="controls">
@@ -128,55 +164,84 @@
     </div>
   </div>
 
-  <!-- TABLA NUTRICIONAL (MISMO ESTILO) -->
   <div class="nutrition-summary">
     <h3>Análisis Nutricional</h3>
     <table class="nutrition-table">
+      <thead>
+        <tr>
+          <th>Ingrediente</th>
+          <th>Calorías</th>
+          <th>Proteína</th>
+          <th>Grasas</th>
+          <th>Carbs</th>
+        </tr>
+      </thead>
       <tbody>
-        <tr><td>Avena</td><td id="cal-avena"></td><td id="pro-avena"></td><td id="fat-avena"></td><td id="carb-avena"></td></tr>
-        <tr><td>Yogur</td><td id="cal-yogurt"></td><td id="pro-yogurt"></td><td id="fat-yogurt"></td><td id="carb-yogurt"></td></tr>
-        <tr><td>Leche</td><td id="cal-leche"></td><td id="pro-leche"></td><td id="fat-leche"></td><td id="carb-leche"></td></tr>
-        <tr><td>Zucchini</td><td id="cal-zucchini"></td><td id="pro-zucchini"></td><td id="fat-zucchini"></td><td id="carb-zucchini"></td></tr>
-        <tr><td>Nueces</td><td id="cal-nueces"></td><td id="pro-nueces"></td><td id="fat-nueces"></td><td id="carb-nueces"></td></tr>
-        <tr><td>Arándanos</td><td id="cal-arandanos"></td><td id="pro-arandanos"></td><td id="fat-arandanos"></td><td id="carb-arandanos"></td></tr>
-        <tr><td>Miel</td><td id="cal-miel"></td><td id="pro-miel"></td><td id="fat-miel"></td><td id="carb-miel"></td></tr>
+        <tr><td>Avena</td><td><span id="cal-avena">0</span> kcal</td><td><span id="pro-avena">0</span> g</td><td><span id="fat-avena">0</span> g</td><td><span id="carb-avena">0</span> g</td></tr>
+        <tr><td>Yogur</td><td><span id="cal-yogurt">0</span> kcal</td><td><span id="pro-yogurt">0</span> g</td><td><span id="fat-yogurt">0</span> g</td><td><span id="carb-yogurt">0</span> g</td></tr>
+        <tr><td>Leche</td><td><span id="cal-leche">0</span> kcal</td><td><span id="pro-leche">0</span> g</td><td><span id="fat-leche">0</span> g</td><td><span id="carb-leche">0</span> g</td></tr>
+        <tr><td>Zucchini</td><td><span id="cal-zucchini">0</span> kcal</td><td><span id="pro-zucchini">0</span> g</td><td><span id="fat-zucchini">0</span> g</td><td><span id="carb-zucchini">0</span> g</td></tr>
+        <tr><td>Nueces</td><td><span id="cal-nueces">0</span> kcal</td><td><span id="pro-nueces">0</span> g</td><td><span id="fat-nueces">0</span> g</td><td><span id="carb-nueces">0</span> g</td></tr>
+        <tr><td>Arándanos</td><td><span id="cal-arandanos">0</span> kcal</td><td><span id="pro-arandanos">0</span> g</td><td><span id="fat-arandanos">0</span> g</td><td><span id="carb-arandanos">0</span> g</td></tr>
+        <tr><td>Miel</td><td><span id="cal-miel">0</span> kcal</td><td><span id="pro-miel">0</span> g</td><td><span id="fat-miel">0</span> g</td><td><span id="carb-miel">0</span> g</td></tr>
       </tbody>
-
       <tfoot>
         <tr class="total-row">
-          <td>Total</td>
-          <td id="total-calories"></td>
-          <td id="total-protein"></td>
-          <td id="total-fat"></td>
-          <td id="total-carbs"></td>
+          <td><strong>Total</strong></td>
+          <td><strong><span id="total-calories">0</span> kcal</strong></td>
+          <td><strong><span id="total-protein">0</span> g</strong></td>
+          <td><strong><span id="total-fat">0</span> g</strong></td>
+          <td><strong><span id="total-carbs">0</span> g</strong></td>
         </tr>
       </tfoot>
     </table>
   </div>
 
-  <p class="total-row">
+  <p class="total-row" style="text-align: right; padding: 20px; font-size: 1.2rem;">
     <strong>Total:</strong> $<span id="total-price">5.99</span>
   </p>
 
-  <button class="btn btn-primary" onclick="confirmarPedido()">
-    Confirmar Pedido ✅
-  </button>
+  <div style="padding: 0 20px; margin-bottom: 30px;">
+    <button class="btn btn-primary" onclick="confirmarPedido()">
+      Confirmar Pedido ✅
+    </button>
+  </div>
 
 </section>
 
 <div id="modal-datos" class="modal-overlay" onclick="toggleDatosCuriosos()">
   <div class="modal-content" onclick="event.stopPropagation()">
-    <h3>¿Sabías qué?</h3>
-    <p>La avena remojada mejora la digestión.</p>
+    <div class="modal-header">
+      <h3>¿Sabías qué?</h3>
+      <span class="close-modal" onclick="toggleDatosCuriosos()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div class="dato-item">
+        <strong>🥣 El poder del "Overnight"</strong>
+        Remojar la avena durante la noche descompone el ácido fítico, lo que permite que tu cuerpo absorba mejor el hierro y el zinc.
+      </div>
+      <div class="dato-item">
+        <strong>🥒 Zucchini Oculto</strong>
+        Agregar zucchini rallado aumenta el volumen de tu comida y aporta fibra sin alterar el sabor, ayudando a mantenerte satisfecho por más tiempo.
+      </div>
+      <div class="dato-item">
+        <strong>🧠 Nueces y Cerebro</strong>
+        Las nueces son ricas en ácidos grasos Omega-3, esenciales para mejorar la concentración y la memoria durante tu jornada.
+      </div>
+      <div class="dato-item">
+        <strong>🫐 Antioxidantes Reales</strong>
+        Los arándanos son considerados "superalimentos" por su alta densidad de antocianinas, que protegen tus células del envejecimiento.
+      </div>
+    </div>
   </div>
 </div>
 
 <script src="js/desayuno1.js"></script>
 <script>
-function toggleDatosCuriosos() {
-  const modal = document.getElementById("modal-datos");
-  modal.style.display = modal.style.display === "flex" ? "none" : "flex";
-}
+  function toggleDatosCuriosos() {
+    const modal = document.getElementById("modal-datos");
+    modal.style.display = (modal.style.display === "flex") ? "none" : "flex";
+  }
 </script>
 
 </body>
