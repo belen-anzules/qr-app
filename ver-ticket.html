@@ -72,10 +72,8 @@ li { margin-bottom: 5px; }
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-
     const app = document.getElementById("app");
 
-    // Función segura para obtener ticket
     function obtenerTicketSeguro() {
         let ticket = localStorage.getItem("ticketAPK");
         if (!ticket) ticket = localStorage.getItem("ticketAPK_BACKUP");
@@ -83,13 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return JSON.parse(ticket);
     }
 
-    // Función para obtener lista de platos
-    function obtenerCarrito() {
-        const carrito = localStorage.getItem("carritoMacroFit");
-        return carrito ? JSON.parse(carrito) : [];
-    }
-
-    setTimeout(() => { // efecto de carga
+    setTimeout(() => {
         const ticket = obtenerTicketSeguro();
 
         if(!ticket) {
@@ -101,9 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        const platos = obtenerCarrito();
+        const platos = ticket.platos || [];
 
-        // Mostrar ticket completo
         app.innerHTML = `
             <h2>Mi Ticket</h2>
             <div class="cuadro"><strong>Cliente:</strong> ${ticket.cliente}</div>
@@ -120,7 +111,6 @@ document.addEventListener("DOMContentLoaded", function() {
             <button class="btn-verde" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
         `;
     }, 500);
-
 });
 </script>
 

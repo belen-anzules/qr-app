@@ -150,6 +150,7 @@ body {
         <button class="btn btn-primary" onclick="irAMenu()">Ver Menú</button>
     </div>
 </div>
+<!-- ...todo tu HTML arriba se mantiene igual... -->
 
 <script>
 const pedidoDiv = document.getElementById("pedido-lista");
@@ -204,6 +205,9 @@ function mostrarPedido() {
 
     totalSpan.innerText = totalGlobal.toFixed(2);
     totalBox.style.display = "block";
+
+    // 🔹 NUEVA FUNCIONALIDAD: Guardar automáticamente el carrito en localStorage
+    localStorage.setItem("carritoMacroFit", JSON.stringify(cart));
 }
 
 // Validar carrito y abrir modal correspondiente
@@ -218,7 +222,9 @@ function validarYConfirmar() {
 
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-}function procesarFinalizado() {
+}
+
+function procesarFinalizado() {
     const nombre = document.getElementById("nombre").value.trim();
     const cedula = document.getElementById("cedula").value.trim();
     const telefono = document.getElementById("telefono").value.trim();
@@ -234,6 +240,9 @@ function cerrarModales() {
     const urlParams = new URLSearchParams(window.location.search);
     const cartData = urlParams.get('cart');
     const carrito = cartData ? JSON.parse(decodeURIComponent(cartData)) : [];
+
+    // 🔹 Guardar carrito también en localStorage antes de generar ticket
+    localStorage.setItem("carritoMacroFit", JSON.stringify(carrito));
 
     const ticket = {
         codigo: "TK-" + Math.floor(1000 + Math.random()*9000),
@@ -264,6 +273,5 @@ function irAMenu() {
 
 window.onload = mostrarPedido;
 </script>
-
 </body>
 </html>
