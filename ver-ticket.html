@@ -25,9 +25,12 @@
 <div class="ticket-card" id="app">
     </div>
 
-    <script>
-    // Función para el botón borrar: simplemente regresa al menú
+   <script>
+    // 1. Esta función se encarga de "limpiar" la vista
     function borrarYNuevo() {
+        // Guardamos una marca en el teléfono indicando que el usuario borró el ticket
+        localStorage.setItem("ticket_borrado", "true");
+        // Recargamos para que el script aplique el cambio
         window.location.href = "menu.html";
     }
 
@@ -35,41 +38,52 @@
         const app = document.getElementById("app");
         const params = new URLSearchParams(window.location.search);
         
-        // 1. Intentamos capturar los datos reales de la URL
-        // 2. Si no existen (||), usamos los "DATOS QUEMADOS" de respaldo
+        // Revisamos si el usuario acaba de presionar el botón "Borrar"
+        const fueBorrado = localStorage.getItem("ticket_borrado");
+
+        // 2. Definimos los datos (Si hay en URL los usa, si no, usa los quemados)
         const ticket = {
-            codigo: params.get('cod') || "MF-999999",
-            cliente: params.get('nom') || "CLIENTE MACRO FIT",
+            codigo: params.get('cod') || "MF-733169",
+            cliente: params.get('nom') || "CLIENTE GENERAL",
             cedula: params.get('ci') || "0000000000",
-            telefono: params.get('tel') || "0999999999",
+            telefono: params.get('tel') || "0900000000",
             fecha: params.get('fec') || new Date().toLocaleDateString(),
             hora: params.get('hor') || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
 
-        // 3. Renderizamos siempre (Nunca estará vacío)
-        app.innerHTML = `
-            <div style="font-size:40px;">✅</div>
-            <h2>¡Pedido Listo!</h2>
-            
-            <div class="codigo-box">${ticket.codigo}</div>
-            
-            <div class="cuadro">
-                <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
-                <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
-                <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
-                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
-                <strong>⏰ Hora:</strong> ${ticket.hora}
-            </div>
-            
-            <button class="btn-verde" onclick="borrarYNuevo()">
-                🗑️ BORRAR Y NUEVO PEDIDO
-            </button>
-            
-            <button class="btn-verde btn-outline" onclick="location.href='menu.html'">
-                VOLVER AL MENÚ
-            </button>
-        `;
+        // 3. LÓGICA DE VISUALIZACIÓN
+        // Si hay datos en la URL, siempre los mostramos (porque es un pedido nuevo)
+        // Si NO hay datos en la URL y el usuario presionó borrar antes, mostramos pantalla vacía
+        if (!params.get('cod') && fueBorrado === "true") {
+            app.innerHTML = `
+                <div style="font-size:60px; margin-bottom:15px;">🥗</div>
+                <h2>Macro Fit</h2>
+                <p>No tienes tickets activos en este momento.</p>
+                <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ PRINCIPAL</button>
+            `;
+        } else {
+            // Si el pedido es nuevo (viene por URL), reseteamos la marca de borrado
+            if (params.get('cod')) {
+                localStorage.removeItem("ticket_borrado");
+            }
+
+            // Mostramos el ticket (ya sea con datos reales o quemados)
+            app.innerHTML = `
+                <div style="font-size:40px;">✅</div>
+                <h2>¡Pedido Listo!</h2>
+                <div class="codigo-box">${ticket.codigo}</div>
+                <div class="cuadro">
+                    <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
+                    <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
+                    <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
+                    <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                    <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
+                    <strong>⏰ Hora:</strong> ${ticket.hora}
+                </div>
+                <button class="btn-verde" onclick="borrarYNuevo()">🗑️ BORRAR Y NUEVO PEDIDO</button>
+                <button class="btn-verde btn-outline" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
+            `;
+        }
     });
 </script>
 </body>
