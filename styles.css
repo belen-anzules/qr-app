@@ -317,90 +317,56 @@ body {
 .resumen-icon-container {
     position: relative;
 }
-
-/* ============================================================
-   BOTÓN INICIO – AÑADIDO (NO AFECTA NADA MÁS)
-   ============================================================ */
-
-.inicio-container {
-    position: fixed;
-    inset: 0;
-    background: var(--bg-app);
+/* ===== BOTÓN CTA VERDE CLARO CON LATIDO NARANJA ===== */
+.btn-cta-pulse {
+    background: #66BB6A !important; /* El verde claro que pediste */
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    cursor: pointer;
+    position: relative; /* Crucial para que el punto rojo se ubique bien */
+    outline: none;
+    transition: all 0.3s ease;
+    animation: pulse-naranja 2s infinite;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 5000;
 }
 
-.btn-inicio {
-    background: var(--primary);
-    color: white;
-    padding: 22px 40px;
-    border-radius: 22px;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-
-.btn-inicio:active {
-    transform: scale(0.96);
-}
-.codigo-box {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #4CAF50;
-    padding: 10px;
-    border: 2px dashed #4CAF50;
-    border-radius: 12px;
-    margin: 15px 0;
-}
-/* ===== BOTÓN CTA CON LATIDO ===== */
-.btn-cta-pulse {
-    background: var(--primary); /* Usa tu color verde */
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 0.75rem;
-    cursor: pointer;
-    position: relative;
-    outline: none;
-    transition: transform 0.2s ease;
-    /* Animación de latido continuo */
-    animation: pulse-elegant 2s infinite;
-}
-
-/* Efecto al pasar el cursor */
+/* Efecto Hover */
 .btn-cta-pulse:hover {
     transform: scale(1.05);
-    filter: brightness(1.1);
+    filter: brightness(1.05);
+    border-radius: 20px; /* Cambio de forma al pasar el cursor */
 }
 
-/* Keyframes para el latido (sombra expansiva) */
-@keyframes pulse-elegant {
-    0% {
-        box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7);
-    }
-    70% {
-        box-shadow: 0 0 0 10px rgba(46, 125, 50, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(46, 125, 50, 0);
-    }
-}
-
-/* Ajuste para el badge rojo sobre el botón */
+/* Punto Rojo (Arreglado) */
 .btn-cta-pulse .ticket-badge {
     position: absolute;
-    top: -4px;
-    right: -4px;
-    background: #e74c3c;
-    width: 10px;
-    height: 10px;
+    top: -5px;
+    right: -5px;
+    background: #f44336; /* Rojo vibrante */
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     border: 2px solid white;
-    display: block; /* O cambia a 'none' si quieres controlarlo por JS */
+    display: block !important; /* Forzar visibilidad */
+    z-index: 10;
+}
+
+/* Animación Latido Naranja */
+@keyframes pulse-naranja {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 12px rgba(255, 152, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 152, 0, 0);
+    }
 }
