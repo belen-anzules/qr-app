@@ -5,25 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi Ticket - Macro Fit</title>
 <style>
-/* RESET BASICO */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-/* BODY */
 body {
     font-family: 'Segoe UI', sans-serif;
     background: #f4f7f6;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
     padding: 30px 0;
     min-height: 100vh;
 }
-
-/* TARJETA DE TICKET */
 .ticket-card {
     background: white;
     padding: 25px 20px;
@@ -34,15 +23,11 @@ body {
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     animation: fadeIn 0.5s ease-in-out;
 }
-
-/* TITULO */
 h2 {
     margin-bottom: 20px;
     font-size: 1.8rem;
     color: #4CAF50;
 }
-
-/* CUADROS DE INFO */
 .cuadro {
     background: #f1f3f5;
     padding: 15px;
@@ -52,8 +37,6 @@ h2 {
     font-size: 1rem;
     color: #333;
 }
-
-/* BOTON VERDE */
 .btn-verde {
     background: #4CAF50;
     color: white;
@@ -64,31 +47,17 @@ h2 {
     font-weight: bold;
     cursor: pointer;
     margin-top: 20px;
-    transition: 0.3s;
 }
-
-.btn-verde:hover {
-    background: #45a049;
-}
-
-/* MENSAJE CARGANDO */
-#cargando {
-    font-size: 1rem;
-    color: #888;
-    margin: 40px 0;
-}
-
-/* ANIMACION SUAVE */
+.btn-verde:hover { background: #45a049; }
+#cargando { font-size: 1rem; color: #888; margin: 40px 0; text-align:center; }
+ul { padding-left: 20px; }
+li { margin-bottom: 5px; }
 @keyframes fadeIn {
     from {opacity:0; transform: translateY(20px);}
     to {opacity:1; transform: translateY(0);}
 }
-
-/* RESPONSIVE */
 @media (max-width: 450px) {
-    .ticket-card {
-        padding: 20px 15px;
-    }
+    .ticket-card { padding: 20px 15px; }
     .cuadro { font-size: 0.95rem; }
     h2 { font-size: 1.6rem; }
     .btn-verde { padding: 12px; font-size: 0.95rem; }
@@ -103,13 +72,27 @@ h2 {
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+
     const app = document.getElementById("app");
 
-    // Simular carga de datos
-    setTimeout(() => {
-        const ticketJSON = localStorage.getItem("ticketAPK");
+    // Función segura para obtener ticket
+    function obtenerTicketSeguro() {
+        let ticket = localStorage.getItem("ticketAPK");
+        if (!ticket) ticket = localStorage.getItem("ticketAPK_BACKUP");
+        if (!ticket) return null;
+        return JSON.parse(ticket);
+    }
 
-        if (!ticketJSON) {
+    // Función para obtener lista de platos
+    function obtenerCarrito() {
+        const carrito = localStorage.getItem("carritoMacroFit");
+        return carrito ? JSON.parse(carrito) : [];
+    }
+
+    setTimeout(() => { // efecto de carga
+        const ticket = obtenerTicketSeguro();
+
+        if(!ticket) {
             app.innerHTML = `
                 <h2>Oops! 😅</h2>
                 <p>No se encontró ningún ticket.</p>
@@ -118,8 +101,9 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        const ticket = JSON.parse(ticketJSON);
+        const platos = obtenerCarrito();
 
+        // Mostrar ticket completo
         app.innerHTML = `
             <h2>Mi Ticket</h2>
             <div class="cuadro"><strong>Cliente:</strong> ${ticket.cliente}</div>
@@ -128,9 +112,15 @@ document.addEventListener("DOMContentLoaded", function() {
             <div class="cuadro"><strong>Fecha:</strong> ${ticket.fecha}</div>
             <div class="cuadro"><strong>Hora:</strong> ${ticket.hora}</div>
             <div class="cuadro"><strong>Código:</strong> ${ticket.codigo}</div>
+            <div class="cuadro"><strong>Platos:</strong>
+                ${platos.length > 0 
+                    ? `<ul>${platos.map(p => `<li>${p.nombre} - $${parseFloat(p.total).toFixed(2)}</li>`).join('')}</ul>` 
+                    : `<p>No se agregaron platos</p>`}
+            </div>
             <button class="btn-verde" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
         `;
-    }, 500); // medio segundo para efecto de carga
+    }, 500);
+
 });
 </script>
 

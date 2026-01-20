@@ -223,27 +223,31 @@ function cerrarModales() {
     const cedula = document.getElementById("cedula").value.trim();
     const telefono = document.getElementById("telefono").value.trim();
 
-    if (!nombre || !cedula || !telefono) {
+    if(!nombre || !cedula || !telefono){
         alert("⚠️ Completa todos los campos");
         return;
     }
 
     const ahora = new Date();
-    const codigo = 'MF-' + Math.floor(Math.random() * 1000000);
+
+    // Obtener carrito desde URL (o localStorage si lo tienes guardado)
+    const urlParams = new URLSearchParams(window.location.search);
+    const cartData = urlParams.get('cart');
+    const carrito = cartData ? JSON.parse(decodeURIComponent(cartData)) : [];
 
     const ticket = {
+        codigo: "TK-" + Math.floor(1000 + Math.random()*9000),
         cliente: nombre,
         cedula: cedula,
         telefono: telefono,
         fecha: ahora.toLocaleDateString(),
-        hora: ahora.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }),
-        codigo: codigo
+        hora: ahora.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+        platos: carrito   // <-- guardamos los platos dentro del ticket
     };
 
-    // Guardamos en localStorage
     localStorage.setItem("ticketAPK", JSON.stringify(ticket));
+    localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticket));
 
-    // Redirigimos directamente a ver-ticket.html
     window.location.href = "ver-ticket.html";
 }
 
