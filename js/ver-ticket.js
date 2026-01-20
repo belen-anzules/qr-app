@@ -1,22 +1,23 @@
 /* ==========================================
-   MACRO FIT - VER TICKET
+   MACRO FIT - VER TICKET (APP + WEB)
 ========================================== */
-function obtenerTicketDesdeURL() {
-    const params = new URLSearchParams(window.location.search);
 
-    if (!params.has("codigo")) return null;
+function obtenerTicketSeguro() {
+    // Intentamos obtener el ticket principal
+    let t = localStorage.getItem("ticketAPK");
 
-    return {
-        codigo: params.get("codigo"),
-        cliente: params.get("cliente"),
-        fecha: params.get("fecha"),
-        hora: params.get("hora")
-    };
+    // Si no existe, usamos el backup
+    if (!t) t = localStorage.getItem("ticketAPK_BACKUP");
+
+    // Si no hay ticket, devolvemos null
+    if (!t) return null;
+
+    return JSON.parse(t);
 }
 
 function mostrarTicket() {
     const app = document.getElementById("app");
-    const t = obtenerTicketDesdeURL();
+    const t = obtenerTicketSeguro();
 
     if (!t) {
         app.innerHTML = `
@@ -48,4 +49,5 @@ function mostrarTicket() {
     `;
 }
 
+// Cargar ticket al abrir la página
 window.onload = mostrarTicket;
