@@ -127,9 +127,10 @@
     <div class="modal-card">
         <h2>Ingresa tu nombre 📝</h2>
         <input type="text" id="nombre" placeholder="Tu nombre">
-        <button id="guardar-btn" class="btn btn-primary" style="width:100%; margin-top:10px;">
+        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="guardarNombre()">
     Guardar y continuar
 </button>
+
 
         <button style="margin-top:15px; background:none; border:none; color:#bbb;" onclick="cerrarModalNombre()">
             Volver
@@ -214,19 +215,19 @@ function cerrarModales() {
 
 function cerrarModalNombre() {
     document.getElementById("modal-nombre").style.display = "none";
-}
-function guardarNombre() {
+}function guardarNombre() {
     const nombre = document.getElementById("nombre").value.trim();
     if (!nombre) {
         alert("⚠️ Ingresa un nombre");
         return;
     }
 
-    // Guardamos solo el nombre en localStorage
+    // Guardamos el nombre en localStorage
     localStorage.setItem("ticketAPK", JSON.stringify({ cliente: nombre }));
 
     // Redirigimos a ver-ticket.html
     window.location.href = "ver-ticket.html";
+
 }
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("guardar-btn").addEventListener("click", guardarNombre);
