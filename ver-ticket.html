@@ -24,12 +24,10 @@
 
 <div class="ticket-card" id="app">
     </div>
-<script>
-    // 1. Esta función es la que limpia el "clon" cuando decides borrar
+
+    <script>
+    // Función para el botón borrar: simplemente regresa al menú
     function borrarYNuevo() {
-        try {
-            localStorage.removeItem("ticket_clonado");
-        } catch(e) { console.log("No se pudo borrar"); }
         window.location.href = "menu.html";
     }
 
@@ -37,61 +35,41 @@
         const app = document.getElementById("app");
         const params = new URLSearchParams(window.location.search);
         
-        // 2. Intentamos capturar los datos que vienen volando en la URL
-        let datos = {
-            cod: params.get('cod'),
-            nom: params.get('nom'),
-            ci: params.get('ci'),
-            tel: params.get('tel'),
-            fec: params.get('fec'),
-            hor: params.get('hor')
+        // 1. Intentamos capturar los datos reales de la URL
+        // 2. Si no existen (||), usamos los "DATOS QUEMADOS" de respaldo
+        const ticket = {
+            codigo: params.get('cod') || "MF-999999",
+            cliente: params.get('nom') || "CLIENTE MACRO FIT",
+            cedula: params.get('ci') || "0000000000",
+            telefono: params.get('tel') || "0999999999",
+            fecha: params.get('fec') || new Date().toLocaleDateString(),
+            hora: params.get('hor') || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
 
-        // 3. LA CONEXIÓN INTELIGENTE (Duplicar el dato):
-        if (datos.cod) {
-            // Si la URL trajo datos, guardamos una copia en el cajón
-            try {
-                localStorage.setItem("ticket_clonado", JSON.stringify(datos));
-            } catch(e) { 
-                console.log("El teléfono bloqueó el guardado, pero el ticket sigue vivo por URL");
-            }
-        } else {
-            // Si entramos desde el icono (URL vacía), buscamos el clon
-            try {
-                const clon = localStorage.getItem("ticket_clonado");
-                if (clon) {
-                    datos = JSON.parse(clon);
-                }
-            } catch(e) {
-                console.log("No hay clon o el cajón está bloqueado");
-            }
-        }
-
-        // 4. DIBUJAR EN PANTALLA (Solo si tenemos datos de algún lado)
-        if (datos && datos.cod) {
-            app.innerHTML = `
-                <div style="font-size:40px;">✅</div>
-                <h2>Tu Ticket</h2>
-                <div class="codigo-box">${datos.cod}</div>
-                <div class="cuadro">
-                    <strong>👤 Cliente:</strong> ${datos.nom}<br>
-                    <strong>📄 Cédula:</strong> ${datos.ci}<br>
-                    <strong>📱 Teléfono:</strong> ${datos.tel}<br>
-                    <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                    📅 ${datos.fec} | ⏰ ${datos.hor}
-                </div>
-                <button class="btn-verde" onclick="borrarYNuevo()">🗑️ BORRAR Y NUEVO PEDIDO</button>
-                <button class="btn-verde btn-outline" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
-            `;
-        } else {
-            // Si no hay nada de nada
-            app.innerHTML = `
-                <div style="font-size:60px;">🥗</div>
-                <h2>Macro Fit</h2>
-                <p>No hay pedidos pendientes.</p>
-                <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
-            `;
-        }
+        // 3. Renderizamos siempre (Nunca estará vacío)
+        app.innerHTML = `
+            <div style="font-size:40px;">✅</div>
+            <h2>¡Pedido Listo!</h2>
+            
+            <div class="codigo-box">${ticket.codigo}</div>
+            
+            <div class="cuadro">
+                <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
+                <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
+                <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
+                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
+                <strong>⏰ Hora:</strong> ${ticket.hora}
+            </div>
+            
+            <button class="btn-verde" onclick="borrarYNuevo()">
+                🗑️ BORRAR Y NUEVO PEDIDO
+            </button>
+            
+            <button class="btn-verde btn-outline" onclick="location.href='menu.html'">
+                VOLVER AL MENÚ
+            </button>
+        `;
     });
 </script>
 </body>
