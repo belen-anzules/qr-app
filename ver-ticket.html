@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Ticket</title>
-
     <style>
+        :root {
+            --primary: #4CAF50;
+            --dark: #2c3e50;
+            --light: #f4f7f6;
+        }
+
         body {
-            font-family: sans-serif;
-            background: #f4f7f6;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 30px 0;
+            background: var(--light);
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            padding-top: 30px;
-            margin: 0;
-            min-height: 100vh;
         }
 
         .ticket-card {
@@ -28,12 +31,12 @@
         }
 
         .codigo-box {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            color: #4CAF50;
+            color: var(--primary);
             margin: 15px 0;
             padding: 10px;
-            border: 2px dashed #4CAF50;
+            border: 2px dashed var(--primary);
             background: #f9fff9;
             border-radius: 12px;
         }
@@ -44,12 +47,12 @@
             padding: 15px;
             border-radius: 15px;
             font-size: 0.9rem;
-            color: #333;
+            color: var(--dark);
             margin-top: 10px;
         }
 
         .btn-verde {
-            background: #4CAF50;
+            background: var(--primary);
             color: white;
             border: none;
             padding: 15px;
@@ -60,14 +63,18 @@
             margin-top: 20px;
         }
 
-        .no-ticket {
-            font-size: 60px;
-            margin-bottom: 10px;
+        .empty-message {
+            text-align: center;
+            color: #888;
         }
 
+        .empty-message div {
+            font-size: 60px;
+        }
     </style>
 </head>
 <body>
+
 <div class="ticket-card" id="app"></div>
 
 <script>
@@ -86,22 +93,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (!t) {
             app.innerHTML = `
-                <div style="font-size:60px; text-align:center;">🥗</div>
-                <h3 style="text-align:center;">No hay tickets generados</h3>
-                <p style="text-align:center;">Aún no se ha generado ningún ticket. Crea uno desde el menú.</p>
-                <button class="btn-verde" style="display:block; margin:20px auto;" onclick="location.href='menu.html'">
-                    IR AL MENÚ
-                </button>
+                <div class="empty-message">
+                    <div>🥗</div>
+                    <h3>No hay tickets generados</h3>
+                    <p>Aún no se ha generado ningún ticket. Crea uno desde el menú.</p>
+                    <button class="btn-verde" onclick="location.href='menu.html'">
+                        IR AL MENÚ
+                    </button>
+                </div>
             `;
             return;
         }
 
-        // Mostrar ticket
+        // Mostrar ticket existente
         app.innerHTML = `
             <div style="font-size:45px; text-align:center;">🧾</div>
             <h2 style="text-align:center;">Mi Ticket</h2>
 
-            <div class="codigo-box" style="text-align:center;">${t.codigo}</div>
+            <div class="codigo-box">${t.codigo}</div>
 
             <div class="info-txt">
                 <strong>👤 Cliente:</strong> ${t.cliente}<br>
@@ -111,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <strong>⏰ Hora:</strong> ${t.hora}
             </div>
 
-            <button class="btn-verde" onclick="location.href='menu.html'" style="margin-top:15px;">
+            <button class="btn-verde" onclick="location.href='menu.html'">
                 VOLVER AL MENÚ
             </button>
         `;
@@ -120,3 +129,6 @@ document.addEventListener("DOMContentLoaded", function() {
     mostrarTicket();
 });
 </script>
+
+</body>
+</html>
