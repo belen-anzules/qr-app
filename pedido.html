@@ -210,14 +210,15 @@ function validarYConfirmar() {
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
 }
-
 function procesarFinalizado() {
     const nom = document.getElementById("nombre").value.trim();
     const ci = document.getElementById("cedula").value.trim();
     const tel = document.getElementById("telefono").value.trim();
 
+    // Validación
     if (!nom || !ci || !tel) {
-        return; // sin alerts como tú quieres
+        alert("⚠️ Por favor completa todos los campos antes de generar el ticket");
+        return;
     }
 
     const ahora = new Date();
@@ -234,13 +235,14 @@ function procesarFinalizado() {
         })
     };
 
-    // ✅ GUARDADO SEGURO (APP + WEB)
+    // Guardar seguro en localStorage
     localStorage.setItem("ticketAPK", JSON.stringify(ticket));
     localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticket));
 
-    // 🚀 REDIRECCIÓN LIMPIA
+    // Redirigir a ver-ticket.html
     window.location.href = "ver-ticket.html";
 }
+
 
 function eliminarPlato(index) {
     let cart = getCartFromURL();
