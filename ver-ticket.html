@@ -63,7 +63,6 @@
 <body>
 
 <div class="ticket-card" id="app"></div>
-
 <script>
 function obtenerTicketSeguro() {
     let t = localStorage.getItem("ticketAPK");
@@ -78,11 +77,11 @@ function obtenerTicketSeguro() {
 }
 
 function mostrarTicket() {
-    const display = document.getElementById("app");
+    const app = document.getElementById("app");
     const t = obtenerTicketSeguro();
 
     if (!t) {
-        display.innerHTML = `
+        app.innerHTML = `
             <h3>Sin ticket activo</h3>
             <p>No se encontró ningún pedido.</p>
             <button class="btn-verde" onclick="location.href='menu.html'">
@@ -92,7 +91,7 @@ function mostrarTicket() {
         return;
     }
 
-    display.innerHTML = `
+    app.innerHTML = `
         <div style="font-size:45px">🧾</div>
         <h2>Mi Ticket</h2>
 
@@ -112,6 +111,3 @@ function mostrarTicket() {
 
 window.onload = mostrarTicket;
 </script>
-
-</body>
-</html>

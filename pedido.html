@@ -210,32 +210,37 @@ function validarYConfirmar() {
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
 }
+
 function procesarFinalizado() {
     const nom = document.getElementById("nombre").value.trim();
     const ci = document.getElementById("cedula").value.trim();
     const tel = document.getElementById("telefono").value.trim();
 
     if (!nom || !ci || !tel) {
-        // ❌ NO alert
-        document.getElementById("modal-registro").style.display = "none";
-        document.getElementById("modal-vacio").style.display = "flex";
-        return;
+        return; // sin alerts como tú quieres
     }
 
     const ahora = new Date();
-    const codigo = "TK-" + Math.floor(1000 + Math.random() * 9000);
 
-    const params = new URLSearchParams({
-        codigo: codigo,
+    const ticket = {
+        codigo: "TK-" + Math.floor(1000 + Math.random() * 9000),
         cliente: nom,
+        cedula: ci,
+        telefono: tel,
         fecha: ahora.toLocaleDateString(),
-        hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    });
+        hora: ahora.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
+        })
+    };
 
-    // 🚀 EN APP ESTO SÍ FUNCIONA
-    window.location.href = "ver-ticket.html?" + params.toString();
+    // ✅ GUARDADO SEGURO (APP + WEB)
+    localStorage.setItem("ticketAPK", JSON.stringify(ticket));
+    localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticket));
+
+    // 🚀 REDIRECCIÓN LIMPIA
+    window.location.href = "ver-ticket.html";
 }
-
 
 function eliminarPlato(index) {
     let cart = getCartFromURL();
