@@ -1,53 +1,48 @@
-/* ==========================================
-   MACRO FIT - VER TICKET (APP + WEB)
-========================================== */
+document.addEventListener("DOMContentLoaded", function() {
 
-function obtenerTicketSeguro() {
-    // Intentamos obtener el ticket principal
-    let t = localStorage.getItem("ticketAPK");
-
-    // Si no existe, usamos el backup
-    if (!t) t = localStorage.getItem("ticketAPK_BACKUP");
-
-    // Si no hay ticket, devolvemos null
-    if (!t) return null;
-
-    return JSON.parse(t);
-}
-
-function mostrarTicket() {
-    const app = document.getElementById("app");
-    const t = obtenerTicketSeguro();
-
-    if (!t) {
-        app.innerHTML = `
-            <div style="font-size:60px">🥗</div>
-            <h3>No hay ticket activo</h3>
-            <p>Genera tu pedido para ver el código.</p>
-            <button class="btn-verde" onclick="location.href='menu.html'">
-                IR AL MENÚ
-            </button>
-        `;
-        return;
+    function obtenerTicketSeguro() {
+        let t = localStorage.getItem("ticketAPK");
+        if (!t) t = localStorage.getItem("ticketAPK_BACKUP");
+        if (!t) return null;
+        return JSON.parse(t);
     }
 
-    app.innerHTML = `
-        <div style="font-size:45px">🧾</div>
-        <h2>Mi Ticket</h2>
+    function mostrarTicket() {
+        const app = document.getElementById("app");
+        const t = obtenerTicketSeguro();
 
-        <div class="codigo-box">${t.codigo}</div>
+        if (!t) {
+            app.innerHTML = `
+                <div style="font-size:60px; text-align:center;">🥗</div>
+                <h3 style="text-align:center;">No hay tickets generados</h3>
+                <p style="text-align:center;">Aún no se ha generado ningún ticket. Crea uno desde el menú.</p>
+                <button class="btn-verde" style="display:block; margin:20px auto;" onclick="location.href='menu.html'">
+                    IR AL MENÚ
+                </button>
+            `;
+            return;
+        }
 
-        <div class="info-txt">
-            <strong>👤 Cliente:</strong> ${t.cliente}<br>
-            <strong>📅 Fecha:</strong> ${t.fecha}<br>
-            <strong>⏰ Hora:</strong> ${t.hora}
-        </div>
+        // Mostrar ticket existente
+        app.innerHTML = `
+            <div style="font-size:45px; text-align:center;">🧾</div>
+            <h2 style="text-align:center;">Mi Ticket</h2>
 
-        <button class="btn-verde" onclick="location.href='menu.html'">
-            VOLVER AL MENÚ
-        </button>
-    `;
-}
+            <div class="codigo-box" style="text-align:center;">${t.codigo}</div>
 
-// Cargar ticket al abrir la página
-window.onload = mostrarTicket;
+            <div class="info-txt">
+                <strong>👤 Cliente:</strong> ${t.cliente}<br>
+                <strong>📄 Cédula:</strong> ${t.cedula}<br>
+                <strong>📱 Teléfono:</strong> ${t.telefono}<br>
+                <strong>📅 Fecha:</strong> ${t.fecha}<br>
+                <strong>⏰ Hora:</strong> ${t.hora}
+            </div>
+
+            <button class="btn-verde" onclick="location.href='menu.html'" style="margin-top:15px;">
+                VOLVER AL MENÚ
+            </button>
+        `;
+    }
+
+    mostrarTicket();
+});
