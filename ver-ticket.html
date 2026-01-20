@@ -1,116 +1,199 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Ticket - Macro Fit</title>
-<style>
-body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #f4f7f6;
-    display: flex;
-    justify-content: center;
-    padding: 30px 0;
-    min-height: 100vh;
-}
-.ticket-card {
-    background: white;
-    padding: 25px 20px;
-    border-radius: 25px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    animation: fadeIn 0.5s ease-in-out;
-}
-h2 {
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-    color: #4CAF50;
-}
-.cuadro {
-    background: #f1f3f5;
-    padding: 15px;
-    border-radius: 12px;
-    margin: 10px 0;
-    text-align: left;
-    font-size: 1rem;
-    color: #333;
-}
-.btn-verde {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 15px;
-    width: 100%;
-    border-radius: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
-}
-.btn-verde:hover { background: #45a049; }
-#cargando { font-size: 1rem; color: #888; margin: 40px 0; text-align:center; }
-ul { padding-left: 20px; }
-li { margin-bottom: 5px; }
-@keyframes fadeIn {
-    from {opacity:0; transform: translateY(20px);}
-    to {opacity:1; transform: translateY(0);}
-}
-@media (max-width: 450px) {
-    .ticket-card { padding: 20px 15px; }
-    .cuadro { font-size: 0.95rem; }
-    h2 { font-size: 1.6rem; }
-    .btn-verde { padding: 12px; font-size: 0.95rem; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Ticket - Macro Fit</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --bg: #f4f7f6;
+            --text: #333;
+            --error: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            margin: 0;
+            padding-top: 80px; /* Espacio para el header fijo */
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* HEADER CON BOTÓN DE VOLVER */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .btn-atras {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .btn-atras:hover { background: #e0e0e0; }
+
+        /* TARJETA DE TICKET */
+        .ticket-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-in-out;
+            height: fit-content;
+            margin-bottom: 40px;
+        }
+
+        h2 { color: var(--primary); margin-bottom: 20px; }
+
+        .codigo-box {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: #e8f5e9;
+            color: var(--primary);
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px dashed var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .cuadro {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 10px 0;
+            text-align: left;
+            font-size: 1rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .btn-verde {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-verde:hover { opacity: 0.9; transform: scale(1.02); }
+
+        .btn-outline {
+            background: transparent;
+            color: #888;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+
+        /* Spinner de carga */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from {opacity:0; transform: translateY(20px);} to {opacity:1; transform: translateY(0);} }
+    </style>
 </head>
 <body>
 
+<header>
+    <a href="menu.html" class="btn-atras">
+        <span>⬅</span> Volver al Menú
+    </a>
+</header>
+
 <div class="ticket-card" id="app">
-    <div id="cargando">Cargando datos del ticket...</div>
+    <div id="cargando-seccion">
+        <div class="loader"></div>
+        <p>Generando tu ticket...</p>
+    </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
 
-    function obtenerTicketSeguro() {
-        let ticket = localStorage.getItem("ticketAPK");
-        if (!ticket) ticket = localStorage.getItem("ticketAPK_BACKUP");
-        if (!ticket) return null;
-        return JSON.parse(ticket);
+    function obtenerTicket() {
+        try {
+            const principal = localStorage.getItem("ticketAPK");
+            const respaldo = localStorage.getItem("ticketAPK_BACKUP");
+            const dataString = principal || respaldo;
+            return dataString ? JSON.parse(dataString) : null;
+        } catch (e) {
+            return null;
+        }
     }
 
     setTimeout(() => {
-        const ticket = obtenerTicketSeguro();
+        const ticket = obtenerTicket();
 
-        if(!ticket) {
+        if (!ticket) {
             app.innerHTML = `
-                <h2>Oops! 😅</h2>
-                <p>No se encontró ningún ticket.</p>
-                <button class="btn-verde" onclick="location.href='menu.html'">Ir al menú</button>
+                <div style="font-size:60px;">⚠️</div>
+                <h2 style="color:#e74c3c;">¡Ups! No hay ticket</h2>
+                <p style="color:#666; margin-bottom:20px;">No encontramos la información de tu pedido reciente.</p>
+                <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
             `;
             return;
         }
 
-        const platos = ticket.platos || [];
-
         app.innerHTML = `
-            <h2>Mi Ticket</h2>
-            <div class="cuadro"><strong>Cliente:</strong> ${ticket.cliente}</div>
-            <div class="cuadro"><strong>Cédula:</strong> ${ticket.cedula}</div>
-            <div class="cuadro"><strong>Teléfono:</strong> ${ticket.telefono}</div>
-            <div class="cuadro"><strong>Fecha:</strong> ${ticket.fecha}</div>
-            <div class="cuadro"><strong>Hora:</strong> ${ticket.hora}</div>
-            <div class="cuadro"><strong>Código:</strong> ${ticket.codigo}</div>
-            <div class="cuadro"><strong>Platos:</strong>
-                ${platos.length > 0 
-                    ? `<ul>${platos.map(p => `<li>${p.nombre} - $${parseFloat(p.total).toFixed(2)}</li>`).join('')}</ul>` 
-                    : `<p>No se agregaron platos</p>`}
+            <div style="font-size:40px;">✅</div>
+            <h2>¡Pedido Listo!</h2>
+            
+            <div class="codigo-box">${ticket.codigo}</div>
+
+            <div class="cuadro">
+                <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
+                <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
+                <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
+                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
+                <strong>⏰ Hora:</strong> ${ticket.hora}
             </div>
-            <button class="btn-verde" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
+
+            <button class="btn-verde" onclick="window.print()">IMPRIMIR O CAPTURAR</button>
+            <button class="btn-verde btn-outline" onclick="location.href='menu.html'">NUEVO PEDIDO</button>
         `;
-    }, 500);
+    }, 1500); 
 });
 </script>
 
