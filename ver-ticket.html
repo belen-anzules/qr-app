@@ -120,9 +120,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 <strong>⏰ Hora:</strong> ${t.hora}
             </div>
 
-            <button class="btn-verde" onclick="location.href='menu.html'">
-                VOLVER AL MENÚ
-            </button>
+<button class="btn-verde" onclick="
+    localStorage.removeItem('ticketAPK');
+    localStorage.removeItem('ticketAPK_BACKUP');
+    location.href='menu.html';
+">
+    VOLVER AL MENÚ
+</button>
         `;
     }
 
