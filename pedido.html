@@ -138,21 +138,62 @@ body {
 <div id="modal-registro" class="modal-overlay">
     <div class="modal-card">
         <div style="font-size:50px; margin-bottom:10px;">📝</div>
-        <h2 style="color:#2E7D32; margin-bottom:5px;">¡Casi listo!</h2>
-        <p style="font-size:0.9rem; color:#555; margin-bottom:15px;">
-            ¡Rellena tus datos para recibir tu pedido rápido y seguro! 🚀
+        <h2 style="color:#4CAF50; margin-bottom:5px;">Datos del Cliente</h2>
+        <p style="font-size:0.9rem; color:#555; margin-bottom:20px;">
+            Ingresa tus datos para generar tu ticket de compra.
         </p>
-        <input type="text" id="nombre" placeholder="Tu nombre">
-        <input type="number" id="cedula" placeholder="Cédula">
-        <input type="tel" id="telefono" placeholder="Celular">
-        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="procesarFinalizado()">
-            GENERAR TICKET
+        
+        <div style="text-align: left; margin-bottom: 15px;">
+            <label style="font-size: 0.8rem; color: #888; margin-left: 5px;">Nombre Completo</label>
+            <input type="text" id="nombre" placeholder="Ej. Mateo Delgado" required>
+        </div>
+
+        <div style="text-align: left; margin-bottom: 15px;">
+            <label style="font-size: 0.8rem; color: #888; margin-left: 5px;">Cédula / ID</label>
+            <input type="number" id="cedula" placeholder="Ej. 1712345678" required>
+        </div>
+
+        <div style="text-align: left; margin-bottom: 15px;">
+            <label style="font-size: 0.8rem; color: #888; margin-left: 5px;">Teléfono Celular</label>
+            <input type="tel" id="telefono" placeholder="Ej. 0991234567" required>
+        </div>
+
+        <button class="btn btn-primary" 
+                style="width:100%; margin-top:10px; padding: 18px; font-size: 1rem;" 
+                onclick="procesarFinalizado()">
+            GENERAR TICKET 🚀
         </button>
-        <button style="margin-top:10px; background:none; border:none; color:#888;" onclick="cerrarModales()">
-            Volver
+        
+        <button style="margin-top:15px; background:none; border:none; color:#aaa; cursor:pointer; font-size: 0.9rem;" 
+                onclick="cerrarModales()">
+            Cancelar y volver
         </button>
     </div>
 </div>
+
+<style>
+    .modal-card input {
+        width: 100%;
+        padding: 12px;
+        margin-top: 5px;
+        border: 1.5px solid #eee;
+        border-radius: 12px;
+        box-sizing: border-box;
+        font-size: 1rem;
+        outline: none;
+        transition: 0.3s;
+    }
+    .modal-card input:focus {
+        border-color: #4CAF50;
+        background-color: #f9fff9;
+    }
+    /* Quitar flechas del input number */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
 
 <!-- MODAL VACÍO -->
 <div id="modal-vacio" class="modal-overlay">
@@ -236,41 +277,47 @@ function cerrarModales() {
 }
 
 function procesarFinalizado() {
-    const nombre = document.getElementById("nombre").value.trim();
-    const cedula = document.getElementById("cedula").value.trim();
-    const telefono = document.getElementById("telefono").value.trim();
+    // 1. Capturar elementos
+    const inputNom = document.getElementById("nombre");
+    const inputCi = document.getElementById("cedula");
+    const inputTel = document.getElementById("telefono");
 
-    if(!nombre || !cedula || !telefono){
-        alert("⚠️ Completa todos los campos");
+    // 2. Validar que existan y no estén vacíos
+    if (!inputNom.value || !inputCi.value || !inputTel.value) {
+        alert("⚠️ Por favor, completa todos los campos para generar tu ticket.");
         return;
     }
 
     const ahora = new Date();
-
-    // Obtener carrito desde URL (o localStorage si lo tienes guardado)
-    const urlParams = new URLSearchParams(window.location.search);
-    const cartData = urlParams.get('cart');
-    const carrito = cartData ? JSON.parse(decodeURIComponent(cartData)) : [];
-
-    // 🔹 Guardar carrito también en localStorage antes de generar ticket
-    localStorage.setItem("carritoMacroFit", JSON.stringify(carrito));
-
-    const ticket = {
-        codigo: "TK-" + Math.floor(1000 + Math.random()*9000),
-        cliente: nombre,
-        cedula: cedula,
-        telefono: telefono,
+    
+    // 3. Crear el objeto con los nombres de propiedades correctos
+    const datosTicket = {
+        codigo: "MF-" + Math.floor(100000 + Math.random() * 900000), // Código más largo tipo MF-123456
+        cliente: inputNom.value.trim(),
+        cedula: inputCi.value.trim(),
+        telefono: inputTel.value.trim(),
         fecha: ahora.toLocaleDateString(),
-        hora: ahora.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
-        platos: carrito   // <-- guardamos los platos dentro del ticket
+        hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    localStorage.setItem("ticketAPK", JSON.stringify(ticket));
-    localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticket));
+    try {
+        // 4. Guardar en LocalStorage (Limpiamos antes para evitar conflictos)
+        localStorage.removeItem("ticketAPK");
+        localStorage.setItem("ticketAPK", JSON.stringify(datosTicket));
+        localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(datosTicket));
 
-    window.location.href = "ver-ticket.html";
+        console.log("Ticket guardado con éxito:", datosTicket);
+
+        // 5. Redirección con un pequeñísimo retraso para asegurar el guardado en móviles
+        setTimeout(() => {
+            window.location.href = "ver-ticket.html";
+        }, 100);
+
+    } catch (error) {
+        console.error("Error al guardar el ticket:", error);
+        alert("Hubo un error al guardar tu pedido localmente.");
+    }
 }
-
 function eliminarPlato(index) {
     let cart = getCartFromURL();
     cart.splice(index, 1);
