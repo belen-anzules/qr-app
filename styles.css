@@ -278,25 +278,83 @@ body {
         font-size: 0.95rem;
     }
 }
-/* ===== MENU CARDS ===== */
+/* ===== MENU CARDS (AJUSTADO PARA TEXTO ABAJO) ===== */
 .menu {
     display: flex;
     flex-direction: column;
-    gap: 18px;
-    padding: 10px 15px;
+    gap: 20px;
+    padding: 15px;
 }
 
 .card {
     background: var(--white);
     border-radius: 22px;
     display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 14px;
+    flex-direction: column; /* Esto pone el texto debajo */
+    padding: 0; /* Quitamos padding para que la imagen llegue al borde si quieres */
+    overflow: hidden;
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
+/* Efecto visual al tocar la card */
+.card:active {
+    transform: scale(0.98);
+}
+
+.card-img-container {
+    width: 100%;
+    height: 180px; /* Altura fija para que todas las fotos sean iguales */
+    overflow: hidden;
+}
+
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantiene la proporción de la imagen */
+    display: block;
+}
+
+.card .info {
+    padding: 15px; /* Espaciado interno para el texto */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.card .info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.price-tag {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ============================================================
+   MANTENEMOS TUS TABLAS Y RESPONSIVE DE NUTRICIÓN INTACTOS
+   ============================================================ */
+@media (max-width: 600px) {
+    .nutrition-summary {
+        overflow-x: auto;
+    }
+    .nutrition-table {
+        min-width: 520px;
+    }
+}
+
+.welcome-bg {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /* ===== IMAGEN UNIFORME ===== */
 .card-img-container {
     width: 120px;
@@ -362,8 +420,18 @@ body {
 /* ===== PANTALLA DE INICIO ESTÁTICA ===== */
 .welcome-bg {
     height: 100vh;
-    overflow: hidden;
+    width: 100vw;
+    overflow: hidden; /* Evita que se mueva */
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-app);
+}
+
+/* Ajuste para que los botones tipo enlace no se estiren si no quieres */
+.btn-primary {
+    text-align: center;
+    box-sizing: border-box;
 }
