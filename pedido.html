@@ -274,9 +274,8 @@ function validarYConfirmar() {
 
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-}
-function procesarFinalizado() {
-    // 1. Capturamos los datos exactos que el usuario ve en pantalla
+}function procesarFinalizado() {
+    // 1. Capturamos los datos
     const nom = document.getElementById("nombre").value.trim();
     const ci = document.getElementById("cedula").value.trim();
     const tel = document.getElementById("telefono").value.trim();
@@ -286,24 +285,16 @@ function procesarFinalizado() {
         return;
     }
 
-    // 2. Generamos los datos del ticket
+    // 2. Generamos el código (Esto es lo que se estaba perdiendo)
     const cod = "MF-" + Math.floor(100000 + Math.random() * 900000);
     const ahora = new Date();
     const fecha = ahora.toLocaleDateString();
     const hora = ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    // --- NUEVO: GUARDADO PARA PERSISTENCIA ---
-    const datosParaGuardar = { 
-        codigo: cod, cliente: nom, cedula: ci, 
-        telefono: tel, fecha: fecha, hora: hora 
-    };
-    localStorage.setItem("ticketAPK", JSON.stringify(datosParaGuardar));
-    // -----------------------------------------
-
-    // 3. LA CLAVE: Enviamos todo por la URL para que no se pierda en la APK
+    // 3. Construimos la URL con los parámetros exactos
     const destino = `ver-ticket.html?cod=${cod}&nom=${encodeURIComponent(nom)}&ci=${encodeURIComponent(ci)}&tel=${encodeURIComponent(tel)}&fec=${encodeURIComponent(fecha)}&hor=${encodeURIComponent(hora)}`;
 
-    // Redirección inmediata
+    // 4. Salto inmediato
     window.location.href = destino;
 }
 function eliminarPlato(index) {
