@@ -135,8 +135,9 @@ function irAMenu() {
             ts: Date.now()
         };
 
-        localStorage.setItem("ticketAPK", JSON.stringify(ticketFinal));
-        localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticketFinal));
+        localStorage.setItem("ticketAPK", JSON.stringify(ticket));
+localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticket));
+
 
         const test = localStorage.getItem("ticketAPK");
         return !!test;

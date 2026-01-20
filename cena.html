@@ -130,27 +130,9 @@
         const dot = document.getElementById("dot-ticket");
         if (dot) { dot.style.display = data ? "block" : "none"; }
     }
-
-    function verTicketAPK() {
-        const data = localStorage.getItem('ticketAPK');
-        const contenedor = document.getElementById("ticket-dinamico");
-        if (data) {
-            const t = JSON.parse(data);
-            contenedor.innerHTML = `
-                <div style="font-size: 50px;">🧾</div>
-                <h2 style="margin: 10px 0; color:#333; font-weight:900;">TU TICKET</h2>
-                <div style="font-size: 2.8rem; font-weight: 900; color: #4CAF50; margin: 15px 0; padding: 10px; border: 2px dashed #4CAF50; background: #f9fff9; border-radius: 15px;">${t.codigo}</div>
-                <div style="text-align: left; background: #f8f9fa; padding: 15px; border-radius: 15px; font-size: 0.9rem; color: #444;">
-                    <strong>👤 Cliente:</strong> ${t.cliente}<br>
-                    <strong>📅 Fecha:</strong> ${t.fecha}<br>
-                    <strong>⏰ Hora:</strong> ${t.hora}
-                </div>
-                <button onclick="mostrarConfirmacionBorrar()" style="background:none; color:#e74c3c; border:none; padding:10px; width:100%; margin-top:10px; font-size:0.85rem; cursor:pointer; font-weight:bold; display:flex; align-items:center; justify-content:center; gap:5px;">🗑️ BORRAR ESTE TICKET</button>`;
-        } else {
-            contenedor.innerHTML = `<div style="font-size: 60px; margin-bottom: 15px;">🥗</div><h2 style="color:#333; font-weight:900;">¡HOLA!</h2><p style="color:#666; font-size: 0.95rem; line-height: 1.4; margin-bottom: 20px;">Parece que aún no tienes un pedido activo.</p>`;
-        }
-        document.getElementById("vista-ticket").style.display = "flex";
-    }
+function verTicketAPK() {
+    window.location.href = "ver-ticket.html" + window.location.search;
+}
 
     function mostrarConfirmacionBorrar() { document.getElementById("modal-confirm-borrado").style.display = "flex"; }
     function cerrarConfirmacion() { document.getElementById("modal-confirm-borrado").style.display = "none"; }
