@@ -109,60 +109,66 @@
 </div>
 
 <script>
-/* --- LÓGICA DE CARRITO --- */
-function getCart() {
+const pedidoDiv = document.getElementById("pedido-lista");
+
+function getCartFromURL() {
     const params = new URLSearchParams(window.location.search);
-    try {
-        return params.get("cart") ? JSON.parse(decodeURIComponent(params.get("cart"))) : [];
-    } catch(e) { return []; }
+    const cartData = params.get('cart');
+    return cartData ? JSON.parse(decodeURIComponent(cartData)) : [];
 }
 
 function mostrarPedido() {
-    const cart = getCart();
-    const cont = document.getElementById("pedido-lista");
+    const cart = getCartFromURL();
     const totalBox = document.getElementById("total-box");
     const totalSpan = document.getElementById("total-global");
 
     if (cart.length === 0) {
-        cont.innerHTML = `
-            <div style="text-align:center; padding:60px 20px; color:#ccc;">
-                <div style="font-size:80px; opacity:0.3;">🛒</div>
-                <p>No hay platos en tu lista</p>
-            </div>`;
-        totalBox.style.display = "none";
+        if(pedidoDiv) {
+            pedidoDiv.innerHTML = `
+                <div style="text-align:center; padding:60px 20px; color:#ccc;">
+                    <div style="font-size:80px; opacity:0.3;">🛒</div>
+                    <p>No hay platos en tu lista</p>
+                </div>`;
+        }
+        if(totalBox) totalBox.style.display = "none";
         return;
     }
 
-    cont.innerHTML = "";
-    let total = 0;
-    const cartStr = encodeURIComponent(JSON.stringify(cart));
+    pedidoDiv.innerHTML = "";
+    let totalGlobal = 0;
 
     cart.forEach((item, index) => {
-        total += parseFloat(item.total);
+        totalGlobal += parseFloat(item.total);
+        
         let configParams = "";
-        for (let k in item.config) { configParams += `&${k}=${item.config[k]}`; }
-        const urlEdit = `${item.page}?cart=${cartStr}&editIndex=${index}${configParams}`;
+        for (let key in item.config) {
+            configParams += `&${key}=${item.config[key]}`;
+        }
 
-        cont.innerHTML += `
+        const cartString = encodeURIComponent(JSON.stringify(cart));
+        const urlEditar = `${item.page}?cart=${cartString}&editIndex=${index}${configParams}`;
+
+        pedidoDiv.innerHTML += `
             <div class="cart-item">
-                <div style="flex:1">
+                <div class="cart-info">
                     <strong style="font-size:1.1rem">${item.nombre}</strong>
-                    <div style="font-size:0.85rem; color:#888; margin-top:4px;">${item.extras || ''}</div>
-                    <div class="price-tag">$${parseFloat(item.total).toFixed(2)}</div>
+                    <p style="font-size:0.85rem; color:#888; margin:4px 0;">${item.extras || ''}</p>
+                    <span class="price-tag">$${parseFloat(item.total).toFixed(2)}</span>
                 </div>
-                <div style="display:flex; gap:10px;">
-                    <button style="border:none; background:#f0f0f0; border-radius:10px; padding:8px;" onclick="location.href='${urlEdit}'">✏️</button>
+                <div class="cart-actions" style="display:flex; gap:10px;">
+                    <button style="border:none; background:#f0f0f0; border-radius:10px; padding:8px;" onclick="location.href='${urlEditar}'">✏️</button>
                     <button style="border:none; background:#f0f0f0; border-radius:10px; padding:8px;" onclick="eliminarPlato(${index})">🗑️</button>
                 </div>
-            </div>`;
+            </div>
+        `;
     });
 
-    totalSpan.innerText = total.toFixed(2);
-    totalBox.style.display = "block";
+    if(totalSpan) totalSpan.innerText = totalGlobal.toFixed(2);
+    if(totalBox) totalBox.style.display = "block";
 }
 
 function validarYConfirmar() {
-    const cart = getCart();
+    const cart = getCartFromURL();
     if (cart.length === 0) {
         document.getElementById("modal-vacio").style.display = "flex";
     } else {
@@ -174,35 +180,34 @@ function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
 }
 
-function eliminarPlato(index) {
-    let cart = getCart();
-    cart.splice(index, 1);
-    window.location.href = `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
-}
-
-function irAMenu() {
-    const cart = getCart();
-    window.location.href = `menu.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
-}
-
-/* --- PROCESO FINALIZADO --- */
 function procesarFinalizado() {
     const nom = document.getElementById("nombre").value.trim();
     const ci = document.getElementById("cedula").value.trim();
     const tel = document.getElementById("telefono").value.trim();
 
-    if (!nom || !ci || !tel) {
-        alert("Por favor completa tus datos para el ticket.");
-        return;
+    if (!nom || !ci || !tel) { 
+        alert("⚠️ Por favor completa todos tus datos."); 
+        return; 
     }
 
-    // Generamos el código
-    const cod = "TK-" + Math.floor(1000 + Math.random() * 8999);
-    const container = document.getElementById("modal-content-registro");
+    const cod = "TK-" + Math.floor(1000 + Math.random() * 9000);
+    const ahora = new Date();
+    
+    const datos = {
+        codigo: cod,
+        cliente: nom,
+        cedula: ci,
+        telefono: tel,
+        fecha: ahora.toLocaleDateString(),
+        hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
 
-    // Mostramos el éxito en pantalla antes de ir al menú
+    // 1. Guardar en LocalStorage (Persistencia para el icono de ticket en el menú)
+    localStorage.setItem('ticketAPK', JSON.stringify(datos));
+
+    const container = document.getElementById("modal-content-registro");
     container.innerHTML = `
-        <div style="font-size: 60px;">✨</div>
+        <div style="font-size: 50px;">✨</div>
         <h2 style="margin:10px 0;">¡Pedido Exitoso!</h2>
         <p style="color:#666">Presenta este código en caja para pagar:</p>
         <div class="order-code">${cod}</div>
@@ -210,11 +215,22 @@ function procesarFinalizado() {
             <strong>Cliente:</strong> ${nom}<br>
             <strong>Cédula:</strong> ${ci}
         </div>
-        <button class="btn btn-primary" style="width:100%; background:#4CAF50;" 
-            onclick="window.location.href='menu.html?tk=${cod}&nom=${encodeURIComponent(nom)}'">
-            TERMINAR
+        <button onclick="window.location.href='menu.html'" 
+                style="background:#4CAF50; color:white; border:none; padding:15px; width:100%; border-radius:15px; font-weight:bold; cursor:pointer;">
+            VOLVER AL MENÚ
         </button>
     `;
+}
+
+function eliminarPlato(index) {
+    let cart = getCartFromURL();
+    cart.splice(index, 1);
+    window.location.href = `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
+}
+
+function irAMenu() {
+    const cart = getCartFromURL();
+    window.location.href = `menu.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
 }
 
 window.onload = mostrarPedido;
