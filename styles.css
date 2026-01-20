@@ -359,3 +359,11 @@ body {
         min-width: 520px;
     }
 }
+/* ===== PANTALLA DE INICIO ESTÁTICA ===== */
+.welcome-bg {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
