@@ -275,24 +275,19 @@ function validarYConfirmar() {
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
 }
-
 function procesarFinalizado() {
-    // 1. Capturar elementos
     const inputNom = document.getElementById("nombre");
     const inputCi = document.getElementById("cedula");
     const inputTel = document.getElementById("telefono");
 
-    // 2. Validar que existan y no estén vacíos
     if (!inputNom.value || !inputCi.value || !inputTel.value) {
-        alert("⚠️ Por favor, completa todos los campos para generar tu ticket.");
+        alert("⚠️ Por favor, completa todos los campos.");
         return;
     }
 
     const ahora = new Date();
-    
-    // 3. Crear el objeto con los nombres de propiedades correctos
     const datosTicket = {
-        codigo: "MF-" + Math.floor(100000 + Math.random() * 900000), // Código más largo tipo MF-123456
+        codigo: "MF-" + Math.floor(100000 + Math.random() * 900000),
         cliente: inputNom.value.trim(),
         cedula: inputCi.value.trim(),
         telefono: inputTel.value.trim(),
@@ -301,21 +296,24 @@ function procesarFinalizado() {
     };
 
     try {
-        // 4. Guardar en LocalStorage (Limpiamos antes para evitar conflictos)
+        // Limpieza previa para evitar colisiones de memoria en el WebView
         localStorage.removeItem("ticketAPK");
-        localStorage.setItem("ticketAPK", JSON.stringify(datosTicket));
-        localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(datosTicket));
+        
+        // Guardado síncrono
+        const dataJson = JSON.stringify(datosTicket);
+        localStorage.setItem("ticketAPK", dataJson);
+        localStorage.setItem("ticketAPK_BACKUP", dataJson);
 
-        console.log("Ticket guardado con éxito:", datosTicket);
+        console.log("Guardado en APK exitoso");
 
-        // 5. Redirección con un pequeñísimo retraso para asegurar el guardado en móviles
+        // En APKs, la redirección inmediata a veces corta el proceso de escritura.
+        // Aumentamos ligeramente el delay y usamos una ruta relativa limpia.
         setTimeout(() => {
-            window.location.href = "ver-ticket.html";
-        }, 100);
+            window.location.replace("ver-ticket.html"); 
+        }, 250);
 
     } catch (error) {
-        console.error("Error al guardar el ticket:", error);
-        alert("Hubo un error al guardar tu pedido localmente.");
+        alert("Error de almacenamiento: " + error.message);
     }
 }
 function eliminarPlato(index) {

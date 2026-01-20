@@ -147,21 +147,27 @@
     </div>
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
+<script>document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
 
     function obtenerTicket() {
-        try {
-            const principal = localStorage.getItem("ticketAPK");
-            const respaldo = localStorage.getItem("ticketAPK_BACKUP");
-            const dataString = principal || respaldo;
-            return dataString ? JSON.parse(dataString) : null;
-        } catch (e) {
-            return null;
+        // Intentamos obtener de varias fuentes por si la APK particiona el storage
+        let rawData = localStorage.getItem("ticketAPK") || 
+                      localStorage.getItem("ticketAPK_BACKUP");
+        
+        if (rawData) {
+            try {
+                return JSON.parse(rawData);
+            } catch (e) {
+                console.error("Error parseando JSON", e);
+                return null;
+            }
         }
+        return null;
     }
 
+    // Aumentamos el tiempo de espera a 2 segundos para dar tiempo al WebView
+    // de cargar el sistema de archivos internos donde reside el localStorage
     setTimeout(() => {
         const ticket = obtenerTicket();
 
@@ -169,18 +175,17 @@ document.addEventListener("DOMContentLoaded", function() {
             app.innerHTML = `
                 <div style="font-size:60px;">⚠️</div>
                 <h2 style="color:#e74c3c;">¡Ups! No hay ticket</h2>
-                <p style="color:#666; margin-bottom:20px;">No encontramos la información de tu pedido reciente.</p>
-                <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
+                <p style="color:#666; margin-bottom:20px;">No encontramos la información en la memoria de la App.</p>
+                <button class="btn-verde" onclick="location.href='menu.html'">VOLVER A INTENTAR</button>
             `;
             return;
         }
 
+        // Renderizado del ticket (Mantenemos tu diseño original)
         app.innerHTML = `
             <div style="font-size:40px;">✅</div>
             <h2>¡Pedido Listo!</h2>
-            
             <div class="codigo-box">${ticket.codigo}</div>
-
             <div class="cuadro">
                 <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
                 <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
@@ -189,11 +194,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
                 <strong>⏰ Hora:</strong> ${ticket.hora}
             </div>
-
             <button class="btn-verde" onclick="window.print()">IMPRIMIR O CAPTURAR</button>
             <button class="btn-verde btn-outline" onclick="location.href='menu.html'">NUEVO PEDIDO</button>
         `;
-    }, 1500); 
+    }, 2000); 
 });
 </script>
 
