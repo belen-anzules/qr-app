@@ -51,41 +51,30 @@ h2 {
 }
 </style>
 </head>
-<body>
-<div class="ticket-card" id="app"></div>
+<body><div class="ticket-card" id="app"></div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
+    const ticketJSON = localStorage.getItem("ticketAPK");
 
-    // Obtener el ticket desde localStorage
-    const ticket = JSON.parse(localStorage.getItem("ticketAPK") || "null");
-
-    // Si no hay ticket guardado
-    if (!ticket) {
+    if (!ticketJSON) {
         app.innerHTML = `
-            <div style="font-size:60px; text-align:center;">🥗</div>
-            <h3 style="text-align:center;">No hay tickets generados</h3>
-            <p style="text-align:center;">Aún no se ha generado ningún ticket. Crea uno desde el menú.</p>
-            <button class="btn-verde" style="display:block; margin:20px auto;" onclick="location.href='menu.html'">
-                IR AL MENÚ
-            </button>
+            <h3>No hay ticket</h3>
+            <button onclick="location.href='menu.html'">Ir al menú</button>
         `;
         return;
     }
 
-    // Mostrar los datos del ticket
+    const ticket = JSON.parse(ticketJSON);
+
     app.innerHTML = `
         <h2>Mi Ticket</h2>
         <div class="cuadro"><strong>Cliente:</strong> ${ticket.cliente}</div>
-        <div class="cuadro"><strong>Cédula:</strong> ${ticket.cedula}</div>
-        <div class="cuadro"><strong>Teléfono:</strong> ${ticket.telefono}</div>
-        <div class="cuadro"><strong>Fecha:</strong> ${ticket.fecha}</div>
-        <div class="cuadro"><strong>Hora:</strong> ${ticket.hora}</div>
-
-        <button class="btn-verde" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
+        <button onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
     `;
 });
+
 </script>
 </body>
 </html>

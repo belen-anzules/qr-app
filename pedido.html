@@ -122,18 +122,15 @@
     <button class="btn btn-secondary" onclick="irAMenu()">+ Añadir</button>
     <button class="btn btn-primary" onclick="validarYConfirmar()">Confirmar</button>
 </div>
-
-<!-- MODAL REGISTRO -->
-<div id="modal-registro" class="modal-overlay">
+<!-- MODAL REGISTRO SIMPLIFICADO -->
+<div id="modal-nombre" class="modal-overlay">
     <div class="modal-card">
-        <h2>¡Casi listo! 📝</h2>
+        <h2>Ingresa tu nombre 📝</h2>
         <input type="text" id="nombre" placeholder="Tu nombre">
-        <input type="number" id="cedula" placeholder="Cédula">
-        <input type="tel" id="telefono" placeholder="Celular">
-        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="procesarFinalizado()">
-            GENERAR TICKET
+        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="guardarNombre()">
+            Guardar y continuar
         </button>
-        <button style="margin-top:15px; background:none; border:none; color:#bbb;" onclick="cerrarModales()">
+        <button style="margin-top:15px; background:none; border:none; color:#bbb;" onclick="cerrarModalNombre()">
             Volver
         </button>
     </div>
@@ -209,33 +206,25 @@ function validarYConfirmar() {
 
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+}function abrirModalNombre() {
+    document.getElementById("modal-nombre").style.display = "flex";
 }
-function procesarFinalizado() {
-    const nom = document.getElementById("nombre").value.trim();
-    const ci = document.getElementById("cedula").value.trim();
-    const tel = document.getElementById("telefono").value.trim();
 
-    if (!nom || !ci || !tel) {
-        alert("⚠️ Completa todos los campos antes de generar el ticket");
+function cerrarModalNombre() {
+    document.getElementById("modal-nombre").style.display = "none";
+}
+
+function guardarNombre() {
+    const nombre = document.getElementById("nombre").value.trim();
+    if (!nombre) {
+        alert("⚠️ Ingresa un nombre");
         return;
     }
 
-    const ahora = new Date();
+    // Guardamos solo el nombre en localStorage
+    localStorage.setItem("ticketAPK", JSON.stringify({ cliente: nombre }));
 
-    const ticket = {
-        codigo: "TK-" + Math.floor(1000 + Math.random() * 9000),
-        cliente: nom,
-        cedula: ci,
-        telefono: tel,
-        fecha: ahora.toLocaleDateString(),
-        hora: ahora.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
-    };
-
-    // Guardar ticket en localStorage
-    localStorage.setItem("ticketAPK", JSON.stringify(ticket));
-    localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(ticket));
-
-    // Redirigir directamente a ver-ticket.html
+    // Redirigimos a ver-ticket.html
     window.location.href = "ver-ticket.html";
 }
 
