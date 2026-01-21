@@ -3,79 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket de Pedido - Macro Fit</title>
+    <title>Ticket Macro Fit</title>
     <style>
         :root {
             --primary: #4CAF50;
             --dark: #2c3e50;
-            --gray: #888;
             --bg: #f4f7f6;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background: var(--bg);
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--dark);
         }
 
-        /* Botón Regresar */
-        .header-nav {
+        /* Navegación */
+        .nav-header {
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
-        .back-btn {
+        .btn-back {
             background: white;
             border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             font-size: 1.2rem;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            transition: 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .back-btn:active { transform: scale(0.9); }
-
-        /* Card del Ticket */
+        /* Card Ticket */
         .ticket-card {
             background: white;
-            padding: 30px 25px;
-            border-radius: 30px;
+            padding: 25px;
+            border-radius: 25px;
             width: 100%;
             max-width: 380px;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
             box-sizing: border-box;
-            position: relative;
-        }
-
-        .ticket-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 5px;
-            background: #eee;
-            border-radius: 0 0 10px 10px;
-        }
-
-        .success-icon {
-            font-size: 50px;
-            margin-bottom: 10px;
         }
 
         .codigo-box {
@@ -86,164 +61,134 @@
             padding: 15px;
             background: #f0fdf0;
             border: 2px dashed var(--primary);
-            border-radius: 20px;
-            letter-spacing: 2px;
+            border-radius: 15px;
         }
 
-        .info-grid {
+        .info-tabla {
             text-align: left;
-            margin-top: 20px;
+            background: #fafafa;
             padding: 15px;
-            background: #f9f9f9;
-            border-radius: 20px;
+            border-radius: 15px;
+            margin-top: 15px;
         }
 
-        .info-item {
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-            display: flex;
-            flex-direction: column;
+        .info-row {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
         }
 
-        .info-label {
-            font-size: 0.75rem;
-            color: var(--gray);
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .info-value {
-            font-weight: 600;
-            color: var(--dark);
-        }
+        .info-row b { color: var(--gray); font-size: 0.75rem; text-transform: uppercase; display: block; }
 
         /* Historial */
-        .historial-section {
+        .historial-cont {
             width: 100%;
             max-width: 380px;
-            margin-top: 30px;
+            margin-top: 25px;
         }
 
-        .historial-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .pedido-pasado {
+        .item-historial {
             background: white;
-            padding: 15px;
-            border-radius: 20px;
-            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 15px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 5px solid #ddd;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            font-size: 0.85rem;
+            border-left: 4px solid var(--primary);
         }
 
-        .pedido-pasado strong { color: var(--primary); }
-        .pedido-pasado small { color: var(--gray); }
-
-        .btn-new {
-            margin-top: 20px;
-            padding: 18px;
-            width: 100%;
+        .btn-accion {
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 20px;
+            padding: 15px;
+            width: 100%;
+            border-radius: 15px;
             font-weight: bold;
-            font-size: 1rem;
+            margin-top: 20px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
         }
     </style>
 </head>
 <body>
 
-<div class="header-nav">
-    <button class="back-btn" onclick="location.href='menu.html'">⬅️</button>
-    <h3 style="margin-left: 15px; font-weight: 800;">Resumen</h3>
+<div class="nav-header">
+    <button class="btn-back" onclick="window.location.href='menu.html'">⬅️</button>
+    <h3 style="margin-left:15px;">Resumen de Compra</h3>
 </div>
 
-<div id="ticket-actual" class="ticket-card">
-    </div>
+<div id="ticket-area" class="ticket-card">
+    <p>Cargando ticket...</p>
+</div>
 
-<div class="historial-section">
-    <div class="historial-title">📋 Historial de Pedidos</div>
+<div class="historial-cont">
+    <h4 style="margin-bottom:10px;">📋 Pedidos Anteriores</h4>
     <div id="lista-historial"></div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("ticket-area");
+    
+    // 1. EXTRAER DATOS DEL LOCALSTORAGE
+    const rawData = localStorage.getItem("ticketAPK");
+    
+    if (rawData) {
+        try {
+            const t = JSON.parse(rawData);
+            container.innerHTML = `
+                <div style="font-size:40px;">✅</div>
+                <h2 style="margin:5px 0;">¡Listo, ${t.cliente.split(' ')[0]}!</h2>
+                <p style="font-size:0.8rem; color:#888;">Guarda tu código de pedido</p>
+                
+                <div class="codigo-box">${t.codigo || 'MF-000000'}</div>
+                
+                <div class="info-tabla">
+                    <div class="info-row"><b>Nombre</b> <span>${t.cliente}</span></div>
+                    <div class="info-row"><b>Cédula</b> <span>${t.cedula}</span></div>
+                    <div class="info-row"><b>Teléfono</b> <span>${t.telefono}</span></div>
+                    <div class="info-row"><b>Dirección</b> <span>${t.direccion}</span></div>
+                    <div class="info-row"><b>Fecha</b> <span>${t.fecha} - ${t.hora}</span></div>
+                    <div class="info-row" style="border:none;"><b>Total Pagado</b> <span style="color:var(--primary); font-weight:bold;">$${t.total}</span></div>
+                </div>
 
-    /* 1️⃣ CARGAR TICKET ACTUAL */
-    const ticketBox = document.getElementById("ticket-actual");
-    const data = localStorage.getItem("ticketAPK");
-
-    if (data) {
-        const t = JSON.parse(data);
-        ticketBox.innerHTML = `
-            <div class="success-icon">✅</div>
-            <h2 style="margin:0;">¡Pedido Exitoso!</h2>
-            <p style="color:#888; font-size:0.9rem;">Presenta este código al repartidor</p>
-            
-            <div class="codigo-box">${t.codigo}</div>
-            
-            <div class="info-grid">
-                <div class="info-item">
-                    <span class="info-label">Cliente</span>
-                    <span class="info-value">${t.cliente}</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Cédula</span>
-                    <span class="info-value">${t.cedula}</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Dirección</span>
-                    <span class="info-value">📍 ${t.direccion}</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Fecha y Hora</span>
-                    <span class="info-value">📅 ${t.fecha} | ⏰ ${t.hora}</span>
-                </div>
-            </div>
-
-            <button class="btn-new" onclick="location.href='menu.html'">
-                HACER OTRO PEDIDO
-            </button>
-        `;
+                <button class="btn-accion" onclick="window.location.href='menu.html'">NUEVO PEDIDO</button>
+            `;
+        } catch (e) {
+            container.innerHTML = "<p>Error al procesar el ticket.</p>";
+        }
     } else {
-        ticketBox.innerHTML = `
-            <div style="padding:40px 0;">
-                <p style="color:#ccc;">No hay pedidos recientes</p>
-                <button class="btn-new" onclick="location.href='menu.html'">Ir al Menú</button>
+        container.innerHTML = `
+            <div style="padding:20px;">
+                <p>No tienes pedidos activos.</p>
+                <button class="btn-accion" onclick="window.location.href='menu.html'">IR AL MENÚ</button>
             </div>
         `;
     }
 
-    /* 2️⃣ HISTORIAL */
-    const historial = [
-        { cod: "MF-882910", nom: "Matias Ramirez", dir: "Av. Amazonas", fec: "20/01/2026" },
-        { cod: "MF-112093", nom: "Ana López", dir: "Cumbayá", fec: "19/01/2026" }
+    // 2. CARGAR DATOS QUEMADOS (HISTORIAL)
+    const historialQuemado = [
+        { cod: "MF-992831", nom: "Mateo Delgado", dir: "Av. Amazonas", total: "12.50" },
+        { cod: "MF-772102", nom: "Mateo Delgado", dir: "Quito Tenis", total: "8.00" }
     ];
 
-    const lista = document.getElementById("lista-historial");
-    lista.innerHTML = "";
+    const listaH = document.getElementById("lista-historial");
+    listaH.innerHTML = ""; // Limpiar
 
-    historial.forEach(p => {
-        lista.innerHTML += `
-            <div class="pedido-pasado">
+    historialQuemado.forEach(item => {
+        listaH.innerHTML += `
+            <div class="item-historial">
                 <div>
-                    <strong>${p.cod}</strong><br>
-                    <span style="font-size:0.9rem;">${p.nom}</span><br>
-                    <small>📍 ${p.dir} | 📅 ${p.fec}</small>
+                    <b>${item.cod}</b><br>
+                    <small>📍 ${item.dir}</small>
                 </div>
-                <div style="color:var(--primary); font-weight:bold;">●</div>
+                <div style="text-align:right;">
+                    <span style="color:var(--primary); font-weight:bold;">$${item.total}</span><br>
+                    <small style="color:#ccc;">Entregado</small>
+                </div>
             </div>
         `;
     });
