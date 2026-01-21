@@ -2,25 +2,25 @@
    MACRO FIT - LÓGICA DE PEDIDO (pedido.js)
    ========================================== */
 
-const pedidoDiv = document.getElementById("pedido-lista");
-
-// 1. Obtener los platos desde la URL
+// 1. Obtener los platos desde la URL de forma segura
 function getCartFromURL() {
     const params = new URLSearchParams(window.location.search);
     const cartData = params.get('cart');
+    if (!cartData) return [];
     try {
-        return cartData ? JSON.parse(decodeURIComponent(cartData)) : [];
+        return JSON.parse(decodeURIComponent(cartData));
     } catch (e) {
-        console.error("Error al decodificar el carrito:", e);
+        console.error("Error en JSON:", e);
         return [];
     }
 }
 
-// 2. Renderizar la lista
+// 2. Renderizar la lista en el HTML
 function mostrarPedido() {
-    const cart = getCartFromURL();
+    const pedidoDiv = document.getElementById("pedido-lista");
     const totalBox = document.getElementById("total-box");
     const totalSpan = document.getElementById("total-global");
+    const cart = getCartFromURL();
 
     if (!pedidoDiv) return;
 
@@ -38,17 +38,11 @@ function mostrarPedido() {
     let totalGlobal = 0;
 
     cart.forEach((item, index) => {
-        totalGlobal += parseFloat(item.total);
+        totalGlobal += parseFloat(item.total || 0);
         
-        let configParams = "";
-        if (item.config) {
-            for (let key in item.config) {
-                configParams += `&${key}=${item.config[key]}`;
-            }
-        }
-
         const cartString = encodeURIComponent(JSON.stringify(cart));
-        const urlEditar = `${item.page}?cart=${cartString}&editIndex=${index}${configParams}`;
+        // Crear URL de edición manteniendo el carrito actual
+        const urlEditar = `${item.page}?cart=${cartString}&editIndex=${index}`;
 
         pedidoDiv.innerHTML += `
             <div class="cart-item">
@@ -58,8 +52,8 @@ function mostrarPedido() {
                     <span class="price-tag">$${parseFloat(item.total).toFixed(2)}</span>
                 </div>
                 <div class="cart-actions">
-                    <button class="action-btn" title="Editar" onclick="location.href='${urlEditar}'">✏️</button>
-                    <button class="action-btn" title="Eliminar" onclick="eliminarPlato(${index})">🗑️</button>
+                    <button class="action-btn" onclick="location.href='${urlEditar}'">✏️</button>
+                    <button class="action-btn" onclick="eliminarPlato(${index})">🗑️</button>
                 </div>
             </div>`;
     });
@@ -67,38 +61,45 @@ function mostrarPedido() {
     if (totalSpan) totalSpan.innerText = totalGlobal.toFixed(2);
     if (totalBox) totalBox.style.display = "block";
 }
-function procesarFinalizado() {
-    // 1. Referencias
-    const campoNombre = document.getElementById("nombre");
-    const campoCedula = document.getElementById("cedula");
-    const campoTelefono = document.getElementById("telefono");
-    const campoDireccion = document.getElementById("direccion");
 
-    // 2. Validar que existan y tengan texto
-    if (!campoNombre.value || !campoCedula.value || !campoTelefono.value || !campoDireccion.value) {
-        alert("⚠️ Por favor, rellena todos los campos.");
+// 3. Función principal para generar el Ticket
+function procesarFinalizado() {
+    // Captura de inputs
+    const nom = document.getElementById("nombre").value.trim();
+    const ci = document.getElementById("cedula").value.trim();
+    const tel = document.getElementById("telefono").value.trim();
+    const dir = document.getElementById("direccion").value.trim();
+
+    // Validación
+    if (!nom || !ci || !tel || !dir) {
+        alert("⚠️ Por favor, completa todos los campos.");
         return;
     }
 
     const ahora = new Date();
-    
-    // 3. Crear el objeto con la DIRECCIÓN
+    const cart = getCartFromURL();
+
+    // Objeto final
     const datosTicket = {
         codigo: "MF-" + Math.floor(100000 + Math.random() * 900000),
-        cliente: campoNombre.value.trim(),
-        cedula: campoCedula.value.trim(),
-        telefono: campoTelefono.value.trim(),
-        direccion: campoDireccion.value.trim(),
+        cliente: nom,
+        cedula: ci,
+        telefono: tel,
+        direccion: dir,
+        productos: cart,
+        total: document.getElementById("total-global").innerText,
         fecha: ahora.toLocaleDateString('es-ES'),
         hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    // 4. Guardar y Redirigir
+    // Guardar en el almacenamiento del navegador
     localStorage.setItem("ticketAPK", JSON.stringify(datosTicket));
+    
+    // Redirigir a la vista del ticket
     window.location.href = "ver-ticket.html";
 }
 
-// 4. Navegación
+// 4. Funciones de Navegación
 function validarYConfirmar() {
     const cart = getCartFromURL();
     if (cart.length === 0) {
@@ -125,4 +126,5 @@ function irAMenu() {
     window.location.href = `menu.html?cart=${cartString}`;
 }
 
+// Ejecutar al cargar
 window.onload = mostrarPedido;

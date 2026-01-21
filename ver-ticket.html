@@ -3,92 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Ticket - Macro Fit</title>
+    <title>Ticket de Pedido - Macro Fit</title>
     <style>
         :root {
             --primary: #4CAF50;
-            --bg: #f4f7f6;
-            --text: #333;
+            --dark: #2c3e50;
             --gray: #888;
+            --bg: #f4f7f6;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--bg);
             margin: 0;
-            padding: 80px 20px 40px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            color: var(--dark);
         }
 
-        header {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 60px;
-            background: white;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
-            box-sizing: border-box;
-        }
-
-        .btn-atras {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: bold;
-            font-size: 0.9rem;
-            background: #f0f0f0;
-            padding: 8px 15px;
-            border-radius: 12px;
-        }
-
-        .ticket-card {
-            background: white;
-            padding: 25px 20px;
-            border-radius: 25px;
+        /* Botón Regresar */
+        .header-nav {
             width: 100%;
             max-width: 400px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .back-btn:active { transform: scale(0.9); }
+
+        /* Card del Ticket */
+        .ticket-card {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 30px;
+            width: 100%;
+            max-width: 380px;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .ticket-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 5px;
+            background: #eee;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .success-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
         }
 
         .codigo-box {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 900;
-            background: #e8f5e9;
             color: var(--primary);
+            margin: 15px 0;
             padding: 15px;
-            border-radius: 15px;
+            background: #f0fdf0;
             border: 2px dashed var(--primary);
-            margin: 20px 0;
+            border-radius: 20px;
+            letter-spacing: 2px;
         }
 
-        .cuadro {
-            background: #f8f9fa;
+        .info-grid {
+            text-align: left;
+            margin-top: 20px;
             padding: 15px;
-            border-radius: 12px;
-            text-align: left;
-            margin-bottom: 20px;
+            background: #f9f9f9;
+            border-radius: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
             font-size: 0.95rem;
-            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Estilos para el Historial */
-        .historial-seccion {
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Historial */
+        .historial-section {
             width: 100%;
-            max-width: 400px;
-            text-align: left;
+            max-width: 380px;
+            margin-top: 30px;
         }
 
-        .historial-titulo {
-            font-weight: 900;
+        .historial-title {
             font-size: 1.1rem;
+            font-weight: 800;
             margin-bottom: 15px;
-            color: var(--text);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -97,109 +136,114 @@
         .pedido-pasado {
             background: white;
             padding: 15px;
-            border-radius: 18px;
+            border-radius: 20px;
             margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            border-left: 5px solid #ccc;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            align-items: center;
+            border-left: 5px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
 
-        .pedido-pasado.pagado { border-left-color: var(--primary); }
-        .pedido-pasado.cancelado { border-left-color: #ff5252; }
+        .pedido-pasado strong { color: var(--primary); }
+        .pedido-pasado small { color: var(--gray); }
 
-        .info-pasada { font-size: 0.85rem; flex: 1; }
-        .status-tag {
-            font-size: 0.65rem;
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-weight: bold;
-            text-transform: uppercase;
-            white-space: nowrap;
-            margin-left: 10px;
-        }
-
-        .tag-pagado { background: #e8f5e9; color: #2e7d32; }
-        .tag-cancelado { background: #ffebee; color: #c62828; }
-
-        .btn-verde {
+        .btn-new {
+            margin-top: 20px;
+            padding: 18px;
+            width: 100%;
             background: var(--primary);
             color: white;
             border: none;
-            padding: 18px;
-            width: 100%;
-            border-radius: 15px;
+            border-radius: 20px;
             font-weight: bold;
-            cursor: pointer;
             font-size: 1rem;
-            transition: 0.3s;
-        }
-
-        .btn-verde:active { transform: scale(0.98); }
-
-        .mensaje-final {
-            margin-top: 15px;
-            color: #666;
-            font-size: 0.85rem;
-            font-style: italic;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
         }
     </style>
 </head>
 <body>
 
-<header>
-    <a href="menu.html" class="btn-atras">⬅ Menú</a>
-</header>
+<div class="header-nav">
+    <button class="back-btn" onclick="location.href='menu.html'">⬅️</button>
+    <h3 style="margin-left: 15px; font-weight: 800;">Resumen</h3>
+</div>
 
-<div class="ticket-card" id="ticket-actual">
+<div id="ticket-actual" class="ticket-card">
     </div>
 
-<div class="historial-seccion">
-    <div class="historial-titulo">📋 Otros Pedidos Recientes</div>
+<div class="historial-section">
+    <div class="historial-title">📋 Historial de Pedidos</div>
     <div id="lista-historial"></div>
 </div>
+
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // 1. RECUPERAR TICKET ACTUAL
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* 1️⃣ CARGAR TICKET ACTUAL */
     const ticketBox = document.getElementById("ticket-actual");
-    const datosRaw = localStorage.getItem("ticketAPK");
-    
-    if (datosRaw) {
-        const ticket = JSON.parse(datosRaw);
+    const data = localStorage.getItem("ticketAPK");
+
+    if (data) {
+        const t = JSON.parse(data);
         ticketBox.innerHTML = `
-            <div style="font-size:40px;">✅</div>
-            <h2>¡Pedido Generado!</h2>
-            <div class="codigo-box">${ticket.codigo}</div>
-            <div class="cuadro">
-                <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
-                <strong>🆔 Cédula:</strong> ${ticket.cedula}<br>
-                <strong>📞 Teléfono:</strong> ${ticket.telefono}<br>
-                <strong>📍 Dirección:</strong> ${ticket.direccion}<br> 
-                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                <strong>📅 Fecha:</strong> ${ticket.fecha} | <strong>⏰ Hora:</strong> ${ticket.hora}
+            <div class="success-icon">✅</div>
+            <h2 style="margin:0;">¡Pedido Exitoso!</h2>
+            <p style="color:#888; font-size:0.9rem;">Presenta este código al repartidor</p>
+            
+            <div class="codigo-box">${t.codigo}</div>
+            
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Cliente</span>
+                    <span class="info-value">${t.cliente}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Cédula</span>
+                    <span class="info-value">${t.cedula}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Dirección</span>
+                    <span class="info-value">📍 ${t.direccion}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Fecha y Hora</span>
+                    <span class="info-value">📅 ${t.fecha} | ⏰ ${t.hora}</span>
+                </div>
             </div>
-            <button class="btn-verde" onclick="location.href='menu.html'">NUEVO PEDIDO</button>
+
+            <button class="btn-new" onclick="location.href='menu.html'">
+                HACER OTRO PEDIDO
+            </button>
+        `;
+    } else {
+        ticketBox.innerHTML = `
+            <div style="padding:40px 0;">
+                <p style="color:#ccc;">No hay pedidos recientes</p>
+                <button class="btn-new" onclick="location.href='menu.html'">Ir al Menú</button>
+            </div>
         `;
     }
 
-    // 2. DATOS QUEMADOS (Historial)
-    const pedidosQuemados = [
-        { codigo: "MF-882104", cliente: "Mateo Delgado", cedula: "1723344556", direccion: "Av. Shyris", fecha: "20/01/2026", hora: "12:30", estado: "PAGADO", tag: "tag-pagado" },
-        { codigo: "MF-112045", cliente: "Carla Espinoza", cedula: "1755566778", direccion: "Calle Larga", fecha: "19/01/2026", hora: "15:45", estado: "CANCELADO", tag: "tag-cancelado" }
+    /* 2️⃣ HISTORIAL */
+    const historial = [
+        { cod: "MF-882910", nom: "Matias Ramirez", dir: "Av. Amazonas", fec: "20/01/2026" },
+        { cod: "MF-112093", nom: "Ana López", dir: "Cumbayá", fec: "19/01/2026" }
     ];
 
-    const listaHistorial = document.getElementById("lista-historial");
-    listaHistorial.innerHTML = ""; // Limpiar antes de llenar
+    const lista = document.getElementById("lista-historial");
+    lista.innerHTML = "";
 
-    pedidosQuemados.forEach(p => {
-        listaHistorial.innerHTML += `
+    historial.forEach(p => {
+        lista.innerHTML += `
             <div class="pedido-pasado">
-                <div class="info-pasada">
-                    <strong>${p.codigo}</strong> | <span class="status-tag ${p.tag}">${p.estado}</span><br>
-                    <span>${p.cliente}</span><br>
-                    <small>📍 ${p.direccion} | 📅 ${p.fecha}</small>
+                <div>
+                    <strong>${p.cod}</strong><br>
+                    <span style="font-size:0.9rem;">${p.nom}</span><br>
+                    <small>📍 ${p.dir} | 📅 ${p.fec}</small>
                 </div>
+                <div style="color:var(--primary); font-weight:bold;">●</div>
             </div>
         `;
     });
