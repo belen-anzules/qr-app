@@ -197,9 +197,18 @@ body {
 
 <!-- MODAL VACÍO -->
 <div id="modal-vacio" class="modal-overlay">
-    <div class="modal-card">
-        <h2>Carrito vacío</h2>
-        <button class="btn btn-primary" onclick="irAMenu()">Ver Menú</button>
+    <div class="modal-card modal-vacio-estilo">
+        <div class="icon-container">
+            <span class="pulse-icon">🥘</span>
+        </div>
+        <h2>¡Tu carrito te espera!</h2>
+        <p>Parece que aún no has elegido tu combinación perfecta de hoy. ¡Nuestra cocina está lista para empezar!</p>
+        
+        <button class="btn btn-primary btn-explorar" onclick="irAMenu()">
+            Explorar el Menú 😋
+        </button>
+        
+        <p class="sub-text" onclick="cerrarModales()">Seguir mirando</p>
     </div>
 </div>
 <!-- ...todo tu HTML arriba se mantiene igual... -->
