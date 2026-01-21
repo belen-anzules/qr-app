@@ -159,32 +159,40 @@
     function cerrarModal() { document.getElementById("modal-reg").style.display = "none"; }
 
     function generarTicket() {
-        const n = document.getElementById("nom").value;
-        const c = document.getElementById("ced").value;
-        const t = document.getElementById("tel").value;
-        const d = document.getElementById("dir").value;
+    const n = document.getElementById("nom").value.trim();
+    const c = document.getElementById("ced").value.trim();
+    const t = document.getElementById("tel").value.trim();
+    const d = document.getElementById("dir").value.trim();
 
-        if(!n || !c || !t || !d) return alert("Por favor completa tus datos.");
+    if(!n || !c || !t || !d) return alert("Por favor completa tus datos.");
 
-        const btn = document.getElementById("btn-final");
-        btn.innerText = "¡ENVIADO A CAJA! ✅";
-        btn.style.background = "#1a1a1a";
+    const btn = document.getElementById("btn-final");
+    btn.innerText = "¡ENVIADO A CAJA! ✅";
+    btn.style.background = "#1a1a1a";
 
-        const ticket = {
-            id: "MF-" + Math.floor(100000 + Math.random()*900000),
-            cliente: n, cedula: c, tel: t, dir: d,
-            total: document.getElementById("total-global").innerText,
-            fecha: new Date().toLocaleDateString(),
-            hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
-        };
+    const ticket = {
+        id: "MF-" + Math.floor(100000 + Math.random()*900000),
+        cliente: n, 
+        cedula: c, 
+        tel: t, 
+        dir: d,
+        total: document.getElementById("total-global").innerText,
+        fecha: new Date().toLocaleDateString(),
+        hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+    };
 
-        localStorage.setItem("ticketActual", JSON.stringify(ticket));
-        
-        setTimeout(() => {
-            window.location.href = "ver-ticket.html";
-        }, 800);
-    }
+    // 1. Guardamos el ticket para mostrarlo en la siguiente pantalla
+    localStorage.setItem("ticketActual", JSON.stringify(ticket));
+    
+    // 2. EXTREMADAMENTE IMPORTANTE: Limpiamos el carrito antes de irnos
+    // Esto hace que al volver al menú, el carrito esté en 0.
+    const carritoVacio = JSON.stringify([]);
 
+    setTimeout(() => {
+        // Redirigimos pero ya sin datos en el carrito de la URL
+        window.location.href = "ver-ticket.html?cart=" + encodeURIComponent(carritoVacio);
+    }, 800);
+}
     window.onload = render;
 </script>
 </body>

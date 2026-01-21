@@ -3,77 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Macro Fit</title>
+    <title>Ticket Oficial - Macro Fit</title>
     <style>
-        :root { --primary: #4CAF50; --dark: #2c3e50; }
-        body { font-family: sans-serif; background: #f4f7f6; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        :root { --primary: #4CAF50; --dark: #1a1a1a; --gray: #f4f7f6; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--gray); margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
         
-        .nav-top { width: 100%; max-width: 350px; margin-bottom: 15px; }
-        .back-btn { background: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .nav-header { width: 100%; max-width: 360px; margin-bottom: 20px; }
+        .btn-back { background: white; border: none; padding: 15px 25px; border-radius: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.05); color: var(--dark); width: 100%; transition: 0.3s; }
+        .btn-back:active { transform: scale(0.95); }
 
-        .ticket { background: white; width: 100%; max-width: 350px; border-radius: 30px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; box-sizing: border-box; }
-        .id-badge { background: #e8f5e9; color: var(--primary); padding: 10px 20px; border-radius: 15px; font-weight: 900; font-size: 1.5rem; display: inline-block; margin: 15px 0; border: 2px dashed var(--primary); }
+        /* Estilo Recibo Real */
+        .ticket-card { background: white; width: 100%; max-width: 360px; border-radius: 35px; padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; box-sizing: border-box; border: 1px solid #eee; }
+        .status-badge { background: #e8f5e9; color: var(--primary); padding: 8px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+        .order-id { font-size: 2.2rem; font-weight: 900; margin: 15px 0; color: var(--dark); letter-spacing: -1px; }
         
-        .data-list { text-align: left; background: #f9f9f9; padding: 20px; border-radius: 20px; margin-top: 15px; }
-        .data-item { margin-bottom: 12px; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        .data-item b { color: #888; font-size: 0.7rem; text-transform: uppercase; display: block; }
+        .info-grid { text-align: left; margin-top: 25px; border-top: 1px dashed #ddd; padding-top: 20px; }
+        .info-item { margin-bottom: 15px; }
+        .info-item label { font-size: 0.65rem; color: #aaa; text-transform: uppercase; font-weight: 800; display: block; }
+        .info-item span { font-size: 1rem; color: var(--dark); font-weight: 600; }
 
-        .historial-cont { width: 100%; max-width: 350px; margin-top: 30px; }
-        .historial-item { background: white; padding: 15px; border-radius: 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; border-left: 5px solid #ddd; }
+        .total-box { background: var(--dark); color: white; padding: 20px; border-radius: 20px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
+
+        .history-section { width: 100%; max-width: 360px; margin-top: 40px; }
+        .history-item { background: rgba(255,255,255,0.6); padding: 15px; border-radius: 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; opacity: 0.6; border: 1px solid #ddd; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <div class="nav-top">
-        <button class="back-btn" onclick="volver()">⬅️ Volver al Menú</button>
+    <div class="nav-header">
+        <button class="btn-back" onclick="irAlMenu()">⬅️ VOLVER AL MENÚ</button>
     </div>
 
-    <div class="ticket">
-        <div style="font-size: 40px;">✅</div>
-        <h2 style="margin:10px 0">Pedido Recibido</h2>
-        <p style="color:#888; font-size: 0.8rem;">Muestra este código en el mostrador</p>
+    <div class="ticket-card">
+        <span class="status-badge">Pedido Confirmado ✅</span>
+        <div id="real-id" class="order-id">MF-000027</div>
         
-        <div id="out-id" class="id-badge">MF-000000</div>
-        
-        <div class="data-list">
-            <div class="data-item"><b>Cliente</b> <span id="out-nom">Mateo Delgado</span></div>
-            <div class="data-item"><b>Cédula</b> <span id="out-ced">1712345678</span></div>
-            <div class="data-item"><b>Dirección</b> <span id="out-dir">Quito, Ecuador</span></div>
-            <div class="data-item"><b>Fecha</b> <span id="out-fec">21/01/2026</span></div>
-            <div class="data-item" style="border:none"><b>Total</b> <span id="out-tot" style="color:var(--primary); font-weight:bold; font-size:1.3rem">$10.00</span></div>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>Cliente</label>
+                <span id="real-nom">---</span>
+            </div>
+            <div class="info-item">
+                <label>Identificación</label>
+                <span id="real-ced">---</span>
+            </div>
+            <div class="info-item">
+                <label>Destino</label>
+                <span id="real-dir">---</span>
+            </div>
+            <div class="info-item">
+                <label>Fecha y Hora</label>
+                <span id="real-fec">---</span>
+            </div>
+        </div>
+
+        <div class="total-box">
+            <span style="font-size: 0.8rem; font-weight: 700;">TOTAL</span>
+            <span id="real-tot" style="font-size: 1.5rem; font-weight: 900;">$0.00</span>
         </div>
     </div>
 
-    <div class="historial-cont">
-        <h3 style="color:#666">PEDIDOS ANTERIORES</h3>
-        <div class="historial-item">
-            <span><b>MF-5542</b><br><small>20/01/2026</small></span>
-            <b style="color:#888">$12.50</b>
+    <div class="history-section">
+        <p style="font-weight: 800; color: #999; font-size: 0.75rem; margin-bottom: 10px; padding-left: 10px;">HISTORIAL (DATOS FIJOS)</p>
+        <div class="history-item">
+            <span><b>MF-102933</b><br>15/01/2026</span>
+            <b>$12.00</b>
         </div>
-        <div class="historial-item">
-            <span><b>MF-1290</b><br><small>18/01/2026</small></span>
-            <b style="color:#888">$8.00</b>
+        <div class="history-item">
+            <span><b>MF-992811</b><br>10/01/2026</span>
+            <b>$25.50</b>
         </div>
     </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+        // Cargar los datos que vienen del formulario
         const data = localStorage.getItem("ticketActual");
+        
         if(data) {
             const t = JSON.parse(data);
-            document.getElementById("out-id").innerText = t.id;
-            document.getElementById("out-nom").innerText = t.cliente;
-            document.getElementById("out-ced").innerText = t.cedula;
-            document.getElementById("out-dir").innerText = t.dir;
-            document.getElementById("out-fec").innerText = t.fecha + " " + t.hora;
-            document.getElementById("out-tot").innerText = "$" + t.total;
+            document.getElementById("real-id").innerText = t.id;
+            document.getElementById("real-nom").innerText = t.cliente;
+            document.getElementById("real-ced").innerText = t.cedula;
+            document.getElementById("real-dir").innerText = t.dir;
+            document.getElementById("real-fec").innerText = t.fecha + " | " + t.hora;
+            document.getElementById("real-tot").innerText = "$" + t.total;
         }
     });
 
-    function volver() {
-        // Limpiamos el ticket actual para que la próxima vez vuelva a los quemados por defecto si no hay formulario
-        localStorage.removeItem("ticketActual");
-        window.location.href = "menu.html";
+    function irAlMenu() {
+        // Al regresar al menú, nos aseguramos de que el carrito esté vacío en la URL
+        const carritoLimpio = encodeURIComponent(JSON.stringify([]));
+        window.location.href = "menu.html?cart=" + carritoLimpio;
     }
 </script>
 </body>
