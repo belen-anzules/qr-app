@@ -41,30 +41,30 @@
         <div class="info-grid">
             <div class="info-item">
                 <label>Cliente</label>
-                <span id="real-nom">---</span>
+                <span id="real-nom">Belen</span>
             </div>
             <div class="info-item">
                 <label>Identificación</label>
-                <span id="real-ced">---</span>
+                <span id="real-ced">1752758431</span>
             </div>
             <div class="info-item">
-                <label>Destino</label>
-                <span id="real-dir">---</span>
+                <label>Dirección</label>
+                <span id="real-dir">Calderon</span>
             </div>
             <div class="info-item">
                 <label>Fecha y Hora</label>
-                <span id="real-fec">---</span>
+                <span id="real-fec">04/02/2026</span>
             </div>
         </div>
 
         <div class="total-box">
             <span style="font-size: 0.8rem; font-weight: 700;">TOTAL</span>
-            <span id="real-tot" style="font-size: 1.5rem; font-weight: 900;">$0.00</span>
+            <span id="real-tot" style="font-size: 1.5rem; font-weight: 900;">$20.00</span>
         </div>
     </div>
 
     <div class="history-section">
-        <p style="font-weight: 800; color: #999; font-size: 0.75rem; margin-bottom: 10px; padding-left: 10px;">HISTORIAL (DATOS FIJOS)</p>
+        <p style="font-weight: 800; color: #999; font-size: 0.75rem; margin-bottom: 10px; padding-left: 10px;">HISTORIAL DE PEDIDOS</p>
         <div class="history-item">
             <span><b>MF-102933</b><br>15/01/2026</span>
             <b>$12.00</b>
@@ -91,11 +91,14 @@
         }
     });
 
-    function irAlMenu() {
-        // Al regresar al menú, nos aseguramos de que el carrito esté vacío en la URL
-        const carritoLimpio = encodeURIComponent(JSON.stringify([]));
-        window.location.href = "menu.html?cart=" + carritoLimpio;
-    }
+   function irAlMenu() {
+    // Esto borra el ticket de la pantalla pero mantiene el del menú (ticketAPK)
+    localStorage.removeItem("ticketActual");
+    
+    // IMPORTANTE: Volvemos al menú inyectando un carrito vacío en la URL
+    // %5B%5D es el código para [] (vacío)
+    window.location.href = "menu.html?cart=%5B%5D";
+}
 </script>
 </body>
 </html>
