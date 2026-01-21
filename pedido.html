@@ -20,7 +20,6 @@
         padding-bottom: 120px;
     }
 
-    /* Estilo de los Platos en la Lista */
     .cart-item {
         display: flex;
         justify-content: space-between;
@@ -46,7 +45,6 @@
         font-size: 1.2rem;
     }
 
-    /* Footer Fijo */
     .cart-footer {
         position: fixed;
         bottom: 0;
@@ -74,13 +72,12 @@
     .btn-primary { background: var(--primary); color: white; }
     .btn-secondary { background: var(--secondary); color: var(--dark); border: 1px solid #ddd; }
 
-    /* Modales */
     .modal-overlay {
         position: fixed;
         top: 0; left: 0;
         width: 100%; height: 100%;
         background: rgba(0,0,0,0.6);
-        display: none; /* Se activa con JS */
+        display: none;
         justify-content: center;
         align-items: center;
         z-index: 1000;
@@ -94,7 +91,6 @@
         width: 85%;
         max-width: 380px;
         text-align: center;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
 
     .modal-card input {
@@ -108,11 +104,7 @@
         outline: none;
     }
 
-    .modal-card input:focus { border-color: var(--primary); background-color: #f9fff9; }
-
-    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-        -webkit-appearance: none; margin: 0;
-    }
+    .modal-card input:focus { border-color: var(--primary); }
 </style>
 </head>
 
@@ -157,7 +149,7 @@
 
         <div style="text-align: left; margin-bottom: 12px;">
             <label style="font-size: 0.8rem; color: #888;">Dirección de Entrega</label>
-            <input type="text" id="direccion" placeholder="Ej. Av. Amazonas y Rio Coca">
+            <input type="text" id="direccion" placeholder="Ej. Av. Amazonas">
         </div>
 
         <button class="btn btn-primary" style="width:100%; margin-top:10px; padding: 18px;" onclick="procesarFinalizado()">
@@ -174,15 +166,12 @@
     <div class="modal-card">
         <div style="font-size:50px;">🥘</div>
         <h2>¡Tu carrito está vacío!</h2>
-        <p>Aún no has seleccionado platos para tu pedido.</p>
         <button class="btn btn-primary" onclick="irAMenu()">Ver Menú 😋</button>
     </div>
 </div>
 
 <script>
-// --- LÓGICA DE JAVASCRIPT ---
-
-// 1. Obtener Carrito de la URL
+// USAR ESTAS FUNCIONES UNIFICADAS
 function getCartFromURL() {
     const params = new URLSearchParams(window.location.search);
     const cartData = params.get('cart');
@@ -190,12 +179,10 @@ function getCartFromURL() {
     try {
         return JSON.parse(decodeURIComponent(cartData));
     } catch (e) {
-        console.error("Error al leer carrito", e);
         return [];
     }
 }
 
-// 2. Mostrar los platos y calcular total
 function mostrarPedido() {
     const pedidoDiv = document.getElementById("pedido-lista");
     const totalBox = document.getElementById("total-box");
@@ -203,11 +190,7 @@ function mostrarPedido() {
     const cart = getCartFromURL();
 
     if (cart.length === 0) {
-        pedidoDiv.innerHTML = `
-            <div style="text-align:center; padding:60px 20px; color:#ccc;">
-                <div style="font-size:80px; opacity:0.3;">🛒</div>
-                <p>No hay platos seleccionados</p>
-            </div>`;
+        pedidoDiv.innerHTML = '<div style="text-align:center; padding:60px 20px; color:#ccc;">🛒 Carrito vacío</div>';
         totalBox.style.display = "none";
         return;
     }
@@ -217,8 +200,6 @@ function mostrarPedido() {
 
     cart.forEach((item, index) => {
         totalGlobal += parseFloat(item.total || 0);
-
-        // Generar URL para volver a la página del plato y editarlo
         const cartString = encodeURIComponent(JSON.stringify(cart));
         const urlEditar = `${item.page}?cart=${cartString}&editIndex=${index}`;
 
@@ -240,7 +221,6 @@ function mostrarPedido() {
     totalBox.style.display = "block";
 }
 
-// 3. Botón Confirmar
 function validarYConfirmar() {
     const cart = getCartFromURL();
     if (cart.length === 0) {
@@ -250,20 +230,19 @@ function validarYConfirmar() {
     }
 }
 
-// 4. Botón Generar Ticket Final
 function procesarFinalizado() {
+    console.log("Iniciando procesamiento de ticket...");
+    
     const nom = document.getElementById("nombre").value.trim();
     const ci = document.getElementById("cedula").value.trim();
     const tel = document.getElementById("telefono").value.trim();
     const dir = document.getElementById("direccion").value.trim();
+    const total = document.getElementById("total-global").innerText;
 
     if (!nom || !ci || !tel || !dir) {
-        alert("⚠️ Por favor completa todos los campos del formulario.");
+        alert("⚠️ Completa todos los campos.");
         return;
     }
-
-    const ahora = new Date();
-    const cart = getCartFromURL();
 
     const ticket = {
         codigo: "MF-" + Math.floor(Math.random() * 900000 + 100000),
@@ -271,20 +250,21 @@ function procesarFinalizado() {
         cedula: ci,
         telefono: tel,
         direccion: dir,
-        productos: cart,
-        total: document.getElementById("total-global").innerText,
-        fecha: ahora.toLocaleDateString(),
-        hora: ahora.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        total: total,
+        fecha: new Date().toLocaleDateString(),
+        hora: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
     };
 
-    // Guardar para la página ver-ticket.html
-    localStorage.setItem("ticketAPK", JSON.stringify(ticket));
-    
-    // Redirigir
-    window.location.href = "ver-ticket.html";
+    try {
+        localStorage.setItem("ticketAPK", JSON.stringify(ticket));
+        console.log("Ticket guardado:", ticket);
+        // Fuerza la redirección
+        window.location.assign("ver-ticket.html");
+    } catch (e) {
+        alert("Error al guardar: " + e);
+    }
 }
 
-// 5. Utilidades
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
 }
@@ -292,19 +272,15 @@ function cerrarModales() {
 function eliminarPlato(index) {
     let cart = getCartFromURL();
     cart.splice(index, 1);
-    const cartString = encodeURIComponent(JSON.stringify(cart));
-    window.location.href = `pedido.html?cart=${cartString}`;
+    window.location.href = `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
 }
 
 function irAMenu() {
     const cart = getCartFromURL();
-    const cartString = encodeURIComponent(JSON.stringify(cart));
-    window.location.href = `menu.html?cart=${cartString}`;
+    window.location.href = `menu.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
 }
 
-// Arrancar proceso
 window.onload = mostrarPedido;
 </script>
-
 </body>
 </html>
