@@ -159,89 +159,46 @@
     <div class="historial-titulo">📋 Otros Pedidos Recientes</div>
     <div id="lista-historial"></div>
 </div>
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    
-    // 1. DATOS QUEMADOS COMPLETOS (Historial ficticio con todos los campos)
-    const pedidosQuemados = [
-        { 
-            codigo: "MF-882104", 
-            cliente: "Mateo Delgado", 
-            cedula: "1723344556",
-            telefono: "0998765432",
-            direccion: "Av. Shyris y Naciones Unidas",
-            fecha: "20/01/2026", 
-            hora: "12:30", 
-            estado: "PAGADO", 
-            clase: "pagado", 
-            tag: "tag-pagado" 
-        },
-        { 
-            codigo: "MF-112045", 
-            cliente: "Carla Espinoza", 
-            cedula: "1755566778",
-            telefono: "0981234567",
-            direccion: "Calle Larga y Benigno Malo",
-            fecha: "19/01/2026", 
-            hora: "15:45", 
-            estado: "CANCELADO", 
-            clase: "cancelado", 
-            tag: "tag-cancelado" 
-        },
-        { 
-            codigo: "MF-556321", 
-            cliente: "Matias Hoyos", 
-            cedula: "0988877665",
-            telefono: "0977788990",
-            direccion: "Urdesa Central, Calle 5ta",
-            fecha: "18/01/2026", 
-            hora: "09:15", 
-            estado: "PAGADO", 
-            clase: "pagado", 
-            tag: "tag-pagado" 
-        }
-    ];
-
-    // 2. MOSTRAR TICKET ACTUAL (El que viene de pedido.html)
+    // 1. RECUPERAR TICKET ACTUAL
     const ticketBox = document.getElementById("ticket-actual");
-    let datosGuardados = localStorage.getItem("ticketAPK");
-    let ticket = datosGuardados ? JSON.parse(datosGuardados) : null;
-
-    if (ticket) {
+    const datosRaw = localStorage.getItem("ticketAPK");
+    
+    if (datosRaw) {
+        const ticket = JSON.parse(datosRaw);
         ticketBox.innerHTML = `
             <div style="font-size:40px;">✅</div>
-            <h2 style="margin:10px 0;">¡Pedido Generado!</h2>
+            <h2>¡Pedido Generado!</h2>
             <div class="codigo-box">${ticket.codigo}</div>
             <div class="cuadro">
                 <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
-                <strong>🆔 Cédula:</strong> ${ticket.cedula || 'N/A'}<br>
-                <strong>📞 Teléfono:</strong> ${ticket.telefono || 'N/A'}<br>
-                <strong>📍 Dirección:</strong> ${ticket.direccion || 'Retiro en local'}<br> 
+                <strong>🆔 Cédula:</strong> ${ticket.cedula}<br>
+                <strong>📞 Teléfono:</strong> ${ticket.telefono}<br>
+                <strong>📍 Dirección:</strong> ${ticket.direccion}<br> 
                 <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
                 <strong>📅 Fecha:</strong> ${ticket.fecha} | <strong>⏰ Hora:</strong> ${ticket.hora}
             </div>
             <button class="btn-verde" onclick="location.href='menu.html'">NUEVO PEDIDO</button>
-            <p class="mensaje-final">✨ Enviado a caja automáticamente.</p>
-        `;
-    } else {
-        ticketBox.innerHTML = `
-            <div style="font-size:40px; opacity:0.3;">📋</div>
-            <h3>No hay pedido activo</h3>
-            <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
         `;
     }
 
-    // 3. RENDERIZAR HISTORIAL QUEMADO
+    // 2. DATOS QUEMADOS (Historial)
+    const pedidosQuemados = [
+        { codigo: "MF-882104", cliente: "Mateo Delgado", cedula: "1723344556", direccion: "Av. Shyris", fecha: "20/01/2026", hora: "12:30", estado: "PAGADO", tag: "tag-pagado" },
+        { codigo: "MF-112045", cliente: "Carla Espinoza", cedula: "1755566778", direccion: "Calle Larga", fecha: "19/01/2026", hora: "15:45", estado: "CANCELADO", tag: "tag-cancelado" }
+    ];
+
     const listaHistorial = document.getElementById("lista-historial");
+    listaHistorial.innerHTML = ""; // Limpiar antes de llenar
+
     pedidosQuemados.forEach(p => {
         listaHistorial.innerHTML += `
-            <div class="pedido-pasado ${p.clase}">
+            <div class="pedido-pasado">
                 <div class="info-pasada">
-                    <strong>${p.codigo}</strong> — <span class="status-tag ${p.tag}">${p.estado}</span><br>
-                    <span style="color:#444; font-weight:600;">${p.cliente}</span><br>
-                    <span style="color:#666; font-size:0.8rem;">📍 ${p.direccion}</span><br>
-                    <small style="color:#aaa">${p.fecha} • ${p.hora}</small>
+                    <strong>${p.codigo}</strong> | <span class="status-tag ${p.tag}">${p.estado}</span><br>
+                    <span>${p.cliente}</span><br>
+                    <small>📍 ${p.direccion} | 📅 ${p.fecha}</small>
                 </div>
             </div>
         `;

@@ -67,50 +67,35 @@ function mostrarPedido() {
     if (totalSpan) totalSpan.innerText = totalGlobal.toFixed(2);
     if (totalBox) totalBox.style.display = "block";
 }
-
-// 3. Procesar y Enviar al Ticket (CONEXIÓN FIJADA CON DIRECCIÓN)
 function procesarFinalizado() {
-    const nombreInput = document.getElementById("nombre");
-    const cedulaInput = document.getElementById("cedula");
-    const telefonoInput = document.getElementById("telefono");
-    const direccionInput = document.getElementById("direccion"); // Se añade referencia
+    // 1. Referencias
+    const campoNombre = document.getElementById("nombre");
+    const campoCedula = document.getElementById("cedula");
+    const campoTelefono = document.getElementById("telefono");
+    const campoDireccion = document.getElementById("direccion");
 
-    if (!nombreInput || !cedulaInput || !telefonoInput || !direccionInput) return;
-
-    const nom = nombreInput.value.trim();
-    const ci = cedulaInput.value.trim();
-    const tel = telefonoInput.value.trim();
-    const dir = direccionInput.value.trim(); // Se añade valor
-
-    if (!nom || !ci || !tel || !dir) {
-        alert("⚠️ Completa todos los campos, incluyendo la dirección");
+    // 2. Validar que existan y tengan texto
+    if (!campoNombre.value || !campoCedula.value || !campoTelefono.value || !campoDireccion.value) {
+        alert("⚠️ Por favor, rellena todos los campos.");
         return;
     }
 
     const ahora = new Date();
+    
+    // 3. Crear el objeto con la DIRECCIÓN
     const datosTicket = {
         codigo: "MF-" + Math.floor(100000 + Math.random() * 900000),
-        cliente: nom,
-        cedula: ci,
-        telefono: tel,
-        direccion: dir, // Se guarda en el objeto
+        cliente: campoNombre.value.trim(),
+        cedula: campoCedula.value.trim(),
+        telefono: campoTelefono.value.trim(),
+        direccion: campoDireccion.value.trim(),
         fecha: ahora.toLocaleDateString('es-ES'),
         hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    // Guardado limpio y seguro
-    try {
-        localStorage.setItem("ticketAPK", JSON.stringify(datosTicket));
-        localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(datosTicket));
-        
-        console.log("Guardado exitoso. Redirigiendo...");
-
-        setTimeout(() => {
-            window.location.href = "ver-ticket.html";
-        }, 150);
-    } catch (e) {
-        console.error("Error al guardar:", e);
-    }
+    // 4. Guardar y Redirigir
+    localStorage.setItem("ticketAPK", JSON.stringify(datosTicket));
+    window.location.href = "ver-ticket.html";
 }
 
 // 4. Navegación
