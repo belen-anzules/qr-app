@@ -5,195 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ticket Macro Fit</title>
     <style>
-        :root {
-            --primary: #4CAF50;
-            --dark: #2c3e50;
-            --bg: #f4f7f6;
-        }
+        :root { --primary: #4CAF50; --dark: #2c3e50; }
+        body { font-family: sans-serif; background: #f4f7f6; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        
+        .nav-top { width: 100%; max-width: 350px; margin-bottom: 15px; }
+        .back-btn { background: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--bg);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        .ticket { background: white; width: 100%; max-width: 350px; border-radius: 30px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; box-sizing: border-box; }
+        .id-badge { background: #e8f5e9; color: var(--primary); padding: 10px 20px; border-radius: 15px; font-weight: 900; font-size: 1.5rem; display: inline-block; margin: 15px 0; border: 2px dashed var(--primary); }
+        
+        .data-list { text-align: left; background: #f9f9f9; padding: 20px; border-radius: 20px; margin-top: 15px; }
+        .data-item { margin-bottom: 12px; font-size: 0.9rem; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .data-item b { color: #888; font-size: 0.7rem; text-transform: uppercase; display: block; }
 
-        /* Navegación */
-        .nav-header {
-            width: 100%;
-            max-width: 380px;
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .btn-back {
-            background: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        /* Card Ticket */
-        .ticket-card {
-            background: white;
-            padding: 25px;
-            border-radius: 25px;
-            width: 100%;
-            max-width: 380px;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            box-sizing: border-box;
-        }
-
-        .codigo-box {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--primary);
-            margin: 15px 0;
-            padding: 15px;
-            background: #f0fdf0;
-            border: 2px dashed var(--primary);
-            border-radius: 15px;
-        }
-
-        .info-tabla {
-            text-align: left;
-            background: #fafafa;
-            padding: 15px;
-            border-radius: 15px;
-            margin-top: 15px;
-        }
-
-        .info-row {
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-        }
-
-        .info-row b { color: var(--gray); font-size: 0.75rem; text-transform: uppercase; display: block; }
-
-        /* Historial */
-        .historial-cont {
-            width: 100%;
-            max-width: 380px;
-            margin-top: 25px;
-        }
-
-        .item-historial {
-            background: white;
-            padding: 12px;
-            border-radius: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            border-left: 4px solid var(--primary);
-        }
-
-        .btn-accion {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 15px;
-            font-weight: bold;
-            margin-top: 20px;
-            cursor: pointer;
-        }
+        .historial-cont { width: 100%; max-width: 350px; margin-top: 30px; }
+        .historial-item { background: white; padding: 15px; border-radius: 20px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; border-left: 5px solid #ddd; }
     </style>
 </head>
 <body>
 
-<div class="nav-header">
-    <button class="btn-back" onclick="window.location.href='menu.html'">⬅️</button>
-    <h3 style="margin-left:15px;">Resumen de Compra</h3>
-</div>
+    <div class="nav-top">
+        <button class="back-btn" onclick="volver()">⬅️ Volver al Menú</button>
+    </div>
 
-<div id="ticket-area" class="ticket-card">
-    <p>Cargando ticket...</p>
-</div>
+    <div class="ticket">
+        <div style="font-size: 40px;">✅</div>
+        <h2 style="margin:10px 0">Pedido Recibido</h2>
+        <p style="color:#888; font-size: 0.8rem;">Muestra este código en el mostrador</p>
+        
+        <div id="out-id" class="id-badge">MF-000000</div>
+        
+        <div class="data-list">
+            <div class="data-item"><b>Cliente</b> <span id="out-nom">Mateo Delgado</span></div>
+            <div class="data-item"><b>Cédula</b> <span id="out-ced">1712345678</span></div>
+            <div class="data-item"><b>Dirección</b> <span id="out-dir">Quito, Ecuador</span></div>
+            <div class="data-item"><b>Fecha</b> <span id="out-fec">21/01/2026</span></div>
+            <div class="data-item" style="border:none"><b>Total</b> <span id="out-tot" style="color:var(--primary); font-weight:bold; font-size:1.3rem">$10.00</span></div>
+        </div>
+    </div>
 
-<div class="historial-cont">
-    <h4 style="margin-bottom:10px;">📋 Pedidos Anteriores</h4>
-    <div id="lista-historial"></div>
-</div>
+    <div class="historial-cont">
+        <h3 style="color:#666">PEDIDOS ANTERIORES</h3>
+        <div class="historial-item">
+            <span><b>MF-5542</b><br><small>20/01/2026</small></span>
+            <b style="color:#888">$12.50</b>
+        </div>
+        <div class="historial-item">
+            <span><b>MF-1290</b><br><small>18/01/2026</small></span>
+            <b style="color:#888">$8.00</b>
+        </div>
+    </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const container = document.getElementById("ticket-area");
-    
-    // 1. EXTRAER DATOS DEL LOCALSTORAGE
-    const rawData = localStorage.getItem("ticketAPK");
-    
-    if (rawData) {
-        try {
-            const t = JSON.parse(rawData);
-            container.innerHTML = `
-                <div style="font-size:40px;">✅</div>
-                <h2 style="margin:5px 0;">¡Listo, ${t.cliente.split(' ')[0]}!</h2>
-                <p style="font-size:0.8rem; color:#888;">Guarda tu código de pedido</p>
-                
-                <div class="codigo-box">${t.codigo || 'MF-000000'}</div>
-                
-                <div class="info-tabla">
-                    <div class="info-row"><b>Nombre</b> <span>${t.cliente}</span></div>
-                    <div class="info-row"><b>Cédula</b> <span>${t.cedula}</span></div>
-                    <div class="info-row"><b>Teléfono</b> <span>${t.telefono}</span></div>
-                    <div class="info-row"><b>Dirección</b> <span>${t.direccion}</span></div>
-                    <div class="info-row"><b>Fecha</b> <span>${t.fecha} - ${t.hora}</span></div>
-                    <div class="info-row" style="border:none;"><b>Total Pagado</b> <span style="color:var(--primary); font-weight:bold;">$${t.total}</span></div>
-                </div>
-
-                <button class="btn-accion" onclick="window.location.href='menu.html'">NUEVO PEDIDO</button>
-            `;
-        } catch (e) {
-            container.innerHTML = "<p>Error al procesar el ticket.</p>";
+    document.addEventListener("DOMContentLoaded", () => {
+        const data = localStorage.getItem("ticketActual");
+        if(data) {
+            const t = JSON.parse(data);
+            document.getElementById("out-id").innerText = t.id;
+            document.getElementById("out-nom").innerText = t.cliente;
+            document.getElementById("out-ced").innerText = t.cedula;
+            document.getElementById("out-dir").innerText = t.dir;
+            document.getElementById("out-fec").innerText = t.fecha + " " + t.hora;
+            document.getElementById("out-tot").innerText = "$" + t.total;
         }
-    } else {
-        container.innerHTML = `
-            <div style="padding:20px;">
-                <p>No tienes pedidos activos.</p>
-                <button class="btn-accion" onclick="window.location.href='menu.html'">IR AL MENÚ</button>
-            </div>
-        `;
-    }
-
-    // 2. CARGAR DATOS QUEMADOS (HISTORIAL)
-    const historialQuemado = [
-        { cod: "MF-992831", nom: "Mateo Delgado", dir: "Av. Amazonas", total: "12.50" },
-        { cod: "MF-772102", nom: "Mateo Delgado", dir: "Quito Tenis", total: "8.00" }
-    ];
-
-    const listaH = document.getElementById("lista-historial");
-    listaH.innerHTML = ""; // Limpiar
-
-    historialQuemado.forEach(item => {
-        listaH.innerHTML += `
-            <div class="item-historial">
-                <div>
-                    <b>${item.cod}</b><br>
-                    <small>📍 ${item.dir}</small>
-                </div>
-                <div style="text-align:right;">
-                    <span style="color:var(--primary); font-weight:bold;">$${item.total}</span><br>
-                    <small style="color:#ccc;">Entregado</small>
-                </div>
-            </div>
-        `;
     });
-});
-</script>
 
+    function volver() {
+        // Limpiamos el ticket actual para que la próxima vez vuelva a los quemados por defecto si no hay formulario
+        localStorage.removeItem("ticketActual");
+        window.location.href = "menu.html";
+    }
+</script>
 </body>
 </html>
