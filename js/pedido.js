@@ -68,20 +68,22 @@ function mostrarPedido() {
     if (totalBox) totalBox.style.display = "block";
 }
 
-// 3. Procesar y Enviar al Ticket (CONEXIÓN FIJADA)
+// 3. Procesar y Enviar al Ticket (CONEXIÓN FIJADA CON DIRECCIÓN)
 function procesarFinalizado() {
     const nombreInput = document.getElementById("nombre");
     const cedulaInput = document.getElementById("cedula");
     const telefonoInput = document.getElementById("telefono");
+    const direccionInput = document.getElementById("direccion"); // Se añade referencia
 
-    if (!nombreInput || !cedulaInput || !telefonoInput) return;
+    if (!nombreInput || !cedulaInput || !telefonoInput || !direccionInput) return;
 
     const nom = nombreInput.value.trim();
     const ci = cedulaInput.value.trim();
     const tel = telefonoInput.value.trim();
+    const dir = direccionInput.value.trim(); // Se añade valor
 
-    if (!nom || !ci || !tel) {
-        alert("⚠️ Completa todos los campos");
+    if (!nom || !ci || !tel || !dir) {
+        alert("⚠️ Completa todos los campos, incluyendo la dirección");
         return;
     }
 
@@ -91,6 +93,7 @@ function procesarFinalizado() {
         cliente: nom,
         cedula: ci,
         telefono: tel,
+        direccion: dir, // Se guarda en el objeto
         fecha: ahora.toLocaleDateString('es-ES'),
         hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };

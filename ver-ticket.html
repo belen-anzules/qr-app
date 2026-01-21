@@ -9,16 +9,17 @@
             --primary: #4CAF50;
             --bg: #f4f7f6;
             --text: #333;
+            --gray: #888;
         }
 
         body {
             font-family: 'Segoe UI', sans-serif;
             background: var(--bg);
             margin: 0;
-            padding-top: 80px;
+            padding: 80px 20px 40px;
             display: flex;
-            justify-content: center;
-            min-height: 100vh;
+            flex-direction: column;
+            align-items: center;
         }
 
         header {
@@ -48,11 +49,11 @@
             background: white;
             padding: 25px 20px;
             border-radius: 25px;
-            width: 90%;
+            width: 100%;
             max-width: 400px;
             text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            height: fit-content;
+            margin-bottom: 30px;
         }
 
         .codigo-box {
@@ -72,9 +73,55 @@
             border-radius: 12px;
             text-align: left;
             margin-bottom: 20px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.6;
         }
+
+        /* Estilos para el Historial */
+        .historial-seccion {
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        .historial-titulo {
+            font-weight: 900;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pedido-pasado {
+            background: white;
+            padding: 15px;
+            border-radius: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-left: 5px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+
+        .pedido-pasado.pagado { border-left-color: var(--primary); }
+        .pedido-pasado.cancelado { border-left-color: #ff5252; }
+
+        .info-pasada { font-size: 0.85rem; flex: 1; }
+        .status-tag {
+            font-size: 0.65rem;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        .tag-pagado { background: #e8f5e9; color: #2e7d32; }
+        .tag-cancelado { background: #ffebee; color: #c62828; }
 
         .btn-verde {
             background: var(--primary);
@@ -85,15 +132,16 @@
             border-radius: 15px;
             font-weight: bold;
             cursor: pointer;
-            text-transform: uppercase;
             font-size: 1rem;
-            margin-bottom: 10px;
+            transition: 0.3s;
         }
+
+        .btn-verde:active { transform: scale(0.98); }
 
         .mensaje-final {
             margin-top: 15px;
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-style: italic;
         }
     </style>
@@ -101,68 +149,103 @@
 <body>
 
 <header>
-    <a href="menu.html" class="btn-atras">⬅ Volver al Menú</a>
+    <a href="menu.html" class="btn-atras">⬅ Menú</a>
 </header>
 
-<div class="ticket-card" id="app">
+<div class="ticket-card" id="ticket-actual">
     </div>
+
+<div class="historial-seccion">
+    <div class="historial-titulo">📋 Otros Pedidos Recientes</div>
+    <div id="lista-historial"></div>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const app = document.getElementById("app");
     
-    // 1. INTENTAR LEER DESDE LOCALSTORAGE (Donde tu pedido.js guarda los datos)
-    let datosGuardados = localStorage.getItem("ticketAPK");
-    let ticket = null;
-
-    if (datosGuardados) {
-        ticket = JSON.parse(datosGuardados);
-    } else {
-        // 2. SI NO HAY LOCALSTORAGE, INTENTAR LEER DESDE URL (Como respaldo)
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('cod')) {
-            ticket = {
-                codigo: params.get('cod'),
-                cliente: params.get('nom'),
-                cedula: params.get('ci'),
-                telefono: params.get('tel'),
-                direccion: params.get('dir') || "Retiro en local",
-                fecha: params.get('fec'),
-                hora: params.get('hor')
-            };
+    // 1. DATOS QUEMADOS COMPLETOS (Historial ficticio con todos los campos)
+    const pedidosQuemados = [
+        { 
+            codigo: "MF-882104", 
+            cliente: "Mateo Delgado", 
+            cedula: "1723344556",
+            telefono: "0998765432",
+            direccion: "Av. Shyris y Naciones Unidas",
+            fecha: "20/01/2026", 
+            hora: "12:30", 
+            estado: "PAGADO", 
+            clase: "pagado", 
+            tag: "tag-pagado" 
+        },
+        { 
+            codigo: "MF-112045", 
+            cliente: "Carla Espinoza", 
+            cedula: "1755566778",
+            telefono: "0981234567",
+            direccion: "Calle Larga y Benigno Malo",
+            fecha: "19/01/2026", 
+            hora: "15:45", 
+            estado: "CANCELADO", 
+            clase: "cancelado", 
+            tag: "tag-cancelado" 
+        },
+        { 
+            codigo: "MF-556321", 
+            cliente: "Matias Hoyos", 
+            cedula: "0988877665",
+            telefono: "0977788990",
+            direccion: "Urdesa Central, Calle 5ta",
+            fecha: "18/01/2026", 
+            hora: "09:15", 
+            estado: "PAGADO", 
+            clase: "pagado", 
+            tag: "tag-pagado" 
         }
-    }
+    ];
 
-    // 3. RENDERIZAR
+    // 2. MOSTRAR TICKET ACTUAL (El que viene de pedido.html)
+    const ticketBox = document.getElementById("ticket-actual");
+    let datosGuardados = localStorage.getItem("ticketAPK");
+    let ticket = datosGuardados ? JSON.parse(datosGuardados) : null;
+
     if (ticket) {
-        app.innerHTML = `
+        ticketBox.innerHTML = `
             <div style="font-size:40px;">✅</div>
-            <h2>¡Pedido Generado!</h2>
+            <h2 style="margin:10px 0;">¡Pedido Generado!</h2>
             <div class="codigo-box">${ticket.codigo}</div>
             <div class="cuadro">
-                <strong>👤 Cliente:</strong> ${ticket.cliente || 'No registrado'}<br>
-                <strong>📄 Cédula:</strong> ${ticket.cedula || 'No registrado'}<br>
-                <strong>📱 Teléfono:</strong> ${ticket.telefono || 'No registrado'}<br>
+                <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
+                <strong>🆔 Cédula:</strong> ${ticket.cedula || 'N/A'}<br>
+                <strong>📞 Teléfono:</strong> ${ticket.telefono || 'N/A'}<br>
                 <strong>📍 Dirección:</strong> ${ticket.direccion || 'Retiro en local'}<br> 
                 <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
-                <strong>⏰ Hora:</strong> ${ticket.hora}
+                <strong>📅 Fecha:</strong> ${ticket.fecha} | <strong>⏰ Hora:</strong> ${ticket.hora}
             </div>
-            
-            <button class="btn-verde" onclick="location.href='menu.html'">
-                VOLVER AL MENÚ
-            </button>
-
-            <p class="mensaje-final">✨ Tu pedido ha sido enviado automáticamente a caja para ser procesado.</p>
+            <button class="btn-verde" onclick="location.href='menu.html'">NUEVO PEDIDO</button>
+            <p class="mensaje-final">✨ Enviado a caja automáticamente.</p>
         `;
     } else {
-        app.innerHTML = `
-            <div style="font-size:60px;">⚠️</div>
-            <h2>No hay datos</h2>
-            <p>No encontramos información de tu pedido reciente.</p>
-            <button class="btn-verde" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
+        ticketBox.innerHTML = `
+            <div style="font-size:40px; opacity:0.3;">📋</div>
+            <h3>No hay pedido activo</h3>
+            <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
         `;
     }
+
+    // 3. RENDERIZAR HISTORIAL QUEMADO
+    const listaHistorial = document.getElementById("lista-historial");
+    pedidosQuemados.forEach(p => {
+        listaHistorial.innerHTML += `
+            <div class="pedido-pasado ${p.clase}">
+                <div class="info-pasada">
+                    <strong>${p.codigo}</strong> — <span class="status-tag ${p.tag}">${p.estado}</span><br>
+                    <span style="color:#444; font-weight:600;">${p.cliente}</span><br>
+                    <span style="color:#666; font-size:0.8rem;">📍 ${p.direccion}</span><br>
+                    <small style="color:#aaa">${p.fecha} • ${p.hora}</small>
+                </div>
+            </div>
+        `;
+    });
 });
 </script>
 

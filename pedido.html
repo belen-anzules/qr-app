@@ -94,11 +94,26 @@ body {
 
 .modal-card input {
     width: 100%;
-    padding: 14px;
-    margin: 8px 0;
-    border: 1px solid #eee;
+    padding: 12px;
+    margin-top: 5px;
+    border: 1.5px solid #eee;
     border-radius: 12px;
     box-sizing: border-box;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.modal-card input:focus {
+    border-color: #4CAF50;
+    background-color: #f9fff9;
+}
+
+/* Quitar flechas del input number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 </style>
 </head>
@@ -134,7 +149,6 @@ body {
     <button class="btn btn-primary" onclick="validarYConfirmar()">Confirmar</button>
 </div>
 
-<!-- MODAL REGISTRO AMIGABLE -->
 <div id="modal-registro" class="modal-overlay">
     <div class="modal-card">
         <div style="font-size:50px; margin-bottom:10px;">📝</div>
@@ -159,9 +173,9 @@ body {
         </div>
 
         <div style="text-align: left; margin-bottom: 15px;">
-    <label style="font-size: 0.8rem; color: #888; margin-left: 5px;">Dirección de Entrega</label>
-    <input type="text" id="direccion" placeholder="Ej. Av. Amazonas y Rio Coca" required>
-</div>
+            <label style="font-size: 0.8rem; color: #888; margin-left: 5px;">Dirección de Entrega</label>
+            <input type="text" id="direccion" placeholder="Ej. Av. Amazonas y Rio Coca" required>
+        </div>
 
         <button class="btn btn-primary" 
                 style="width:100%; margin-top:10px; padding: 18px; font-size: 1rem;" 
@@ -176,47 +190,19 @@ body {
     </div>
 </div>
 
-<style>
-    .modal-card input {
-        width: 100%;
-        padding: 12px;
-        margin-top: 5px;
-        border: 1.5px solid #eee;
-        border-radius: 12px;
-        box-sizing: border-box;
-        font-size: 1rem;
-        outline: none;
-        transition: 0.3s;
-    }
-    .modal-card input:focus {
-        border-color: #4CAF50;
-        background-color: #f9fff9;
-    }
-    /* Quitar flechas del input number */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-</style>
-
-<!-- MODAL VACÍO -->
 <div id="modal-vacio" class="modal-overlay">
-    <div class="modal-card modal-vacio-estilo">
-        <div class="icon-container">
-            <span class="pulse-icon">🥘</span>
-        </div>
+    <div class="modal-card">
+        <div style="font-size:50px;">🥘</div>
         <h2>¡Tu carrito te espera!</h2>
         <p>Parece que aún no has elegido tu combinación perfecta de hoy. ¡Nuestra cocina está lista para empezar!</p>
         
-        <button class="btn btn-primary btn-explorar" onclick="irAMenu()">
+        <button class="btn btn-primary" onclick="irAMenu()">
             Explorar el Menú 😋
         </button>
         
-        <p class="sub-text" onclick="cerrarModales()">Seguir mirando</p>
+        <p style="margin-top:15px; color:#aaa; cursor:pointer; font-size: 0.9rem;" onclick="cerrarModales()">Seguir mirando</p>
     </div>
 </div>
-<!-- ...todo tu HTML arriba se mantiene igual... -->
 
 <script>
 const pedidoDiv = document.getElementById("pedido-lista");
@@ -272,11 +258,10 @@ function mostrarPedido() {
     totalSpan.innerText = totalGlobal.toFixed(2);
     totalBox.style.display = "block";
 
-    // 🔹 NUEVA FUNCIONALIDAD: Guardar automáticamente el carrito en localStorage
+    // Guardar automáticamente el carrito en localStorage
     localStorage.setItem("carritoMacroFit", JSON.stringify(cart));
 }
 
-// Validar carrito y abrir modal correspondiente
 function validarYConfirmar() {
     const cart = getCartFromURL();
     if (cart.length === 0) {
@@ -288,18 +273,20 @@ function validarYConfirmar() {
 
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-}function procesarFinalizado() {
+}
+
+function procesarFinalizado() {
     const nombreInput = document.getElementById("nombre");
     const cedulaInput = document.getElementById("cedula");
     const telefonoInput = document.getElementById("telefono");
-    const direccionInput = document.getElementById("direccion"); // Nueva referencia
+    const direccionInput = document.getElementById("direccion");
 
     if (!nombreInput || !cedulaInput || !telefonoInput || !direccionInput) return;
 
     const nom = nombreInput.value.trim();
     const ci = cedulaInput.value.trim();
     const tel = telefonoInput.value.trim();
-    const dir = direccionInput.value.trim(); // Nuevo valor
+    const dir = direccionInput.value.trim();
 
     if (!nom || !ci || !tel || !dir) {
         alert("⚠️ Completa todos los campos, incluyendo la dirección");
@@ -312,12 +299,11 @@ function cerrarModales() {
         cliente: nom,
         cedula: ci,
         telefono: tel,
-        direccion: dir, // Incluido en el objeto
+        direccion: dir,
         fecha: ahora.toLocaleDateString('es-ES'),
         hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    // Guardado limpio y seguro
     try {
         localStorage.setItem("ticketAPK", JSON.stringify(datosTicket));
         localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(datosTicket));
@@ -331,6 +317,7 @@ function cerrarModales() {
         console.error("Error al guardar:", e);
     }
 }
+
 function eliminarPlato(index) {
     let cart = getCartFromURL();
     cart.splice(index, 1);
