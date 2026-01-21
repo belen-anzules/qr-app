@@ -1,113 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resumen del Pedido - Macro Fit</title>
-<style>
-    :root {
-        --primary: #4CAF50;
-        --secondary: #f8f9fa;
-        --accent: #FF9800;
-        --dark: #2c3e50;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumen del Pedido - Macro Fit</title>
+    <style>
+        :root { --primary: #4CAF50; --secondary: #f8f9fa; --dark: #2c3e50; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f7f6; color: var(--dark); padding-bottom: 120px; }
+        
+        .cart-item { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px; margin: 12px 20px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,.05); }
+        .price-tag { color: var(--primary); font-weight: 800; }
+        .extras-small { font-size: 0.8rem; color: #888; margin: 4px 0; }
+        .cart-actions { display: flex; gap: 8px; }
+        .action-btn { border: none; background: #f0f2f5; padding: 10px; border-radius: 12px; cursor: pointer; font-size: 1.2rem; }
 
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        margin: 0;
-        background: #f4f7f6;
-        color: var(--dark);
-        padding-bottom: 120px;
-    }
+        .cart-footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 20px; display: flex; gap: 10px; box-sizing: border-box; border-radius: 25px 25px 0 0; box-shadow: 0 -10px 20px rgba(0,0,0,0.05); z-index: 900; }
+        .btn { flex: 1; border: none; padding: 16px; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-secondary { background: var(--secondary); color: var(--dark); border: 1px solid #ddd; }
 
-    .cart-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #fff;
-        padding: 15px;
-        margin: 12px 20px;
-        border-radius: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,.05);
-    }
-
-    .cart-info { flex: 1; }
-    .extras-small { font-size: 0.8rem; color: #888; margin: 4px 0; }
-    .price-tag { color: var(--primary); font-weight: 800; }
-
-    .cart-actions { display: flex; gap: 8px; }
-    .action-btn {
-        border: none;
-        background: #f0f2f5;
-        padding: 10px;
-        border-radius: 12px;
-        cursor: pointer;
-        font-size: 1.2rem;
-    }
-
-    .cart-footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        background: white;
-        padding: 20px;
-        display: flex;
-        gap: 10px;
-        box-sizing: border-box;
-        border-radius: 25px 25px 0 0;
-        box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
-        z-index: 900;
-    }
-
-    .btn {
-        flex: 1;
-        border: none;
-        padding: 16px;
-        border-radius: 15px;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 1rem;
-    }
-
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-secondary { background: var(--secondary); color: var(--dark); border: 1px solid #ddd; }
-
-    .modal-overlay {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.6);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        backdrop-filter: blur(5px);
-    }
-
-    .modal-card {
-        background: white;
-        padding: 30px;
-        border-radius: 25px;
-        width: 85%;
-        max-width: 380px;
-        text-align: center;
-    }
-
-    .modal-card input {
-        width: 100%;
-        padding: 12px;
-        margin-top: 5px;
-        border: 1.5px solid #eee;
-        border-radius: 12px;
-        box-sizing: border-box;
-        font-size: 1rem;
-        outline: none;
-    }
-
-    .modal-card input:focus { border-color: var(--primary); }
-</style>
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
+        .modal-card { background: white; padding: 30px; border-radius: 25px; width: 85%; max-width: 380px; text-align: center; }
+        .modal-card input { width: 100%; padding: 12px; margin-top: 5px; border: 1.5px solid #eee; border-radius: 12px; box-sizing: border-box; font-size: 1rem; margin-bottom: 10px; outline: none; }
+    </style>
 </head>
-
 <body>
 
 <header style="padding: 20px; text-align: center; background: white; position: relative;">
@@ -117,7 +33,7 @@
 
 <div id="pedido-lista"></div>
 
-<div id="total-box" style="display:none; text-align:right; padding:20px; margin-bottom: 20px;">
+<div id="total-box" style="display:none; text-align:right; padding:20px;">
     <span style="color: #888;">Total a pagar</span><br>
     <span style="font-size: 2rem; font-weight: 900;">$<span id="total-global">0.00</span></span>
 </div>
@@ -129,158 +45,104 @@
 
 <div id="modal-registro" class="modal-overlay">
     <div class="modal-card">
-        <div style="font-size:50px; margin-bottom:10px;">📝</div>
-        <h2 style="color:#4CAF50; margin-bottom:5px;">Datos del Cliente</h2>
-        
-        <div style="text-align: left; margin-bottom: 12px;">
-            <label style="font-size: 0.8rem; color: #888;">Nombre Completo</label>
-            <input type="text" id="nombre" placeholder="Ej. Mateo Delgado">
-        </div>
-
-        <div style="text-align: left; margin-bottom: 12px;">
-            <label style="font-size: 0.8rem; color: #888;">Cédula / ID</label>
-            <input type="number" id="cedula" placeholder="Ej. 1712345678">
-        </div>
-
-        <div style="text-align: left; margin-bottom: 12px;">
-            <label style="font-size: 0.8rem; color: #888;">Teléfono Celular</label>
-            <input type="tel" id="telefono" placeholder="Ej. 0991234567">
-        </div>
-
-        <div style="text-align: left; margin-bottom: 12px;">
-            <label style="font-size: 0.8rem; color: #888;">Dirección de Entrega</label>
-            <input type="text" id="direccion" placeholder="Ej. Av. Amazonas">
-        </div>
-
-        <button class="btn btn-primary" style="width:100%; margin-top:10px; padding: 18px;" onclick="procesarFinalizado()">
-            GENERAR TICKET 🚀
-        </button>
-        
-        <button style="margin-top:15px; background:none; border:none; color:#aaa; cursor:pointer;" onclick="cerrarModales()">
-            Cancelar y volver
-        </button>
+        <h2 style="color:var(--primary);">Datos de Entrega</h2>
+        <input type="text" id="nombre" placeholder="Nombre Completo">
+        <input type="number" id="cedula" placeholder="Cédula / ID">
+        <input type="tel" id="telefono" placeholder="Teléfono Celular">
+        <input type="text" id="direccion" placeholder="Dirección Exacta">
+        <button class="btn btn-primary" style="width:100%;" onclick="procesarFinalizado()">GENERAR TICKET 🚀</button>
+        <button style="margin-top:15px; background:none; border:none; color:#aaa;" onclick="cerrarModales()">Cancelar</button>
     </div>
 </div>
 
 <div id="modal-vacio" class="modal-overlay">
     <div class="modal-card">
-        <div style="font-size:50px;">🥘</div>
-        <h2>¡Tu carrito está vacío!</h2>
-        <button class="btn btn-primary" onclick="irAMenu()">Ver Menú 😋</button>
+        <h2>Carrito Vacío</h2>
+        <button class="btn btn-primary" onclick="irAMenu()">Ver Menú</button>
     </div>
 </div>
 
 <script>
-// USAR ESTAS FUNCIONES UNIFICADAS
-function getCartFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    const cartData = params.get('cart');
-    if (!cartData) return [];
-    try {
-        return JSON.parse(decodeURIComponent(cartData));
-    } catch (e) {
-        return [];
-    }
-}
-
-function mostrarPedido() {
-    const pedidoDiv = document.getElementById("pedido-lista");
-    const totalBox = document.getElementById("total-box");
-    const totalSpan = document.getElementById("total-global");
-    const cart = getCartFromURL();
-
-    if (cart.length === 0) {
-        pedidoDiv.innerHTML = '<div style="text-align:center; padding:60px 20px; color:#ccc;">🛒 Carrito vacío</div>';
-        totalBox.style.display = "none";
-        return;
+    // 1. CARGAR PLATOS
+    function getCart() {
+        const params = new URLSearchParams(window.location.search);
+        try {
+            return params.get('cart') ? JSON.parse(decodeURIComponent(params.get('cart'))) : [];
+        } catch(e) { return []; }
     }
 
-    pedidoDiv.innerHTML = "";
-    let totalGlobal = 0;
+    function mostrarPedido() {
+        const cart = getCart();
+        const lista = document.getElementById("pedido-lista");
+        const totalBox = document.getElementById("total-box");
+        let total = 0;
 
-    cart.forEach((item, index) => {
-        totalGlobal += parseFloat(item.total || 0);
-        const cartString = encodeURIComponent(JSON.stringify(cart));
-        const urlEditar = `${item.page}?cart=${cartString}&editIndex=${index}`;
+        if (cart.length === 0) {
+            lista.innerHTML = "<p style='text-align:center; padding:50px; color:#ccc;'>Tu carrito está vacío</p>";
+            totalBox.style.display = "none";
+            return;
+        }
 
-        pedidoDiv.innerHTML += `
-            <div class="cart-item">
-                <div class="cart-info">
-                    <strong>${item.nombre}</strong>
-                    <p class="extras-small">${item.extras || 'Personalizado'}</p>
-                    <span class="price-tag">$${parseFloat(item.total).toFixed(2)}</span>
-                </div>
-                <div class="cart-actions">
-                    <button class="action-btn" onclick="location.href='${urlEditar}'">✏️</button>
-                    <button class="action-btn" onclick="eliminarPlato(${index})">🗑️</button>
-                </div>
-            </div>`;
-    });
-
-    totalSpan.innerText = totalGlobal.toFixed(2);
-    totalBox.style.display = "block";
-}
-
-function validarYConfirmar() {
-    const cart = getCartFromURL();
-    if (cart.length === 0) {
-        document.getElementById("modal-vacio").style.display = "flex";
-    } else {
-        document.getElementById("modal-registro").style.display = "flex";
-    }
-}
-
-function procesarFinalizado() {
-    console.log("Iniciando procesamiento de ticket...");
-    
-    const nom = document.getElementById("nombre").value.trim();
-    const ci = document.getElementById("cedula").value.trim();
-    const tel = document.getElementById("telefono").value.trim();
-    const dir = document.getElementById("direccion").value.trim();
-    const total = document.getElementById("total-global").innerText;
-
-    if (!nom || !ci || !tel || !dir) {
-        alert("⚠️ Completa todos los campos.");
-        return;
+        lista.innerHTML = "";
+        cart.forEach((item, i) => {
+            total += parseFloat(item.total);
+            const cartStr = encodeURIComponent(JSON.stringify(cart));
+            lista.innerHTML += `
+                <div class="cart-item">
+                    <div class="cart-info">
+                        <strong>${item.nombre}</strong>
+                        <p class="extras-small">${item.extras || 'Personalizado'}</p>
+                        <span class="price-tag">$${parseFloat(item.total).toFixed(2)}</span>
+                    </div>
+                    <div class="cart-actions">
+                        <button class="action-btn" onclick="location.href='${item.page}?cart=${cartStr}&editIndex=${i}'">✏️</button>
+                        <button class="action-btn" onclick="eliminar(${i})">🗑️</button>
+                    </div>
+                </div>`;
+        });
+        document.getElementById("total-global").innerText = total.toFixed(2);
+        totalBox.style.display = "block";
     }
 
-    const ticket = {
-        codigo: "MF-" + Math.floor(Math.random() * 900000 + 100000),
-        cliente: nom,
-        cedula: ci,
-        telefono: tel,
-        direccion: dir,
-        total: total,
-        fecha: new Date().toLocaleDateString(),
-        hora: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-    };
+    // 2. LOGICA DE BOTONES
+    function validarYConfirmar() {
+        if (getCart().length === 0) document.getElementById("modal-vacio").style.display = "flex";
+        else document.getElementById("modal-registro").style.display = "flex";
+    }
 
-    try {
+    function procesarFinalizado() {
+        const n = document.getElementById("nombre").value.trim();
+        const c = document.getElementById("cedula").value.trim();
+        const t = document.getElementById("telefono").value.trim();
+        const d = document.getElementById("direccion").value.trim();
+
+        if(!n || !c || !t || !d) { alert("Completa todos los campos"); return; }
+
+        const ticket = {
+            codigo: "MF-" + Math.floor(100000 + Math.random() * 900000),
+            cliente: n, cedula: c, telefono: t, direccion: d,
+            total: document.getElementById("total-global").innerText,
+            fecha: new Date().toLocaleDateString(),
+            hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+        };
+
         localStorage.setItem("ticketAPK", JSON.stringify(ticket));
-        console.log("Ticket guardado:", ticket);
-        // Fuerza la redirección
-        window.location.assign("ver-ticket.html");
-    } catch (e) {
-        alert("Error al guardar: " + e);
+        window.location.href = "ver-ticket.html"; // Asegúrate que el archivo se llame así
     }
-}
 
-function cerrarModales() {
-    document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-}
+    function eliminar(index) {
+        let cart = getCart();
+        cart.splice(index, 1);
+        window.location.href = "pedido.html?cart=" + encodeURIComponent(JSON.stringify(cart));
+    }
 
-function eliminarPlato(index) {
-    let cart = getCartFromURL();
-    cart.splice(index, 1);
-    window.location.href = `pedido.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
-}
+    function irAMenu() {
+        window.location.href = "menu.html?cart=" + encodeURIComponent(JSON.stringify(getCart()));
+    }
 
-function irAMenu() {
-    const cart = getCartFromURL();
-    window.location.href = `menu.html?cart=${encodeURIComponent(JSON.stringify(cart))}`;
-}
+    function cerrarModales() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
 
-window.onload = mostrarPedido;
+    window.onload = mostrarPedido;
 </script>
 </body>
 </html>
