@@ -90,10 +90,11 @@
             margin-bottom: 10px;
         }
 
-        .btn-outline {
-            background: transparent;
-            color: #888;
-            border: 1px solid #ddd;
+        .mensaje-final {
+            margin-top: 15px;
+            color: #666;
+            font-size: 0.9rem;
+            font-style: italic;
         }
     </style>
 </head>
@@ -107,48 +108,62 @@
     </div>
 
 <script>
-    // Función simple para el botón borrar
-    function borrarYNuevo() {
-        window.location.href = "menu.html";
+document.addEventListener("DOMContentLoaded", function() {
+    const app = document.getElementById("app");
+    
+    // 1. INTENTAR LEER DESDE LOCALSTORAGE (Donde tu pedido.js guarda los datos)
+    let datosGuardados = localStorage.getItem("ticketAPK");
+    let ticket = null;
+
+    if (datosGuardados) {
+        ticket = JSON.parse(datosGuardados);
+    } else {
+        // 2. SI NO HAY LOCALSTORAGE, INTENTAR LEER DESDE URL (Como respaldo)
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('cod')) {
+            ticket = {
+                codigo: params.get('cod'),
+                cliente: params.get('nom'),
+                cedula: params.get('ci'),
+                telefono: params.get('tel'),
+                direccion: params.get('dir') || "Retiro en local",
+                fecha: params.get('fec'),
+                hora: params.get('hor')
+            };
+        }
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-        const app = document.getElementById("app");
-        const params = new URLSearchParams(window.location.search);
-        
-        // DATOS: Prioridad URL, si no hay, usa los QUEMADOS
-        const ticket = {
-            codigo: params.get('cod') || "MF-170085",
-            cliente: params.get('nom') || "Belen",
-            cedula: params.get('ci') || "1752758431",
-            telefono: params.get('tel') || "0985814510",
-            fecha: params.get('fec') || "04/02/2026",
-            hora: params.get('hor') || "18:00"
-        };
-
-        // Renderizado directo y seguro
+    // 3. RENDERIZAR
+    if (ticket) {
         app.innerHTML = `
             <div style="font-size:40px;">✅</div>
-            <h2>¡Pedido Listo!</h2>
+            <h2>¡Pedido Generado!</h2>
             <div class="codigo-box">${ticket.codigo}</div>
             <div class="cuadro">
-                <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
-                <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
-                <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
+                <strong>👤 Cliente:</strong> ${ticket.cliente || 'No registrado'}<br>
+                <strong>📄 Cédula:</strong> ${ticket.cedula || 'No registrado'}<br>
+                <strong>📱 Teléfono:</strong> ${ticket.telefono || 'No registrado'}<br>
+                <strong>📍 Dirección:</strong> ${ticket.direccion || 'Retiro en local'}<br> 
                 <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
                 <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
                 <strong>⏰ Hora:</strong> ${ticket.hora}
             </div>
             
-            <button class="btn-verde" onclick="borrarYNuevo()">
-                🗑️ BORRAR Y NUEVO PEDIDO
-            </button>
-            
-            <button class="btn-verde btn-outline" onclick="location.href='menu.html'">
+            <button class="btn-verde" onclick="location.href='menu.html'">
                 VOLVER AL MENÚ
             </button>
+
+            <p class="mensaje-final">✨ Tu pedido ha sido enviado automáticamente a caja para ser procesado.</p>
         `;
-    });
+    } else {
+        app.innerHTML = `
+            <div style="font-size:60px;">⚠️</div>
+            <h2>No hay datos</h2>
+            <p>No encontramos información de tu pedido reciente.</p>
+            <button class="btn-verde" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>
+        `;
+    }
+});
 </script>
 
 </body>

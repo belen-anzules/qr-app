@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
-
-    // Función para extraer datos de la URL
     const params = new URLSearchParams(window.location.search);
     
     const ticket = {
@@ -9,11 +7,11 @@ document.addEventListener("DOMContentLoaded", function() {
         cliente: params.get('nom'),
         cedula: params.get('ci'),
         telefono: params.get('tel'),
+        direccion: params.get('dir'), // Extrae dirección de la URL
         fecha: params.get('fec'),
         hora: params.get('hor')
     };
 
-    // Si la URL trae datos, los mostramos de una vez (sin spinners de carga)
     if (ticket.codigo) {
         app.innerHTML = `
             <div style="font-size:40px;">✅</div>
@@ -25,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
                 <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
                 <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
-                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                <strong>📍 Dirección:</strong> ${ticket.direccion}<br> <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
                 <strong>📅 Fecha:</strong> ${ticket.fecha}<br>
                 <strong>⏰ Hora:</strong> ${ticket.hora}
             </div>
@@ -34,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function() {
             <button class="btn-verde btn-outline" onclick="location.href='menu.html'">NUEVO PEDIDO</button>
         `;
     } else {
-        // Si por algún error entra directo sin datos
         app.innerHTML = `
             <div style="font-size:60px;">⚠️</div>
             <h2>Error de Datos</h2>

@@ -158,6 +158,11 @@ body {
             <input type="tel" id="telefono" placeholder="Ej. 0991234567" required>
         </div>
 
+        <div style="text-align: left; margin-bottom: 15px;">
+    <label style="font-size: 0.8rem; color: #888; margin-left: 5px;">Dirección de Entrega</label>
+    <input type="text" id="direccion" placeholder="Ej. Av. Amazonas y Rio Coca" required>
+</div>
+
         <button class="btn btn-primary" 
                 style="width:100%; margin-top:10px; padding: 18px; font-size: 1rem;" 
                 onclick="procesarFinalizado()">
@@ -284,27 +289,47 @@ function validarYConfirmar() {
 function cerrarModales() {
     document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
 }function procesarFinalizado() {
-    // 1. Capturamos los datos
-    const nom = document.getElementById("nombre").value.trim();
-    const ci = document.getElementById("cedula").value.trim();
-    const tel = document.getElementById("telefono").value.trim();
+    const nombreInput = document.getElementById("nombre");
+    const cedulaInput = document.getElementById("cedula");
+    const telefonoInput = document.getElementById("telefono");
+    const direccionInput = document.getElementById("direccion"); // Nueva referencia
 
-    if (!nom || !ci || !tel) {
-        alert("⚠️ Completa tus datos para continuar");
+    if (!nombreInput || !cedulaInput || !telefonoInput || !direccionInput) return;
+
+    const nom = nombreInput.value.trim();
+    const ci = cedulaInput.value.trim();
+    const tel = telefonoInput.value.trim();
+    const dir = direccionInput.value.trim(); // Nuevo valor
+
+    if (!nom || !ci || !tel || !dir) {
+        alert("⚠️ Completa todos los campos, incluyendo la dirección");
         return;
     }
 
-    // 2. Generamos el código (Esto es lo que se estaba perdiendo)
-    const cod = "MF-" + Math.floor(100000 + Math.random() * 900000);
     const ahora = new Date();
-    const fecha = ahora.toLocaleDateString();
-    const hora = ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const datosTicket = {
+        codigo: "MF-" + Math.floor(100000 + Math.random() * 900000),
+        cliente: nom,
+        cedula: ci,
+        telefono: tel,
+        direccion: dir, // Incluido en el objeto
+        fecha: ahora.toLocaleDateString('es-ES'),
+        hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
 
-    // 3. Construimos la URL con los parámetros exactos
-    const destino = `ver-ticket.html?cod=${cod}&nom=${encodeURIComponent(nom)}&ci=${encodeURIComponent(ci)}&tel=${encodeURIComponent(tel)}&fec=${encodeURIComponent(fecha)}&hor=${encodeURIComponent(hora)}`;
+    // Guardado limpio y seguro
+    try {
+        localStorage.setItem("ticketAPK", JSON.stringify(datosTicket));
+        localStorage.setItem("ticketAPK_BACKUP", JSON.stringify(datosTicket));
+        
+        console.log("Guardado exitoso con dirección. Redirigiendo...");
 
-    // 4. Salto inmediato
-    window.location.href = destino;
+        setTimeout(() => {
+            window.location.href = "ver-ticket.html";
+        }, 150);
+    } catch (e) {
+        console.error("Error al guardar:", e);
+    }
 }
 function eliminarPlato(index) {
     let cart = getCartFromURL();
