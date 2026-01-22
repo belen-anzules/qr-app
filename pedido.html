@@ -1,190 +1,131 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumen - Macro Fit</title>
-    <style>
-        :root { --primary: #4CAF50; --bg: #f8f9fa; --dark: #1a1a1a; --error: #ff4d4d; }
-        body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--bg); margin: 0; padding-bottom: 140px; color: var(--dark); }
-        
-        /* Header Moderno */
-        header { background: white; padding: 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .back-btn { background: #eee; border: none; width: 45px; height: 45px; border-radius: 15px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .back-btn:active { transform: scale(0.9); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmar Pedido</title>
 
-        /* Lista de Platos */
-        #pedido-lista { padding: 15px; }
-        .cart-card { background: white; padding: 18px; border-radius: 25px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
-        .cart-details { flex: 1; }
-        .cart-details strong { display: block; font-size: 1.1rem; margin-bottom: 4px; color: var(--dark); }
-        .cart-details p { margin: 0; font-size: 0.85rem; color: #888; line-height: 1.4; }
-        .price-tag { color: var(--primary); font-weight: 800; font-size: 1.1rem; display: block; margin-top: 6px; }
-
-        /* Acciones */
-        .cart-actions { display: flex; gap: 10px; }
-        .btn-action { border: none; padding: 12px; border-radius: 15px; cursor: pointer; font-size: 1.1rem; transition: 0.3s; }
-        .btn-edit { background: #e8f5e9; color: var(--primary); }
-        .btn-del { background: #fff1f1; color: var(--error); }
-
-        /* Barra Inferior Premium */
-        .footer-total { position: fixed; bottom: 0; width: 100%; background: white; padding: 25px; box-sizing: border-box; border-radius: 30px 30px 0 0; box-shadow: 0 -15px 30px rgba(0,0,0,0.08); z-index: 500; }
-        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .btn-confirm { background: var(--primary); color: white; border: none; width: 100%; padding: 20px; border-radius: 20px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3); transition: 0.3s; }
-        .btn-confirm:active { transform: scale(0.98); background: #43a047; }
-
-        /* MODAL PREMIUM */
-        .modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:1000; backdrop-filter: blur(10px); }
-        .modal-content { background:white; padding:35px; border-radius:35px; width:88%; max-width:420px; text-align:center; box-shadow: 0 25px 50px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3); }
-        
-        .input-group { text-align: left; margin-bottom: 15px; }
-        .input-group label { font-size: 0.7rem; font-weight: 800; color: #aaa; margin-left: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        .modal-content input { width:100%; padding:16px; margin-top: 6px; border:2px solid #f0f0f0; border-radius:18px; box-sizing:border-box; font-size: 1rem; background: #fafafa; transition: 0.3s; }
-        .modal-content input:focus { border-color: var(--primary); outline: none; background: #fff; box-shadow: 0 0 0 5px rgba(76, 175, 80, 0.1); }
-    </style>
+<style>
+:root { --primary:#4CAF50; --bg:#f8f9fa; --dark:#1a1a1a; }
+body { font-family:Segoe UI,Roboto,sans-serif; background:var(--bg); margin:0; padding-bottom:140px; }
+header { background:#fff; padding:20px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+.back-btn { border:none; width:45px; height:45px; border-radius:15px; font-size:1.2rem; }
+.cart-card { background:#fff; padding:18px; border-radius:25px; margin:15px; box-shadow:0 10px 20px rgba(0,0,0,.03); }
+.footer-total { position:fixed; bottom:0; width:100%; background:#fff; padding:25px; border-radius:30px 30px 0 0; box-shadow:0 -15px 30px rgba(0,0,0,.08); }
+.btn-confirm { width:100%; padding:20px; border:none; border-radius:20px; background:var(--primary); color:#fff; font-weight:800; }
+.modal { position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; justify-content:center; align-items:center; }
+.modal-content { background:#fff; padding:30px; border-radius:30px; width:90%; max-width:420px; }
+input { width:100%; padding:15px; margin-top:6px; border-radius:15px; border:2px solid #eee; }
+</style>
 </head>
+
 <body>
 
 <header>
-    <button class="back-btn" onclick="irAMenu()">⬅️</button>
-    <h3 style="margin:0; font-weight: 800; letter-spacing: -0.5px;">Confirmar Pedido</h3>
-    <div style="width:45px"></div>
+<button class="back-btn" onclick="history.back()">⬅️</button>
+<h3>Confirmar Pedido</h3>
+<div style="width:45px"></div>
 </header>
 
-<div id="pedido-lista">
-    </div>
+<div id="pedido-lista"></div>
 
-<div class="footer-total" id="footer-pago">
-    <div class="total-row">
-        <span style="color:#999; font-weight: 600;">Total Sugerido</span>
-        <span style="font-size:1.8rem; font-weight:900; color: var(--dark);">$<span id="total-global">0.00</span></span>
-    </div>
-    <button class="btn-confirm" id="btn-main" onclick="abrirRegistro()">FINALIZAR COMPRA 🚀</button>
+<div class="footer-total">
+<div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+<span>Total</span>
+<strong>$<span id="total-global">0.00</span></strong>
+</div>
+<button class="btn-confirm" onclick="abrirRegistro()">FINALIZAR COMPRA 🚀</button>
 </div>
 
-<div id="modal-reg" class="modal">
-    <div class="modal-content">
-        <div style="font-size: 3rem; margin-bottom: 10px;">📄</div>
-        <h2 style="margin:0; color:var(--dark); font-weight: 900;">Tus Datos</h2>
-        <p style="color:#888; font-size:0.9rem; margin-bottom:25px;">Para tu ticket oficial de Macro Fit</p>
-        
-        <div class="input-group">
-            <label>Nombre Completo</label>
-            <input type="text" id="nom" placeholder="Ej: Mateo Delgado">
-        </div>
-        <div class="input-group">
-            <label>Número de Cédula</label>
-            <input type="number" id="ced" placeholder="1712345678">
-        </div>
-        <div class="input-group">
-            <label>WhatsApp</label>
-            <input type="tel" id="tel" placeholder="099 876 5432">
-        </div>
-        <div class="input-group">
-            <label>Dirección </label>
-            <input type="text" id="dir" placeholder="Calle principal y número">
-        </div>
+<div id="modal" class="modal">
+<div class="modal-content">
+<h2>Tus Datos</h2>
 
-        <button class="btn-confirm" id="btn-final" onclick="generarTicket()" style="margin-top: 10px;">
-            GENERAR MI TICKET ✨
-        </button>
-        <button style="background:none; border:none; color:#bbb; margin-top:20px; cursor:pointer; font-weight: 700;" onclick="cerrarModal()">Cancelar</button>
-    </div>
+<input id="nom" placeholder="Nombre completo">
+<input id="ced" placeholder="Cédula">
+<input id="tel" placeholder="Teléfono">
+<input id="dir" placeholder="Dirección">
+
+<button class="btn-confirm" onclick="generarTicket()">GENERAR TICKET</button>
+<button style="margin-top:15px" onclick="cerrar()">Cancelar</button>
+</div>
 </div>
 
 <script>
-    function getCart() {
-        const p = new URLSearchParams(window.location.search);
-        try { 
-            const cartData = p.get('cart');
-            return cartData ? JSON.parse(decodeURIComponent(cartData)) : []; 
-        } catch { return []; }
+function getCart() {
+    const p = new URLSearchParams(location.search);
+    try {
+        return JSON.parse(decodeURIComponent(p.get("cart"))) || [];
+    } catch {
+        return [];
+    }
+}
+
+function render() {
+    const cart = getCart();
+    let total = 0;
+    const lista = document.getElementById("pedido-lista");
+
+    if (!cart.length) {
+        lista.innerHTML = "<p style='text-align:center'>Carrito vacío</p>";
+        return;
     }
 
-    function render() {
-        const cart = getCart();
-        const lista = document.getElementById("pedido-lista");
-        const btnMain = document.getElementById("btn-main");
-        const totalSpan = document.getElementById("total-global");
-        let total = 0;
+    cart.forEach(p => {
+        total += parseFloat(p.total);
+        lista.innerHTML += `
+            <div class="cart-card">
+                <strong>${p.nombre}</strong><br>
+                <small>${p.extras || ''}</small><br>
+                <strong>$${p.total}</strong>
+            </div>
+        `;
+    });
 
-        if(cart.length === 0) {
-            lista.innerHTML = `
-                <div style='text-align:center; padding:80px 20px; opacity:0.3'>
-                    <h1 style="font-size:5rem;">🛒</h1>
-                    <p style="font-weight:700">Tu carrito está vacío</p>
-                </div>`;
-            totalSpan.innerText = "0.00";
-            btnMain.disabled = true;
-            btnMain.style.opacity = "0.4";
-            btnMain.innerText = "CARRITO VACÍO";
-            return;
-        }
+    document.getElementById("total-global").innerText = total.toFixed(2);
+}
 
-        btnMain.disabled = false;
-        btnMain.style.opacity = "1";
-        btnMain.innerText = "FINALIZAR COMPRA 🚀";
-        lista.innerHTML = "";
+function abrirRegistro() {
+    document.getElementById("modal").style.display = "flex";
+}
+function cerrar() {
+    document.getElementById("modal").style.display = "none";
+}
 
-        cart.forEach((item, i) => {
-            total += parseFloat(item.total);
-            const cartStr = encodeURIComponent(JSON.stringify(cart));
-            lista.innerHTML += `
-                <div class="cart-card">
-                    <div class="cart-details">
-                        <strong>${item.nombre}</strong>
-                        <p>${item.extras || 'Personalización básica'}</p>
-                        <span class="price-tag">$${parseFloat(item.total).toFixed(2)}</span>
-                    </div>
-                    <div class="cart-actions">
-                        <button class="btn-action btn-edit" onclick="location.href='${item.page}?cart=${cartStr}&editIndex=${i}'">✏️</button>
-                        <button class="btn-action btn-del" onclick="eliminar(${i})">🗑️</button>
-                    </div>
-                </div>`;
-        });
-        totalSpan.innerText = total.toFixed(2);
+function generarTicket() {
+    const nom = nomInput.value.trim();
+    const ced = cedInput.value.trim();
+    const tel = telInput.value.trim();
+    const dir = dirInput.value.trim();
+
+    if (!nom || !ced || !tel || !dir) {
+        alert("Completa todos los campos");
+        return;
     }
-
-    function eliminar(i) {
-        let cart = getCart();
-        cart.splice(i, 1);
-        window.location.href = "pedido.html?cart=" + encodeURIComponent(JSON.stringify(cart));
-    }
-
-    function irAMenu() {
-        window.location.href = "menu.html?cart=" + encodeURIComponent(JSON.stringify(getCart()));
-    }
-
-    function abrirRegistro() { document.getElementById("modal-reg").style.display = "flex"; }
-    function cerrarModal() { document.getElementById("modal-reg").style.display = "none"; }
-
-    function generarTicket() {
-    const n = document.getElementById("nom").value.trim();
-    const c = document.getElementById("ced").value.trim();
-    const t = document.getElementById("tel").value.trim();
-    const d = document.getElementById("dir").value.trim();
-
-    if(!n || !c || !t || !d) return alert("Por favor completa tus datos.");
 
     const ticket = {
-        id: "MF-" + Math.floor(100000 + Math.random()*900000),
-        cliente: n, cedula: c, tel: t, dir: d,
-        total: document.getElementById("total-global").innerText,
-        fecha: new Date().toLocaleDateString(),
-        hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+        cod: "MF-" + Math.floor(100000 + Math.random() * 900000),
+        nom, ci: ced, tel, dir,
+        fec: new Date().toLocaleDateString(),
+        hor: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
     };
 
-    // Guardamos los datos para ver-ticket.html
-    localStorage.setItem("ticketActual", JSON.stringify(ticket));
-    // También lo guardamos como 'ticketAPK' para que tu menú prenda el puntito rojo
-    localStorage.setItem("ticketAPK", JSON.stringify(ticket));
+    const url = "ver-ticket.html?" +
+        `cod=${ticket.cod}&nom=${encodeURIComponent(ticket.nom)}` +
+        `&ci=${ticket.ci}&tel=${ticket.tel}` +
+        `&dir=${encodeURIComponent(ticket.dir)}` +
+        `&fec=${ticket.fec}&hor=${ticket.hor}`;
 
-    // IMPORTANTE: Redirigimos al ticket pero avisando que el carrito ya debe ser vacío
-    setTimeout(() => {
-        window.location.href = "ver-ticket.html?cart=%5B%5D"; 
-    }, 600);
+    location.href = url;
 }
-    window.onload = render;
+
+const nomInput = document.getElementById("nom");
+const cedInput = document.getElementById("ced");
+const telInput = document.getElementById("tel");
+const dirInput = document.getElementById("dir");
+
+window.onload = render;
 </script>
+
 </body>
 </html>
