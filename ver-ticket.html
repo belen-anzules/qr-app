@@ -1,35 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Oficial - Macro Fit</title>
-    <style>
-        :root { --primary: #4CAF50; --dark: #1a1a1a; --gray: #f4f7f6; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--gray); margin: 0; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        
-        .nav-header { width: 100%; max-width: 360px; margin-bottom: 20px; }
-        .btn-back { background: white; border: none; padding: 15px 25px; border-radius: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.05); color: var(--dark); width: 100%; transition: 0.3s; }
-        .btn-back:active { transform: scale(0.95); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ticket</title>
 
-        /* Estilo Recibo Real */
-        .ticket-card { background: white; width: 100%; max-width: 360px; border-radius: 35px; padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; box-sizing: border-box; border: 1px solid #eee; }
-        .status-badge { background: #e8f5e9; color: var(--primary); padding: 8px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
-        .order-id { font-size: 2.2rem; font-weight: 900; margin: 15px 0; color: var(--dark); letter-spacing: -1px; }
-        
-        .info-grid { text-align: left; margin-top: 25px; border-top: 1px dashed #ddd; padding-top: 20px; }
-        .info-item { margin-bottom: 15px; }
-        .info-item label { font-size: 0.65rem; color: #aaa; text-transform: uppercase; font-weight: 800; display: block; }
-        .info-item span { font-size: 1rem; color: var(--dark); font-weight: 600; }
-
-        .total-box { background: var(--dark); color: white; padding: 20px; border-radius: 20px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
-
-        .history-section { width: 100%; max-width: 360px; margin-top: 40px; }
-        .history-item { background: rgba(255,255,255,0.6); padding: 15px; border-radius: 18px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; opacity: 0.6; border: 1px solid #ddd; font-size: 0.8rem; }
-    </style>
+<style>
+body { font-family:Segoe UI,Roboto,sans-serif; background:#f8f9fa; padding:30px; text-align:center; }
+.codigo-box { font-size:1.8rem; font-weight:900; background:#e8f5e9; padding:15px; border-radius:15px; margin:15px 0; }
+.cuadro { background:#fff; padding:20px; border-radius:20px; box-shadow:0 10px 20px rgba(0,0,0,.05); }
+.btn-verde { margin-top:15px; padding:15px; border:none; border-radius:15px; background:#4CAF50; color:#fff; font-weight:800; width:100%; }
+.btn-outline { background:none; color:#4CAF50; border:2px solid #4CAF50; }
+</style>
 </head>
+
 <body>
 
+<<<<<<< HEAD
     <div class="nav-header">
         <button class="btn-back" onclick="irAlMenu()">⬅️ VOLVER AL MENÚ</button>
     </div>
@@ -84,27 +71,51 @@
             <b>$25.50</b>
         </div>
     </div>
+=======
+<div id="app"></div>
+>>>>>>> fefdc4672c3fefa2314019c2cb771ce81400fb3e
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        // Cargar los datos que vienen del formulario
-        const data = localStorage.getItem("ticketActual");
-        
-        if(data) {
-            const t = JSON.parse(data);
-            document.getElementById("real-id").innerText = t.id;
-            document.getElementById("real-nom").innerText = t.cliente;
-            document.getElementById("real-ced").innerText = t.cedula;
-            document.getElementById("real-dir").innerText = t.dir;
-            document.getElementById("real-fec").innerText = t.fecha + " | " + t.hora;
-            document.getElementById("real-tot").innerText = "$" + t.total;
-        }
-    });
+document.addEventListener("DOMContentLoaded", () => {
+    const app = document.getElementById("app");
+    const p = new URLSearchParams(location.search);
 
+<<<<<<< HEAD
   function irAlMenu() {
     // Simplemente regresamos. El carrito ya está vacío en localStorage.
     window.location.href = "menu.html";
 }
+=======
+    if (!p.get("cod")) {
+        app.innerHTML = `
+            <h2>⚠️ Error</h2>
+            <p>No se recibió el ticket</p>
+            <button class="btn-verde" onclick="location.href='menu.html'">VOLVER</button>
+        `;
+        return;
+    }
+
+    app.innerHTML = `
+        <div style="font-size:40px">✅</div>
+        <h2>Pedido Confirmado</h2>
+
+        <div class="codigo-box">${p.get("cod")}</div>
+
+        <div class="cuadro">
+            <strong>👤 Cliente:</strong> ${p.get("nom")}<br>
+            <strong>📄 Cédula:</strong> ${p.get("ci")}<br>
+            <strong>📱 Teléfono:</strong> ${p.get("tel")}<br>
+            <strong>📍 Dirección:</strong> ${p.get("dir")}<hr>
+            <strong>📅 Fecha:</strong> ${p.get("fec")}<br>
+            <strong>⏰ Hora:</strong> ${p.get("hor")}
+        </div>
+
+        <button class="btn-verde" onclick="window.print()">IMPRIMIR / CAPTURAR</button>
+        <button class="btn-verde btn-outline" onclick="location.href='menu.html'">NUEVO PEDIDO</button>
+    `;
+});
+>>>>>>> fefdc4672c3fefa2314019c2cb771ce81400fb3e
 </script>
+
 </body>
 </html>
