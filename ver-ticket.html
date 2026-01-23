@@ -3,118 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ticket</title>
+<title>Ticket - Macro Fit</title>
 
 <style>
-body { font-family:Segoe UI,Roboto,sans-serif; background:#f8f9fa; padding:30px; text-align:center; }
-.codigo-box { font-size:1.8rem; font-weight:900; background:#e8f5e9; padding:15px; border-radius:15px; margin:15px 0; }
-.cuadro { background:#fff; padding:20px; border-radius:20px; box-shadow:0 10px 20px rgba(0,0,0,.05); }
-.btn-verde { margin-top:15px; padding:15px; border:none; border-radius:15px; background:#4CAF50; color:#fff; font-weight:800; width:100%; }
-.btn-outline { background:none; color:#4CAF50; border:2px solid #4CAF50; }
-</style>
-</head>
+body {
+    font-family: Segoe UI, Roboto, sans-serif;
+    background:#f8f9fa;
+    padding:25px;
+    text-align:center;
+}
 
-<body>
+.ticket-card {
+    background:#fff;
+    padding:30px;
+    border-radius:30px;
+    box-shadow:0 15px 30px rgba(0,0,0,.06);
+    max-width:420px;
+    margin:auto;
+}
 
-<<<<<<< HEAD
-    <div class="nav-header">
-        <button class="btn-back" onclick="irAlMenu()">⬅️ VOLVER AL MENÚ</button>
-    </div>
+.status {
+    background:#e8f5e9;
+    color:#2e7d32;
+    padding:8px 15px;
+    border-radius:20px;
+    font-size:.75rem;
+    font-weight:800;
+    display:inline-block;
+    margin-bottom:15px;
+}
 
-    <div class="ticket-card">
-        <span class="status-badge">Enviado a Caja 🧾</span>
-        <div id="real-id" class="order-id">MF-000027</div>
-        
-        <div class="info-grid">
-            <div class="info-item">
-                <label>Cliente</label>
-                <span id="real-nom">Belen</span>
-            </div>
-            <div class="info-item">
-                <label>Identificación</label>
-                <span id="real-ced">1752758431</span>
-            </div>
-            <div class="info-item">
-                <label>Dirección</label>
-                <span id="real-dir">Calderon</span>
-            </div>
-            <div class="info-item">
-                <label>Fecha y Hora</label>
-                <span id="real-fec">04/02/2026</span>
-            </div>
-        </div>
+.codigo {
+    font-size:1.8rem;
+    font-weight:900;
+    margin:15px 0;
+    color:#4CAF50;
+}
 
-        <div class="total-box">
-           <div style="
+.info {
+    text-align:left;
+    margin-top:20px;
+    font-size:.9rem;
+}
+
+.info div {
+    margin-bottom:8px;
+}
+
+.msg {
     margin-top:20px;
     background:#e8f5e9;
     color:#2e7d32;
     padding:15px;
     border-radius:15px;
     font-weight:700;
-    font-size:0.85rem;">
-    ✅ Tu pedido fue enviado correctamente a caja.<br>
-    ⏳ Tiempo estimado de preparación: <b>10–15 minutos</b>
-</div>
+    font-size:.85rem;
+}
 
-        </div>
-    </div>
+.btn {
+    margin-top:15px;
+    padding:15px;
+    border:none;
+    border-radius:18px;
+    background:#4CAF50;
+    color:white;
+    font-weight:800;
+    width:100%;
+    cursor:pointer;
+}
 
-    <div class="history-section">
-        <p style="font-weight: 800; color: #999; font-size: 0.75rem; margin-bottom: 10px; padding-left: 10px;">HISTORIAL DE PEDIDOS</p>
-        <div class="history-item">
-            <span><b>MF-102933</b><br>15/01/2026</span>
-            <b>$12.00</b>
-        </div>
-        <div class="history-item">
-            <span><b>MF-992811</b><br>10/01/2026</span>
-            <b>$25.50</b>
-        </div>
-    </div>
-=======
+.btn-outline {
+    background:none;
+    color:#4CAF50;
+    border:2px solid #4CAF50;
+}
+</style>
+</head>
+
+<body>
+
 <div id="app"></div>
->>>>>>> fefdc4672c3fefa2314019c2cb771ce81400fb3e
+
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    const app = document.getElementById("app");
-    const p = new URLSearchParams(location.search);
 
-<<<<<<< HEAD
-  function irAlMenu() {
-    // Simplemente regresamos. El carrito ya está vacío en localStorage.
-    window.location.href = "menu.html";
-}
-=======
-    if (!p.get("cod")) {
+    const app = document.getElementById("app");
+    const ticket = JSON.parse(localStorage.getItem("ticketActual"));
+
+    if(!ticket){
         app.innerHTML = `
-            <h2>⚠️ Error</h2>
-            <p>No se recibió el ticket</p>
-            <button class="btn-verde" onclick="location.href='menu.html'">VOLVER</button>
+            <h2>⚠️ Ticket no encontrado</h2>
+            <p>No hay información del pedido.</p>
+            <button class="btn" onclick="volver()">VOLVER AL MENÚ</button>
         `;
         return;
     }
 
     app.innerHTML = `
-        <div style="font-size:40px">✅</div>
-        <h2>Pedido Confirmado</h2>
+        <div class="ticket-card">
+            <div class="status">Enviado a Caja 🧾</div>
 
-        <div class="codigo-box">${p.get("cod")}</div>
+            <div class="codigo">${ticket.id}</div>
 
-        <div class="cuadro">
-            <strong>👤 Cliente:</strong> ${p.get("nom")}<br>
-            <strong>📄 Cédula:</strong> ${p.get("ci")}<br>
-            <strong>📱 Teléfono:</strong> ${p.get("tel")}<br>
-            <strong>📍 Dirección:</strong> ${p.get("dir")}<hr>
-            <strong>📅 Fecha:</strong> ${p.get("fec")}<br>
-            <strong>⏰ Hora:</strong> ${p.get("hor")}
+            <div class="info">
+                <div><strong>👤 Cliente:</strong> ${ticket.cliente}</div>
+                <div><strong>📅 Fecha:</strong> ${ticket.fecha}</div>
+                <div><strong>⏰ Hora:</strong> ${ticket.hora}</div>
+                <div><strong>💵 Total:</strong> $${ticket.total}</div>
+            </div>
+
+            <div class="msg">
+                ✅ Tu pedido fue enviado correctamente.<br>
+                ⏳ Tiempo estimado: <b>10–15 minutos</b>
+            </div>
+
+            <button class="btn" onclick="window.print()">IMPRIMIR / CAPTURAR</button>
+            <button class="btn btn-outline" onclick="volver()">NUEVO PEDIDO</button>
         </div>
-
-        <button class="btn-verde" onclick="window.print()">IMPRIMIR / CAPTURAR</button>
-        <button class="btn-verde btn-outline" onclick="location.href='menu.html'">NUEVO PEDIDO</button>
     `;
 });
->>>>>>> fefdc4672c3fefa2314019c2cb771ce81400fb3e
+
+function volver(){
+    localStorage.removeItem("ticketActual");
+    location.href = "menu.html";
+}
 </script>
 
 </body>
