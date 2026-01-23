@@ -114,11 +114,27 @@
     };
 
     // ARREGLO: Función para mostrar/ocultar el puntito rojo
-    function actualizarIndicadorTicket() {
-        const data = localStorage.getItem('ticketAPK');
-        const dot = document.getElementById("dot-ticket");
-        if (dot) { dot.style.display = data ? "block" : "none"; }
+    // Actualiza estas funciones en tu menu.html
+function actualizarContador() {
+    // Ahora leemos de la memoria, no de la URL
+    const cart = JSON.parse(localStorage.getItem('carrito') || '[]');
+    const badge = document.getElementById("cart-count");
+    if(badge) { 
+        badge.innerText = cart.length; 
+        badge.style.display = cart.length > 0 ? "flex" : "none"; 
     }
+}
+
+// Estas funciones ahora son simples y no fallan porque no cargan la URL pesada
+function irADetalle(pagina) { window.location.href = pagina; }
+function irACategoria(url) { window.location.href = url; }
+function irAPedido() { window.location.href = "pedido.html"; }
+
+// Ejecutar al cargar
+window.onload = () => {
+    actualizarContador();
+    actualizarIndicadorTicket();
+};
 function verTicketAPK() {
     window.location.href = "ver-ticket.html" + window.location.search;
 }
@@ -141,9 +157,20 @@ function verTicketAPK() {
         const badge = document.getElementById("cart-count");
         if(badge) { badge.innerText = cart.length; badge.style.display = cart.length > 0 ? "flex" : "none"; }
     }
-    function irADetalle(pagina) { window.location.href = `${pagina}?${new URLSearchParams(window.location.search).toString()}`; }
-    function irACategoria(url) { window.location.href = `${url}?${new URLSearchParams(window.location.search).toString()}`; }
-    function irAPedido() { window.location.href = `pedido.html?${new URLSearchParams(window.location.search).toString()}`; }
+    function irADetalle(pagina) { 
+    // Mantiene los platos en la URL para que no se borren al entrar a ver uno
+    window.location.href = pagina + window.location.search; 
+}
+
+function irACategoria(url) { 
+    // Mantiene los platos al cambiar entre Desayuno, Almuerzo y Cena
+    window.location.href = url + window.location.search; 
+}
+
+function irAPedido() { 
+    // Lleva los platos al carrito
+    window.location.href = "pedido.html" + window.location.search; 
+}
   </script>
 </body>
 </html>

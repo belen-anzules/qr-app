@@ -35,7 +35,7 @@
     </div>
 
     <div class="ticket-card">
-        <span class="status-badge">Pedido Confirmado ✅</span>
+        <span class="status-badge">Enviado a Caja 🧾</span>
         <div id="real-id" class="order-id">MF-000027</div>
         
         <div class="info-grid">
@@ -58,8 +58,18 @@
         </div>
 
         <div class="total-box">
-            <span style="font-size: 0.8rem; font-weight: 700;">TOTAL</span>
-            <span id="real-tot" style="font-size: 1.5rem; font-weight: 900;">$20.00</span>
+           <div style="
+    margin-top:20px;
+    background:#e8f5e9;
+    color:#2e7d32;
+    padding:15px;
+    border-radius:15px;
+    font-weight:700;
+    font-size:0.85rem;">
+    ✅ Tu pedido fue enviado correctamente a caja.<br>
+    ⏳ Tiempo estimado de preparación: <b>10–15 minutos</b>
+</div>
+
         </div>
     </div>
 
@@ -91,13 +101,9 @@
         }
     });
 
-   function irAlMenu() {
-    // Esto borra el ticket de la pantalla pero mantiene el del menú (ticketAPK)
-    localStorage.removeItem("ticketActual");
-    
-    // IMPORTANTE: Volvemos al menú inyectando un carrito vacío en la URL
-    // %5B%5D es el código para [] (vacío)
-    window.location.href = "menu.html?cart=%5B%5D";
+  function irAlMenu() {
+    // Simplemente regresamos. El carrito ya está vacío en localStorage.
+    window.location.href = "menu.html";
 }
 </script>
 </body>
