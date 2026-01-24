@@ -101,11 +101,13 @@
 </div>
 
 <script>
+    // Extraer carrito de la URL
     function getCart() {
         const p = new URLSearchParams(location.search);
         return p.get("cart") ? JSON.parse(decodeURIComponent(p.get("cart"))) : [];
     }
 
+    // Dibujar los productos en pantalla
     function render() {
         const cart = getCart();
         const lista = document.getElementById("pedido-lista");
@@ -146,39 +148,45 @@
         document.getElementById("total-global").innerText = total.toFixed(2);
     }
 
+    // Función para eliminar un producto
     function eliminar(idx) {
         let cart = getCart();
         cart.splice(idx, 1);
         location.href = "pedido.html?cart=" + encodeURIComponent(JSON.stringify(cart));
     }
 
-    // Función para abrir el registro con validación de seguridad
-function abrirRegistro() {
-    const cart = getCart(); // Obtenemos el estado actual del carrito
-    
-    if (cart.length === 0) {
-        // Mensaje amigable si intentan finalizar sin productos
-        alert("¡Tu carrito está vacío! 🥗 Selecciona algún plato antes de continuar.");
-        return; // Detiene la ejecución para que no se abra el modal
+    // Regresar al menú manteniendo el carrito
+    function irAMenu() {
+        location.href = "menu.html?cart=" + encodeURIComponent(JSON.stringify(getCart()));
     }
-    
-    // Si hay platos, mostramos el formulario centrado
-    document.getElementById("modal-reg").style.display = "flex";
-}
 
-// Función para cerrar el modal
-function cerrarModal() {
-    document.getElementById("modal-reg").style.display = "none";
-}
-    function irAMenu() { location.href = "menu.html?cart=" + encodeURIComponent(JSON.stringify(getCart())); }
+    // Función para abrir el modal con validación
+    function abrirRegistro() {
+        const cart = getCart();
+        if (cart.length > 0) {
+            document.getElementById("modal-reg").style.display = "flex";
+        } else {
+            alert("Tu carrito está vacío. Elige un plato primero.");
+            irAMenu();
+        }
+    }
 
+    // Función para cerrar el modal
+    function cerrarModal() {
+        document.getElementById("modal-reg").style.display = "none";
+    }
+
+    // Función final: Generar Ticket y guardar en LocalStorage
     function generarTicket() {
-        const n = document.getElementById("nom").value;
-        const c = document.getElementById("ced").value;
-        const t = document.getElementById("tel").value;
-        const d = document.getElementById("dir").value;
+        const n = document.getElementById("nom").value.trim();
+        const c = document.getElementById("ced").value.trim();
+        const t = document.getElementById("tel").value.trim();
+        const d = document.getElementById("dir").value.trim();
 
-        if(!n || !c || !t || !d) { alert("¡Hey! Falta completar tus datos."); return; }
+        if(!n || !c || !t || !d) { 
+            alert("Por favor, completa todos los campos del formulario."); 
+            return; 
+        }
 
         const ticket = {
             id: "MF-" + Math.floor(100000 + Math.random() * 900000),
@@ -191,7 +199,10 @@ function cerrarModal() {
             hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
         };
 
+        // Guardar para que ver-ticket.html lo reconozca
         localStorage.setItem("ticketActual", JSON.stringify(ticket));
+        
+        // Redirigir a la vista del ticket
         location.href = "ver-ticket.html";
     }
 </script>
