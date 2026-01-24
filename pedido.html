@@ -6,308 +6,353 @@
 <title>Confirmar Pedido - Macro Fit</title>
 
 <style>
-:root { --primary:#4CAF50; --bg:#f8f9fa; --dark:#1a1a1a; --error:#ff4d4d; }
-
-body {
-    font-family:Segoe UI, Roboto, sans-serif;
-    background:var(--bg);
-    margin:0;
-    padding-bottom:140px;
-    color:var(--dark);
+:root{
+    --primary:#4CAF50;
+    --bg:#f8f9fa;
+    --dark:#1a1a1a;
+    --soft:#ececec;
+    --error:#ff4d4d;
 }
 
-header {
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Segoe UI, Roboto, sans-serif;
+    background:var(--bg);
+    color:var(--dark);
+    padding-bottom:190px;
+}
+
+/* ===== HEADER ===== */
+header{
     background:#fff;
-    padding:20px;
+    padding:18px 20px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     position:sticky;
     top:0;
-    z-index:100;
-    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    z-index:10;
+    box-shadow:0 2px 12px rgba(0,0,0,.06);
 }
 
-.back-btn {
-    background:#eee;
+.back-btn{
+    width:44px;height:44px;
+    border-radius:14px;
     border:none;
-    width:45px;
-    height:45px;
-    border-radius:15px;
+    background:#eee;
     font-size:1.2rem;
     cursor:pointer;
 }
 
-#pedido-lista { padding:15px; }
+/* ===== LISTA PEDIDO ===== */
+#pedido-lista{ padding:18px; }
 
-.cart-card {
+.cart-card{
     background:#fff;
     padding:18px;
-    border-radius:25px;
+    border-radius:26px;
     margin-bottom:15px;
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    box-shadow:0 10px 20px rgba(0,0,0,0.03);
+    gap:15px;
+    box-shadow:0 12px 25px rgba(0,0,0,.05);
 }
 
-.cart-details strong { font-size:1.1rem; display:block; }
-.cart-details p { font-size:0.85rem; color:#888; margin:4px 0; }
+.cart-details strong{
+    font-size:1.05rem;
+    display:block;
+}
 
-.price-tag {
+.cart-details p{
+    font-size:.8rem;
+    color:#888;
+    margin:4px 0;
+}
+
+.price{
+    font-weight:900;
     color:var(--primary);
-    font-weight:800;
+    font-size:1.05rem;
 }
 
-.cart-actions { display:flex; gap:10px; }
+.cart-actions{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
 
-.btn-action {
+.btn-icon{
     border:none;
-    padding:12px;
-    border-radius:15px;
+    width:42px;
+    height:42px;
+    border-radius:14px;
     font-size:1.1rem;
     cursor:pointer;
 }
 
-.btn-edit { background:#e8f5e9; color:var(--primary); }
-.btn-del { background:#fff1f1; color:var(--error); }
+.btn-edit{background:#e8f5e9;color:var(--primary);}
+.btn-del{background:#fff1f1;color:var(--error);}
 
-.footer-total {
+/* ===== FOOTER TOTAL ===== */
+.footer-total{
     position:fixed;
     bottom:0;
     width:100%;
     background:#fff;
-    padding:25px;
+    padding:20px;
+    padding-bottom:calc(20px + env(safe-area-inset-bottom));
     border-radius:30px 30px 0 0;
-    box-shadow:0 -15px 30px rgba(0,0,0,0.08);
+    box-shadow:0 -15px 35px rgba(0,0,0,.12);
 }
 
-.total-row {
+.total-box{
+    background:#f1fdf4;
+    padding:16px;
+    border-radius:20px;
     display:flex;
     justify-content:space-between;
-    margin-bottom:20px;
+    align-items:center;
+    margin-bottom:15px;
 }
 
-.btn-confirm {
-    background:var(--primary);
-    color:white;
-    border:none;
+.total-box span{ font-size:.85rem; color:#555; }
+.total-box strong{ font-size:1.4rem; color:var(--primary); }
+
+.btn-confirm{
     width:100%;
     padding:20px;
-    border-radius:20px;
-    font-weight:800;
+    border:none;
+    border-radius:22px;
+    background:var(--primary);
+    color:white;
+    font-weight:900;
+    font-size:1rem;
     cursor:pointer;
 }
 
-.modal {
+/* ===== CARRITO VACÍO ===== */
+.empty-cart{
+    text-align:center;
+    padding:60px 20px;
+}
+.empty-cart h2{font-size:3rem;margin:0;}
+.empty-cart p{color:#777;}
+
+/* ===== MODAL DATOS ===== */
+.modal{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.6);
+    background:rgba(0,0,0,.55);
     display:none;
     justify-content:center;
-    align-items:center;
-    z-index: 1000;
+    align-items:flex-end;
+    z-index:1000;
 }
 
-.modal-content {
-    background:white;
-    padding:35px;
-    border-radius:35px;
-    width:88%;
-    max-width:420px;
+.modal-content{
+    background:#fff;
+    width:100%;
+    max-width:480px;
+    padding:30px 22px 40px;
+    border-radius:30px 30px 0 0;
+    animation:up .3s ease;
+}
+
+@keyframes up{
+    from{transform:translateY(100%);}
+    to{transform:translateY(0);}
+}
+
+.modal-content h2{
     text-align:center;
+    margin:0 0 20px;
 }
 
-.input-group { text-align:left; margin-bottom:15px; }
+/* ===== INPUTS ===== */
+.input-group{
+    margin-bottom:15px;
+}
 
-.input-group label {
-    font-size:0.7rem;
+.input-group label{
+    font-size:.7rem;
     font-weight:800;
-    color:#aaa;
+    color:#999;
     text-transform:uppercase;
 }
 
-.modal-content input {
+.input-group input{
     width:100%;
-    padding:16px;
-    margin-top:6px;
-    border:2px solid #f0f0f0;
+    padding:18px;
     border-radius:18px;
-    box-sizing: border-box;
+    border:2px solid #eee;
+    font-size:.95rem;
 }
 
-.modal-content input:focus {
-    outline: none;
-    border-color: var(--primary);
+.input-group input:focus{
+    outline:none;
+    border-color:var(--primary);
 }
 
-.modal-content input.error { border-color:var(--error); }
-.modal-content input.success { border-color:var(--primary); }
+input.error{border-color:var(--error);}
+input.success{border-color:var(--primary);}
 
-/* Estilo para carrito vacío */
-.empty-cart-msg {
-    text-align: center;
-    padding: 50px 20px;
+.modal-actions{
+    margin-top:20px;
 }
-.empty-cart-msg h2 { font-size: 3rem; margin: 0; }
+
+.modal-actions button{
+    width:100%;
+    padding:18px;
+    border-radius:22px;
+    border:none;
+    font-weight:900;
+}
+
+.btn-gen{background:var(--primary);color:white;}
+.btn-cancel{
+    margin-top:10px;
+    background:none;
+    color:#888;
+}
 </style>
 </head>
 
 <body onload="render()">
 
 <header>
-    <button class="back-btn" onclick="irAMenu()">⬅️</button>
-    <h3 style="margin:0;font-weight:800;">Confirmar Pedido</h3>
-    <div style="width:45px"></div>
+<button class="back-btn" onclick="irAMenu()">⬅️</button>
+<h3 style="margin:0;font-weight:900;">Confirmar Pedido</h3>
+<div style="width:44px"></div>
 </header>
 
 <div id="pedido-lista"></div>
 
 <div class="footer-total">
-    <div class="total-row">
-        <span>Total</span>
-        <strong>$<span id="total-global">0.00</span></strong>
-    </div>
-    <button class="btn-confirm" id="btn-main" onclick="abrirRegistro()">FINALIZAR COMPRA 🚀</button>
+<div class="total-box">
+<span>Total a pagar</span>
+<strong>$<span id="total-global">0.00</span></strong>
+</div>
+<button class="btn-confirm" id="btn-main" onclick="abrirRegistro()">FINALIZAR COMPRA 🚀</button>
 </div>
 
-<div id="modal-reg" class="modal">
+<!-- MODAL -->
+<div class="modal" id="modal-reg">
 <div class="modal-content">
-    <h2>Tus Datos</h2>
+<h2>🧾 Tus datos</h2>
 
-    <div class="input-group">
-        <label>Nombre</label>
-        <input id="nom" placeholder="Ej: Juan Pérez">
-    </div>
+<div class="input-group">
+<label>Nombre</label>
+<input id="nom">
+</div>
 
-    <div class="input-group">
-        <label>Cédula</label>
-        <input id="ced" placeholder="Número de identificación">
-    </div>
+<div class="input-group">
+<label>Cédula</label>
+<input id="ced">
+</div>
 
-    <div class="input-group">
-        <label>WhatsApp</label>
-        <input id="tel" placeholder="Ej: 0999999999">
-    </div>
+<div class="input-group">
+<label>WhatsApp</label>
+<input id="tel">
+</div>
 
-    <div class="input-group">
-        <label>Dirección</label>
-        <input id="dir" placeholder="Calle y número">
-    </div>
+<div class="input-group">
+<label>Dirección</label>
+<input id="dir">
+</div>
 
-    <button class="btn-confirm" onclick="generarTicket()">GENERAR MI TICKET ✨</button>
-    <button onclick="cerrarModal()" style="background:none;border:none;color:#aaa;margin-top:15px;cursor:pointer;">Cancelar</button>
+<div class="modal-actions">
+<button class="btn-gen" onclick="generarTicket()">GENERAR TICKET ✨</button>
+<button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+</div>
 </div>
 </div>
 
 <script>
 function getCart(){
-    const p = new URLSearchParams(location.search);
-    try {
-        return p.get("cart") ? JSON.parse(decodeURIComponent(p.get("cart"))) : [];
-    } catch {
-        return [];
-    }
+    const p=new URLSearchParams(location.search);
+    return p.get("cart")?JSON.parse(decodeURIComponent(p.get("cart"))):[];
 }
 
 function render(){
-    const cart = getCart();
-    const lista = document.getElementById("pedido-lista");
-    const totalSpan = document.getElementById("total-global");
-    const btn = document.getElementById("btn-main");
-    let total = 0;
+    const cart=getCart();
+    const lista=document.getElementById("pedido-lista");
+    const totalSpan=document.getElementById("total-global");
+    const btn=document.getElementById("btn-main");
+    let total=0;
 
     if(!cart.length){
-        lista.innerHTML = `
-            <div class="empty-cart-msg">
-                <h2>🛒</h2>
-                <h3>¡Tu carrito está vacío!</h3>
-                <p>Parece que aún no has elegido nada delicioso.</p>
-                <button class="btn-confirm" onclick="irAMenu()">VER EL MENÚ</button>
-            </div>
-        `;
-        btn.disabled = true;
-        btn.style.opacity = .4;
-        totalSpan.innerText = "0.00";
+        lista.innerHTML=`
+        <div class="empty-cart">
+            <h2>🛒</h2>
+            <p>Tu carrito está vacío</p>
+        </div>`;
+        btn.disabled=true;
+        btn.style.opacity=.4;
         return;
     }
 
-    lista.innerHTML = "";
-    cart.forEach((item,i)=>{
-        total += parseFloat(item.total);
-        const cartStr = encodeURIComponent(JSON.stringify(cart));
+    lista.innerHTML="";
+    cart.forEach((i,idx)=>{
+        total+=parseFloat(i.total);
+        const cartStr=encodeURIComponent(JSON.stringify(cart));
 
-        lista.innerHTML += `
+        lista.innerHTML+=`
         <div class="cart-card">
             <div class="cart-details">
-                <strong>${item.nombre}</strong>
-                <p>${item.extras || ''}</p>
-                <span class="price-tag">$${parseFloat(item.total).toFixed(2)}</span>
+                <strong>${i.nombre}</strong>
+                <p>${i.extras||""}</p>
+                <div class="price">$${parseFloat(i.total).toFixed(2)}</div>
             </div>
+
             <div class="cart-actions">
-                <button class="btn-action btn-edit" 
-                    onclick="location.href='${item.page}?cart=${cartStr}&editIndex=${i}'">✏️</button>
-                <button class="btn-action btn-del" 
-                    onclick="eliminar(${i})">🗑️</button>
+                <button class="btn-icon btn-edit"
+                    onclick="location.href='${i.page}?cart=${cartStr}&editIndex=${idx}'">✏️</button>
+                <button class="btn-icon btn-del"
+                    onclick="eliminar(${idx})">🗑️</button>
             </div>
         </div>`;
     });
 
-    totalSpan.innerText = total.toFixed(2);
+    totalSpan.innerText=total.toFixed(2);
 }
 
 function eliminar(i){
-    const cart = getCart();
+    const cart=getCart();
     cart.splice(i,1);
-    location.href = "pedido.html?cart=" + encodeURIComponent(JSON.stringify(cart));
+    location.href="pedido.html?cart="+encodeURIComponent(JSON.stringify(cart));
 }
 
+function abrirRegistro(){document.getElementById("modal-reg").style.display="flex";}
+function cerrarModal(){document.getElementById("modal-reg").style.display="none";}
 function irAMenu(){
-    location.href = "menu.html?cart=" + encodeURIComponent(JSON.stringify(getCart()));
+    location.href="menu.html?cart="+encodeURIComponent(JSON.stringify(getCart()));
 }
-
-function abrirRegistro(){ document.getElementById("modal-reg").style.display="flex"; }
-function cerrarModal(){ document.getElementById("modal-reg").style.display="none"; }
 
 function generarTicket(){
-    // Obtenemos los elementos por ID
-    const n = document.getElementById("nom");
-    const c = document.getElementById("ced");
-    const t = document.getElementById("tel");
-    const d = document.getElementById("dir");
-    
-    const campos = [n, c, t, d];
-    let ok = true;
+    const campos=[nom,ced,tel,dir];
+    let ok=true;
 
-    campos.forEach(campo => {
-        campo.classList.remove("error","success");
-        if(!campo.value.trim()){ 
-            campo.classList.add("error"); 
-            ok = false; 
-        } else {
-            campo.classList.add("success");
-        }
+    campos.forEach(c=>{
+        c.classList.remove("error","success");
+        if(!c.value.trim()){c.classList.add("error");ok=false;}
+        else c.classList.add("success");
     });
 
     if(!ok) return;
 
-    // Guardamos toda la información necesaria
-    const ticketInfo = {
-        id: "MF-" + Math.floor(100000 + Math.random()*900000),
-        cliente: n.value,
-        cedula: c.value,
-        whatsapp: t.value,
-        direccion: d.value,
-        total: document.getElementById("total-global").innerText,
-        fecha: new Date().toLocaleDateString(),
-        hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+    const ticket={
+        id:"MF-"+Math.floor(100000+Math.random()*900000),
+        cliente:nom.value,
+        direccion:dir.value,
+        total:document.getElementById("total-global").innerText,
+        fecha:new Date().toLocaleDateString(),
+        hora:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})
     };
 
-    // Guardar en LocalStorage para que ver-ticket lo lea
-    localStorage.setItem("ticketActual", JSON.stringify(ticketInfo));
-    
-    // Ir a la página del ticket
-    location.href = "ver-ticket.html";
+    localStorage.setItem("ticketActual",JSON.stringify(ticket));
+    location.href="ver-ticket.html";
 }
 </script>
 

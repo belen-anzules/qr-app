@@ -6,83 +6,128 @@
 <title>Ticket - Macro Fit</title>
 
 <style>
-body {
-    font-family: Segoe UI, Roboto, sans-serif;
+body{
+    font-family:Segoe UI, Roboto, sans-serif;
     background:#f8f9fa;
+    margin:0;
     padding:20px;
-    text-align:center;
 }
 
-.ticket-card {
+/* ===== HEADER ===== */
+.header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:15px;
+}
+
+.back-btn{
+    width:44px;
+    height:44px;
+    border-radius:14px;
+    border:none;
+    background:#eee;
+    font-size:1.2rem;
+    cursor:pointer;
+}
+
+.header h3{
+    margin:0;
+    font-weight:900;
+    font-size:1rem;
+}
+
+/* ===== TICKET ===== */
+.ticket-card{
     background:#fff;
     padding:30px;
     border-radius:30px;
     box-shadow:0 15px 30px rgba(0,0,0,.06);
-    max-width:400px;
-    margin:auto;
+    max-width:420px;
+    margin:0 auto 25px;
+    text-align:center;
 }
 
-.status {
+.status{
     background:#e8f5e9;
     color:#2e7d32;
-    padding:8px 15px;
+    padding:8px 16px;
     border-radius:20px;
     font-size:.75rem;
-    font-weight:800;
+    font-weight:900;
     display:inline-block;
 }
 
-.codigo { font-size:1.8rem; font-weight:900; margin:15px 0; color:#4CAF50; }
+.codigo{
+    font-size:1.9rem;
+    font-weight:900;
+    margin:15px 0;
+    color:#4CAF50;
+}
 
-.info { text-align:left; margin-top:20px; font-size:.9rem; }
-.info div { margin-bottom:8px; }
+.info{
+    text-align:left;
+    margin-top:20px;
+    font-size:.9rem;
+}
+.info div{margin-bottom:8px;}
 
-.btn {
+.btn{
     margin-top:15px;
-    padding:15px;
+    padding:18px;
     border:none;
-    border-radius:18px;
+    border-radius:20px;
     background:#4CAF50;
     color:white;
-    font-weight:800;
+    font-weight:900;
     width:100%;
     cursor:pointer;
 }
 
-/* SECCIÓN DE DATOS QUEMADOS */
-.historial-quemado {
-    margin-top: 30px;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
+.btn.out{
+    background:#eee;
+    color:#333;
 }
 
-.historial-quemado h4 {
-    color: #888;
-    margin-bottom: 10px;
-    padding-left: 10px;
+/* ===== HISTORIAL QUEMADO ===== */
+.historial-quemado{
+    max-width:420px;
+    margin:0 auto;
 }
 
-.item-fijo {
-    background: #ffffff;
-    padding: 15px;
-    border-radius: 20px;
-    margin-bottom: 10px;
-    font-size: 0.85rem;
-    border-left: 5px solid #ccc;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+.historial-quemado h4{
+    color:#888;
+    margin-bottom:10px;
+    padding-left:10px;
+}
+
+.item-fijo{
+    background:#fff;
+    padding:15px;
+    border-radius:20px;
+    margin-bottom:10px;
+    font-size:.85rem;
+    border-left:5px solid #ccc;
+    box-shadow:0 6px 10px rgba(0,0,0,0.03);
 }
 </style>
 </head>
 
 <body>
 
+<!-- ===== HEADER CON REGRESAR ===== -->
+<div class="header">
+    <button class="back-btn" onclick="volver()">⬅️</button>
+    <h3>Ticket</h3>
+    <div style="width:44px"></div>
+</div>
+
 <div id="app"></div>
 
+<!-- ===== HISTORIAL QUEMADO ===== -->
 <div class="historial-quemado">
     <h4>🕒 ÚLTIMOS PEDIDOS</h4>
-    
+
     <div class="item-fijo">
         <strong>MF-882190</strong><br>
         📅 20/01/2024 | 💵 Total: $12.50
@@ -100,31 +145,46 @@ body {
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded",()=>{
+
     const app = document.getElementById("app");
     const ticket = JSON.parse(localStorage.getItem("ticketActual"));
 
     if(!ticket){
-        app.innerHTML = `<h2>No hay pedido</h2><button class="btn" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>`;
+        app.innerHTML = `
+        <div class="ticket-card">
+            <h2>😕 No hay pedido activo</h2>
+            <p>No se encontró ningún ticket reciente.</p>
+            <button class="btn out" onclick="volver()">REGRESAR AL MENÚ</button>
+        </div>`;
         return;
     }
 
     app.innerHTML = `
-        <div class="ticket-card">
-            <div class="status">ENVIADO A CAJA 🧾</div>
-            <div class="codigo">${ticket.id}</div>
-            <div class="info">
-                <div><strong>👤 Cliente:</strong> ${ticket.cliente}</div>
-                <div><strong>📍 Dirección:</strong> ${ticket.direccion}</div>
-                <div><strong>📅 Fecha:</strong> ${ticket.fecha}</div>
-                <div><strong>⏰ Hora:</strong> ${ticket.hora}</div>
-                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                <div style="font-size:1.1rem;"><strong>Total: $${ticket.total}</strong></div>
+    <div class="ticket-card">
+        <div class="status">ENVIADO A CAJA 🧾</div>
+
+        <div class="codigo">${ticket.id}</div>
+
+        <div class="info">
+            <div><strong>👤 Cliente:</strong> ${ticket.cliente}</div>
+            <div><strong>📍 Dirección:</strong> ${ticket.direccion}</div>
+            <div><strong>📅 Fecha:</strong> ${ticket.fecha}</div>
+            <div><strong>⏰ Hora:</strong> ${ticket.hora}</div>
+            <hr style="border:0;border-top:1px solid #eee;margin:12px 0;">
+            <div style="font-size:1.1rem;">
+                <strong>Total: $${ticket.total}</strong>
             </div>
-            <button class="btn" onclick="location.href='menu.html'">NUEVO PEDIDO / VOLVER</button>
         </div>
-    `;
+
+        <!-- BOTÓN EXTRA ABAJO -->
+        <button class="btn out" onclick="volver()">REGRESAR AL MENÚ</button>
+    </div>`;
 });
+
+function volver(){
+    location.href="menu.html";
+}
 </script>
 
 </body>
