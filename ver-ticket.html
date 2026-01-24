@@ -49,30 +49,31 @@
         </div>
     </div>
 </div>
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
     
-    // Escaneamos la URL (Método infalible para APK)
-    const urlParams = new URLSearchParams(window.location.search);
+    // Capturamos la URL completa que viene de la página anterior
+    const query = window.location.search;
+    const urlParams = new URLSearchParams(query);
     
-    const cliente = urlParams.get('n');
-    const telefono = urlParams.get('t');
-    const direccion = urlParams.get('d');
+    // Extraemos cada dato individualmente
+    const cliente = urlParams.get('cliente');
+    const telefono = urlParams.get('tel');
+    const direccion = urlParams.get('dir');
     const total = urlParams.get('total');
     const ordenId = urlParams.get('id');
 
-    // Si detectamos datos en la URL, renderizamos el ticket amigable
+    // SI HAY DATOS: Reemplazamos el diseño "quemado" por los datos reales
     if (cliente) {
         app.innerHTML = `
-            <div class="status-badge">¡TODO LISTO!</div>
+            <div class="status-badge">ORDEN CONFIRMADA</div>
             <div style="font-size:60px; margin:10px 0;">✅</div>
             <h2 style="margin:0; font-weight: 900;">¡Gracias, ${cliente}!</h2>
-            <p style="color:#888; font-size:0.9rem;">Estamos preparando tu comida con lo mejor.</p>
+            <p style="color:#888; font-size:0.9rem;">Tu pedido está en camino.</p>
             
             <div style="background:#f0f9f0; color:#2e7d32; padding:15px; border-radius:15px; font-size:1.6rem; font-weight:900; border:2px dashed #4CAF50; margin: 15px 0;">
-                #${ordenId || 'MF-TEMP'}
+                #${ordenId}
             </div>
 
             <div style="text-align:left; background:#f9f9f9; padding:15px; border-radius:20px; font-size: 0.9rem; border:1px solid #eee;">
@@ -84,25 +85,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
             </div>
 
-            <button class="btn-verde" onclick="nuevoPedido()" style="margin-top:25px;">
+            <button class="btn-verde" onclick="location.href='menu.html'" style="margin-top:25px;">
                 VOLVER AL MENÚ
             </button>
         `;
     } else {
-        // Estado por defecto si no hay parámetros (Carrito vacío o acceso directo)
+        // SI NO HAY DATOS (Acceso directo o error)
         app.innerHTML = `
             <div style="font-size:50px; margin-bottom:10px;">🥗</div>
-            <h2 style="font-weight:900;">¿Hambre?</h2>
-            <p style="color:#888;">No encontramos un pedido activo en este momento.</p>
+            <h2 style="font-weight:900;">¿Sin pedido?</h2>
+            <p style="color:#888;">No hemos recibido información de tu compra.</p>
             <button class="btn-verde" onclick="location.href='menu.html'" style="margin-top:20px;">
-                VER EL MENÚ
+                IR AL MENÚ
             </button>
         `;
     }
 });
 
+// Función para limpiar la memoria al salir (opcional)
 function nuevoPedido() {
-    // Limpiamos memoria y regresamos
     localStorage.removeItem("ticketActual"); 
     location.href = 'menu.html';
 }

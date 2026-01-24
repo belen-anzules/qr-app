@@ -195,81 +195,34 @@
 
     function cerrarModal() {
         document.getElementById("modal-reg").style.display = "none";
-    }function generarTicket() {
-    const n = document.getElementById("nom").value.trim();
-    const t = document.getElementById("tel").value.trim();
-    const d = document.getElementById("dir").value.trim();
-    const total = document.getElementById("total-global").innerText;
-
-    if(!n || !t || !d) { 
-        alert("Por favor, completa tus datos 🥗"); 
-        return; 
     }
 
-    // Creamos una URL con los datos integrados
-    const destino = "ver-ticket.html" + 
-                    "?n=" + encodeURIComponent(n) + 
-                    "&t=" + encodeURIComponent(t) + 
-                    "&d=" + encodeURIComponent(d) + 
-                    "&total=" + total +
-                    "&id=" + Math.floor(Math.random() * 999999);
-
-    // Redirección directa
-    window.location.href = destino;
-}
-    function eliminar(idx) {
-        let cart = getCart();
-        cart.splice(idx, 1);
-        location.href = "pedido.html?cart=" + encodeURIComponent(JSON.stringify(cart));
-    }
-
-    function irAMenu() {
-        const cartStr = encodeURIComponent(JSON.stringify(getCart()));
-        location.href = "menu.html?cart=" + cartStr;
-    }
-
-    function abrirRegistro() {
-        if (getCart().length > 0) {
-            document.getElementById("modal-reg").style.display = "flex";
-        } else {
-            alert("Elige al menos un plato.");
-            irAMenu();
-        }
-    }
-
-    function cerrarModal() {
-        document.getElementById("modal-reg").style.display = "none";
-    }
-
-    // ARREGLO DE CONEXIÓN DEFINITIVO
+    // ESTA ES LA ÚNICA FUNCIÓN GENERAR TICKET QUE DEBE EXISTIR
     function generarTicket() {
         const n = document.getElementById("nom").value.trim();
-        const c = document.getElementById("ced").value.trim();
         const t = document.getElementById("tel").value.trim();
         const d = document.getElementById("dir").value.trim();
         const total = document.getElementById("total-global").innerText;
 
-        if(!n || !c || !t || !d) { 
-            alert("Por favor, llena todos los campos para generar tu ticket."); 
+        if(!n || !t || !d) { 
+            alert("Por favor, llena tus datos para continuar 🥗"); 
             return; 
         }
 
-        const ticket = {
-            id: "MF-" + Math.floor(100000 + Math.random() * 900000),
-            cliente: n,
-            cedula: c,
-            telefono: t,
-            direccion: d,
-            total: total,
-            fecha: new Date().toLocaleDateString(),
-            hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
-        };
+        const idOrden = "MF-" + Math.floor(100000 + Math.random() * 900000);
 
-        // Guardamos en LocalStorage
+        // 1. Guardamos en LocalStorage por si el navegador lo permite
+        const ticket = { cliente: n, telefono: t, direccion: d, total: total, id: idOrden };
         localStorage.setItem("ticketActual", JSON.stringify(ticket));
-        
-        // Redirigimos sin parámetros largos para evitar que se rompa la URL
-        location.href = "ver-ticket.html";
+
+        // 2. Enviamos por URL (MÉTODO INFALIBLE PARA APK)
+        const parametros = "?cliente=" + encodeURIComponent(n) + 
+                           "&tel=" + encodeURIComponent(t) + 
+                           "&dir=" + encodeURIComponent(d) + 
+                           "&total=" + encodeURIComponent(total) + 
+                           "&id=" + encodeURIComponent(idOrden);
+
+        location.href = "ver-ticket.html" + parametros;
     }
 </script>
 </body>
