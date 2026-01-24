@@ -198,32 +198,28 @@
     }
 
     // ESTA ES LA ÚNICA FUNCIÓN GENERAR TICKET QUE DEBE EXISTIR
-    function generarTicket() {
-        const n = document.getElementById("nom").value.trim();
-        const t = document.getElementById("tel").value.trim();
-        const d = document.getElementById("dir").value.trim();
-        const total = document.getElementById("total-global").innerText;
+   function generarTicket() {
+    const n = document.getElementById("nom").value.trim();
+    const t = document.getElementById("tel").value.trim();
+    const d = document.getElementById("dir").value.trim();
+    const total = document.getElementById("total-global").innerText;
 
-        if(!n || !t || !d) { 
-            alert("Por favor, llena tus datos para continuar 🥗"); 
-            return; 
-        }
-
-        const idOrden = "MF-" + Math.floor(100000 + Math.random() * 900000);
-
-        // 1. Guardamos en LocalStorage por si el navegador lo permite
-        const ticket = { cliente: n, telefono: t, direccion: d, total: total, id: idOrden };
-        localStorage.setItem("ticketActual", JSON.stringify(ticket));
-
-        // 2. Enviamos por URL (MÉTODO INFALIBLE PARA APK)
-        const parametros = "?cliente=" + encodeURIComponent(n) + 
-                           "&tel=" + encodeURIComponent(t) + 
-                           "&dir=" + encodeURIComponent(d) + 
-                           "&total=" + encodeURIComponent(total) + 
-                           "&id=" + encodeURIComponent(idOrden);
-
-        location.href = "ver-ticket.html" + parametros;
+    if(!n || !t || !d) { 
+        alert("Por favor, llena tus datos para continuar 🥗"); 
+        return; 
     }
+
+    const idOrden = "MF-" + Math.floor(100000 + Math.random() * 900000);
+
+    // CONEXIÓN POR URL: Usamos nombres claros (cliente, tel, dir, total, id)
+    const parametros = "?cliente=" + encodeURIComponent(n) + 
+                       "&tel=" + encodeURIComponent(t) + 
+                       "&dir=" + encodeURIComponent(d) + 
+                       "&total=" + encodeURIComponent(total) + 
+                       "&id=" + encodeURIComponent(idOrden);
+
+    window.location.href = "ver-ticket.html" + parametros;
+}
 </script>
 </body>
 </html>

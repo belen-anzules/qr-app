@@ -53,31 +53,30 @@
 document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
     
-    // Capturamos la URL completa que viene de la página anterior
-    const query = window.location.search;
-    const urlParams = new URLSearchParams(query);
+    // Capturamos la URL y sus parámetros
+    const urlParams = new URLSearchParams(window.location.search);
     
-    // Extraemos cada dato individualmente
+    // IMPORTANTE: Los nombres deben coincidir con los de pedido.html
     const cliente = urlParams.get('cliente');
     const telefono = urlParams.get('tel');
     const direccion = urlParams.get('dir');
     const total = urlParams.get('total');
     const ordenId = urlParams.get('id');
 
-    // SI HAY DATOS: Reemplazamos el diseño "quemado" por los datos reales
+    // Si recibimos el nombre del cliente, inyectamos los datos reales
     if (cliente) {
         app.innerHTML = `
             <div class="status-badge">ORDEN CONFIRMADA</div>
             <div style="font-size:60px; margin:10px 0;">✅</div>
             <h2 style="margin:0; font-weight: 900;">¡Gracias, ${cliente}!</h2>
-            <p style="color:#888; font-size:0.9rem;">Tu pedido está en camino.</p>
+            <p style="color:#888; font-size:0.9rem;">Tu pedido está siendo procesado.</p>
             
             <div style="background:#f0f9f0; color:#2e7d32; padding:15px; border-radius:15px; font-size:1.6rem; font-weight:900; border:2px dashed #4CAF50; margin: 15px 0;">
                 #${ordenId}
             </div>
 
             <div style="text-align:left; background:#f9f9f9; padding:15px; border-radius:20px; font-size: 0.9rem; border:1px solid #eee;">
-                <strong>📍 Dirección:</strong> ${direccion}<br>
+                <strong>📍 Entrega:</strong> ${direccion}<br>
                 <strong>📱 WhatsApp:</strong> ${telefono}<br>
                 <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
                 <div style="text-align:center; font-size:1.6rem; color:#4CAF50;">
@@ -90,24 +89,15 @@ document.addEventListener("DOMContentLoaded", function() {
             </button>
         `;
     } else {
-        // SI NO HAY DATOS (Acceso directo o error)
+        // Pantalla de error amigable si no hay datos
         app.innerHTML = `
             <div style="font-size:50px; margin-bottom:10px;">🥗</div>
-            <h2 style="font-weight:900;">¿Sin pedido?</h2>
-            <p style="color:#888;">No hemos recibido información de tu compra.</p>
-            <button class="btn-verde" onclick="location.href='menu.html'" style="margin-top:20px;">
-                IR AL MENÚ
-            </button>
+            <h2>¿Sin pedido?</h2>
+            <p style="color:#888;">No encontramos información de tu compra.</p>
+            <button class="btn-verde" onclick="location.href='menu.html'">IR AL MENÚ</button>
         `;
     }
 });
-
-// Función para limpiar la memoria al salir (opcional)
-function nuevoPedido() {
-    localStorage.removeItem("ticketActual"); 
-    location.href = 'menu.html';
-}
 </script>
-
 </body>
 </html>
