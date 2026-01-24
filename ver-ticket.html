@@ -5,66 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ticket - Macro Fit</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; padding: 20px; color: #333; }
         header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 12px; cursor: pointer; }
+        .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 12px; cursor: pointer; font-size: 1.2rem; }
         
         .ticket-card {
             background: #fff; padding: 25px; border-radius: 30px; text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05); max-width: 400px; margin: 0 auto 30px;
         }
-        .status-badge { background: #e8f5e9; color: #2e7d32; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; }
-        .codigo { font-size: 2rem; font-weight: 900; color: #4CAF50; margin: 15px 0; }
-        .info-row { text-align: left; font-size: 0.9rem; margin-bottom: 8px; color: #555; }
+        
+        .status-badge { background: #e8f5e9; color: #2e7d32; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-bottom: 10px; }
         
         .historial { max-width: 400px; margin: 0 auto; }
-        .historial h4 { color: #888; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
-        .historial-item { background: #fff; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 4px solid #ddd; font-size: 0.8rem; }
+        .historial h4 { color: #888; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+        .historial-item { background: #fff; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 4px solid #4CAF50; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+
+        .btn-verde { background: #4CAF50; color: white; border: none; padding: 18px; border-radius: 15px; font-weight: bold; width: 100%; cursor: pointer; transition: 0.2s; }
+        .btn-outline { background: transparent; color: #4CAF50; border: 2px solid #4CAF50; margin-top: 10px; }
+        .btn-verde:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
 
 <header>
     <button class="back-btn" onclick="location.href='menu.html'">⬅️</button>
-    <h3 style="margin:0">Comprobante</h3>
+    <h3 style="margin:0; font-weight: 800;">Comprobante</h3>
     <div style="width:40px"></div>
 </header>
 
-<div id="ticket-content"></div>
+<div id="app" class="ticket-card">
+    <p>Cargando pedido...</p>
+</div>
 
 <div class="historial">
     <h4>🕒 Pedidos Anteriores</h4>
-    <div class="historial-item">
-        <strong>MF-882190</strong><br>
-        20/01/2024 | Total: $12.50
-    </div>
-    <div class="historial-item">
-        <strong>MF-441203</strong><br>
-        18/01/2024 | Total: $8.00
+    <div id="lista-historial">
+        <div class="historial-item">
+            <strong>MF-882190</strong><br>
+            20/01/2026 | Total: $12.50
+        </div>
+        <div class="historial-item">
+            <strong>MF-441203</strong><br>
+            18/01/2026 | Total: $8.00
+        </div>
     </div>
 </div>
 
 <script>
-    const ticket = JSON.parse(localStorage.getItem("ticketActual"));
-    const container = document.getElementById("ticket-content");
+document.addEventListener("DOMContentLoaded", function() {
+    const app = document.getElementById("app");
+    
+    // 1. LA CONEXIÓN: Buscamos en la memoria interna el ticket guardado
+    const datosGuardados = localStorage.getItem("ticketActual");
+    const ticket = datosGuardados ? JSON.parse(datosGuardados) : null;
 
-    if(!ticket) {
-        container.innerHTML = `<div class="ticket-card"><h3>No hay ticket activo</h3><button onclick="location.href='menu.html'" style="padding:10px; width:100%; border-radius:10px; border:none; background:#4CAF50; color:#fff;">IR AL MENÚ</button></div>`;
-    } else {
-        container.innerHTML = `
-            <div class="ticket-card">
-                <span class="status-badge">LISTO PARA CAJA 🧾</span>
-                <div class="codigo">${ticket.id}</div>
-                <div class="info-row"><strong>Cliente:</strong> ${ticket.cliente}</div>
-                <div class="info-row"><strong>WhatsApp:</strong> ${ticket.telefono}</div>
-                <div class="info-row"><strong>Dirección:</strong> ${ticket.direccion}</div>
-                <div class="info-row"><strong>Fecha:</strong> ${ticket.fecha} - ${ticket.hora}</div>
-                <hr style="border:0; border-top:1px dashed #eee; margin:15px 0;">
-                <div style="font-size:1.3rem; font-weight:bold; color: #333;">Total: $${ticket.total}</div>
-                <p style="font-size:0.7rem; color:#999; margin-top:15px;">Muestra este código en caja para pagar.</p>
+    // 2. VERIFICACIÓN: Si existe el ticket, lo mostramos
+    if (ticket && ticket.id) {
+        app.innerHTML = `
+            <div class="status-badge">ORDEN CONFIRMADA</div>
+            <div style="font-size:50px; margin-bottom:10px;">✅</div>
+            <h2 style="margin:0 0 10px 0; font-weight: 900;">¡Listo!</h2>
+            
+            <div style="background:#f0f9f0; color:#2e7d32; padding:15px; border-radius:15px; font-size:1.6rem; font-weight:900; border:2px dashed #4CAF50; margin: 15px 0;">
+                ${ticket.id}
+            </div>
+
+            <div style="text-align:left; background:#fdfdfd; padding:15px; border-radius:20px; font-size: 0.9rem; line-height: 1.6;">
+                <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
+                <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
+                <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
+                <strong>📍 Dirección:</strong> ${ticket.direccion}<br> 
+                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                <div style="display:flex; justify-content:space-between; font-size: 0.8rem; color: #888;">
+                    <span>📅 ${ticket.fecha}</span>
+                    <span>⏰ ${ticket.hora}</span>
+                </div>
+                <div style="font-size:1.5rem; margin-top:10px; color:#4CAF50; text-align:center;">
+                    <strong>TOTAL: $${ticket.total}</strong>
+                </div>
+            </div>
+
+            <div style="margin-top:25px;">
+                <button class="btn-verde" onclick="window.print()">
+                    🖨️ IMPRIMIR O CAPTURAR
+                </button>
+                <button class="btn-verde btn-outline" onclick="nuevoPedido()">
+                    🥗 NUEVO PEDIDO
+                </button>
             </div>
         `;
+    } else {
+        // Si no hay datos, mostramos mensaje de error
+        app.innerHTML = `
+            <div style="font-size:60px;">⚠️</div>
+            <h2 style="font-weight: 900;">Sin Pedido</h2>
+            <p style="color:#888;">No encontramos información de tu compra reciente.</p>
+            <button class="btn-verde" onclick="location.href='menu.html'">
+                IR AL MENÚ
+            </button>
+        `;
     }
+});
+
+function nuevoPedido() {
+    // Opcional: Podrías guardar el ticket actual en el historial antes de borrarlo
+    localStorage.removeItem("ticketActual"); 
+    location.href = 'menu.html';
+}
 </script>
 
 </body>
