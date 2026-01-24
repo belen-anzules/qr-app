@@ -395,3 +395,42 @@ body {
     color: #999;
     font-size: 0.75rem;
 }
+.form-wrapper{
+    max-width:400px;
+    margin:40px auto;
+    background:#fff;
+    padding:30px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+
+.form-wrapper h2{
+    margin-bottom:5px;
+}
+
+.sub{
+    font-size:.85rem;
+    color:#777;
+    margin-bottom:20px;
+}
+
+form input{
+    width:100%;
+    padding:14px;
+    margin-bottom:12px;
+    border-radius:15px;
+    border:1px solid #ddd;
+    font-size:.9rem;
+}
+
+form button{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:18px;
+    background:#4CAF50;
+    color:white;
+    font-weight:900;
+    cursor:pointer;
+}

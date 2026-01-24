@@ -1,190 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ticket - Macro Fit</title>
-
-<style>
-body{
-    font-family:Segoe UI, Roboto, sans-serif;
-    background:#f8f9fa;
-    margin:0;
-    padding:20px;
-}
-
-/* ===== HEADER ===== */
-.header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:15px;
-}
-
-.back-btn{
-    width:44px;
-    height:44px;
-    border-radius:14px;
-    border:none;
-    background:#eee;
-    font-size:1.2rem;
-    cursor:pointer;
-}
-
-.header h3{
-    margin:0;
-    font-weight:900;
-    font-size:1rem;
-}
-
-/* ===== TICKET ===== */
-.ticket-card{
-    background:#fff;
-    padding:30px;
-    border-radius:30px;
-    box-shadow:0 15px 30px rgba(0,0,0,.06);
-    max-width:420px;
-    margin:0 auto 25px;
-    text-align:center;
-}
-
-.status{
-    background:#e8f5e9;
-    color:#2e7d32;
-    padding:8px 16px;
-    border-radius:20px;
-    font-size:.75rem;
-    font-weight:900;
-    display:inline-block;
-}
-
-.codigo{
-    font-size:1.9rem;
-    font-weight:900;
-    margin:15px 0;
-    color:#4CAF50;
-}
-
-.info{
-    text-align:left;
-    margin-top:20px;
-    font-size:.9rem;
-}
-.info div{margin-bottom:8px;}
-
-.btn{
-    margin-top:15px;
-    padding:18px;
-    border:none;
-    border-radius:20px;
-    background:#4CAF50;
-    color:white;
-    font-weight:900;
-    width:100%;
-    cursor:pointer;
-}
-
-.btn.out{
-    background:#eee;
-    color:#333;
-}
-
-/* ===== HISTORIAL QUEMADO ===== */
-.historial-quemado{
-    max-width:420px;
-    margin:0 auto;
-}
-
-.historial-quemado h4{
-    color:#888;
-    margin-bottom:10px;
-    padding-left:10px;
-}
-
-.item-fijo{
-    background:#fff;
-    padding:15px;
-    border-radius:20px;
-    margin-bottom:10px;
-    font-size:.85rem;
-    border-left:5px solid #ccc;
-    box-shadow:0 6px 10px rgba(0,0,0,0.03);
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket - Macro Fit</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+        header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+        .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 12px; cursor: pointer; }
+        
+        .ticket-card {
+            background: #fff; padding: 25px; border-radius: 30px; text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); max-width: 400px; margin: 0 auto 30px;
+        }
+        .status-badge { background: #e8f5e9; color: #2e7d32; padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; font-weight: bold; }
+        .codigo { font-size: 2rem; font-weight: 900; color: #4CAF50; margin: 15px 0; }
+        .info-row { text-align: left; font-size: 0.9rem; margin-bottom: 8px; color: #555; }
+        
+        .historial { max-width: 400px; margin: 0 auto; }
+        .historial h4 { color: #888; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+        .historial-item { background: #fff; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 4px solid #ddd; font-size: 0.8rem; }
+    </style>
 </head>
-
 <body>
 
-<!-- ===== HEADER CON REGRESAR ===== -->
-<div class="header">
-    <button class="back-btn" onclick="volver()">⬅️</button>
-    <h3>Ticket</h3>
-    <div style="width:44px"></div>
-</div>
+<header>
+    <button class="back-btn" onclick="location.href='menu.html'">⬅️</button>
+    <h3 style="margin:0">Comprobante</h3>
+    <div style="width:40px"></div>
+</header>
 
-<div id="app"></div>
+<div id="ticket-content"></div>
 
-<!-- ===== HISTORIAL QUEMADO ===== -->
-<div class="historial-quemado">
-    <h4>🕒 ÚLTIMOS PEDIDOS</h4>
-
-    <div class="item-fijo">
+<div class="historial">
+    <h4>🕒 Pedidos Anteriores</h4>
+    <div class="historial-item">
         <strong>MF-882190</strong><br>
-        📅 20/01/2024 | 💵 Total: $12.50
+        20/01/2024 | Total: $12.50
     </div>
-
-    <div class="item-fijo">
+    <div class="historial-item">
         <strong>MF-441203</strong><br>
-        📅 18/01/2024 | 💵 Total: $8.00
-    </div>
-
-    <div class="item-fijo">
-        <strong>MF-109283</strong><br>
-        📅 15/01/2024 | 💵 Total: $25.75
+        18/01/2024 | Total: $8.00
     </div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded",()=>{
-
-    const app = document.getElementById("app");
     const ticket = JSON.parse(localStorage.getItem("ticketActual"));
+    const container = document.getElementById("ticket-content");
 
-    if(!ticket){
-        app.innerHTML = `
-        <div class="ticket-card">
-            <h2>😕 No hay pedido activo</h2>
-            <p>No se encontró ningún ticket reciente.</p>
-            <button class="btn out" onclick="volver()">REGRESAR AL MENÚ</button>
-        </div>`;
-        return;
-    }
-
-    app.innerHTML = `
-    <div class="ticket-card">
-        <div class="status">ENVIADO A CAJA 🧾</div>
-
-        <div class="codigo">${ticket.id}</div>
-
-        <div class="info">
-            <div><strong>👤 Cliente:</strong> ${ticket.cliente}</div>
-            <div><strong>📍 Dirección:</strong> ${ticket.direccion}</div>
-            <div><strong>📅 Fecha:</strong> ${ticket.fecha}</div>
-            <div><strong>⏰ Hora:</strong> ${ticket.hora}</div>
-            <hr style="border:0;border-top:1px solid #eee;margin:12px 0;">
-            <div style="font-size:1.1rem;">
-                <strong>Total: $${ticket.total}</strong>
+    if(!ticket) {
+        container.innerHTML = `<div class="ticket-card"><h3>No hay ticket activo</h3><button onclick="location.href='menu.html'" style="padding:10px; width:100%; border-radius:10px; border:none; background:#4CAF50; color:#fff;">IR AL MENÚ</button></div>`;
+    } else {
+        container.innerHTML = `
+            <div class="ticket-card">
+                <span class="status-badge">LISTO PARA CAJA 🧾</span>
+                <div class="codigo">${ticket.id}</div>
+                <div class="info-row"><strong>Cliente:</strong> ${ticket.cliente}</div>
+                <div class="info-row"><strong>WhatsApp:</strong> ${ticket.telefono}</div>
+                <div class="info-row"><strong>Dirección:</strong> ${ticket.direccion}</div>
+                <div class="info-row"><strong>Fecha:</strong> ${ticket.fecha} - ${ticket.hora}</div>
+                <hr style="border:0; border-top:1px dashed #eee; margin:15px 0;">
+                <div style="font-size:1.3rem; font-weight:bold; color: #333;">Total: $${ticket.total}</div>
+                <p style="font-size:0.7rem; color:#999; margin-top:15px;">Muestra este código en caja para pagar.</p>
             </div>
-        </div>
-
-        <!-- BOTÓN EXTRA ABAJO -->
-        <button class="btn out" onclick="volver()">REGRESAR AL MENÚ</button>
-    </div>`;
-});
-
-function volver(){
-    location.href="menu.html";
-}
+        `;
+    }
 </script>
 
 </body>
