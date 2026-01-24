@@ -31,99 +31,125 @@
         .btn-edit { background: #e3f2fd; color: #1976d2; }
         .btn-del { background: #fff0f0; color: var(--error); }
 
-        /* Footer */
-        .footer-total { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 20px; box-sizing: border-box; border-radius: 25px 25px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,0.08); }
-        .btn-confirm { width: 100%; padding: 18px; border: none; border-radius: 18px; background: var(--primary); color: #fff; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 8px 15px rgba(76, 175, 80, 0.3); }
+        /* BOTÓN FLOTANTE MEJORADO (MÁS VISIBLE) */
+        .float-menu {
+            position: fixed; 
+            bottom: 140px; /* Un poco más arriba para que no estorbe al footer */
+            right: 25px;
+            background: var(--primary); /* Color verde de la marca */
+            color: white;
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4); /* Sombra verde */
+            cursor: pointer; 
+            z-index: 999; 
+            border: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .float-menu:active { transform: scale(0.85); }
+        .float-menu span { font-size: 1.8rem; }
 
-        /* MODAL CENTRADO Y BONITO */
+        /* Footer */
+        .footer-total { position: fixed; bottom: 0; width: 100%; background: #fff; padding: 20px; box-sizing: border-box; border-radius: 30px 30px 0 0; box-shadow: 0 -15px 35px rgba(0,0,0,0.1); z-index: 101; }
+        .btn-confirm { width: 100%; padding: 18px; border: none; border-radius: 20px; background: var(--primary); color: #fff; font-weight: bold; font-size: 1.1rem; cursor: pointer; }
+
+        /* MODAL CENTRADO */
         .modal { 
             position: fixed; inset: 0; background: rgba(0,0,0,0.7); 
-            display: none; align-items: center; justify-content: center; z-index: 1000; 
-            padding: 20px; backdrop-filter: blur(4px);
+            display: none; align-items: center; justify-content: center; z-index: 2000; 
+            padding: 20px; backdrop-filter: blur(6px);
         }
         .modal-content { 
             background: #fff; width: 100%; max-width: 400px; padding: 30px; 
             border-radius: 30px; position: relative; animation: zoomIn 0.3s ease;
         }
-        @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .input-group { margin-bottom: 18px; text-align: left; }
         .input-group label { display: block; font-size: 0.75rem; font-weight: 800; color: #aaa; margin-bottom: 5px; text-transform: uppercase; }
-        .input-group input { width: 100%; padding: 14px; border: 2px solid #f1f1f1; border-radius: 14px; box-sizing: border-box; font-size: 1rem; transition: 0.3s; }
+        .input-group input { width: 100%; padding: 15px; border: 2px solid #f1f1f1; border-radius: 15px; box-sizing: border-box; font-size: 1rem; }
         .input-group input:focus { border-color: var(--primary); outline: none; background: #f9fff9; }
 
-        .empty-msg { text-align: center; padding: 60px 20px; }
-        .empty-msg h2 { font-size: 4rem; margin-bottom: 10px; }
+        .empty-msg { text-align: center; padding: 100px 20px; }
+        .empty-msg h2 { font-size: 5rem; margin-bottom: 20px; }
     </style>
 </head>
 <body onload="render()">
 
 <header>
     <button class="back-btn" onclick="irAMenu()">⬅️</button>
-    <h3 style="margin:0; font-weight: 800;">Mi Pedido</h3>
+    <h3 style="margin:0; font-weight: 900;">Confirmar Pedido</h3>
     <div style="width:40px"></div>
 </header>
+
+<div class="float-menu" onclick="irAMenu()" id="btn-float">
+    <span>🏠</span>
+</div>
 
 <div id="pedido-lista"></div>
 
 <div class="footer-total" id="footer-ui">
     <div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items: center;">
-        <span style="color:#777">Total del pedido</span>
-        <span style="color:var(--primary); font-size:1.6rem; font-weight: 900;">$<span id="total-global">0.00</span></span>
+        <span style="color:#777; font-weight: 600;">Total a pagar</span>
+        <span style="color:var(--primary); font-size:1.8rem; font-weight: 900;">$<span id="total-global">0.00</span></span>
     </div>
-    <button class="btn-confirm" onclick="abrirRegistro()">CONTINUAR 🚀</button>
+    <button class="btn-confirm" onclick="abrirRegistro()">FINALIZAR COMPRA 🚀</button>
 </div>
 
 <div class="modal" id="modal-reg">
     <div class="modal-content">
-        <h2 style="margin: 0 0 20px; text-align: center;">Tus Datos 🧾</h2>
+        <h2 style="margin: 0 0 25px; text-align: center; font-weight: 900;">Tus Datos 🧾</h2>
         
         <div class="input-group">
             <label>Nombre Completo</label>
-            <input type="text" id="nom" placeholder="¿A quién entregamos?">
+            <input type="text" id="nom" placeholder="Ej: Juan Pérez">
         </div>
         <div class="input-group">
             <label>Cédula / RUC</label>
-            <input type="number" id="ced" placeholder="ID Identificación">
+            <input type="number" id="ced" placeholder="Número de identidad">
         </div>
         <div class="input-group">
             <label>WhatsApp</label>
-            <input type="tel" id="tel" placeholder="Para contactarte">
+            <input type="tel" id="tel" placeholder="Ej: 0987654321">
         </div>
         <div class="input-group">
-            <label>Dirección Exacta</label>
-            <input type="text" id="dir" placeholder="Calle, número, referencia">
+            <label>Dirección de Entrega</label>
+            <input type="text" id="dir" placeholder="Calle, sector y referencia">
         </div>
 
         <button class="btn-confirm" onclick="generarTicket()">GENERAR TICKET ✨</button>
-        <button onclick="cerrarModal()" style="width:100%; background:none; border:none; color:#bbb; margin-top:15px; font-weight: bold; cursor:pointer;">Cerrar</button>
+        <button onclick="cerrarModal()" style="width:100%; background:none; border:none; color:#bbb; margin-top:20px; font-weight: bold; cursor:pointer;">Cancelar</button>
     </div>
 </div>
 
 <script>
-    // Extraer carrito de la URL
     function getCart() {
         const p = new URLSearchParams(location.search);
         return p.get("cart") ? JSON.parse(decodeURIComponent(p.get("cart"))) : [];
     }
 
-    // Dibujar los productos en pantalla
     function render() {
         const cart = getCart();
         const lista = document.getElementById("pedido-lista");
         const footer = document.getElementById("footer-ui");
+        const floatBtn = document.getElementById("btn-float");
         let total = 0;
 
         if (cart.length === 0) {
             lista.innerHTML = `
                 <div class="empty-msg">
-                    <h2>🥗</h2>
+                    <h2>🛒</h2>
                     <h3 style="color:#444">¡Carrito vacío!</h3>
-                    <p style="color:#888">Parece que aún no has elegido nada saludable hoy.</p>
+                    <p style="color:#888">No has agregado platos todavía.</p>
                     <br>
-                    <button class="btn-confirm" onclick="irAMenu()">EXPLORAR MENÚ</button>
+                    <button class="btn-confirm" onclick="irAMenu()">VOLVER AL MENÚ</button>
                 </div>`;
             footer.style.display = "none";
+            floatBtn.style.display = "none";
             return;
         }
 
@@ -136,7 +162,7 @@
                 <div class="cart-card">
                     <div class="item-info">
                         <strong>${item.nombre}</strong>
-                        <span>${item.extras || 'Sin extras'}</span>
+                        <span>${item.extras || 'Pedido estándar'}</span>
                         <div class="price">$${parseFloat(item.total).toFixed(2)}</div>
                     </div>
                     <div class="actions">
@@ -148,43 +174,40 @@
         document.getElementById("total-global").innerText = total.toFixed(2);
     }
 
-    // Función para eliminar un producto
     function eliminar(idx) {
         let cart = getCart();
         cart.splice(idx, 1);
         location.href = "pedido.html?cart=" + encodeURIComponent(JSON.stringify(cart));
     }
 
-    // Regresar al menú manteniendo el carrito
     function irAMenu() {
-        location.href = "menu.html?cart=" + encodeURIComponent(JSON.stringify(getCart()));
+        const cartStr = encodeURIComponent(JSON.stringify(getCart()));
+        location.href = "menu.html?cart=" + cartStr;
     }
 
-    // Función para abrir el modal con validación
     function abrirRegistro() {
-        const cart = getCart();
-        if (cart.length > 0) {
+        if (getCart().length > 0) {
             document.getElementById("modal-reg").style.display = "flex";
         } else {
-            alert("Tu carrito está vacío. Elige un plato primero.");
+            alert("Elige al menos un plato.");
             irAMenu();
         }
     }
 
-    // Función para cerrar el modal
     function cerrarModal() {
         document.getElementById("modal-reg").style.display = "none";
     }
 
-    // Función final: Generar Ticket y guardar en LocalStorage
+    // ARREGLO DE CONEXIÓN DEFINITIVO
     function generarTicket() {
         const n = document.getElementById("nom").value.trim();
         const c = document.getElementById("ced").value.trim();
         const t = document.getElementById("tel").value.trim();
         const d = document.getElementById("dir").value.trim();
+        const total = document.getElementById("total-global").innerText;
 
         if(!n || !c || !t || !d) { 
-            alert("Por favor, completa todos los campos del formulario."); 
+            alert("Por favor, llena todos los campos para generar tu ticket."); 
             return; 
         }
 
@@ -194,15 +217,15 @@
             cedula: c,
             telefono: t,
             direccion: d,
-            total: document.getElementById("total-global").innerText,
+            total: total,
             fecha: new Date().toLocaleDateString(),
             hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
         };
 
-        // Guardar para que ver-ticket.html lo reconozca
+        // Guardamos en LocalStorage
         localStorage.setItem("ticketActual", JSON.stringify(ticket));
         
-        // Redirigir a la vista del ticket
+        // Redirigimos sin parámetros largos para evitar que se rompa la URL
         location.href = "ver-ticket.html";
     }
 </script>
