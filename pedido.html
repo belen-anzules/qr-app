@@ -196,39 +196,39 @@
     function cerrarModal() {
         document.getElementById("modal-reg").style.display = "none";
     }
+function generarTicket() {
+    const n = document.getElementById("nom").value.trim();
+    const c = document.getElementById("ced").value.trim();
+    const t = document.getElementById("tel").value.trim();
+    const d = document.getElementById("dir").value.trim();
+    const total = document.getElementById("total-global").innerText;
+    
+    // ESTA ES LA CLAVE: Capturar el carrito actual
+    const productos = getCart();
 
-    function generarTicket() {
-        const n = document.getElementById("nom").value.trim();
-        const c = document.getElementById("ced").value.trim();
-        const t = document.getElementById("tel").value.trim();
-        const d = document.getElementById("dir").value.trim();
-        const total = document.getElementById("total-global").innerText;
-        const productos = getCart();
-
-        if(!n || !c || !t || !d) { 
-            alert("Por favor, llena todos los campos."); 
-            return; 
-        }
-
-        const ticket = {
-            id: "MF-" + Math.floor(100000 + Math.random() * 900000),
-            cliente: n,
-            cedula: c,
-            telefono: t,
-            direccion: d,
-            total: total,
-            items: productos, // Guardamos qué compró
-            fecha: new Date().toLocaleDateString(),
-            hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
-        };
-
-        // Guardamos el ticket y limpiamos el carrito para la próxima vez
-        localStorage.setItem("ticketActual", JSON.stringify(ticket));
-        
-        // Redirigir a la página de visualización
-        location.href = "ver-ticket.html";
+    if(!n || !c || !t || !d) { 
+        alert("Por favor, llena todos los campos."); 
+        return; 
     }
 
+    const ticket = {
+        id: "MF-" + Math.floor(100000 + Math.random() * 900000),
+        cliente: n,
+        cedula: c,
+        telefono: t,
+        direccion: d,
+        total: total,
+        items: productos, // <--- Conecta los productos
+        fecha: new Date().toLocaleDateString(),
+        hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+    };
+
+    // Guardar en la memoria del navegador
+    localStorage.setItem("ticketActual", JSON.stringify(ticket));
+    
+    // Ir a la página del ticket
+    location.href = "ver-ticket.html"; 
+}
     function eliminar(idx) {
         let cart = getCart();
         cart.splice(idx, 1);
