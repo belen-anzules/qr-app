@@ -9,7 +9,7 @@
 body {
     font-family: Segoe UI, Roboto, sans-serif;
     background:#f8f9fa;
-    padding:25px;
+    padding:20px;
     text-align:center;
 }
 
@@ -18,7 +18,7 @@ body {
     padding:30px;
     border-radius:30px;
     box-shadow:0 15px 30px rgba(0,0,0,.06);
-    max-width:420px;
+    max-width:400px;
     margin:auto;
 }
 
@@ -30,35 +30,12 @@ body {
     font-size:.75rem;
     font-weight:800;
     display:inline-block;
-    margin-bottom:15px;
 }
 
-.codigo {
-    font-size:1.8rem;
-    font-weight:900;
-    margin:15px 0;
-    color:#4CAF50;
-}
+.codigo { font-size:1.8rem; font-weight:900; margin:15px 0; color:#4CAF50; }
 
-.info {
-    text-align:left;
-    margin-top:20px;
-    font-size:.9rem;
-}
-
-.info div {
-    margin-bottom:8px;
-}
-
-.msg {
-    margin-top:20px;
-    background:#e8f5e9;
-    color:#2e7d32;
-    padding:15px;
-    border-radius:15px;
-    font-weight:700;
-    font-size:.85rem;
-}
+.info { text-align:left; margin-top:20px; font-size:.9rem; }
+.info div { margin-bottom:8px; }
 
 .btn {
     margin-top:15px;
@@ -72,10 +49,29 @@ body {
     cursor:pointer;
 }
 
-.btn-outline {
-    background:none;
-    color:#4CAF50;
-    border:2px solid #4CAF50;
+/* SECCIÓN DE DATOS QUEMADOS */
+.historial-quemado {
+    margin-top: 30px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.historial-quemado h4 {
+    color: #888;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.item-fijo {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+    border-left: 5px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
 }
 </style>
 </head>
@@ -84,50 +80,51 @@ body {
 
 <div id="app"></div>
 
+<div class="historial-quemado">
+    <h4>🕒 ÚLTIMOS PEDIDOS</h4>
+    
+    <div class="item-fijo">
+        <strong>MF-882190</strong><br>
+        📅 20/01/2024 | 💵 Total: $12.50
+    </div>
+
+    <div class="item-fijo">
+        <strong>MF-441203</strong><br>
+        📅 18/01/2024 | 💵 Total: $8.00
+    </div>
+
+    <div class="item-fijo">
+        <strong>MF-109283</strong><br>
+        📅 15/01/2024 | 💵 Total: $25.75
+    </div>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
     const app = document.getElementById("app");
     const ticket = JSON.parse(localStorage.getItem("ticketActual"));
 
     if(!ticket){
-        app.innerHTML = `
-            <h2>⚠️ Ticket no encontrado</h2>
-            <p>No hay información del pedido.</p>
-            <button class="btn" onclick="volver()">VOLVER AL MENÚ</button>
-        `;
+        app.innerHTML = `<h2>No hay pedido</h2><button class="btn" onclick="location.href='menu.html'">VOLVER AL MENÚ</button>`;
         return;
     }
 
     app.innerHTML = `
         <div class="ticket-card">
-            <div class="status">Enviado a Caja 🧾</div>
-
+            <div class="status">ENVIADO A CAJA 🧾</div>
             <div class="codigo">${ticket.id}</div>
-
             <div class="info">
                 <div><strong>👤 Cliente:</strong> ${ticket.cliente}</div>
+                <div><strong>📍 Dirección:</strong> ${ticket.direccion}</div>
                 <div><strong>📅 Fecha:</strong> ${ticket.fecha}</div>
                 <div><strong>⏰ Hora:</strong> ${ticket.hora}</div>
-                <div><strong>💵 Total:</strong> $${ticket.total}</div>
+                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                <div style="font-size:1.1rem;"><strong>Total: $${ticket.total}</strong></div>
             </div>
-
-            <div class="msg">
-                ✅ Tu pedido fue enviado correctamente.<br>
-                ⏳ Tiempo estimado: <b>10–15 minutos</b>
-            </div>
-
-            <button class="btn" onclick="window.print()">IMPRIMIR / CAPTURAR</button>
-            <button class="btn btn-outline" onclick="volver()">NUEVO PEDIDO</button>
+            <button class="btn" onclick="location.href='menu.html'">NUEVO PEDIDO / VOLVER</button>
         </div>
     `;
 });
-
-function volver(){
-    localStorage.removeItem("ticketActual");
-    location.href = "menu.html";
-}
 </script>
 
 </body>

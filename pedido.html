@@ -16,7 +16,6 @@ body {
     color:var(--dark);
 }
 
-/* HEADER */
 header {
     background:#fff;
     padding:20px;
@@ -39,7 +38,6 @@ header {
     cursor:pointer;
 }
 
-/* LISTA */
 #pedido-lista { padding:15px; }
 
 .cart-card {
@@ -61,7 +59,6 @@ header {
     font-weight:800;
 }
 
-/* BOTONES */
 .cart-actions { display:flex; gap:10px; }
 
 .btn-action {
@@ -75,7 +72,6 @@ header {
 .btn-edit { background:#e8f5e9; color:var(--primary); }
 .btn-del { background:#fff1f1; color:var(--error); }
 
-/* FOOTER */
 .footer-total {
     position:fixed;
     bottom:0;
@@ -103,7 +99,6 @@ header {
     cursor:pointer;
 }
 
-/* MODAL */
 .modal {
     position:fixed;
     inset:0;
@@ -111,6 +106,7 @@ header {
     display:none;
     justify-content:center;
     align-items:center;
+    z-index: 1000;
 }
 
 .modal-content {
@@ -137,15 +133,23 @@ header {
     margin-top:6px;
     border:2px solid #f0f0f0;
     border-radius:18px;
+    box-sizing: border-box;
 }
 
-.modal-content input.error {
-    border-color:var(--error);
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--primary);
 }
 
-.modal-content input.success {
-    border-color:var(--primary);
+.modal-content input.error { border-color:var(--error); }
+.modal-content input.success { border-color:var(--primary); }
+
+/* Estilo para carrito vacío */
+.empty-cart-msg {
+    text-align: center;
+    padding: 50px 20px;
 }
+.empty-cart-msg h2 { font-size: 3rem; margin: 0; }
 </style>
 </head>
 
@@ -167,33 +171,32 @@ header {
     <button class="btn-confirm" id="btn-main" onclick="abrirRegistro()">FINALIZAR COMPRA 🚀</button>
 </div>
 
-<!-- MODAL -->
 <div id="modal-reg" class="modal">
 <div class="modal-content">
     <h2>Tus Datos</h2>
 
     <div class="input-group">
         <label>Nombre</label>
-        <input id="nom">
+        <input id="nom" placeholder="Ej: Juan Pérez">
     </div>
 
     <div class="input-group">
         <label>Cédula</label>
-        <input id="ced">
+        <input id="ced" placeholder="Número de identificación">
     </div>
 
     <div class="input-group">
         <label>WhatsApp</label>
-        <input id="tel">
+        <input id="tel" placeholder="Ej: 0999999999">
     </div>
 
     <div class="input-group">
         <label>Dirección</label>
-        <input id="dir">
+        <input id="dir" placeholder="Calle y número">
     </div>
 
     <button class="btn-confirm" onclick="generarTicket()">GENERAR MI TICKET ✨</button>
-    <button onclick="cerrarModal()" style="background:none;border:none;color:#aaa;margin-top:15px;">Cancelar</button>
+    <button onclick="cerrarModal()" style="background:none;border:none;color:#aaa;margin-top:15px;cursor:pointer;">Cancelar</button>
 </div>
 </div>
 
@@ -215,9 +218,17 @@ function render(){
     let total = 0;
 
     if(!cart.length){
-        lista.innerHTML = "<p style='text-align:center'>🛒 Carrito vacío</p>";
+        lista.innerHTML = `
+            <div class="empty-cart-msg">
+                <h2>🛒</h2>
+                <h3>¡Tu carrito está vacío!</h3>
+                <p>Parece que aún no has elegido nada delicioso.</p>
+                <button class="btn-confirm" onclick="irAMenu()">VER EL MENÚ</button>
+            </div>
+        `;
         btn.disabled = true;
         btn.style.opacity = .4;
+        totalSpan.innerText = "0.00";
         return;
     }
 
@@ -234,9 +245,9 @@ function render(){
                 <span class="price-tag">$${parseFloat(item.total).toFixed(2)}</span>
             </div>
             <div class="cart-actions">
-                <button class="btn-action btn-edit"
+                <button class="btn-action btn-edit" 
                     onclick="location.href='${item.page}?cart=${cartStr}&editIndex=${i}'">✏️</button>
-                <button class="btn-action btn-del"
+                <button class="btn-action btn-del" 
                     onclick="eliminar(${i})">🗑️</button>
             </div>
         </div>`;
@@ -259,26 +270,43 @@ function abrirRegistro(){ document.getElementById("modal-reg").style.display="fl
 function cerrarModal(){ document.getElementById("modal-reg").style.display="none"; }
 
 function generarTicket(){
-    const campos = [nom,ced,tel,dir];
+    // Obtenemos los elementos por ID
+    const n = document.getElementById("nom");
+    const c = document.getElementById("ced");
+    const t = document.getElementById("tel");
+    const d = document.getElementById("dir");
+    
+    const campos = [n, c, t, d];
     let ok = true;
 
-    campos.forEach(c=>{
-        c.classList.remove("error","success");
-        if(!c.value.trim()){ c.classList.add("error"); ok=false; }
-        else c.classList.add("success");
+    campos.forEach(campo => {
+        campo.classList.remove("error","success");
+        if(!campo.value.trim()){ 
+            campo.classList.add("error"); 
+            ok = false; 
+        } else {
+            campo.classList.add("success");
+        }
     });
 
     if(!ok) return;
 
-    const ticket = {
+    // Guardamos toda la información necesaria
+    const ticketInfo = {
         id: "MF-" + Math.floor(100000 + Math.random()*900000),
-        cliente: nom.value,
+        cliente: n.value,
+        cedula: c.value,
+        whatsapp: t.value,
+        direccion: d.value,
         total: document.getElementById("total-global").innerText,
         fecha: new Date().toLocaleDateString(),
         hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
     };
 
-    localStorage.setItem("ticketActual", JSON.stringify(ticket));
+    // Guardar en LocalStorage para que ver-ticket lo lea
+    localStorage.setItem("ticketActual", JSON.stringify(ticketInfo));
+    
+    // Ir a la página del ticket
     location.href = "ver-ticket.html";
 }
 </script>
