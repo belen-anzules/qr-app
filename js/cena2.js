@@ -1,8 +1,13 @@
 const basePrice = 6.00;
 const ingredients = {
-    pollo: { name: "Pechuga Grill", price: 2.0, calories: 165, protein: 31, fat: 3.6, carbs: 0, qty: 1, included: true },
-    lechuga: { name: "Mix Lechugas", price: 0.5, calories: 15, protein: 1.2, fat: 0.2, carbs: 2.8, qty: 1, included: true },
-    queso: { name: "Parmesano", price: 1.0, calories: 110, protein: 10, fat: 7, carbs: 0.9, qty: 1, included: true }
+    // 120g de Pechuga Grill (Pechuga a la plancha sin piel)
+    pollo: { name: "Pechuga Grill", price: 2.0, calories: 198, protein: 37, fat: 4.5, carbs: 0, qty: 1, included: true },
+    
+    // 80g de Mix de Lechugas frescas (romana, escarola, etc.)
+    lechuga: { name: "Mix Lechugas", price: 0.5, calories: 12, protein: 1.1, fat: 0.1, carbs: 2.3, qty: 1, included: true },
+    
+    // 30g de Queso Parmesano rallado (Aporta el sabor y la grasa necesaria)
+    queso: { name: "Parmesano", price: 1.0, calories: 118, protein: 11.2, fat: 8.1, carbs: 1.1, qty: 1, included: true }
 };
 
 let editIndex = null;

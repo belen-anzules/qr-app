@@ -1,10 +1,19 @@
 const basePrice = 3.99;
 const ingredients = {
-    pan: { name: "Pan Integral", price: 0.8, calories: 120, protein: 4, fat: 1, carbs: 24, qty: 1, included: true },
-    aguacate: { name: "Aguacate", price: 0.9, calories: 130, protein: 1.5, fat: 12, carbs: 7, qty: 1, included: true },
-    huevos: { name: "Huevos Poché", price: 0.5, calories: 145, protein: 13, fat: 10, carbs: 1, qty: 1, included: true },
-    tomates: { name: "Tomates Cherry", price: 0.3, calories: 10, protein: 0.5, fat: 0.1, carbs: 2, qty: 1, included: true },
-    chia: { name: "Semillas Chía", price: 0.7, calories: 25, protein: 1, fat: 1.5, carbs: 2, qty: 1, included: true }
+    // 2 rebanadas de pan integral de caja (aprox. 28g cada una)
+    pan: { name: "Pan Integral", price: 0.8, calories: 138, protein: 6, fat: 1.8, carbs: 24, qty: 1, included: true },
+    
+    // 1/2 aguacate mediano (aprox. 80g de pulpa) - Excelente fuente de potasio
+    aguacate: { name: "Aguacate", price: 0.9, calories: 128, protein: 1.6, fat: 11.7, carbs: 6.8, qty: 1, included: true },
+    
+    // 2 huevos grandes (poché o cocidos)
+    huevos: { name: "Huevos Poché", price: 0.5, calories: 143, protein: 12.6, fat: 9.5, carbs: 0.7, qty: 1, included: true },
+    
+    // 5-6 tomates cherry (aprox. 50g)
+    tomates: { name: "Tomates Cherry", price: 0.3, calories: 9, protein: 0.4, fat: 0.1, carbs: 1.9, qty: 1, included: true },
+    
+    // 1 cucharadita de chía (5g) - Aporte de Omega-3 y fibra
+    chia: { name: "Semillas Chía", price: 0.7, calories: 24, protein: 0.8, fat: 1.5, carbs: 2.1, qty: 1, included: true }
 };
 
 let editIndex = null;

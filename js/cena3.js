@@ -1,8 +1,15 @@
 const basePrice = 8.50;
 const ingredients = {
-    salmon: { name: "Salmón Grill", price: 3.5, calories: 208, protein: 20, fat: 13, carbs: 0, qty: 1, included: true },
-    quinoa: { name: "Quinoa Cocida", price: 1.0, calories: 120, protein: 4.4, fat: 1.9, carbs: 21, qty: 1, included: true },
-    edamame: { name: "Edamame", price: 0.8, calories: 121, protein: 11, fat: 5, carbs: 10, qty: 1, included: true }
+    // 150g de Salmón a la plancha (Peso cocido)
+    // Rico en Omega-3 y Vitamina D
+    salmon: { name: "Salmón Grill", price: 3.5, calories: 312, protein: 33, fat: 19, carbs: 0, qty: 1, included: true },
+    
+    // 100g de Quinoa Cocida (media taza aprox.)
+    quinoa: { name: "Quinoa Cocida", price: 1.0, calories: 120, protein: 4.4, fat: 1.9, carbs: 21.3, qty: 1, included: true },
+    
+    // 50g de Edamame (corazones/sin vaina)
+    // Aporta fibra y proteína vegetal
+    edamame: { name: "Edamame", price: 0.8, calories: 61, protein: 5.5, fat: 2.5, carbs: 5.1, qty: 1, included: true }
 };
 
 let editIndex = null;

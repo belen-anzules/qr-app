@@ -1,13 +1,23 @@
 const basePrice = 7.99;
 const ingredients = {
-    pollo: { name: "Pechuga de Pollo", price: 0.8, calories: 195, protein: 31, fat: 7.5, carbs: 0, qty: 1, included: true },
-    arroz: { name: "Arroz", price: 0.9, calories: 80, protein: 2.0, fat: 0.5, carbs: 17, qty: 1, included: true },
-    garbanzos: { name: "Garbanzos", price: 0.5, calories: 82, protein: 4.3, fat: 1.3, carbs: 13.5, qty: 1, included: true },
-    queso: { name: "Queso", price: 0.3, calories: 40, protein: 2.1, fat: 3.1, carbs: 0.6, qty: 1, included: true },
-    tomate: { name: "Tomate Cherry y Pepino", price: 0.7, calories: 18, protein: 0.8, fat: 0.2, carbs: 3.5, qty: 1, included: true },
-    aceituna: { name: "Aceitunas", price: 0.7, calories: 25, protein: 0.2, fat: 2.5, carbs: 1.2, qty: 1, included: true },
+    // 120g de Pechuga de pollo a la plancha
+    pollo: { name: "Pechuga de Pollo", price: 0.8, calories: 198, protein: 37, fat: 4.5, carbs: 0, qty: 1, included: true },
+    
+    // 75g de Arroz cocido (una porción moderada, aprox 1/3 de taza)
+    arroz: { name: "Arroz", price: 0.9, calories: 98, protein: 2.1, fat: 0.2, carbs: 21.2, qty: 1, included: true },
+    
+    // 50g de Garbanzos cocidos (fuente de fibra y proteína vegetal)
+    garbanzos: { name: "Garbanzos", price: 0.5, calories: 82, protein: 4.5, fat: 1.3, carbs: 13.7, qty: 1, included: true },
+    
+    // 15g de Queso Feta desmenuzado
+    queso: { name: "Queso", price: 0.3, calories: 40, protein: 2.1, fat: 3.2, carbs: 0.6, qty: 1, included: true },
+    
+    // Mix de 50g de Tomate cherry y Pepino (muy bajo en calorías, alto en hidratación)
+    tomate: { name: "Tomate Cherry y Pepino", price: 0.7, calories: 12, protein: 0.6, fat: 0.1, carbs: 2.4, qty: 1, included: true },
+    
+    // 4-5 Aceitunas negras o verdes
+    aceituna: { name: "Aceitunas", price: 0.7, calories: 25, protein: 0.2, fat: 2.6, carbs: 0.8, qty: 1, included: true },
 };
-
 let editIndex = null;
 
 function cargarConfiguracion() {

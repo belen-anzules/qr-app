@@ -1,14 +1,13 @@
-const basePrice = 8.99;
+// Actualiza tu objeto de ingredientes en desayuno2.js
 const ingredients = {
-    arroz: { name: "Arroz Integral", price: 0.8, calories: 110, protein: 2.5, fat: 0.8, carbs: 23, qty: 1, included: true },
-    quinoa: { name: "Quinoa", price: 0.9, calories: 110, protein: 4, fat: 1.9, carbs: 19.5, qty: 1, included: true },
-    frijoles: { name: "Frijoles Rojos", price: 0.5, calories: 70, protein: 4.5, fat: 0.3, carbs: 12.5, qty: 1, included: true },
-    aguacate: { name: "Aguacate", price: 0.3, calories: 60, protein: 0.8, fat: 5.5, carbs: 3.5, qty: 1, included: true },
-    elote: { name: "Elote Tierno", price: 0.7, calories: 35, protein: 1, fat: 0.5, carbs: 7.5, qty: 1, included: true },
-    salsa: { name: "Salsa Chipotle", price: 0.7, calories: 45, protein: 0.2, fat: 4, carbs: 2, qty: 1, included: true },
-    lcl: { name: "Lechuga, Cilantro, Limon", price: 0.7, calories: 15, protein: 1, fat: 0.1, carbs: 3, qty: 1, included: true }
+    pan: { name: "Pan Integral", price: 0.8, calories: 138, protein: 6, fat: 1.8, carbs: 24, qty: 1, included: true },
+    aguacate: { name: "Aguacate", price: 0.9, calories: 128, protein: 1.6, fat: 11.7, carbs: 6.8, qty: 1, included: true },
+    huevos: { name: "Huevos Poché", price: 0.5, calories: 143, protein: 12.6, fat: 9.5, carbs: 0.7, qty: 1, included: true },
+    tomates: { name: "Tomates Cherry", price: 0.3, calories: 9, protein: 0.4, fat: 0.1, carbs: 1.9, qty: 1, included: true },
+    chia: { name: "Semillas Chía", price: 0.7, calories: 24, protein: 0.8, fat: 1.5, carbs: 2.1, qty: 1, included: true },
+    // Nuevo: Café Negro (Acompañante clásico)
+    cafe: { name: "Café Negro", price: 1.25, calories: 2, protein: 0.3, fat: 0, carbs: 0, qty: 0, included: false }
 };
-
 let editIndex = null;
 
 function cargarConfiguracion() {

@@ -1,12 +1,25 @@
 const basePrice = 5.99;
 const ingredients = {
-    avena: { name: "Avena", price: 0.8, calories: 150, protein: 5, fat: 2.5, carbs: 27, qty: 1, included: true },
-    yogurt: { name: "Yogur", price: 0.9, calories: 80, protein: 12, fat: 0.5, carbs: 5, qty: 1, included: true },
-    leche: { name: "Leche Almendras", price: 0.5, calories: 20, protein: 0.7, fat: 1.5, carbs: 0.7, qty: 1, included: true },
-    zucchini: { name: "Zucchini", price: 0.3, calories: 5, protein: 0.4, fat: 0.1, carbs: 1, qty: 1, included: true },
-    nueces: { name: "Nueces", price: 0.7, calories: 98, protein: 2.2, fat: 9, carbs: 2, qty: 1, included: true },
-    arandanos: { name: "Arándanos", price: 0.6, calories: 18, protein: 0.2, fat: 0.1, carbs: 4.5, qty: 1, included: true },
-    miel: { name: "Miel", price: 0.4, calories: 21, protein: 0, fat: 0, carbs: 6, qty: 0, included: false }
+    // 1/2 taza de avena en hojuelas (aprox 40-50g)
+    avena: { name: "Avena", price: 0.8, calories: 154, protein: 6, fat: 2.8, carbs: 28, qty: 1, included: true },
+    
+    // 150g de Yogur Griego natural descremado (alto en proteína)
+    yogurt: { name: "Yogur", price: 0.9, calories: 90, protein: 15, fat: 0.4, carbs: 6, qty: 1, included: true },
+    
+    // 1/2 taza de leche de almendras sin azúcar
+    leche: { name: "Leche Almendras", price: 0.5, calories: 15, protein: 0.5, fat: 1.2, carbs: 0.4, qty: 1, included: true },
+    
+    // 50g de zucchini rallado (aporta mucha fibra y agua, pocas calorías)
+    zucchini: { name: "Zucchini", price: 0.3, calories: 9, protein: 0.6, fat: 0.1, carbs: 1.7, qty: 1, included: true },
+    
+    // 15g de nueces picadas (aprox 3-4 unidades) - Fuente de grasa saludable
+    nueces: { name: "Nueces", price: 0.7, calories: 98, protein: 2.3, fat: 9.8, carbs: 2.1, qty: 1, included: true },
+    
+    // 30g de arándanos frescos (un puñado pequeño)
+    arandanos: { name: "Arándanos", price: 0.6, calories: 17, protein: 0.2, fat: 0.1, carbs: 4.3, qty: 1, included: true },
+    
+    // 1 cucharadita de miel (7g aprox) - Carbohidrato simple
+    miel: { name: "Miel", price: 0.4, calories: 21, protein: 0, fat: 0, carbs: 5.7, qty: 0, included: false }
 };
 
 let editIndex = null;

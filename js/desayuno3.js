@@ -1,12 +1,22 @@
 const basePrice = 3.99;
 const ingredients = {
-    yogurt: { name: "Yogurt Griego", price: 0.8, calories: 130, protein: 18, fat: 1, carbs: 8, qty: 1, included: true },
-    granola: { name: "Granola Artesanal", price: 0.9, calories: 140, protein: 3, fat: 6, carbs: 18, qty: 1, included: true },
-    fresas: { name: "Fresas", price: 0.5, calories: 13, protein: 0.3, fat: 0.1, carbs: 3, qty: 1, included: true },
-    arandanos: { name: "Arándanos", price: 0.3, calories: 17, protein: 0.2, fat: 0.1, carbs: 3, qty: 1, included: true },
-    mantequilla: { name: "Mantequilla de Almendras", price: 0.7, calories: 95, protein: 3.5, fat: 8.5, carbs: 3, qty: 1, included: true },
-    semillas: { name: "Semillas de Hemp", price: 0.7, calories: 55, protein: 3, fat: 4.5, carbs: 1, qty: 1, included: true }
+    // 200g de Yogurt Griego natural sin azúcar (aprox. 3/4 de taza)
+    yogurt: { name: "Yogurt Griego", price: 0.8, calories: 118, protein: 20, fat: 0.8, carbs: 7.2, qty: 1, included: true },
     
+    // 30g de Granola Artesanal (aprox. 1/4 de taza)
+    granola: { name: "Granola Artesanal", price: 0.9, calories: 135, protein: 3.2, fat: 5.8, carbs: 17.5, qty: 1, included: true },
+    
+    // 40g de Fresas frescas (aprox. 3 unidades medianas)
+    fresas: { name: "Fresas", price: 0.5, calories: 13, protein: 0.3, fat: 0.1, carbs: 3.1, qty: 1, included: true },
+    
+    // 30g de Arándanos (aprox. un puñado pequeño)
+    arandanos: { name: "Arándanos", price: 0.3, calories: 17, protein: 0.2, fat: 0.1, carbs: 4.4, qty: 1, included: true },
+    
+    // 1 cucharada (15g) de Mantequilla de Almendras natural
+    mantequilla: { name: "Mantequilla de Almendras", price: 0.7, calories: 92, protein: 3.1, fat: 8.2, carbs: 2.8, qty: 1, included: true },
+    
+    // 1 cucharada (10g) de Semillas de Hemp (Corazones de cáñamo) - Súper proteína vegetal
+    semillas: { name: "Semillas de Hemp", price: 0.7, calories: 55, protein: 3.2, fat: 4.7, carbs: 0.9, qty: 1, included: true }
 };
 
 let editIndex = null;

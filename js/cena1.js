@@ -1,9 +1,17 @@
 const basePrice = 5.50;
 const ingredients = {
-    cerdo: { name: "Cerdo Magro", price: 1.5, calories: 180, protein: 22, fat: 9, carbs: 2, qty: 1, included: true },
-    tortilla: { name: "Tortilla de Maíz", price: 0.5, calories: 50, protein: 1.2, fat: 0.5, carbs: 10, qty: 3, included: true },
-    pina: { name: "Piña Asada", price: 0.4, calories: 25, protein: 0.2, fat: 0.1, carbs: 6, qty: 1, included: true },
-    aguacate: { name: "Aguacate", price: 1.0, calories: 160, protein: 2, fat: 15, carbs: 9, qty: 0, included: false }
+    // 100g de Lomo de cerdo magro marinado (bajo en grasa)
+    cerdo: { name: "Cerdo Magro", price: 1.5, calories: 155, protein: 24, fat: 5.8, carbs: 1.5, qty: 1, included: true },
+    
+    // 3 tortillas de maíz pequeñas (aprox 25g c/u). 
+    // Calorías por unidad: 52 kcal | Carbs: 11g
+    tortilla: { name: "Tortilla de Maíz", price: 0.5, calories: 52, protein: 1.4, fat: 0.6, carbs: 11, qty: 3, included: true },
+    
+    // 40g de Piña asada (aprox 2 rodajas pequeñas)
+    pina: { name: "Piña Asada", price: 0.4, calories: 20, protein: 0.2, fat: 0.1, carbs: 5.2, qty: 1, included: true },
+    
+    // 80g de Aguacate (extra opcional, no incluido en base)
+    aguacate: { name: "Aguacate", price: 1.0, calories: 128, protein: 1.6, fat: 11.7, carbs: 6.8, qty: 0, included: false }
 };
 
 let editIndex = null;

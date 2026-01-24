@@ -1,14 +1,29 @@
 const basePrice = 7.99;
 
 const ingredients = {
-    arroz: { name: "Arroz Blanco", price: 0.8, calories: 198, protein: 4, fat: 0.4, carbs: 44, qty: 1 },
-    pollo: { name: "Pollo Desmechado", price: 0.9, calories: 165, protein: 31, fat: 3.6, carbs: 0, qty: 1 },
-    frijoles: { name: "Frijoles Rojos", price: 0.5, calories: 76, protein: 5, fat: 0.3, carbs: 13.5, qty: 1 },
-    guacamole: { name: "Guacamole", price: 0.3, calories: 80, protein: 1, fat: 7.4, carbs: 4, qty: 1 },
-    tortilla: { name: "Tortilla Chips", price: 0.7, calories: 74, protein: 1, fat: 1.5, carbs: 15, qty: 1 },
-    pico: { name: "Pico de Gallo", price: 0.7, calories: 11, protein: 0.4, fat: 0.1, carbs: 2.5, qty: 1 },
-    salsa: { name: "Salsa Chipotle", price: 0.7, calories: 45, protein: 0.3, fat: 4, carbs: 2, qty: 1 },
-    lcl: { name: "Lechuga, Cilantro y Limón", price: 0.7, calories: 12, protein: 0.8, fat: 0.1, carbs: 2, qty: 1 }
+    // 150g de Arroz Blanco cocido (aprox. 1 taza pequeña)
+    arroz: { name: "Arroz Blanco", price: 0.8, calories: 195, protein: 4.1, fat: 0.4, carbs: 42.2, qty: 1 },
+    
+    // 120g de Pechuga de pollo desmechada (pesado cocido)
+    pollo: { name: "Pollo Desmechado", price: 0.9, calories: 198, protein: 37, fat: 4.3, carbs: 0, qty: 1 },
+    
+    // 80g de Frijoles Rojos cocidos (aprox. media taza)
+    frijoles: { name: "Frijoles Rojos", price: 0.5, calories: 102, protein: 6.8, fat: 0.4, carbs: 18.2, qty: 1 },
+    
+    // 50g de Guacamole (hecho con aguacate, limón y sal)
+    guacamole: { name: "Guacamole", price: 0.3, calories: 80, protein: 1, fat: 7.4, carbs: 4.2, qty: 1 },
+    
+    // Una porción pequeña (15g) de Tortilla Chips para el toque "crunchy"
+    tortilla: { name: "Tortilla Chips", price: 0.7, calories: 75, protein: 1.1, fat: 3.8, carbs: 9.2, qty: 1 },
+    
+    // 40g de Pico de Gallo fresco
+    pico: { name: "Pico de Gallo", price: 0.7, calories: 11, protein: 0.5, fat: 0.1, carbs: 2.3, qty: 1 },
+    
+    // 2 cucharadas de Salsa Chipotle (base yogurt/mayo light)
+    salsa: { name: "Salsa Chipotle", price: 0.7, calories: 50, protein: 0.5, fat: 4.8, carbs: 1.2, qty: 1 },
+    
+    // Mix de vegetales verdes
+    lcl: { name: "Lechuga, Cilantro y Limón", price: 0.7, calories: 12, protein: 0.9, fat: 0.1, carbs: 2.1, qty: 1 }
 };
 
 let editIndex = null;
