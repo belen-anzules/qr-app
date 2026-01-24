@@ -1,12 +1,26 @@
-// Actualiza tu objeto de ingredientes en desayuno2.js
+const basePrice = 8.99;
+
 const ingredients = {
-    pan: { name: "Pan Integral", price: 0.8, calories: 138, protein: 6, fat: 1.8, carbs: 24, qty: 1, included: true },
-    aguacate: { name: "Aguacate", price: 0.9, calories: 128, protein: 1.6, fat: 11.7, carbs: 6.8, qty: 1, included: true },
-    huevos: { name: "Huevos Poché", price: 0.5, calories: 143, protein: 12.6, fat: 9.5, carbs: 0.7, qty: 1, included: true },
-    tomates: { name: "Tomates Cherry", price: 0.3, calories: 9, protein: 0.4, fat: 0.1, carbs: 1.9, qty: 1, included: true },
-    chia: { name: "Semillas Chía", price: 0.7, calories: 24, protein: 0.8, fat: 1.5, carbs: 2.1, qty: 1, included: true },
-    // Nuevo: Café Negro (Acompañante clásico)
-    cafe: { name: "Café Negro", price: 1.25, calories: 2, protein: 0.3, fat: 0, carbs: 0, qty: 0, included: false }
+    // 100g de Arroz Integral cocido
+    arroz: { name: "Arroz Integral", price: 0.8, calories: 112, protein: 2.6, fat: 0.9, carbs: 23.5, qty: 1, included: true },
+    
+    // 100g de Quinoa cocida - Proteína completa
+    quinoa: { name: "Quinoa", price: 0.9, calories: 120, protein: 4.4, fat: 1.9, carbs: 21.3, qty: 1, included: true },
+    
+    // 80g de Frijoles Rojos cocidos
+    frijoles: { name: "Frijoles Rojos", price: 0.5, calories: 102, protein: 6.8, fat: 0.4, carbs: 18.2, qty: 1, included: true },
+    
+    // 40g de Aguacate (1/4 unidad aprox)
+    aguacate: { name: "Aguacate", price: 0.3, calories: 64, protein: 0.8, fat: 5.9, carbs: 3.4, qty: 1, included: true },
+    
+    // 50g de Elote tierno
+    elote: { name: "Elote Tierno", price: 0.7, calories: 43, protein: 1.6, fat: 0.6, carbs: 9.5, qty: 1, included: true },
+    
+    // Salsa Chipotle (base yogurt/ligera)
+    salsa: { name: "Salsa Chipotle", price: 0.7, calories: 50, protein: 0.5, fat: 4.8, carbs: 1.2, qty: 1, included: true },
+    
+    // Mix de vegetales
+    lcl: { name: "Lechuga, Cilantro, Limon", price: 0.7, calories: 15, protein: 1.1, fat: 0.1, carbs: 2.8, qty: 1, included: true }
 };
 let editIndex = null;
 

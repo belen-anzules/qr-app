@@ -1,19 +1,13 @@
 const basePrice = 3.99;
+
 const ingredients = {
-    // 2 rebanadas de pan integral de caja (aprox. 28g cada una)
     pan: { name: "Pan Integral", price: 0.8, calories: 138, protein: 6, fat: 1.8, carbs: 24, qty: 1, included: true },
-    
-    // 1/2 aguacate mediano (aprox. 80g de pulpa) - Excelente fuente de potasio
     aguacate: { name: "Aguacate", price: 0.9, calories: 128, protein: 1.6, fat: 11.7, carbs: 6.8, qty: 1, included: true },
-    
-    // 2 huevos grandes (poché o cocidos)
     huevos: { name: "Huevos Poché", price: 0.5, calories: 143, protein: 12.6, fat: 9.5, carbs: 0.7, qty: 1, included: true },
-    
-    // 5-6 tomates cherry (aprox. 50g)
     tomates: { name: "Tomates Cherry", price: 0.3, calories: 9, protein: 0.4, fat: 0.1, carbs: 1.9, qty: 1, included: true },
-    
-    // 1 cucharadita de chía (5g) - Aporte de Omega-3 y fibra
-    chia: { name: "Semillas Chía", price: 0.7, calories: 24, protein: 0.8, fat: 1.5, carbs: 2.1, qty: 1, included: true }
+    chia: { name: "Semillas Chía", price: 0.7, calories: 24, protein: 0.8, fat: 1.5, carbs: 2.1, qty: 1, included: true },
+    // El café no está incluido en el precio base ($3.99)
+    cafe: { name: "Café Negro", price: 1.25, calories: 2, protein: 0.3, fat: 0, carbs: 0, qty: 0, included: false }
 };
 
 let editIndex = null;

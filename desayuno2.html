@@ -138,7 +138,14 @@
         <button class="btn-qty" onclick="addIng('chia')">+</button>
       </div>
     </div>
-
+ <div class="ingredient-item">
+    <span>☕ Café Negro (Americano)</span>
+    <div class="controls">
+        <button class="btn-qty" onclick="removeIng('cafe')">−</button>
+        <span id="cafe-qty" class="qty-num">0</span>
+        <button class="btn-qty" onclick="addIng('cafe')">+</button>
+    </div>
+</div>
     <div class="nutrition-summary">
       <h3>Análisis Nutricional</h3>
 
@@ -190,7 +197,13 @@
             <td><span id="carb-chia">0</span> g</td>
           </tr>
         </tbody>
-
+        <tr>
+  <td>Café Americano</td>
+  <td><span id="cal-cafe">0</span> kcal</td>
+  <td><span id="pro-cafe">0</span> g</td>
+  <td><span id="fat-cafe">0</span> g</td>
+  <td><span id="carb-cafe">0</span> g</td>
+</tr>
         <tfoot>
           <tr class="total-row">
             <td><strong>Total</strong></td>
