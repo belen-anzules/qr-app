@@ -50,56 +50,62 @@
     </div>
 </div>
 
-<script>document.addEventListener("DOMContentLoaded", function() {
+<script>
+document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
     
-    // Intentamos leer la memoria
-    const rawData = localStorage.getItem("ticketActual");
+    // Escaneamos la URL (Método infalible para APK)
+    const urlParams = new URLSearchParams(window.location.search);
     
-    if (!rawData) {
-        // Si no hay nada, intentamos un mensaje de ayuda
+    const cliente = urlParams.get('n');
+    const telefono = urlParams.get('t');
+    const direccion = urlParams.get('d');
+    const total = urlParams.get('total');
+    const ordenId = urlParams.get('id');
+
+    // Si detectamos datos en la URL, renderizamos el ticket amigable
+    if (cliente) {
         app.innerHTML = `
-            <div style="padding:20px; border:2px dashed red; border-radius:20px;">
-                <h2 style="margin:0;">⚠️ Error de Conexión</h2>
-                <p>No se encontraron datos del pedido en este navegador.</p>
-                <button class="btn-verde" onclick="location.href='pedido.html'">VOLVER A INTENTAR</button>
-            </div>`;
-        return;
-    }
-
-    const ticket = JSON.parse(rawData);
-
-    // Mostramos el diseño amigable
-    app.innerHTML = `
-        <div class="status-badge">¡PEDIDO CONFIRMADO!</div>
-        <div style="font-size:60px; margin:15px 0;">🥗</div>
-        <h2 style="margin:0; font-weight: 900;">¡Gracias, ${ticket.cliente.split(' ')[0]}!</h2>
-        <p style="color:#888; margin-bottom:20px;">Tu pedido ha sido recibido con éxito.</p>
-        
-        <div style="background:#f0f9f0; color:#2e7d32; padding:15px; border-radius:15px; font-size:1.6rem; font-weight:900; border:2px dashed #4CAF50; margin-bottom:20px;">
-            #${ticket.id}
-        </div>
-
-        <div style="text-align:left; background:#fdfdfd; padding:20px; border-radius:20px; border: 1px solid #eee; font-size:0.95rem;">
-            <p style="margin:5px 0;"><strong>📍 Entrega:</strong> ${ticket.direccion}</p>
-            <p style="margin:5px 0;"><strong>📱 Contacto:</strong> ${ticket.telefono}</p>
-            <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
-            <div style="text-align:center;">
-                <span style="font-size:1.8rem; color:#4CAF50; font-weight:900;">Total: $${ticket.total}</span>
+            <div class="status-badge">¡TODO LISTO!</div>
+            <div style="font-size:60px; margin:10px 0;">✅</div>
+            <h2 style="margin:0; font-weight: 900;">¡Gracias, ${cliente}!</h2>
+            <p style="color:#888; font-size:0.9rem;">Estamos preparando tu comida con lo mejor.</p>
+            
+            <div style="background:#f0f9f0; color:#2e7d32; padding:15px; border-radius:15px; font-size:1.6rem; font-weight:900; border:2px dashed #4CAF50; margin: 15px 0;">
+                #${ordenId || 'MF-TEMP'}
             </div>
-        </div>
 
-        <button class="btn-verde" onclick="nuevoPedido()" style="margin-top:25px;">
-            HACER OTRO PEDIDO
-        </button>
-    `;
+            <div style="text-align:left; background:#f9f9f9; padding:15px; border-radius:20px; font-size: 0.9rem; border:1px solid #eee;">
+                <strong>📍 Dirección:</strong> ${direccion}<br>
+                <strong>📱 WhatsApp:</strong> ${telefono}<br>
+                <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+                <div style="text-align:center; font-size:1.6rem; color:#4CAF50;">
+                    <strong>TOTAL: $${total}</strong>
+                </div>
+            </div>
+
+            <button class="btn-verde" onclick="nuevoPedido()" style="margin-top:25px;">
+                VOLVER AL MENÚ
+            </button>
+        `;
+    } else {
+        // Estado por defecto si no hay parámetros (Carrito vacío o acceso directo)
+        app.innerHTML = `
+            <div style="font-size:50px; margin-bottom:10px;">🥗</div>
+            <h2 style="font-weight:900;">¿Hambre?</h2>
+            <p style="color:#888;">No encontramos un pedido activo en este momento.</p>
+            <button class="btn-verde" onclick="location.href='menu.html'" style="margin-top:20px;">
+                VER EL MENÚ
+            </button>
+        `;
+    }
 });
 
 function nuevoPedido() {
+    // Limpiamos memoria y regresamos
     localStorage.removeItem("ticketActual"); 
     location.href = 'menu.html';
 }
-
 </script>
 
 </body>

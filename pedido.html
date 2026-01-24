@@ -196,35 +196,26 @@
     function cerrarModal() {
         document.getElementById("modal-reg").style.display = "none";
     }function generarTicket() {
-    // 1. Capturamos los datos
-    const n = document.getElementById("nom").value;
-    const c = document.getElementById("ced").value;
-    const t = document.getElementById("tel").value;
-    const d = document.getElementById("dir").value;
+    const n = document.getElementById("nom").value.trim();
+    const t = document.getElementById("tel").value.trim();
+    const d = document.getElementById("dir").value.trim();
     const total = document.getElementById("total-global").innerText;
 
-    // 2. Validación simple
-    if(!n || !t) { 
-        alert("Por favor escribe tu nombre y teléfono."); 
+    if(!n || !t || !d) { 
+        alert("Por favor, completa tus datos 🥗"); 
         return; 
     }
 
-    // 3. Creamos el objeto
-    const miPedido = {
-        id: "MF-" + Math.floor(Math.random() * 999999),
-        cliente: n,
-        cedula: c,
-        telefono: t,
-        direccion: d,
-        total: total,
-        fecha: new Date().toLocaleDateString()
-    };
+    // Creamos una URL con los datos integrados
+    const destino = "ver-ticket.html" + 
+                    "?n=" + encodeURIComponent(n) + 
+                    "&t=" + encodeURIComponent(t) + 
+                    "&d=" + encodeURIComponent(d) + 
+                    "&total=" + total +
+                    "&id=" + Math.floor(Math.random() * 999999);
 
-    // 4. GUARDADO FORZOSO
-    localStorage.setItem("ticketActual", JSON.stringify(miPedido));
-    
-    // 5. REDIRECCIÓN (Asegúrate que el archivo se llame exactamente así)
-    window.location.href = "ver-ticket.html";
+    // Redirección directa
+    window.location.href = destino;
 }
     function eliminar(idx) {
         let cart = getCart();
