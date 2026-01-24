@@ -195,39 +195,36 @@
 
     function cerrarModal() {
         document.getElementById("modal-reg").style.display = "none";
-    }
-function generarTicket() {
-    const n = document.getElementById("nom").value.trim();
-    const c = document.getElementById("ced").value.trim();
-    const t = document.getElementById("tel").value.trim();
-    const d = document.getElementById("dir").value.trim();
+    }function generarTicket() {
+    // 1. Capturamos los datos
+    const n = document.getElementById("nom").value;
+    const c = document.getElementById("ced").value;
+    const t = document.getElementById("tel").value;
+    const d = document.getElementById("dir").value;
     const total = document.getElementById("total-global").innerText;
-    
-    // ESTA ES LA CLAVE: Capturar el carrito actual
-    const productos = getCart();
 
-    if(!n || !c || !t || !d) { 
-        alert("Por favor, llena todos los campos."); 
+    // 2. Validación simple
+    if(!n || !t) { 
+        alert("Por favor escribe tu nombre y teléfono."); 
         return; 
     }
 
-    const ticket = {
-        id: "MF-" + Math.floor(100000 + Math.random() * 900000),
+    // 3. Creamos el objeto
+    const miPedido = {
+        id: "MF-" + Math.floor(Math.random() * 999999),
         cliente: n,
         cedula: c,
         telefono: t,
         direccion: d,
         total: total,
-        items: productos, // <--- Conecta los productos
-        fecha: new Date().toLocaleDateString(),
-        hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+        fecha: new Date().toLocaleDateString()
     };
 
-    // Guardar en la memoria del navegador
-    localStorage.setItem("ticketActual", JSON.stringify(ticket));
+    // 4. GUARDADO FORZOSO
+    localStorage.setItem("ticketActual", JSON.stringify(miPedido));
     
-    // Ir a la página del ticket
-    location.href = "ver-ticket.html"; 
+    // 5. REDIRECCIÓN (Asegúrate que el archivo se llame exactamente así)
+    window.location.href = "ver-ticket.html";
 }
     function eliminar(idx) {
         let cart = getCart();
