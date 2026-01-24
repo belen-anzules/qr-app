@@ -106,7 +106,7 @@
         
         <div class="input-group">
             <label>Nombre Completo</label>
-            <input type="text" id="nom" placeholder="Ej: Juan Pérez">
+            <input type="text" id="nom" placeholder="Ej: Mateo Cedeño">
         </div>
         <div class="input-group">
             <label>Cédula / RUC</label>
@@ -125,7 +125,6 @@
         <button onclick="cerrarModal()" style="width:100%; background:none; border:none; color:#bbb; margin-top:20px; font-weight: bold; cursor:pointer;">Cancelar</button>
     </div>
 </div>
-
 <script>
     function getCart() {
         const p = new URLSearchParams(location.search);
@@ -172,6 +171,62 @@
                 </div>`;
         });
         document.getElementById("total-global").innerText = total.toFixed(2);
+    }
+
+    function eliminar(idx) {
+        let cart = getCart();
+        cart.splice(idx, 1);
+        location.href = "pedido.html?cart=" + encodeURIComponent(JSON.stringify(cart));
+    }
+
+    function irAMenu() {
+        const cartStr = encodeURIComponent(JSON.stringify(getCart()));
+        location.href = "menu.html?cart=" + cartStr;
+    }
+
+    function abrirRegistro() {
+        if (getCart().length > 0) {
+            document.getElementById("modal-reg").style.display = "flex";
+        } else {
+            alert("Elige al menos un plato.");
+            irAMenu();
+        }
+    }
+
+    function cerrarModal() {
+        document.getElementById("modal-reg").style.display = "none";
+    }
+
+    function generarTicket() {
+        const n = document.getElementById("nom").value.trim();
+        const c = document.getElementById("ced").value.trim();
+        const t = document.getElementById("tel").value.trim();
+        const d = document.getElementById("dir").value.trim();
+        const total = document.getElementById("total-global").innerText;
+        const productos = getCart();
+
+        if(!n || !c || !t || !d) { 
+            alert("Por favor, llena todos los campos."); 
+            return; 
+        }
+
+        const ticket = {
+            id: "MF-" + Math.floor(100000 + Math.random() * 900000),
+            cliente: n,
+            cedula: c,
+            telefono: t,
+            direccion: d,
+            total: total,
+            items: productos, // Guardamos qué compró
+            fecha: new Date().toLocaleDateString(),
+            hora: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+        };
+
+        // Guardamos el ticket y limpiamos el carrito para la próxima vez
+        localStorage.setItem("ticketActual", JSON.stringify(ticket));
+        
+        // Redirigir a la página de visualización
+        location.href = "ver-ticket.html";
     }
 
     function eliminar(idx) {

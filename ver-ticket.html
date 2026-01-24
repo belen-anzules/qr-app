@@ -10,7 +10,7 @@
         .back-btn { background: #eee; border: none; width: 40px; height: 40px; border-radius: 12px; cursor: pointer; font-size: 1.2rem; }
         
         .ticket-card {
-            background: #fff; padding: 25px; border-radius: 30px; text-align: center;
+            background: #fff; padding: 30px 25px; border-radius: 30px; text-align: center;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05); max-width: 400px; margin: 0 auto 30px;
         }
         
@@ -20,8 +20,7 @@
         .historial h4 { color: #888; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
         .historial-item { background: #fff; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 4px solid #4CAF50; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
 
-        .btn-verde { background: #4CAF50; color: white; border: none; padding: 18px; border-radius: 15px; font-weight: bold; width: 100%; cursor: pointer; transition: 0.2s; }
-        .btn-outline { background: transparent; color: #4CAF50; border: 2px solid #4CAF50; margin-top: 10px; }
+        .btn-verde { background: #4CAF50; color: white; border: none; padding: 18px; border-radius: 15px; font-weight: bold; width: 100%; cursor: pointer; transition: 0.2s; font-size: 1rem; }
         .btn-verde:active { transform: scale(0.98); }
     </style>
 </head>
@@ -29,12 +28,12 @@
 
 <header>
     <button class="back-btn" onclick="location.href='menu.html'">⬅️</button>
-    <h3 style="margin:0; font-weight: 800;">Comprobante</h3>
+    <h3 style="margin:0; font-weight: 800;">¡Pedido Recibido!</h3>
     <div style="width:40px"></div>
 </header>
 
 <div id="app" class="ticket-card">
-    <p>Cargando pedido...</p>
+    <p>Cargando los detalles de tu orden...</p>
 </div>
 
 <div class="historial">
@@ -54,53 +53,61 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const app = document.getElementById("app");
-    
-    // 1. LA CONEXIÓN: Buscamos en la memoria interna el ticket guardado
     const datosGuardados = localStorage.getItem("ticketActual");
     const ticket = datosGuardados ? JSON.parse(datosGuardados) : null;
 
-    // 2. VERIFICACIÓN: Si existe el ticket, lo mostramos
-    if (ticket && ticket.id) {
+    if (ticket) {
+        let itemsHTML = "";
+        if(ticket.items) {
+            itemsHTML = ticket.items.map(i => 
+                `<div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#555; margin-bottom:5px;">
+                    <span>${i.nombre}</span>
+                    <span>$${parseFloat(i.total).toFixed(2)}</span>
+                </div>`
+            ).join("");
+        }
+
         app.innerHTML = `
             <div class="status-badge">ORDEN CONFIRMADA</div>
-            <div style="font-size:50px; margin-bottom:10px;">✅</div>
-            <h2 style="margin:0 0 10px 0; font-weight: 900;">¡Listo!</h2>
+            <div style="font-size:60px; margin-bottom:10px;">🥗</div>
+            <h2 style="margin:0 0 5px 0; font-weight: 900;">¡Gracias por tu compra!</h2>
+            <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">Estamos preparando todo con cuidado.</p>
             
             <div style="background:#f0f9f0; color:#2e7d32; padding:15px; border-radius:15px; font-size:1.6rem; font-weight:900; border:2px dashed #4CAF50; margin: 15px 0;">
-                ${ticket.id}
+                #${ticket.id}
             </div>
 
-            <div style="text-align:left; background:#fdfdfd; padding:15px; border-radius:20px; font-size: 0.9rem; line-height: 1.6;">
+            <div style="text-align:left; background:#fdfdfd; padding:15px; border-radius:20px; font-size: 0.9rem; line-height: 1.6; border: 1px solid #f0f0f0;">
+                <div style="margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #eee;">
+                    ${itemsHTML}
+                </div>
+                
                 <strong>👤 Cliente:</strong> ${ticket.cliente}<br>
-                <strong>📄 Cédula:</strong> ${ticket.cedula}<br>
-                <strong>📱 Teléfono:</strong> ${ticket.telefono}<br>
+                <strong>📱 WhatsApp:</strong> ${ticket.telefono}<br>
                 <strong>📍 Dirección:</strong> ${ticket.direccion}<br> 
+                
                 <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-                <div style="display:flex; justify-content:space-between; font-size: 0.8rem; color: #888;">
+                <div style="display:flex; justify-content:space-between; font-size: 0.8rem; color: #bbb;">
                     <span>📅 ${ticket.fecha}</span>
                     <span>⏰ ${ticket.hora}</span>
                 </div>
-                <div style="font-size:1.5rem; margin-top:10px; color:#4CAF50; text-align:center;">
+                <div style="font-size:1.6rem; margin-top:10px; color:#4CAF50; text-align:center;">
                     <strong>TOTAL: $${ticket.total}</strong>
                 </div>
             </div>
 
             <div style="margin-top:25px;">
-                <button class="btn-verde" onclick="window.print()">
-                    🖨️ IMPRIMIR O CAPTURAR
-                </button>
-                <button class="btn-verde btn-outline" onclick="nuevoPedido()">
-                    🥗 NUEVO PEDIDO
+                <button class="btn-verde" onclick="nuevoPedido()">
+                    VOLVER AL MENÚ PRINCIPAL
                 </button>
             </div>
         `;
     } else {
-        // Si no hay datos, mostramos mensaje de error
         app.innerHTML = `
-            <div style="font-size:60px;">⚠️</div>
-            <h2 style="font-weight: 900;">Sin Pedido</h2>
-            <p style="color:#888;">No encontramos información de tu compra reciente.</p>
-            <button class="btn-verde" onclick="location.href='menu.html'">
+            <div style="font-size:60px;">🥘</div>
+            <h2 style="font-weight: 900;">¿Hambre?</h2>
+            <p style="color:#888;">No encontramos un pedido reciente.</p>
+            <button class="btn-verde" onclick="location.href='menu.html'" style="margin-top:20px;">
                 IR AL MENÚ
             </button>
         `;
@@ -108,7 +115,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function nuevoPedido() {
-    // Opcional: Podrías guardar el ticket actual en el historial antes de borrarlo
     localStorage.removeItem("ticketActual"); 
     location.href = 'menu.html';
 }
